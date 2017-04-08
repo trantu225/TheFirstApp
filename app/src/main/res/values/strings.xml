@@ -1,7 +1,22 @@
 <resources>
+    <!-- Man Hinh -->
+    <string name="manhinh_Login">Đăng nhập</string>
+    <string name="manhinh_Main">Ghi nước</string>
+
+
     <string name="app_name">TIWAREAD</string>
     <string name="data_file_name">customers.txt</string>
     <string name="THONGBAO_DUONGDAGHIXONG">Các đường đã ghi xong</string>
     <string name="THONGBAO_DUONGCHUAGHI_ERROR">Không tìm được danh sách đường</string>
     <string name="THONGBAO_DUONGCHUAGHI_SUCCESS">Tìm được danh sách đường</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_ID">ID nhân viên</string>
+    <string name="prompt_password">Mật khẩu</string>
+    <string name="action_sign_in">Đăng nhập</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_incorrect_password">Tên hoặc mật khẩu không đúng.Hãy thử lại</string>
+    <string name="error_field_required">Bạn chưa nhập thông tin</string>
+
 </resources>

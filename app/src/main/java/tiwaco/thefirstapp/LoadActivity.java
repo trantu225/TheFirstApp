@@ -1,26 +1,18 @@
 package tiwaco.thefirstapp;
 
 import android.Manifest;
-import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,212 +22,47 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.IOException;
-import java.util.Scanner;
+import java.io.InputStreamReader;
 
+import circleprogress.DonutProgress;
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
-import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 
-
-public class MainActivity extends AppCompatActivity {
-
-    TextView danhsachduong;
-    ImageButton btnghi;
+public class LoadActivity extends AppCompatActivity {
+    private String filename = "";
+    DonutProgress prgTime;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
-    private String filename = "";
     String duongdanfile ="";
-    private static String dataGhi  = "";
-
-
     DuongDAO duongDAO ;
     KhachHangDAO khachhangDAO;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-/*
-        List<Customer> listKH = getListData();
-        Log.e("So phan tu", Integer.toString(listKH.size()));
-        ListView list = (ListView)findViewById(R.id.listView1);
-        CustomListAdapter adapter = new CustomListAdapter(this,listKH);
-        list.setAdapter(adapter);
-
-*/    //  Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-      //  setSupportActionBar(myToolbar);
-        btnghi = (ImageButton) findViewById(R.id.btn_ghi);
-        danhsachduong = (TextView) findViewById(R.id.tv_danhsachduongchuaghi);
-
-        //File
+        setContentView(R.layout.activity_loaddata);
+        duongDAO = new DuongDAO(LoadActivity.this);
+        khachhangDAO = new KhachHangDAO(LoadActivity.this);
         File extStore = Environment.getExternalStorageDirectory();
-        // ==> /storage/emulated/0/note.txt
         filename = getString(R.string.data_file_name);
         duongdanfile = extStore.getAbsolutePath() + "/" + filename;
+        prgTime = (DonutProgress) findViewById(R.id.prgTime);
+        prgTime.setProgress(0);
+        prgTime.setText("0 %");
+        ActionBar ac = getSupportActionBar();
+        ac.hide();
 
-        duongDAO = new DuongDAO(MainActivity.this);
-        khachhangDAO = new KhachHangDAO(MainActivity.this);
-        //Đọc file và luu database
-
-
-        btnghi.setBackgroundResource(R.mipmap.btn_ghi);
-        btnghi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             askPermissionAndReadFile();
-
-            }
-        });
-        // lấy ActionBar
-
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        // hiển thị nút Up ở Home icon
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.mymenu, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.action_search:
-                Toast.makeText(this, "Seacrh", Toast.LENGTH_SHORT).show();
-                break;
-            case android.R.id.home:
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    private void askPermissionAndWriteFile(String path, String data) {
-        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        //
-        if (canWrite) {
-
-            this.writeFile(path,data);
-        }
-    }
-
-    private void askPermissionAndReadFile() {
-        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        Log.e("canread", String.valueOf(canRead));
-        if (canRead) {
-
-            Log.e("canread", "chay vao if");
-           // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-          //  task.execute(duongdanfile);
-            readFileandSaveDatabase();
-        }
-    }
-
-
-    // Với Android Level >= 23 bạn phải hỏi người dùng cho phép các quyền với thiết bị
-    // (Chẳng hạn đọc/ghi dữ liệu vào thiết bị).
-    private boolean askPermission(int requestId, String permissionName) {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-
-            // Kiểm tra quyền
-            int permission = ActivityCompat.checkSelfPermission(this, permissionName);
-
-
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-
-                // Nếu không có quyền, cần nhắc người dùng cho phép.
-                this.requestPermissions(
-                        new String[]{permissionName},
-                        requestId
-                );
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Khi yêu cầu hỏi người dùng được trả về (Chấp nhận hoặc không chấp nhận).
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
-
-        // Chú ý: Nếu yêu cầu bị hủy, mảng kết quả trả về là rỗng.
-        if (grantResults.length > 0) {
-            switch (requestCode) {
-                case REQUEST_ID_READ_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                       // readFile(duongdanfile);
-                        //luu database
-                       // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-                      //  task.execute(duongdanfile);
- //                       Log.e("canread", "chay vao request read");
-//                        readFileandSaveDatabase();
-                        readFileandSaveDatabase();
-                        loadDataDuongfromDB();
-                }
-                }
-                case REQUEST_ID_WRITE_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                       // writeFile(duongdanfile,dataGhi);
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    private void writeFile(String path, String data) {
-        // Thư mục gốc của SD Card.
-
-
-        try {
-            File myFile = new File(path);
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(data);
-            myOutWriter.close();
-            fOut.close();
-
-            Toast.makeText(getApplicationContext(), filename + " saved", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        askPermissionAndReadFile();
     }
 
     private String readFile(String path) {
-        Log.i("ExternalStorageDemo", "Read file: " + path);
-        Log.e("file path ne", path);
+
         String s = "";
         String fileContent = "";
         try {
-         File myFile = new File(path);
+            File myFile = new File(path);
             if(myFile.exists()){
                 Log.e("file ton tai","true");
             }
@@ -249,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
             while ((s = myReader.readLine()) != null) {
                 fileContent += s + "\n";
             }
-  //          this.viewjson.setText(fileContent);
+            //          this.viewjson.setText(fileContent);
             myReader.close();
-           // Log.e("file json",fileContent);
-             //String finalFileContent = fileContent;
+            // Log.e("file json",fileContent);
+           // String finalFileContent = fileContent;
 
 
         } catch (IOException e) {
@@ -263,44 +90,7 @@ public class MainActivity extends AppCompatActivity {
         return fileContent;
     }
 
-    public void readFileandSaveDatabase(){
-        boolean flagDB=false , flagFile = false;
-
-        //check database
-        flagDB = doesDatabaseExist(MainActivity.this, MyDatabaseHelper.DATABASE_NAME);
-        Log.e("DB exist:", String.valueOf(flagDB));
-        MyDatabaseHelper db = new MyDatabaseHelper(MainActivity.this);
-        SQLiteDatabase sqldb = db.openDB();
-        sqldb.getVersion();
-
-        Log.e("DB File:", String.valueOf( sqldb.getVersion()));
-        //check file
-        flagFile = doesFileExist(duongdanfile);
-        Log.e("DB File:", String.valueOf(flagFile));
-        //DB = true && file = false => load từ Db
-        if(flagDB==true && flagFile == false){
-            //Load dataduong
-            loadDataDuongfromDB();
-            //load datakhachhang
-        }
-        else if (flagDB==false && flagFile == false){
-
-
-        }
-        else
-        {
-            //Doc tu file
-            MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
-            task.execute(duongdanfile);
-        }
-        //db = false && file = true => load từ file
-
-        //DB = true && file = true
-        //Check version
-        //DB.version < File.version
-    }
-
-    public class MyJsonTaskDatabasefromFile extends AsyncTask<String, JSONObject, JSONObject > {
+    public class MyJsonTaskDatabasefromFile extends AsyncTask<String, String , Boolean > {
         @Override
         protected void onPreExecute() {
 
@@ -308,46 +98,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected JSONObject doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
             //Lấy URL truyền vào
-            String jsontext =  readFile(params[0])  ;
-
-            JSONObject jsonObj = null;
+            Boolean FlagupdateDB = true;
+            String jsontext = readFile(params[0])  ;
+            JSONObject jsonobj = null;
             try {
-                jsonObj = new JSONObject(jsontext);
+                jsonobj = new JSONObject(jsontext);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-          return jsonObj;
-        }
-
-        @Override
-        protected void onProgressUpdate(JSONObject... values) {
-            super.onProgressUpdate(values);
-            //ta cập nhật giao diện ở đây:
-            JSONObject jsonObj = values[0];
-         /*  try {
-            //kiểm tra xem có tồn tại thuộc tính id hay không
-                if (jsonObj.has("tongSLkh"))
-                    viewjson.setText(jsonObj.getString("tongSLkh"));
-
-            } catch (JSONException e) {
-                Toast.makeText(MainActivity.this, e.toString(),
-                        Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }*/
-        }
-
-
-
-        @Override
-        protected void onPostExecute(JSONObject result) {
-
-            super.onPostExecute(result);
-            if (result.has("ListTiwaread")) {
+            if (jsonobj.has("ListTiwaread")) {
                 try {
-                    JSONArray listtiwaread = result.getJSONArray("ListTiwaread");
+                    JSONArray listtiwaread = jsonobj.getJSONArray("ListTiwaread");
                     for(int  i  =0 ;i <listtiwaread.length();i++){
                         JSONObject objTiwaread = listtiwaread.getJSONObject(i);
                         String maduong = "";
@@ -376,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else{
                             if(duongDAO.checkExistDuong(maduong)) {
-                            //    loadDataDuongfromDB();
+                                //    loadDataDuongfromDB();
                                 Log.e("Them database_duong: ", " Da ton tai duong nay");
                             }
                             else{
@@ -388,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                                     Log.e("Them database_duong: " + maduong, "ko Thanh cong");
 
                                 }
-                           //     loadDataDuongfromDB();
+                                //     loadDataDuongfromDB();
                             }
                         }
 
@@ -587,76 +351,164 @@ public class MainActivity extends AppCompatActivity {
                                 kh.setLon(Lon);
                                 kh.setThoiGian(ThoiGian);
                                 kh.setNhanVien(NhanVien);
-                                Log.e("kiem tra KH da ton tai hay chua", String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong)));
-                                if(khachhangDAO.countKhachHangTheoDuong(maduong) <=0) {
-                                 //   duongDAO = new DuongDAO(MainActivity.this);
-                                 //   khachhangDAO = new KhachHangDAO(MainActivity.this);
-                                    Log.e("Them database_KH: ", "chay zo day rui");
 
-                                    boolean kt = khachhangDAO.addTable_KH(kh,maduong);
-                                    if (kt) {
-                                        Log.e("Them database_KH: " + maduong, "Thanh cong");
-                                    } else {
-                                        Log.e("Them database_KH: " + maduong, "ko Thanh cong");
+                                Log.e("Them database_KH: ", "Da ton tai "+j   +":" +MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang,maduong));
+                                boolean kt = khachhangDAO.addTable_KH(kh,maduong);
 
-                                    }
-                                    //loadDataDuongfromDB();
+                                if (kt) {
+                                    Log.e("Them database_KH: "+MaKhachHang+" " + TenKhachHang, "Thanh cong");
+                                } else {
+                                    Log.e("Them database_KH: "+MaKhachHang+" " + TenKhachHang, "ko Thanh cong");
+
                                 }
-                                else{
-                                    Log.e("Them database_KH: ", "KIem tra tồn tại khach hang thu "+j   +":" +MaKhachHang );
-                                    if(khachhangDAO.checkExistKH(MaKhachHang,maduong)) {
-                                        //    loadDataDuongfromDB();
-                                        Log.e("Them database_KH: ", "Da ton tai "+j   +":" +MaKhachHang );
-                                    }
-                                    else{
-                                        boolean kt = khachhangDAO.addTable_KH(kh,maduong);
-                                        if (kt) {
-                                            Log.e("Them database_KH: " + TenKhachHang, "Thanh cong");
-                                        } else {
-                                            Log.e("Them database_KH: " + TenKhachHang, "ko Thanh cong");
+                                FlagupdateDB = kt;
 
-                                        }
-                                    }
-                                }
+                                long status = (j+1) *100/listKH.length();
+                                publishProgress(String.valueOf(status));
 
                             }
 
                         }
                     }
-                    loadDataDuongfromDB();
+                    //     loadDataDuongfromDB();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+            return FlagupdateDB;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            String status = values[0];
+            prgTime.setProgress(Integer.parseInt(status));
+            // update giá trị ở TextView
+            prgTime.setText(status+" %");
+        }
+
+
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            super.onPostExecute(result);
+            if(result){
+                Intent myIntent=new Intent(LoadActivity.this, MainActivity.class);
+                startActivity(myIntent);
+                LoadActivity.this.finish();
+            }
+            else{
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.error_load);
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        loadData();
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.show();
+                // hiển thị dialog
+            }
 
 
         }
     }
+    private void loadData(){
+        MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
+        task.execute(duongdanfile);
+    }
+    private void askPermissionAndReadFile() {
+        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
 
-    //check database
-    private static boolean doesDatabaseExist(Context context, String dbName) {
-        File dbFile = context.getDatabasePath(dbName);
-        return dbFile.exists();
+        if (canRead) {
+
+            // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
+            //  task.execute(duongdanfile);
+         //   readFileandSaveDatabase();
+            loadData();;
+        }
     }
-    private static boolean doesFileExist(String path){
-        File file =  new File(path);
-        return file.exists();
+    private void askPermissionAndWriteFile(String path, String data) {
+        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        //
+        if (canWrite) {
+        //Backup file json
+        //    this.writeFile(path,data);
+        }
     }
-    private void loadDataDuongfromDB(){
-        Bien.listDuongChuaGhi =  duongDAO.getAllDuongChuaGhi();
-        String maduongchuaghi = "";
-        if( Bien.listDuongChuaGhi.size() >0 ) {
-            for (DuongDTO x : Bien.listDuongChuaGhi) {
-                maduongchuaghi += x.getMaDuong() + " ";
+
+    private boolean askPermission(int requestId, String permissionName) {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+
+            // Kiểm tra quyền
+            int permission = ActivityCompat.checkSelfPermission(this, permissionName);
+
+
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+
+                // Nếu không có quyền, cần nhắc người dùng cho phép.
+                this.requestPermissions(
+                        new String[]{permissionName},
+                        requestId
+                );
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Khi yêu cầu hỏi người dùng được trả về (Chấp nhận hoặc không chấp nhận).
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //
+
+        // Chú ý: Nếu yêu cầu bị hủy, mảng kết quả trả về là rỗng.
+        if (grantResults.length > 0) {
+            switch (requestCode) {
+                case REQUEST_ID_READ_PERMISSION: {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    loadData();
+                    }
+                }
+                case REQUEST_ID_WRITE_PERMISSION: {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        // writeFile(duongdanfile,dataGhi);
+                        //backup file json
+                    }
+                }
 
             }
-            danhsachduong.setText(maduongchuaghi);
+        } else {
+            Toast.makeText(getApplicationContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
         }
-        else{
-            danhsachduong.setText(R.string.THONGBAO_DUONGCHUAGHI_ERROR);
-        }
-        int soluongKH= khachhangDAO.countKhachHangTheoDuong("01");
-        Log.e("soluongKh",String.valueOf(soluongKH));
     }
-}
 
+
+    private void backupdulieu(){
+
+    }
+
+}

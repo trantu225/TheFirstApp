@@ -14,8 +14,10 @@ public class Bien {
 
     public static List<DuongDTO> listDuongChuaGhi = null ;
     public static List<DuongDTO> listDuongDaGhi = null ;
+    public static List<DuongDTO> listDuongAll = null;
     public static List<KhachHangDTO> listKHDaGhi = null ;
     public static List<KhachHangDTO> listKHChuaGhi =null ;
+    public static List<KhachHangDTO> listKHALl =null ;
     public static List<NhanVienDTO> listNV =null ;
 
 }

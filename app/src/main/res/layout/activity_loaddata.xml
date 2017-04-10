@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <circleprogress.DonutProgress
+        android:id="@+id/prgTime"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        app:donut_circle_starting_degree="269"
+        app:donut_finished_color="#1bceed"
+        app:donut_finished_stroke_width="5dp"
+        app:donut_progress="10"
+        app:donut_suffix_text=""
+        app:donut_text="10"
+        app:donut_text_color="#12941F"
+        app:donut_text_size="10sp"
+        app:donut_unfinished_color="#edefed"
+        app:donut_unfinished_stroke_width="3dp" />
+</RelativeLayout>

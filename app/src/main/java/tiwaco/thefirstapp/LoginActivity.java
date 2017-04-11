@@ -42,8 +42,6 @@ public class LoginActivity extends AppCompatActivity  {
         nhanviendao = new NhanVienDAO();
         Bien.listNV = nhanviendao.TaoDSNhanVien();
 
-        ActionBar bar = getSupportActionBar();
-        bar.setTitle(R.string.manhinh_Login);
         btn_dangnhap.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

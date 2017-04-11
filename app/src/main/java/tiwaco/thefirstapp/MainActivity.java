@@ -6,20 +6,23 @@ import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBar;
+
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
+
+import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ListView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,14 +33,13 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.io.IOException;
-import java.util.Scanner;
+
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
@@ -46,7 +48,7 @@ import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Fragment {
 
     TextView danhsachduong;
     ImageButton btnghi;
@@ -55,79 +57,78 @@ public class MainActivity extends AppCompatActivity {
     private String filename = "";
     String duongdanfile ="";
     private static String dataGhi  = "";
-
+    BottomNavigationView mBottomNav;
 
     DuongDAO duongDAO ;
     KhachHangDAO khachhangDAO;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-/*
-        List<Customer> listKH = getListData();
-        Log.e("So phan tu", Integer.toString(listKH.size()));
-        ListView list = (ListView)findViewById(R.id.listView1);
-        CustomListAdapter adapter = new CustomListAdapter(this,listKH);
-        list.setAdapter(adapter);
+    }
 
-*/    //  Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-      //  setSupportActionBar(myToolbar);
-        btnghi = (ImageButton) findViewById(R.id.btn_ghi);
-        danhsachduong = (TextView) findViewById(R.id.tv_danhsachduongchuaghi);
 
-        //File
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_main, container, false);
+        btnghi = (ImageButton) v.findViewById(R.id.btn_ghi);
+        danhsachduong = (TextView) v.findViewById(R.id.tv_danhsachduongchuaghi);
+        mBottomNav = (BottomNavigationView) v.findViewById(R.id.bottom_navigation);
+
         File extStore = Environment.getExternalStorageDirectory();
-        // ==> /storage/emulated/0/note.txt
+
         filename = getString(R.string.data_file_name);
         duongdanfile = extStore.getAbsolutePath() + "/" + filename;
 
-        duongDAO = new DuongDAO(MainActivity.this);
-        khachhangDAO = new KhachHangDAO(MainActivity.this);
-        //Đọc file và luu database
-
+        duongDAO = new DuongDAO(getContext());
+        khachhangDAO = new KhachHangDAO(getContext());
 
         btnghi.setBackgroundResource(R.mipmap.btn_ghi);
         btnghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             askPermissionAndReadFile();
+                askPermissionAndReadFile();
 
             }
         });
-        // lấy ActionBar
 
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        // hiển thị nút Up ở Home icon
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+                selectItem(item);
+                return true;
+            }
+        });
+
+        return v;
+    }
+    private void selectItem(MenuItem item) {
+
+        // init corresponding fragment
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                Toast.makeText(getContext(), "Save", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_search:
+                Toast.makeText(getContext(), "Seacrh", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
 
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.mymenu, menu);
-        return true;
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.action_search:
-                Toast.makeText(this, "Seacrh", Toast.LENGTH_SHORT).show();
-                break;
-            case android.R.id.home:
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
-                break;
-        }
+
         return super.onOptionsItemSelected(item);
     }
+
+
+
     private void askPermissionAndWriteFile(String path, String data) {
         boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= 23) {
 
             // Kiểm tra quyền
-            int permission = ActivityCompat.checkSelfPermission(this, permissionName);
+            int permission = ActivityCompat.checkSelfPermission(getContext(), permissionName);
 
 
             if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -223,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
             myOutWriter.close();
             fOut.close();
 
-            Toast.makeText(getApplicationContext(), filename + " saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), filename + " saved", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -267,9 +268,9 @@ public class MainActivity extends AppCompatActivity {
         boolean flagDB=false , flagFile = false;
 
         //check database
-        flagDB = doesDatabaseExist(MainActivity.this, MyDatabaseHelper.DATABASE_NAME);
+        flagDB = doesDatabaseExist(getContext(), MyDatabaseHelper.DATABASE_NAME);
         Log.e("DB exist:", String.valueOf(flagDB));
-        MyDatabaseHelper db = new MyDatabaseHelper(MainActivity.this);
+        MyDatabaseHelper db = new MyDatabaseHelper(getContext());
         SQLiteDatabase sqldb = db.openDB();
         sqldb.getVersion();
 
@@ -299,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
         //Check version
         //DB.version < File.version
     }
+
 
     public class MyJsonTaskDatabasefromFile extends AsyncTask<String, JSONObject, JSONObject > {
         @Override
@@ -632,6 +634,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
 
     //check database
     private static boolean doesDatabaseExist(Context context, String dbName) {

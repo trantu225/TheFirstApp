@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="@dimen/dp30">
 
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:id="@+id/r3"
-        android:layout_toEndOf="@+id/r2">
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="TextView" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_stt"
+            android:layout_width="wrap_content"
+            android:text="STT"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp3"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:id="@+id/tv_hoten"
+            android:text="hoten"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="TextView" />
-    </LinearLayout>
+            android:textSize="@dimen/sp14"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp3"
+            android:layout_toEndOf="@+id/tv_stt" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/presence_online"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/dp3"
+            android:id="@+id/imageView" />
 
-</LinearLayout>
+
+</RelativeLayout>

@@ -45,8 +45,8 @@ public class CustomListAdapter extends BaseAdapter {
       //  if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.custom_listview_item,null);
             holder = new ViewHolder();
-            holder.Ten = (TextView)convertView.findViewById(R.id.textView2);
-            holder.DiaChi = (TextView)convertView.findViewById(R.id.textView3);
+            holder.Ten = (TextView)convertView.findViewById(R.id.tv_hoten);
+
        /*     convertView.setTag(holder);
         }
         else{

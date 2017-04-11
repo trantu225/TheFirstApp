@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/selector_button_signin"
+
             android:text="@string/action_sign_in"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"

@@ -3,279 +3,282 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="tiwaco.thefirstapp.MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    android:layout_height="match_parent">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_margin="@dimen/dp3">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp20"
-                android:text="Họ và tên: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
-
-            <TextView
-                android:id="@+id/tv_hovaten"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp20"
-                android:text=" "
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                android:textSize="@dimen/sp14" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp20"
-                android:text="Địa chỉ:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
-
-            <TextView
-                android:id="@+id/tv_diachi"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp20"
-                android:text=" "
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                android:textSize="@dimen/sp14" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp20"
-                android:text="Điện thoại:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
-
-            <EditText
-                android:id="@+id/tv_dienthoai"
-                android:layout_width="@dimen/dp200"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background_normal"
-                android:text=" "
-                android:textSize="@dimen/sp14" />
-
-            <Button
-                android:id="@+id/btn_dienthoai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đổi"
-                android:textSize="@dimen/sp14" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chỉ số cũ:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
-
-            <TextView
-                android:id="@+id/tv_chisocu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                android:textSize="@dimen/sp14" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp100"
-                android:text="m3 cũ:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
-
-            <TextView
-                android:id="@+id/tv_m3cu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp100"
-                android:text=""
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                android:textSize="@dimen/sp14" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp20"
+                    android:text="@string/KH_hoten"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
 
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chỉ số mới:"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                        android:textSize="@dimen/sp14" />
-
-                    <EditText
-                        android:id="@+id/txt_chisomoi"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:textSize="@dimen/sp14" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="m3 mới:"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                        android:textSize="@dimen/sp14" />
-
-                    <EditText
-                        android:id="@+id/txt_m3moi"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:textSize="@dimen/sp14" />
-
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_hovaten"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp20"
+                    android:text=" "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+                    android:textSize="@dimen/sp14" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/btn_ghi"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp20"
+                    android:text="@string/KH_diachi"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/tv_diachi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp20"
+                    android:text=" "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp20"
+                    android:text="@string/KH_dienthoai"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
+
+                <EditText
+                    android:id="@+id/tv_dienthoai"
+                    android:layout_width="@dimen/dp200"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:text=" "
+                    android:textSize="@dimen/sp14" />
+
+                <Button
+                    android:id="@+id/btn_dienthoai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:onClick="buttonload"
-                    android:scaleType="fitCenter"
-                    android:src="@android:drawable/ic_input_add" />
+                    android:text="Đổi"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/KH_chisocu"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/tv_chisocu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp100"
+                    android:text="@string/KH_m3cu"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/tv_m3cu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp100"
+                    android:text=""
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+                    android:textSize="@dimen/sp14" />
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ghi chú:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
-
-            <EditText
-                android:id="@+id/txt_ghichu"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background_normal"
-                android:textSize="@dimen/sp14" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/KH_chisomoi"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                            android:textSize="@dimen/sp14" />
+
+                        <EditText
+                            android:id="@+id/txt_chisomoi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:drawable/editbox_background_normal"
+                            android:textSize="@dimen/sp14" />
 
 
-        </LinearLayout>
+                    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tình trạng đồng hồ:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
+                        android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/txt_tinhtrangDH"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/KH_m3moi"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                            android:textSize="@dimen/sp14" />
+
+                        <EditText
+                            android:id="@+id/txt_m3moi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:drawable/editbox_background_normal"
+                            android:textSize="@dimen/sp14" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/btn_ghi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:onClick="buttonload"
+                        android:scaleType="fitCenter"
+                        android:src="@android:drawable/ic_input_add" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background_normal"
-                android:textSize="@dimen/sp14" />
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/KH_ghichu"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
+
+                <EditText
+                    android:id="@+id/txt_ghichu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:textSize="@dimen/sp14" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/buttonsave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Danh sách đường:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="@dimen/sp14" />
-
-            <TextView
-                android:id="@+id/tv_danhsachduongchuaghi"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp14" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/KH_tinhtrangdongho"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
+
+                <EditText
+                    android:id="@+id/txt_tinhtrangDH"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:textSize="@dimen/sp14" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh sách đường:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/tv_danhsachduongchuaghi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp14" />
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textjson"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:text="" />
+
+
+
+
 
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/textjson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:text="" />
-
-    </LinearLayout>
 
 
     <android.support.design.widget.BottomNavigationView
@@ -283,10 +286,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
+        android:background="@android:color/black"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/mymenu" />
+        app:menu="@menu/mymenu"
+  />
 
 
 </RelativeLayout>

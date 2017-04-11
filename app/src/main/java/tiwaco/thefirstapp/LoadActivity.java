@@ -51,8 +51,7 @@ public class LoadActivity extends AppCompatActivity {
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
         prgTime.setProgress(0);
         prgTime.setText("0 %");
-        ActionBar ac = getSupportActionBar();
-        ac.hide();
+
 
         askPermissionAndReadFile();
     }
@@ -394,7 +393,7 @@ public class LoadActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
             if(result){
-                Intent myIntent=new Intent(LoadActivity.this, MainActivity.class);
+                Intent myIntent=new Intent(LoadActivity.this, Tab_MainActivity.class);
                 startActivity(myIntent);
                 LoadActivity.this.finish();
             }

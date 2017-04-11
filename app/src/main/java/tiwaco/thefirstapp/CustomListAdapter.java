@@ -4,11 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tiwaco.thefirstapp.DTO.KhachHangDTO;
 
 /**
  * Created by TUTRAN on 15/03/2017.
@@ -16,10 +19,10 @@ import java.util.List;
 
 public class CustomListAdapter extends BaseAdapter {
 
-    private List<Customer> customerList ;
+    private List<KhachHangDTO> customerList ;
     private LayoutInflater layoutInflater;
     private Context context;
-    public CustomListAdapter(Context con, List<Customer> listcus){
+    public CustomListAdapter(Context con, List<KhachHangDTO> listcus){
         customerList = listcus ;
         context = con ;
         layoutInflater = LayoutInflater.from(con);
@@ -42,25 +45,33 @@ public class CustomListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder ;
-      //  if(convertView == null){
+     if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.custom_listview_item,null);
             holder = new ViewHolder();
             holder.Ten = (TextView)convertView.findViewById(R.id.tv_hoten);
-
-       /*     convertView.setTag(holder);
+            holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
+            holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
+            convertView.setTag(holder);
         }
         else{
             holder  = (ViewHolder)convertView.getTag();
         }
-*/
-        Customer cus = customerList.get(position);
-        holder.Ten.setText(cus.getName());
-        holder.DiaChi.setText(cus.getAddress());
+
+        KhachHangDTO cus = customerList.get(position);
+        holder.Ten.setText(cus.getTenKhachHang());
+        holder.STT.setText(cus.getChiSo());
+        if(cus.getChiSo().equalsIgnoreCase("")){
+            holder.TrangThai.setBackgroundResource(android.R.drawable.presence_invisible);
+        }
+        else{
+            holder.TrangThai.setBackgroundResource(android.R.drawable.presence_online);
+        }
         return convertView;
     }
 
     static class ViewHolder {
         TextView Ten;
-        TextView DiaChi;
+        TextView STT;
+        ImageView TrangThai;
     }
 }

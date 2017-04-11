@@ -70,7 +70,7 @@ public class CustomListAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView Ten;
+        TextView Ten; 
         TextView STT;
         ImageView TrangThai;
     }

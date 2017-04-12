@@ -240,6 +240,17 @@ public class KhachHangDAO {
         cursor.close();
         return sokh;
     }
+
+    public int countKhachHangAll(){
+        db = myda.openDB();
+        int sokh = 0;
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH ;
+
+        Cursor cursor = db.rawQuery(countQuery, null);
+        sokh =cursor.getCount();
+        cursor.close();
+        return sokh;
+    }
     public boolean checkExistKH(String MaKH, String maduong){
         db = myda.openDB();
         Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,

@@ -1,4 +1,4 @@
-package tiwaco.thefirstapp;
+package tiwaco.thefirstapp.CustomAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.R;
 
 /**
  * Created by TUTRAN on 15/03/2017.
@@ -46,10 +47,11 @@ public class CustomListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder ;
      if(convertView == null){
-            convertView = layoutInflater.inflate(R.layout.custom_listview_item,null);
+            convertView = layoutInflater.inflate(R.layout.listkh_item,null);
             holder = new ViewHolder();
             holder.Ten = (TextView)convertView.findViewById(R.id.tv_hoten);
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
+            holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
             holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
         }
@@ -59,19 +61,21 @@ public class CustomListAdapter extends BaseAdapter {
 
         KhachHangDTO cus = customerList.get(position);
         holder.Ten.setText(cus.getTenKhachHang());
-        holder.STT.setText(cus.getChiSo());
+        holder.STT.setText(cus.getSTT());
+        holder.DiaChi.setText(cus.getDiaChi());
         if(cus.getChiSo().equalsIgnoreCase("")){
-            holder.TrangThai.setBackgroundResource(android.R.drawable.presence_invisible);
+            holder.TrangThai.setBackgroundResource(R.drawable.common_checkbox1_unchecked);
         }
         else{
-            holder.TrangThai.setBackgroundResource(android.R.drawable.presence_online);
+            holder.TrangThai.setBackgroundResource(R.drawable.common_checkbox1_checked);
         }
         return convertView;
     }
 
     static class ViewHolder {
-        TextView Ten; 
+        TextView Ten;
         TextView STT;
         ImageView TrangThai;
+        TextView DiaChi;
     }
 }

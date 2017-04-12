@@ -15,5 +15,6 @@
     <dimen name="dp10">10dp</dimen>
     <dimen name="sp20">20sp</dimen>
     <dimen name="sp14">14sp</dimen>
+    <dimen name="text_size_middle">14sp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

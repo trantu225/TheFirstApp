@@ -22,7 +22,7 @@ import static tiwaco.thefirstapp.Database.MyDatabaseHelper.TABLE_DUONG;
  */
 
 public class DuongDAO {
-    SQLiteDatabase db ;
+    SQLiteDatabase db ; 
     MyDatabaseHelper myda ;
     public DuongDAO(Context con){
         myda = new MyDatabaseHelper(con);

@@ -21,7 +21,7 @@ import static tiwaco.thefirstapp.Database.MyDatabaseHelper.TABLE_DUONG;
  * Created by TUTRAN on 03/04/2017.
  */
 
-public class DuongDAO {
+public class DuongDAO { 
     SQLiteDatabase db ;
     MyDatabaseHelper myda ;
     public DuongDAO(Context con){

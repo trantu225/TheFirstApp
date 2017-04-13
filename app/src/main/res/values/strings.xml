@@ -31,16 +31,22 @@
     <string name="KH_hoten">Họ và tên: </string>
     <string name="KH_diachi">Địa chỉ: </string>
     <string name="KH_dienthoai">Điện thoại: </string>
-    <string name="KH_chisocu">Chỉ số cũ: </string>
+    <string name="KH_chisocu">Chỉ số/m3 cũ ĐH chính: </string>
+    <string name="KH_chisocucon">Chỉ số/m3 cũ ĐH con: </string>
     <string name="KH_m3cu">m3 cũ: </string>
-    <string name="KH_chisomoi">Chỉ số mới: </string>
+    <string name="KH_chisomoi">Chỉ số/m3 mới ĐH chính: </string>
+    <string name="KH_chisomoicon">Chỉ số/m3 mới ĐH con: </string>
     <string name="KH_m3moi">m3 mới: </string>
     <string name="KH_ghichu">Ghi chú: </string>
-    <string name="KH_tinhtrangdongho">Tình trạng đồng hồ: </string>
+    <string name="KH_STT">STT </string>
+    <string name="KH_tinhtrangdongho">Tình trạng TLK: </string>
     <string name="KH_hieuTLK">Hiệu: </string>
     <string name="KH_coTLK">Cỡ: </string>
     <string name="KH_maTLK">Mã: </string>
     <string name="KH_loaiKH">Loại KH: </string>
+    <string name="ThongTinKH">Thông tin KH </string>
+    <string name="ThongTinDH">Thông tin TLK </string>
+    <string name="ThongTinGN">Thông tin ghi nước </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -4,283 +4,578 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/TableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="#ffffff"
+        android:shrinkColumns="*"
+        android:stretchColumns="*"
+        tools:context=".MainActivity"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <!-- Row 1 with single column -->
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="@string/ThongTinKH"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold" />
 
 
+        </TableRow>
 
-        <LinearLayout
+        <TableRow
+            android:id="@+id/tableRow11"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/tv11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_STT"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_sttKH"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:textColor="#000000" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_maTLK"
+                android:gravity="end"
+                android:textColor="#000000" />
+            <TextView
+                android:id="@+id/tv_maKH"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:textColor="@android:color/holo_red_dark" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow12"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_hoten"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_hotenKH"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:padding="@dimen/dp3"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/sp12" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow13"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_diachi"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+
+            <TextView
+                android:id="@+id/tv_diachiKH"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:textColor="#000000" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow14"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_dienthoai"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+
+            <EditText
+                android:id="@+id/tv_DienThoaiKH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:drawable/editbox_background_normal"
+                android:textSize="@dimen/sp14" />
+
+            <ImageButton
+                android:id="@+id/tv_doi"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp3"
+                android:background="@drawable/selector_button_change"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+
+
+        </TableRow>
+
+
+        <!-- Row 2 with 3 columns -->
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="@string/ThongTinDH"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow21"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_maTLK"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_maTLK"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:textColor="#000000" />
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow22"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.12"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_hieuTLK"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_hieuTLK"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.37"
+                android:padding="@dimen/dp3"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:textSize="@dimen/sp12"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_coTLK"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_coTLK"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:padding="@dimen/dp3"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow23"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_tinhtrangdongho"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+
+            <EditText
+                android:id="@+id/tv_tinhtrangTLK"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:background="@android:drawable/editbox_background_normal"
+                android:textSize="@dimen/sp12" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="@string/ThongTinGN"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold" />
+
+
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp3"
+            android:text="@string/KH_chisocu"
+            android:textColor="#000000"
+            android:textSize="@dimen/sp12" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_chisocu1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFB500"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="1129"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_m3cu1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFB500"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="23"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_chisocu2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFA99"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="1106"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_m3cu2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFA99"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="1129"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_chisocu3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F4C612"
+                android:gravity="center"
+                android:textSize="@dimen/sp12"
+                android:padding="10dip"
+                android:text="1076"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_m3cu3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F4C612"
+                android:gravity="center"
+                android:textSize="@dimen/sp12"
+                android:padding="10dip"
+                android:text="1129"
+                android:textColor="#000000" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow_chisocucon_lb"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_chisocucon"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow_chisocucon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/dp3">
+            >
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp20"
-                    android:text="@string/KH_hoten"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <TextView
-                    android:id="@+id/tv_hovaten"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp20"
-                    android:text=" "
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                    android:textSize="@dimen/sp14" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp20"
-                    android:text="@string/KH_diachi"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <TextView
-                    android:id="@+id/tv_diachi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp20"
-                    android:text=" "
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                    android:textSize="@dimen/sp14" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp20"
-                    android:text="@string/KH_dienthoai"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <EditText
-                    android:id="@+id/tv_dienthoai"
-                    android:layout_width="@dimen/dp200"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:text=" "
-                    android:textSize="@dimen/sp14" />
-
-                <Button
-                    android:id="@+id/btn_dienthoai"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đổi"
-                    android:textSize="@dimen/sp14" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/KH_chisocu"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <TextView
-                    android:id="@+id/tv_chisocu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                    android:textSize="@dimen/sp14" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp100"
-                    android:text="@string/KH_m3cu"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <TextView
-                    android:id="@+id/tv_m3cu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp100"
-                    android:text=""
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-                    android:textSize="@dimen/sp14" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/KH_chisomoi"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                            android:textSize="@dimen/sp14" />
-
-                        <EditText
-                            android:id="@+id/txt_chisomoi"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:drawable/editbox_background_normal"
-                            android:textSize="@dimen/sp14" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/KH_m3moi"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                            android:textSize="@dimen/sp14" />
-
-                        <EditText
-                            android:id="@+id/txt_m3moi"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:drawable/editbox_background_normal"
-                            android:textSize="@dimen/sp14" />
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/btn_ghi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="buttonload"
-                        android:scaleType="fitCenter"
-                        android:src="@android:drawable/ic_input_add" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/KH_ghichu"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <EditText
-                    android:id="@+id/txt_ghichu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:textSize="@dimen/sp14" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/KH_tinhtrangdongho"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <EditText
-                    android:id="@+id/txt_tinhtrangDH"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:textSize="@dimen/sp14" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Danh sách đường:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="@dimen/sp14" />
-
-                <TextView
-                    android:id="@+id/tv_danhsachduongchuaghi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/sp14" />
-
-
-            </LinearLayout>
             <TextView
-                android:id="@+id/textjson"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_chisocu1con"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFB500"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="1129"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_m3cu1con"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFB500"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="23"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_chisocu2con"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFA99"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="1106"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_m3cu2con"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFA99"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textSize="@dimen/sp12"
+                android:text="1129"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_chisocu3con"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F4C612"
+                android:gravity="center"
+                android:textSize="@dimen/sp12"
+                android:padding="10dip"
+                android:text="1076"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_m3cu3con"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F4C612"
+                android:gravity="center"
+                android:textSize="@dimen/sp12"
+                android:padding="10dip"
+                android:text="1129"
+                android:textColor="#000000" />
+
+        </TableRow>
+        <!-- Row 3 with 2 columns -->
+
+        <TableRow
+            android:id="@+id/tableRow_chisomoi"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:text="" />
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_chisomoi"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+        </TableRow>
 
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
 
+            <EditText
+                android:id="@+id/edit_chisomoi"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textColor="#000000" />
 
+            <TextView
+                android:id="@+id/tv_m3moi"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:background="#58F5FF"
+                android:gravity="center"
+                android:padding="10dip"
+                android:text="Row 3 column 2"
+                android:textColor="#000000" />
+        </TableRow>
 
+        <TableRow
+            android:id="@+id/tableRow_chisomoicon_lb"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp3"
+                android:text="@string/KH_chisomoicon"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp12" />
+        </TableRow>
 
-        </LinearLayout>
+        <TableRow
+            android:id="@+id/tableRow_chisomoicon"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
 
+            <EditText
+                android:id="@+id/edit_chisomoicon"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textColor="#000000" />
 
+            <TextView
+                android:id="@+id/tv_m3moicon"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:background="#58F5FF"
+                android:gravity="center"
+                android:padding="10dip"
+                android:text="Row 3 column 2"
+                android:textColor="#000000" />
+        </TableRow>
+
+    </TableLayout>
+
+</ScrollView>
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

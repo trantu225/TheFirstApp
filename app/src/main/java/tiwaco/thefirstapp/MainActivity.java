@@ -71,8 +71,6 @@ public class MainActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_main, container, false);
-        btnghi = (ImageButton) v.findViewById(R.id.btn_ghi);
-        danhsachduong = (TextView) v.findViewById(R.id.tv_danhsachduongchuaghi);
         mBottomNav = (BottomNavigationView) v.findViewById(R.id.bottom_navigation);
 
         File extStore = Environment.getExternalStorageDirectory();
@@ -83,14 +81,7 @@ public class MainActivity extends Fragment {
         duongDAO = new DuongDAO(getContext());
         khachhangDAO = new KhachHangDAO(getContext());
 
-        btnghi.setBackgroundResource(R.mipmap.btn_ghi);
-        btnghi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                askPermissionAndReadFile();
 
-            }
-        });
 
 
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

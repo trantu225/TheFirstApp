@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity  {
             if(kt){
                 KhachHangDAO khdao = new KhachHangDAO(LoginActivity.this);
                 if(khdao.countKhachHangAll() >0){
-                    Intent myIntent=new Intent(this, Tab_MainActivity.class);
+                    Intent myIntent=new Intent(this, StartActivity.class);
                     startActivity(myIntent);
                 }
                 else {

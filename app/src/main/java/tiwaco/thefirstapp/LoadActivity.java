@@ -393,7 +393,7 @@ public class LoadActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
             if(result){
-                Intent myIntent=new Intent(LoadActivity.this, Tab_MainActivity.class);
+                Intent myIntent=new Intent(LoadActivity.this, StartActivity.class);
                 startActivity(myIntent);
                 LoadActivity.this.finish();
             }

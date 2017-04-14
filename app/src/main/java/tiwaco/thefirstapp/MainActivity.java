@@ -26,6 +26,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.luseen.spacenavigation.SpaceItem;
+import com.luseen.spacenavigation.SpaceNavigationView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +51,7 @@ import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 
 
-public class MainActivity extends Fragment {
+public class MainActivity extends AppCompatActivity {
 
     TextView danhsachduong;
     ImageButton btnghi;
@@ -58,32 +61,31 @@ public class MainActivity extends Fragment {
     String duongdanfile ="";
     private static String dataGhi  = "";
     BottomNavigationView mBottomNav;
-
+    SpaceNavigationView spaceNavigationView;
+    Context con;
     DuongDAO duongDAO ;
     KhachHangDAO khachhangDAO;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_main, container, false);
-        mBottomNav = (BottomNavigationView) v.findViewById(R.id.bottom_navigation);
+       setContentView(R.layout.activity_main);
+        con = MainActivity.this;
+       // mBottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         File extStore = Environment.getExternalStorageDirectory();
 
         filename = getString(R.string.data_file_name);
         duongdanfile = extStore.getAbsolutePath() + "/" + filename;
 
-        duongDAO = new DuongDAO(getContext());
-        khachhangDAO = new KhachHangDAO(getContext());
+        duongDAO = new DuongDAO(con);
+        khachhangDAO = new KhachHangDAO(con);
 
+        spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
+        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
+        spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.viewgrid));
 
-
-
+/*
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -92,18 +94,20 @@ public class MainActivity extends Fragment {
                 return true;
             }
         });
-
-        return v;
+*/
     }
+
+
+
     private void selectItem(MenuItem item) {
 
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.action_save:
-                Toast.makeText(getContext(), "Save", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_search:
-                Toast.makeText(getContext(), "Seacrh", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Seacrh", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -150,7 +154,7 @@ public class MainActivity extends Fragment {
         if (android.os.Build.VERSION.SDK_INT >= 23) {
 
             // Kiểm tra quyền
-            int permission = ActivityCompat.checkSelfPermission(getContext(), permissionName);
+            int permission = ActivityCompat.checkSelfPermission(con, permissionName);
 
 
             if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -197,7 +201,7 @@ public class MainActivity extends Fragment {
                 }
             }
         } else {
-            Toast.makeText(getContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(con, "Permission Cancelled!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -215,7 +219,7 @@ public class MainActivity extends Fragment {
             myOutWriter.close();
             fOut.close();
 
-            Toast.makeText(getContext(), filename + " saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(con, filename + " saved", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -259,9 +263,9 @@ public class MainActivity extends Fragment {
         boolean flagDB=false , flagFile = false;
 
         //check database
-        flagDB = doesDatabaseExist(getContext(), MyDatabaseHelper.DATABASE_NAME);
+        flagDB = doesDatabaseExist(con, MyDatabaseHelper.DATABASE_NAME);
         Log.e("DB exist:", String.valueOf(flagDB));
-        MyDatabaseHelper db = new MyDatabaseHelper(getContext());
+        MyDatabaseHelper db = new MyDatabaseHelper(con);
         SQLiteDatabase sqldb = db.openDB();
         sqldb.getVersion();
 

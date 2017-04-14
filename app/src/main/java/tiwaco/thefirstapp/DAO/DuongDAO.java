@@ -119,8 +119,8 @@ public class DuongDAO {
                 new String[] { String.valueOf(maduong) },
                 null, null, null, null);
         DuongDTO duong = null;
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor != null &&cursor.moveToFirst()) {
+
 
           duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2));
         }

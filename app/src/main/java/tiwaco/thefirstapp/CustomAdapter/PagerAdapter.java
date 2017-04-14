@@ -26,7 +26,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 frag=new ListKH_Fragment();
                 break;
             case 1:
-                frag=new MainActivity();
+                frag=new ListKH_Fragment();
                 break;
 
         }
@@ -45,8 +45,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 title= String.valueOf(R.string.tab_dsKH);
                 break;
             case 1:
-                title=String.valueOf(R.string.tab_ghinuoc);
+                title= String.valueOf(R.string.tab_dsKH);
                 break;
+
 
         }
 

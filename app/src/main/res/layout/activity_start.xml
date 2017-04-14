@@ -53,7 +53,7 @@
                     android:id="@+id/btn_dskh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/selector_button_DSKH_change"
+                    android:background="@drawable/selector_button_danhsachkh_change"
                 android:padding="@dimen/dp50" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -100,7 +100,7 @@
             android:orientation="vertical"
             android:gravity="center">
         <ImageButton
-                android:id="@+id/backup"
+                android:id="@+id/btn_backup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_button_backup_change"

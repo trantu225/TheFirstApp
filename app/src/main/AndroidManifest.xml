@@ -23,15 +23,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity"
             android:parentActivityName=".LoginActivity" />
         <activity android:name=".LoadActivity" />
-        <activity android:name=".Tab_MainActivity">
-
-        </activity>
+        <activity android:name=".Tab_MainActivity"></activity>
+        <activity android:name=".StartActivity"></activity>
     </application>
 
 </manifest>

@@ -53,6 +53,7 @@
     <string name="ghi_nuoc">Ghi nước</string>
     <string name="DSKH">Danh sách KH</string>
     <string name="nhap_du_lieu">Nhập dữ liệu</string>
+    <string name="load_status">Đang load KH đường</string>
 
 
 </resources>

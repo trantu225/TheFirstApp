@@ -363,7 +363,8 @@ public class LoadActivity extends AppCompatActivity {
                                 FlagupdateDB = kt;
 
                                 long status = (j+1) *100/listKH.length();
-                                publishProgress(String.valueOf(status));
+                           //     String.valueOf(status)
+                                publishProgress(String.valueOf(status),tenduong);
 
                             }
 
@@ -381,9 +382,11 @@ public class LoadActivity extends AppCompatActivity {
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
             String status = values[0];
+            String duong = values[1];
             prgTime.setProgress(Integer.parseInt(status));
+
             // update giá trị ở TextView
-            prgTime.setText(status+" %");
+            prgTime.setText(getString(R.string.load_status)+duong+": "+status+" %");
         }
 
 

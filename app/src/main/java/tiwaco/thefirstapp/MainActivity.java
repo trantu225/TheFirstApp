@@ -82,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
-        spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.viewgrid));
+        spaceNavigationView.addSpaceItem(new SpaceItem("LÙI", R.drawable.selector_pre));
+        spaceNavigationView.addSpaceItem(new SpaceItem("TỚI", R.drawable.selector_next));
+
 
 /*
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

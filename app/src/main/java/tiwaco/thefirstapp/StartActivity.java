@@ -40,7 +40,7 @@ public class StartActivity extends AppCompatActivity  {
                     break;
 
                 case R.id.btn_dskh:
-                    myIntent=new Intent(StartActivity.this, Tab_MainActivity.class);
+                    myIntent=new Intent(StartActivity.this, ListActivity.class);
                     startActivity(myIntent);
 
                     break;

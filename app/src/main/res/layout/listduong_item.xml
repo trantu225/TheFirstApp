@@ -34,6 +34,7 @@
         android:ellipsize="marquee"
         android:textColor="@color/colorPrimary"
         android:text="ten duong"
+        android:textSize="@dimen/sp14"
 
      />
 

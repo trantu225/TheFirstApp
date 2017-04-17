@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.addSpaceItem(new SpaceItem("TỚI", R.drawable.selector_next));
 
 
+
 /*
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -98,7 +99,12 @@ public class MainActivity extends AppCompatActivity {
 */
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.mymenu, menu);
+        return true;
+    }
 
     private void selectItem(MenuItem item) {
 
@@ -119,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
+        selectItem(item);
         return super.onOptionsItemSelected(item);
     }
 

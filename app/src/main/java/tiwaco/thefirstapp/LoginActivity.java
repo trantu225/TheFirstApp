@@ -50,6 +50,8 @@ public class LoginActivity extends AppCompatActivity  {
                 dangnhap();
             }
         });
+        ActionBar bar = this.getSupportActionBar();
+        bar.hide();
     }
 
     public void dangnhap(){

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_root"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -600,7 +601,7 @@
         app:centre_button_color="@color/centre_button_color"
         app:inactive_item_color="@color/white"
         app:space_background_color="@color/green_6a"
-        app:centre_button_icon="@android:drawable/ic_menu_edit"
+        app:centre_button_icon="@drawable/ic_edit_button"
         app:space_item_icon_size="@dimen/space_item_icon_default_size"
         app:space_item_icon_only_size="@dimen/space_item_icon_only_size"
         app:space_item_text_size="@dimen/space_item_text_default_size" />

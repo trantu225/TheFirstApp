@@ -386,7 +386,7 @@ public class LoadActivity extends AppCompatActivity {
             prgTime.setProgress(Integer.parseInt(status));
 
             // update giá trị ở TextView
-            prgTime.setText(getString(R.string.load_status)+duong+": "+status+" %");
+            prgTime.setText(getString(R.string.load_status));
         }
 
 
@@ -433,8 +433,31 @@ public class LoadActivity extends AppCompatActivity {
         }
     }
     private void loadData(){
-        MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
-        task.execute(duongdanfile);
+
+        File file = new File(duongdanfile);
+        if(file.exists()) {
+            MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
+            task.execute(duongdanfile);
+        }
+        else{
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(R.string.error_load_file);
+            // thiết lập nội dung cho dialog
+
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.show();
+        }
     }
     private void askPermissionAndReadFile() {
         boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,

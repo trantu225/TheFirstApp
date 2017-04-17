@@ -2,6 +2,7 @@ package tiwaco.thefirstapp.CustomAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,14 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
     List<DuongDTO> listDuong;
     Context con;
     ListView listviewKH;
-    public CustomListDuongAdapter(Context context,List<DuongDTO> listData,ListView listKH) {
+    DuongDTO duongchon;
+    TextView tvmaduong;
+    public CustomListDuongAdapter(Context context,List<DuongDTO> listData,ListView listKH,TextView txtMaDuong) {
         this.listDuong = listData;
         this.con = context;
         this.listviewKH = listKH;
+        this.tvmaduong = txtMaDuong;
+
     }
     @Override
     public CustomListDuongAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -71,14 +76,19 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                     if(pos != RecyclerView.NO_POSITION){
                         DuongDTO duong = listDuong.get(pos);
                         Bien.DuongDuocChon = duong;
+                        tvmaduong.setText(duong.getMaDuong());
+                        if(Bien.DuongDuocChon !=null) {
+                            Toast.makeText(v.getContext(), Bien.DuongDuocChon.getMaDuong(), Toast.LENGTH_SHORT).show();
+                            Log.e("DuongDuocChon",Bien.DuongDuocChon.getMaDuong());
+                        }
                         /*ListView listviewKH = (ListView) itemView.findViewById(R.id.lv_khachhang);*/
                         List<KhachHangDTO> liskhdao = new ArrayList<KhachHangDTO>();
-
                         KhachHangDAO khachhangDAO = new KhachHangDAO(con);
                         liskhdao = khachhangDAO.getAllKHTheoDuong(duong.getMaDuong());
-                        CustomListAdapter adapterKH = new CustomListAdapter(con,liskhdao);
+
+                         Bien.adapterKH = new CustomListAdapter(con,liskhdao);
                         //adapterKH.notifyDataSetChanged();
-                        listviewKH.setAdapter(adapterKH);
+                        listviewKH.setAdapter(Bien.adapterKH);
                   //      Toast.makeText(v.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
                     }
                 }

@@ -52,7 +52,7 @@ public class CustomListAdapter extends BaseAdapter {
             holder.Ten = (TextView)convertView.findViewById(R.id.tv_hoten);
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
-            holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
+        //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
         }
         else{
@@ -64,10 +64,11 @@ public class CustomListAdapter extends BaseAdapter {
         holder.STT.setText(cus.getSTT());
         holder.DiaChi.setText(cus.getDiaChi());
         if(cus.getChiSo().equalsIgnoreCase("")){
-            holder.TrangThai.setBackgroundResource(R.drawable.common_checkbox1_unchecked);
+            holder.STT.setBackgroundResource(R.drawable.remove_bg);
+
         }
         else{
-            holder.TrangThai.setBackgroundResource(R.drawable.common_checkbox1_checked);
+            holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
         }
         return convertView;
     }
@@ -75,7 +76,7 @@ public class CustomListAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView Ten;
         TextView STT;
-        ImageView TrangThai;
+      //  ImageView TrangThai;
         TextView DiaChi;
     }
 }

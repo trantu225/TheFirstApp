@@ -53,12 +53,12 @@ public class ListKH_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.listkh_fragment, container, false);
-        ListView listviewKH = (ListView) v.findViewById(R.id.lv_khachhang);
+      /*  ListView listviewKH = (ListView) v.findViewById(R.id.lv_khachhang);
         duongDAO = new DuongDAO(getContext());
         listduong = duongDAO.getAllDuongChuaGhi();
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycleview_listduong);
-        adapter = new CustomListDuongAdapter(getContext(),listduong,listviewKH);
+        adapter = new CustomListDuongAdapter(getContext(),listduong,listviewKH,);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -66,7 +66,7 @@ public class ListKH_Fragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-
+*/
 
         return v;
     }

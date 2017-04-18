@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,20 +59,25 @@ public class ListActivity extends AppCompatActivity {
         listduong = duongDAO.getAllDuongChuaGhi();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
-        adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon);
+        adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon,recyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(con);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+
+
+
         khachhangDAO = new KhachHangDAO(con);
-        liskhdao = khachhangDAO.getAllKHTheoDuong(listduong.get(0).getMaDuong());
-        if(Bien.adapterKH ==null){
-            Bien.adapterKH = new CustomListAdapter(con,liskhdao);
-            //adapterKH.notifyDataSetChanged();
-            listviewKH.setAdapter(Bien.adapterKH);
-        }
+        liskhdao = khachhangDAO.getAllKHTheoDuong(listduong.get(Bien.selected_item).getMaDuong());
+        Bien.adapterKH = new CustomListAdapter(con, liskhdao);
+        listviewKH.setAdapter(Bien.adapterKH);
+
+
+
+
 
     }
 
@@ -86,7 +93,9 @@ public class ListActivity extends AppCompatActivity {
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.action_ghinuoc:
-                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
+
+
+
                 break;
 
 

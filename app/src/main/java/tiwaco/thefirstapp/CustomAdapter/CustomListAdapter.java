@@ -1,5 +1,6 @@
 package tiwaco.thefirstapp.CustomAdapter;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,12 +49,15 @@ public class CustomListAdapter extends BaseAdapter {
         ViewHolder holder ;
      if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.listkh_item,null);
+
             holder = new ViewHolder();
             holder.Ten = (TextView)convertView.findViewById(R.id.tv_hoten);
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
         //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
+
+
         }
         else{
             holder  = (ViewHolder)convertView.getTag();
@@ -73,7 +77,8 @@ public class CustomListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
+
         TextView Ten;
         TextView STT;
       //  ImageView TrangThai;

@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:background="@drawable/selector_listview"
     android:padding="@dimen/dp10">
 
     <TextView
@@ -38,6 +39,7 @@
             android:textSize="@dimen/sp14"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@drawable/selector_listview_text"
             android:text="Tên KH"/>
 
         <TextView

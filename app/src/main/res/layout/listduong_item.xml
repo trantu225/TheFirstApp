@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ellipsize="marquee"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@drawable/selector_recylerview_text"
         android:text="ten duong"
         android:textSize="@dimen/sp14"
 

@@ -22,5 +22,7 @@ public class Bien {
     public static List<KhachHangDTO> listKHALl =null ;
     public static List<NhanVienDTO> listNV =null ;
     public static CustomListAdapter adapterKH =null;
+    public static int selected_item = 0;
+    public static int pre_item = 0;
 
 }

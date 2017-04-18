@@ -12,9 +12,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_logo_tiwaco"
+        android:icon="@mipmap/ic_tiwaread_vuong"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_logo_tiwaco"
+        android:roundIcon="@mipmap/ic_tiwaread"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity android:name=".LoginActivity">
@@ -26,9 +26,11 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".StartActivity" />
         <activity android:name=".LoadActivity" />
-        <activity android:name=".ListActivity" />
+        <activity
+            android:name=".ListActivity"
+            android:parentActivityName=".StartActivity"/>
         <activity android:name=".Tab_MainActivity"></activity>
         <activity android:name=".StartActivity"></activity>
     </application>

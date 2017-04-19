@@ -2,6 +2,7 @@ package tiwaco.thefirstapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -21,13 +23,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,46 +63,122 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
     private String filename = "";
-    String duongdanfile ="";
-    private static String dataGhi  = "";
-    BottomNavigationView mBottomNav;
+    String duongdanfile = "";
+    private static String dataGhi = "";
     SpaceNavigationView spaceNavigationView;
     Context con;
-    DuongDAO duongDAO ;
+    DuongDAO duongDAO;
     KhachHangDAO khachhangDAO;
+    KhachHangDTO khachhang;
+    TextView STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi;
+    EditText DienThoai, ChiSoMoi, TinhTrangTLK;
+    ImageButton DoiSDT,Toi,Lui,Ghi;
+    LinearLayout lay_toi , lay_lui , lay_ghi;
+
+    int SoLuongKH = 0;
+    String maduong_nhan="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         con = MainActivity.this;
-       // mBottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        File extStore = Environment.getExternalStorageDirectory();
-
-        filename = getString(R.string.data_file_name);
-        duongdanfile = extStore.getAbsolutePath() + "/" + filename;
-
+        getSupportActionBar().setTitle(R.string.tab_ghinuoc);
+        taoView();
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
 
-        spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
-        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("LÙI", R.drawable.selector_pre));
-        spaceNavigationView.addSpaceItem(new SpaceItem("TỚI", R.drawable.selector_next));
 
 
+        //----------------------------------------------------------------------------
+        //lấy intent gọi Activity này
+        //Lấy kết quả khi chọn button ghi nước tại listactivity
+        Intent callerIntent = getIntent();
 
-/*
-        mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        //có intent rồi thì lấy Bundle dựa vào key Calculation
+        Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONG);
+        if (packageFromCaller == null) {
+            Toast.makeText(this, "Chưa chọn mã đường", Toast.LENGTH_SHORT).show();
+        } else {
+            //Có Bundle rồi thì lấy các thông số dựa vào key NUMBERA và NUMBERB
+            maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
+            SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
+            setDataForView(Bien.STT_HienTai,maduong_nhan);
+            Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
+        }
+        //--------------------------------------------------------------------------
+        lay_toi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public void onClick(View v) {
+                int next = Integer.parseInt(Bien.STT_HienTai) + 1;
+                Bien.STT_HienTai = String.valueOf(next);
+                Log.e("BienSTTHIenTai", Bien.STT_HienTai);
+                Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                if (next > SoLuongKH) {
+                    lay_toi.setEnabled(false);
+                } else {
+                    lay_toi.setEnabled(true);
+                }
+                if (next > 0 && next < SoLuongKH) {
+                    setDataForView(Bien.STT_HienTai, maduong_nhan);
+                } else {
+                    Log.e("BienSTTHIenTai", Bien.STT_HienTai);
+                }
 
-                selectItem(item);
-                return true;
             }
         });
-*/
+
+        lay_lui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pre = Integer.parseInt(Bien.STT_HienTai) - 1;
+                Bien.STT_HienTai = String.valueOf(pre);
+
+                Log.e("BienSTTHIenTai", Bien.STT_HienTai);
+                Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                if (pre <= 0) {
+                    lay_lui.setEnabled(false);
+                } else {
+                    lay_lui.setEnabled(true);
+                }
+                if (pre > 0 && pre < SoLuongKH) {
+                    Log.e("BienSTTHIenTai", "chay vao 3");
+                    setDataForView(Bien.STT_HienTai, maduong_nhan);
+                } else {
+                    Log.e("BienSTTHIenTai", "chay vao 4");
+
+                }
+            }
+        });
     }
+
+    private void setDataForView(String tt, String maduong) {
+        //Lấy khách hàng có stt hiện tại...mặc đình là 1
+        khachhang =  khachhangDAO.getKHTheoSTT_Duong(tt,maduong);
+        STT.setText(khachhang.getSTT());
+        MaKH.setText(khachhang.getMaKhachHang());
+        HoTen.setText(khachhang.getTenKhachHang());
+        DiaChi.setText(khachhang.getDiaChi());
+        MaTLK.setText(khachhang.getMasotlk());
+        HieuTLK.setText(khachhang.getHieutlk());
+        CoTLK.setText(khachhang.getCotlk());
+        ChiSo1.setText(khachhang.getChiSo1());
+        ChiSo2.setText(khachhang.getChiSo2());
+        ChiSo3.setText(khachhang.getChiSo3());
+        m31.setText(khachhang.getSLTieuThu1());
+        m32.setText(khachhang.getSLTieuThu2());
+        m33.setText(khachhang.getSLTieuThu3());
+        ChiSoCon1.setText(khachhang.getChiSo1con());
+        ChiSoCon2.setText(khachhang.getChiSo2con());
+        ChiSoCon3.setText(khachhang.getChiSo3con());
+        m3con1.setText(khachhang.getSLTieuThu1con());
+        m3con2.setText(khachhang.getSLTieuThu2con());
+        m3con3.setText(khachhang.getSLTieuThu3con());
+        DienThoai.setText(khachhang.getDienThoai());
+
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,12 +192,11 @@ public class MainActivity extends AppCompatActivity {
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.action_save:
-                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.action_search:
-                Toast.makeText(this, "Seacrh", Toast.LENGTH_SHORT).show();
-                break;
 
+            break;
         }
 
 
@@ -130,6 +210,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void taoView() {
+        STT = (TextView) findViewById(R.id.tv_sttKH);
+        MaKH= (TextView) findViewById(R.id.tv_maKH);
+        HoTen= (TextView) findViewById(R.id.tv_hotenKH);
+        DiaChi= (TextView) findViewById(R.id.tv_diachiKH);
+        MaTLK= (TextView) findViewById(R.id.tv_maTLK);
+        HieuTLK= (TextView) findViewById(R.id.tv_hieuTLK);
+        CoTLK= (TextView) findViewById(R.id.tv_coTLK);
+        ChiSo1= (TextView) findViewById(R.id.tv_chisocu1);
+        ChiSo2= (TextView) findViewById(R.id.tv_chisocu2);
+        ChiSo3= (TextView) findViewById(R.id.tv_chisocu3);
+        m31= (TextView) findViewById(R.id.tv_m3cu1);
+        m32= (TextView) findViewById(R.id.tv_m3cu2);
+        m33= (TextView) findViewById(R.id.tv_m3cu3);
+        ChiSoCon1= (TextView) findViewById(R.id.tv_chisocu1con);
+        ChiSoCon2= (TextView) findViewById(R.id.tv_chisocu2con);
+        ChiSoCon3= (TextView) findViewById(R.id.tv_chisocu3con);
+        m3con1= (TextView) findViewById(R.id.tv_m3cu1con);
+        m3con2= (TextView) findViewById(R.id.tv_m3cu2con);
+        m3con3= (TextView) findViewById(R.id.tv_m3cu3con);
+        m3moi= (TextView) findViewById(R.id.tv_m3moi);
+        m3conmoi= (TextView) findViewById(R.id.tv_m3moicon);
+
+        DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
+        ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
+        TinhTrangTLK = (EditText) findViewById(R.id.edit_chisomoicon);
+
+        DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
+        Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
+        Toi = (ImageButton) findViewById(R.id.btn_toi);
+
+
+        lay_toi =(LinearLayout)findViewById(R.id.layout_toi);
+        lay_lui =(LinearLayout)findViewById(R.id.layout_lui);
+        lay_ghi =(LinearLayout)findViewById(R.id.layout_ghi);
+
+    }
 
     private void askPermissionAndWriteFile(String path, String data) {
         boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
@@ -137,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         //
         if (canWrite) {
 
-            this.writeFile(path,data);
+            this.writeFile(path, data);
         }
     }
 
@@ -148,9 +265,9 @@ public class MainActivity extends AppCompatActivity {
         if (canRead) {
 
             Log.e("canread", "chay vao if");
-           // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-          //  task.execute(duongdanfile);
-            readFileandSaveDatabase();
+            // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
+            //  task.execute(duongdanfile);
+
         }
     }
 
@@ -191,19 +308,19 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_ID_READ_PERMISSION: {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                       // readFile(duongdanfile);
+                        // readFile(duongdanfile);
                         //luu database
-                       // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-                      //  task.execute(duongdanfile);
- //                       Log.e("canread", "chay vao request read");
+                        // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
+                        //  task.execute(duongdanfile);
+                        //                       Log.e("canread", "chay vao request read");
 //                        readFileandSaveDatabase();
-                        readFileandSaveDatabase();
+
                         loadDataDuongfromDB();
-                }
+                    }
                 }
                 case REQUEST_ID_WRITE_PERMISSION: {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                       // writeFile(duongdanfile,dataGhi);
+                        // writeFile(duongdanfile,dataGhi);
                     }
                 }
             }
@@ -238,12 +355,11 @@ public class MainActivity extends AppCompatActivity {
         String s = "";
         String fileContent = "";
         try {
-         File myFile = new File(path);
-            if(myFile.exists()){
-                Log.e("file ton tai","true");
-            }
-            else{
-                Log.e("file ton tai","false");
+            File myFile = new File(path);
+            if (myFile.exists()) {
+                Log.e("file ton tai", "true");
+            } else {
+                Log.e("file ton tai", "false");
             }
             FileInputStream fIn = new FileInputStream(myFile);
             BufferedReader myReader = new BufferedReader(
@@ -252,10 +368,10 @@ public class MainActivity extends AppCompatActivity {
             while ((s = myReader.readLine()) != null) {
                 fileContent += s + "\n";
             }
-  //          this.viewjson.setText(fileContent);
+            //          this.viewjson.setText(fileContent);
             myReader.close();
-           // Log.e("file json",fileContent);
-             //String finalFileContent = fileContent;
+            // Log.e("file json",fileContent);
+            //String finalFileContent = fileContent;
 
 
         } catch (IOException e) {
@@ -266,403 +382,32 @@ public class MainActivity extends AppCompatActivity {
         return fileContent;
     }
 
-    public void readFileandSaveDatabase(){
-        boolean flagDB=false , flagFile = false;
-
-        //check database
-        flagDB = doesDatabaseExist(con, MyDatabaseHelper.DATABASE_NAME);
-        Log.e("DB exist:", String.valueOf(flagDB));
-        MyDatabaseHelper db = new MyDatabaseHelper(con);
-        SQLiteDatabase sqldb = db.openDB();
-        sqldb.getVersion();
-
-        Log.e("DB File:", String.valueOf( sqldb.getVersion()));
-        //check file
-        flagFile = doesFileExist(duongdanfile);
-        Log.e("DB File:", String.valueOf(flagFile));
-        //DB = true && file = false => load từ Db
-        if(flagDB==true && flagFile == false){
-            //Load dataduong
-            loadDataDuongfromDB();
-            //load datakhachhang
-        }
-        else if (flagDB==false && flagFile == false){
-
-
-        }
-        else
-        {
-            //Doc tu file
-            MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
-            task.execute(duongdanfile);
-        }
-        //db = false && file = true => load từ file
-
-        //DB = true && file = true
-        //Check version
-        //DB.version < File.version
-    }
-
-
-    public class MyJsonTaskDatabasefromFile extends AsyncTask<String, JSONObject, JSONObject > {
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... params) {
-            //Lấy URL truyền vào
-            String jsontext =  readFile(params[0])  ;
-
-            JSONObject jsonObj = null;
-            try {
-                jsonObj = new JSONObject(jsontext);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-          return jsonObj;
-        }
-
-        @Override
-        protected void onProgressUpdate(JSONObject... values) {
-            super.onProgressUpdate(values);
-            //ta cập nhật giao diện ở đây:
-            JSONObject jsonObj = values[0];
-         /*  try {
-            //kiểm tra xem có tồn tại thuộc tính id hay không
-                if (jsonObj.has("tongSLkh"))
-                    viewjson.setText(jsonObj.getString("tongSLkh"));
-
-            } catch (JSONException e) {
-                Toast.makeText(MainActivity.this, e.toString(),
-                        Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }*/
-        }
-
-
-
-        @Override
-        protected void onPostExecute(JSONObject result) {
-
-            super.onPostExecute(result);
-            if (result.has("ListTiwaread")) {
-                try {
-                    JSONArray listtiwaread = result.getJSONArray("ListTiwaread");
-                    for(int  i  =0 ;i <listtiwaread.length();i++){
-                        JSONObject objTiwaread = listtiwaread.getJSONObject(i);
-                        String maduong = "";
-                        String tenduong  ="";
-                        if(objTiwaread.has("Maduong")){
-                            maduong = objTiwaread.getString("Maduong");
-                        }
-
-                        if(objTiwaread.has("Tenduong")){
-                            tenduong = objTiwaread.getString("Tenduong");
-                        }
-                        Log.e("kiem tra da ton tai hay chua", String.valueOf(duongDAO.countDuong()));
-                        if(duongDAO.countDuong() <=0) {
-
-
-                            Log.e("Them database_duong: ", "chay zo day rui");
-                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0);
-                            boolean kt = duongDAO.addTable_Duong(duong);
-                            if (kt) {
-                                Log.e("Them database_duong: " + maduong, "Thanh cong");
-                            } else {
-                                Log.e("Them database_duong: " + maduong, "ko Thanh cong");
-
-                            }
-                            //loadDataDuongfromDB();
-                        }
-                        else{
-                            if(duongDAO.checkExistDuong(maduong)) {
-                            //    loadDataDuongfromDB();
-                                Log.e("Them database_duong: ", " Da ton tai duong nay");
-                            }
-                            else{
-                                DuongDTO duong = new DuongDTO(maduong, tenduong, 0);
-                                boolean kt = duongDAO.addTable_Duong(duong);
-                                if (kt) {
-                                    Log.e("Them database_duong: " + maduong, "Thanh cong");
-                                } else {
-                                    Log.e("Them database_duong: " + maduong, "ko Thanh cong");
-
-                                }
-                           //     loadDataDuongfromDB();
-                            }
-                        }
-
-                        if (objTiwaread.has("TiwareadList")){
-                            Log.e("Them database_KH: " , "Lay JSONARRAY");
-                            JSONArray listKH = objTiwaread.getJSONArray("TiwareadList");
-                            Log.e("Them database_KH: " , "JSONARRAY_LENGTH "+listKH.length());
-                            for(int  j =0 ;j <listKH.length();j++){
-                                JSONObject objKH = listKH.getJSONObject(j);
-                                String ChiSo = "";
-                                String ChiSo1  ="";
-                                String ChiSo1con = "";
-                                String ChiSo2  ="";
-                                String ChiSo2con = "";
-                                String ChiSo3  ="";
-                                String ChiSo3con = "";
-                                String ChiSocon  ="";
-                                String DanhBo = "";
-                                String DiaChi  ="";
-                                String DienThoai = "";
-                                String GhiChu  ="";
-                                String Lat = "";
-                                String Lon  ="";
-                                String MaKhachHang = "";
-                                String NhanVien  ="";
-                                String SLTieuThu = "";
-                                String SLTieuThu1  ="";
-                                String SLTieuThu1con = "";
-                                String SLTieuThu2  ="";
-                                String SLTieuThu2con = "";
-                                String SLTieuThu3  ="";
-                                String SLTieuThu3con = "";
-                                String SLTieuThucon  ="";
-                                String STT = "";
-                                String TenKhachHang  ="";
-                                String ThoiGian = "";
-                                String TrangThaiTLK  ="";
-                                String chitietloai = "";
-                                String cotlk  ="";
-                                String dinhmuc = "";
-                                String hieutlk  ="";
-                                String loaikh = "";
-                                String masotlk  ="";
-                                if(objKH.has("ChiSo")){
-                                    ChiSo = objKH.getString("ChiSo");
-                                }
-
-                                if(objKH.has("ChiSo1")){
-                                    ChiSo1 = objKH.getString("ChiSo1");
-                                }
-                                if(objKH.has("ChiSo1con")){
-                                    ChiSo1con = objKH.getString("ChiSo1con");
-                                }
-
-                                if(objKH.has("ChiSo2")){
-                                    ChiSo2 = objKH.getString("ChiSo2");
-                                }
-                                if(objKH.has("ChiSo2con")){
-                                    ChiSo2con = objKH.getString("ChiSo2con");
-                                }
-
-                                if(objKH.has("ChiSo3")){
-                                    ChiSo3 = objKH.getString("ChiSo3");
-                                }
-                                if(objKH.has("ChiSo3con")){
-                                    ChiSo3con = objKH.getString("ChiSo3con");
-                                }
-
-                                if(objKH.has("ChiSocon")){
-                                    ChiSocon = objKH.getString("ChiSocon");
-                                }
-                                if(objKH.has("DanhBo")){
-                                    DanhBo = objKH.getString("DanhBo");
-                                }
-
-                                if(objKH.has("DiaChi")){
-                                    DiaChi = objKH.getString("DiaChi");
-                                }
-                                if(objKH.has("DienThoai")){
-                                    DienThoai = objKH.getString("DienThoai");
-                                }
-
-                                if(objKH.has("GhiChu")){
-                                    GhiChu = objKH.getString("GhiChu");
-                                }
-                                if(objKH.has("Lat")){
-                                    Lat = objKH.getString("Lat");
-                                }
-
-                                if(objKH.has("Lon")){
-                                    Lon = objKH.getString("Lon");
-                                }
-                                if(objKH.has("MaKhachHang")){
-                                    MaKhachHang = objKH.getString("MaKhachHang");
-                                }
-
-                                if(objKH.has("NhanVien")){
-                                    NhanVien = objKH.getString("NhanVien");
-                                }
-                                if(objKH.has("SLTieuThu")){
-                                    SLTieuThu = objKH.getString("SLTieuThu");
-                                }
-
-                                if(objKH.has("SLTieuThu1")){
-                                    SLTieuThu1 = objKH.getString("SLTieuThu1");
-                                }
-                                if(objKH.has("SLTieuThu1con")){
-                                    SLTieuThu1con = objKH.getString("SLTieuThu1con");
-                                }
-
-                                if(objKH.has("SLTieuThu2")){
-                                    SLTieuThu2 = objKH.getString("SLTieuThu2");
-                                }
-                                if(objKH.has("SLTieuThu2con")){
-                                    SLTieuThu2con = objKH.getString("SLTieuThu2con");
-                                }
-
-                                if(objKH.has("SLTieuThu3")){
-                                    SLTieuThu3 = objKH.getString("SLTieuThu3");
-                                }
-                                if(objKH.has("SLTieuThu3con")){
-                                    SLTieuThu3con = objKH.getString("SLTieuThu3con");
-                                }
-
-                                if(objKH.has("SLTieuThucon")){
-                                    SLTieuThucon = objKH.getString("SLTieuThucon");
-                                }
-                                if(objKH.has("STT")){
-                                    STT = objKH.getString("STT");
-                                }
-
-                                if(objKH.has("TenKhachHang")){
-                                    TenKhachHang = objKH.getString("TenKhachHang");
-                                }
-                                if(objKH.has("ThoiGian")){
-                                    ThoiGian = objKH.getString("ThoiGian");
-                                }
-
-                                if(objKH.has("TrangThaiTLK")){
-                                    TrangThaiTLK = objKH.getString("TrangThaiTLK");
-                                }
-                                if(objKH.has("chitietloai")){
-                                    chitietloai = objKH.getString("chitietloai");
-                                }
-
-                                if(objKH.has("cotlk")){
-                                    cotlk = objKH.getString("cotlk");
-                                }
-                                if(objKH.has("dinhmuc")){
-                                    dinhmuc = objKH.getString("dinhmuc");
-                                }
-
-                                if(objKH.has("hieutlk")){
-                                    hieutlk = objKH.getString("hieutlk");
-                                }
-                                if(objKH.has("loaikh")){
-                                    loaikh = objKH.getString("loaikh");
-                                }
-
-                                if(objKH.has("masotlk")){
-                                    masotlk = objKH.getString("masotlk");
-                                }
-
-                                KhachHangDTO kh = new KhachHangDTO();
-                                kh.setMaKhachHang(MaKhachHang);
-                                kh.setTenKhachHang(TenKhachHang);
-                                kh.setDanhBo(DanhBo);
-                                kh.setDiaChi(DiaChi);
-                                kh.setDienThoai(DienThoai);
-                                kh.setSTT(STT);
-                                kh.setTrangThaiTLK(TrangThaiTLK);
-                                kh.setChitietloai(chitietloai);
-                                kh.setCotlk(cotlk);
-                                kh.setDinhmuc(dinhmuc);
-                                kh.setHieutlk(hieutlk);
-                                kh.setLoaikh(loaikh);
-                                kh.setMasotlk(masotlk);
-                                kh.setGhiChu(GhiChu);
-                                kh.setChiSo(ChiSo);
-                                kh.setChiSocon(ChiSocon);
-                                kh.setChiSo1(ChiSo1);
-                                kh.setChiSo1con(ChiSo1con);
-                                kh.setChiSo2(ChiSo2);
-                                kh.setChiSo2con(ChiSo2con);
-                                kh.setChiSo3(ChiSo3);
-                                kh.setChiSo3con(ChiSo3con);
-                                kh.setSLTieuThu(SLTieuThu);
-                                kh.setSLTieuThu1(SLTieuThu1);
-                                kh.setSLTieuThu1con(SLTieuThu1con);
-                                kh.setSLTieuThu2(SLTieuThu2);
-                                kh.setSLTieuThu2con(SLTieuThu2con);
-                                kh.setSLTieuThu3(SLTieuThu3);
-                                kh.setSLTieuThu3con(SLTieuThu3con);
-                                kh.setSLTieuThucon(SLTieuThucon);
-                                kh.setLat(Lat);
-                                kh.setLon(Lon);
-                                kh.setThoiGian(ThoiGian);
-                                kh.setNhanVien(NhanVien);
-                                Log.e("kiem tra KH da ton tai hay chua", String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong)));
-                                if(khachhangDAO.countKhachHangTheoDuong(maduong) <=0) {
-                                 //   duongDAO = new DuongDAO(MainActivity.this);
-                                 //   khachhangDAO = new KhachHangDAO(MainActivity.this);
-                                    Log.e("Them database_KH: ", "chay zo day rui");
-
-                                    boolean kt = khachhangDAO.addTable_KH(kh,maduong);
-                                    if (kt) {
-                                        Log.e("Them database_KH: " + maduong, "Thanh cong");
-                                    } else {
-                                        Log.e("Them database_KH: " + maduong, "ko Thanh cong");
-
-                                    }
-                                    //loadDataDuongfromDB();
-                                }
-                                else{
-                                    Log.e("Them database_KH: ", "KIem tra tồn tại khach hang thu "+j   +":" +MaKhachHang );
-                                    if(khachhangDAO.checkExistKH(MaKhachHang,maduong)) {
-                                        //    loadDataDuongfromDB();
-                                        Log.e("Them database_KH: ", "Da ton tai "+j   +":" +MaKhachHang );
-                                    }
-                                    else{
-                                        boolean kt = khachhangDAO.addTable_KH(kh,maduong);
-                                        if (kt) {
-                                            Log.e("Them database_KH: " + TenKhachHang, "Thanh cong");
-                                        } else {
-                                            Log.e("Them database_KH: " + TenKhachHang, "ko Thanh cong");
-
-                                        }
-                                    }
-                                }
-
-                            }
-
-                        }
-                    }
-                    loadDataDuongfromDB();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-        }
-    }
-
-
 
     //check database
     private static boolean doesDatabaseExist(Context context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
     }
-    private static boolean doesFileExist(String path){
-        File file =  new File(path);
+
+    private static boolean doesFileExist(String path) {
+        File file = new File(path);
         return file.exists();
     }
-    private void loadDataDuongfromDB(){
-        Bien.listDuongChuaGhi =  duongDAO.getAllDuongChuaGhi();
+
+    private void loadDataDuongfromDB() {
+        Bien.listDuongChuaGhi = duongDAO.getAllDuongChuaGhi();
         String maduongchuaghi = "";
-        if( Bien.listDuongChuaGhi.size() >0 ) {
+        if (Bien.listDuongChuaGhi.size() > 0) {
             for (DuongDTO x : Bien.listDuongChuaGhi) {
                 maduongchuaghi += x.getMaDuong() + " ";
 
             }
             danhsachduong.setText(maduongchuaghi);
-        }
-        else{
+        } else {
             danhsachduong.setText(R.string.THONGBAO_DUONGCHUAGHI_ERROR);
         }
-        int soluongKH= khachhangDAO.countKhachHangTheoDuong("01");
-        Log.e("soluongKh",String.valueOf(soluongKH));
+        int soluongKH = khachhangDAO.countKhachHangTheoDuong("01");
+        Log.e("soluongKh", String.valueOf(soluongKH));
     }
 }
 

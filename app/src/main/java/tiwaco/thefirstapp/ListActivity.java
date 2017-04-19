@@ -1,9 +1,12 @@
 package tiwaco.thefirstapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,10 +71,9 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
-
-
+        Bien.ma_duong_dang_chon = listduong.get(Bien.selected_item).getMaDuong();
         khachhangDAO = new KhachHangDAO(con);
-        liskhdao = khachhangDAO.getAllKHTheoDuong(listduong.get(Bien.selected_item).getMaDuong());
+        liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
         Bien.adapterKH = new CustomListAdapter(con, liskhdao);
         listviewKH.setAdapter(Bien.adapterKH);
 
@@ -89,17 +91,38 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void selectItem(MenuItem item) {
-
+        if(!txtduongchon.getText().toString().trim().equalsIgnoreCase("")) {
+            Bien.ma_duong_dang_chon = txtduongchon.getText().toString().trim();
+        }
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.action_ghinuoc:
 
 
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.tab_ghinuoc))
+                        .setMessage(getString(R.string.list_chuyendulieu_hoighinuoc1) +" "+ Bien.ma_duong_dang_chon + " "+ getString(R.string.list_chuyendulieu_hoighinuoc2))
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(ListActivity.this, MainActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
 
-                break;
 
 
-        }
+          break;
+   }
 
 
     }

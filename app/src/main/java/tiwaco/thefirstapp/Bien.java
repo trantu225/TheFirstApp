@@ -22,7 +22,12 @@ public class Bien {
     public static List<KhachHangDTO> listKHALl =null ;
     public static List<NhanVienDTO> listNV =null ;
     public static CustomListAdapter adapterKH =null;
+    public static String ma_duong_dang_chon ="";
     public static int selected_item = 0;
     public static int pre_item = 0;
+    public static final String GOITIN_MADUONG = "goitinmaduong";
+    public static final String MADUONG = "maduong";
+    public static String  STT_HienTai= "1";
+
 
 }

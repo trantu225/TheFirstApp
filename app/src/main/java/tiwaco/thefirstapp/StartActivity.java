@@ -20,7 +20,7 @@ public class StartActivity extends AppCompatActivity  {
         btnLoadDl = (ImageButton) findViewById(R.id.btn_loaddata);
         btnBackup = (ImageButton) findViewById(R.id.btn_backup);
 
-
+        getSupportActionBar().hide();
 
         btnGhinuoc.setOnClickListener(myclick);
         btnDanhSachKH.setOnClickListener(myclick);

@@ -21,6 +21,12 @@
     <!-- Load activity -->
     <string name="error_load">Quá trình load dữ liệu thất bại. Chọn OK để load lại. Chọn Thoát để kết thúc</string>
     <string name="error_load_file">Quá trình load dữ liệu thất bại do không tồn tại file dữ liệu.</string>
+
+    <!-- Listactivity -->
+    <string name="list_chuyendulieu_hoighinuoc1">Bạn có muốn ghi nước đường: </string>
+    <string name="list_chuyendulieu_hoighinuoc2"> không? </string>
+
+
     <!-- button -->
     <string name="btn_backup">Back up</string>
     <string name="btn_ghinuoc">Ghi nước</string>
@@ -40,7 +46,7 @@
     <string name="KH_chisomoicon">Chỉ số/m3 mới ĐH con: </string>
     <string name="KH_m3moi">m3 mới: </string>
     <string name="KH_ghichu">Ghi chú: </string>
-    <string name="KH_STT">STT </string>
+    <string name="KH_STT">STT: </string>
     <string name="KH_tinhtrangdongho">Tình trạng TLK: </string>
     <string name="KH_hieuTLK">Hiệu: </string>
     <string name="KH_coTLK">Cỡ: </string>
@@ -56,6 +62,8 @@
     <string name="DSKH">Danh sách KH</string>
     <string name="nhap_du_lieu">Nhập dữ liệu</string>
     <string name="load_status">Đang xử lý...</string>
+    <string name="btn_next">TỚI</string>
+    <string name="btn_pre">LÙI</string>
 
 
 </resources>

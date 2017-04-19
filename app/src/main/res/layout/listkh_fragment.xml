@@ -45,7 +45,6 @@
         android:layout_height="wrap_content"
         android:background="#00B9CD"
         android:padding="@dimen/dp3"
-        android:text="@string/tab_dsKH"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp14"
         android:visibility="gone"

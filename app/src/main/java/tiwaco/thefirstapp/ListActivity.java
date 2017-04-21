@@ -3,6 +3,7 @@ package tiwaco.thefirstapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,8 +47,9 @@ public class ListActivity extends AppCompatActivity {
     Context con;
     ActionBar bar;
     List<KhachHangDTO> liskhdao;
-    TextView txtduongchon;
+    TextView txtduongchon,txtTiltle;
     int vitri = 0;
+    String title ="";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.listkh_fragment);
@@ -58,11 +62,12 @@ public class ListActivity extends AppCompatActivity {
         bar.setLogo(R.mipmap.ic_logo_tiwaco);
         ListView listviewKH = (ListView) findViewById(R.id.lv_khachhang);
         txtduongchon = (TextView) findViewById(R.id.txt_maduongchon);
+        txtTiltle =(TextView) findViewById(R.id.txt_title_dskh1);
         duongDAO = new DuongDAO(con);
         listduong = duongDAO.getAllDuongChuaGhi();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
-        adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon,recyclerView);
+        adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon,recyclerView,txtTiltle);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(con);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -74,6 +79,9 @@ public class ListActivity extends AppCompatActivity {
         Bien.ma_duong_dang_chon = listduong.get(Bien.selected_item).getMaDuong();
         khachhangDAO = new KhachHangDAO(con);
         liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
+
+        title +=  String.valueOf(liskhdao.size()) +" khách hàng";
+        txtTiltle.setText(title);
         Bien.adapterKH = new CustomListAdapter(con, liskhdao);
         listviewKH.setAdapter(Bien.adapterKH);
 

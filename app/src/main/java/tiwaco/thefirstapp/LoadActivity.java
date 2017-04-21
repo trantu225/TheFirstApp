@@ -1,9 +1,11 @@
 package tiwaco.thefirstapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -30,6 +32,7 @@ import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 
 public class LoadActivity extends AppCompatActivity {
     private String filename = "";
@@ -38,11 +41,13 @@ public class LoadActivity extends AppCompatActivity {
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
     String duongdanfile ="";
     DuongDAO duongDAO ;
+    Context con;
     KhachHangDAO khachhangDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loaddata);
+        con = LoadActivity.this;
         duongDAO = new DuongDAO(LoadActivity.this);
         khachhangDAO = new KhachHangDAO(LoadActivity.this);
         File extStore = Environment.getExternalStorageDirectory();
@@ -432,12 +437,59 @@ public class LoadActivity extends AppCompatActivity {
 
         }
     }
+    private Boolean KiemTraTonTaiDuLieu(){
+        if(duongDAO.countDuong() <=0 && khachhangDAO.countKhachHangAll()<=0)
+        {
+            return false;
+        }
+        return true;
+    }
     private void loadData(){
 
         File file = new File(duongdanfile);
         if(file.exists()) {
-            MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
-            task.execute(duongdanfile);
+            if(KiemTraTonTaiDuLieu()) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.delete_file_load_file);
+                // thiết lập nội dung cho dialog
+
+
+                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Luu lai file chua sqlite cũ
+
+
+                        //xóa sqlite
+                        MyDatabaseHelper mydata = new MyDatabaseHelper(con);
+                        SQLiteDatabase db = mydata.openDB();
+                        mydata.resetDatabase(db);
+
+
+                        //Thêm data vào sqlite
+                        MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
+                        task.execute(duongdanfile);
+
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.show();
+            }
+            else{
+                MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
+                task.execute(duongdanfile);
+            }
         }
         else{
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
@@ -532,8 +584,6 @@ public class LoadActivity extends AppCompatActivity {
     }
 
 
-    private void backupdulieu(){
 
-    }
 
 }

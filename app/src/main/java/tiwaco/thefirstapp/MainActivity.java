@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     EditText DienThoai, ChiSoMoi, TinhTrangTLK;
     ImageButton DoiSDT,Toi,Lui,Ghi;
     LinearLayout lay_toi , lay_lui , lay_ghi;
-
+    String STT_HienTai ="1";
     int SoLuongKH = 0;
     String maduong_nhan="";
     @Override
@@ -103,26 +103,38 @@ public class MainActivity extends AppCompatActivity {
             //Có Bundle rồi thì lấy các thông số dựa vào key NUMBERA và NUMBERB
             maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
-            setDataForView(Bien.STT_HienTai,maduong_nhan);
+            setDataForView(STT_HienTai,maduong_nhan);
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
         }
         //--------------------------------------------------------------------------
         lay_toi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int next = Integer.parseInt(Bien.STT_HienTai) + 1;
-                Bien.STT_HienTai = String.valueOf(next);
-                Log.e("BienSTTHIenTai", Bien.STT_HienTai);
+                int next = Integer.parseInt(STT_HienTai) + 1;
+                STT_HienTai = String.valueOf(next);
+                Log.e("BienSTTHIenTai", STT_HienTai);
                 Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                if (next > SoLuongKH) {
+                if (next+1 > SoLuongKH) {
                     lay_toi.setEnabled(false);
                 } else {
                     lay_toi.setEnabled(true);
                 }
-                if (next > 0 && next < SoLuongKH) {
-                    setDataForView(Bien.STT_HienTai, maduong_nhan);
+                if (next > 0 && next <= SoLuongKH) {
+                    setDataForView(STT_HienTai, maduong_nhan);
+                    next = Integer.parseInt(STT_HienTai) + 1;
+                    int pre = Integer.parseInt(STT_HienTai) - 1;
+                    if (next > SoLuongKH) {
+                        lay_toi.setEnabled(false);
+                    } else {
+                        lay_toi.setEnabled(true);
+                    }
+                    if (pre <= 0) {
+                        lay_lui.setEnabled(false);
+                    } else {
+                        lay_lui.setEnabled(true);
+                    }
                 } else {
-                    Log.e("BienSTTHIenTai", Bien.STT_HienTai);
+                    Log.e("BienSTTHIenTai", STT_HienTai);
                 }
 
             }
@@ -131,19 +143,32 @@ public class MainActivity extends AppCompatActivity {
         lay_lui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pre = Integer.parseInt(Bien.STT_HienTai) - 1;
-                Bien.STT_HienTai = String.valueOf(pre);
+                int pre = Integer.parseInt(STT_HienTai) - 1;
+                STT_HienTai = String.valueOf(pre);
 
-                Log.e("BienSTTHIenTai", Bien.STT_HienTai);
+                Log.e("BienSTTHIenTai", STT_HienTai);
                 Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                if (pre <= 0) {
+                if (pre-1 <= 0) {
                     lay_lui.setEnabled(false);
                 } else {
                     lay_lui.setEnabled(true);
                 }
-                if (pre > 0 && pre < SoLuongKH) {
+                if (pre > 0 && pre <= SoLuongKH) {
                     Log.e("BienSTTHIenTai", "chay vao 3");
-                    setDataForView(Bien.STT_HienTai, maduong_nhan);
+                    setDataForView(STT_HienTai, maduong_nhan);
+                    pre = Integer.parseInt(STT_HienTai) - 1;
+                    int next = Integer.parseInt(STT_HienTai) + 1;
+                    if (next > SoLuongKH) {
+                        lay_toi.setEnabled(false);
+                    } else {
+                        lay_toi.setEnabled(true);
+                    }
+                    if (pre <= 0) {
+                        lay_lui.setEnabled(false);
+                    } else {
+                        lay_lui.setEnabled(true);
+                    }
+
                 } else {
                     Log.e("BienSTTHIenTai", "chay vao 4");
 

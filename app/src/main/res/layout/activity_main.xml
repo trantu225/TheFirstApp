@@ -42,7 +42,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/ThongTinKH"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp14"
                     android:textStyle="bold" />
 
 
@@ -62,7 +62,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_STT"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_sttKH"
@@ -71,7 +71,7 @@
                     android:layout_weight="3"
                     android:padding="@dimen/dp3"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -81,7 +81,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_maTLK"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_maKH"
@@ -90,7 +90,7 @@
                     android:layout_weight="2"
                     android:padding="@dimen/dp3"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -107,7 +107,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_hoten"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_hotenKH"
@@ -116,7 +116,7 @@
                     android:layout_weight="3"
                     android:padding="@dimen/dp3"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -133,7 +133,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_diachi"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_diachiKH"
@@ -142,7 +142,7 @@
                     android:layout_weight="3"
                     android:padding="@dimen/dp3"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
 
@@ -161,7 +161,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_dienthoai"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <EditText
                     android:id="@+id/edit_DienThoaiKH"
@@ -181,7 +181,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/dp3"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
 
             </TableRow>
@@ -202,7 +202,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/ThongTinDH"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp14"
                     android:textStyle="bold" />
 
 
@@ -221,7 +221,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_maTLK"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_maTLK"
@@ -230,7 +230,7 @@
                     android:layout_weight="0.9"
                     android:padding="@dimen/dp3"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
             </TableRow>
 
@@ -247,7 +247,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_hieuTLK"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_hieuTLK"
@@ -256,7 +256,7 @@
                     android:layout_weight="0.37"
                     android:padding="@dimen/dp3"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -265,7 +265,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_coTLK"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_coTLK"
@@ -274,7 +274,7 @@
                     android:layout_weight="0.4"
                     android:padding="@dimen/dp3"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -291,7 +291,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_tinhtrangdongho"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <EditText
                     android:id="@+id/tv_tinhtrangTLK"
@@ -299,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:background="@android:drawable/editbox_background_normal"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -315,7 +315,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/ThongTinGN"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp14"
                     android:textStyle="bold" />
 
 
@@ -331,7 +331,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisocu"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -349,7 +349,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_m3cu1"
@@ -361,7 +361,7 @@
                     android:padding="@dimen/dp10"
                     android:text="23"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_chisocu2"
@@ -373,7 +373,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1106"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_m3cu2"
@@ -385,7 +385,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_chisocu3"
@@ -397,7 +397,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1076"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_m3cu3"
@@ -409,7 +409,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
             </TableRow>
 
@@ -425,7 +425,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisocucon"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -443,7 +443,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_m3cu1con"
@@ -455,7 +455,7 @@
                     android:padding="@dimen/dp10"
                     android:text="23"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_chisocu2con"
@@ -467,7 +467,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1106"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_m3cu2con"
@@ -479,7 +479,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_chisocu3con"
@@ -491,7 +491,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1076"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
                 <TextView
                     android:id="@+id/tv_m3cu3con"
@@ -503,7 +503,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
 
             </TableRow>
             <!-- Row 3 with 2 columns -->
@@ -519,7 +519,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisomoi"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -536,6 +536,7 @@
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:padding="@dimen/dp10"
+                    android:textSize="@dimen/sp14"
                     android:textColor="#000000" />
 
                 <TextView
@@ -545,6 +546,7 @@
                     android:background="#58F5FF"
                     android:gravity="center"
                     android:padding="@dimen/dp10"
+                    android:textSize="@dimen/sp14"
                     android:textColor="#000000" />
             </TableRow>
 
@@ -559,7 +561,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisomoicon"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
@@ -575,6 +577,7 @@
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:padding="@dimen/dp10"
+                    android:textSize="@dimen/sp14"
                     android:textColor="#000000" />
 
                 <TextView
@@ -584,6 +587,7 @@
                     android:background="#58F5FF"
                     android:gravity="center"
                     android:padding="@dimen/dp10"
+                    android:textSize="@dimen/sp14"
                     android:textColor="#000000" />
             </TableRow>
 
@@ -626,15 +630,9 @@
         android:background="#ffffff"
         android:orientation="horizontal"
 
-        android:paddingTop="@dimen/dp10">
+     >
 
-        <LinearLayout
 
-            android:id="@+id/TableLayoutBachground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/layout_lui"
@@ -644,6 +642,7 @@
                 android:background="@drawable/backdround_vungngoai_ghi"
                 android:gravity="center"
                 android:clickable="true"
+                android:layout_marginTop="@dimen/dp10"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -655,19 +654,28 @@
                 </ImageButton>
             </LinearLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
-                android:background="@color/green_6a"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/layout_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="@color/green_6a"
+                    android:orientation="horizontal">
 
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_ghi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_round_selected"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:clickable="true"
                     android:orientation="horizontal">
@@ -676,7 +684,6 @@
                         android:id="@+id/btn_ghinuoc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:background="@drawable/selector_ghi_main">
 
 
@@ -684,7 +691,8 @@
 
 
                 </LinearLayout>
-            </LinearLayout>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/layout_toi"
@@ -694,6 +702,7 @@
                 android:background="@drawable/backdround_vungngoai_ghi"
                 android:gravity="center"
                 android:clickable="true"
+                android:layout_marginTop="@dimen/dp10"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -703,6 +712,6 @@
                     android:background="@drawable/selector_next"></ImageButton>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
 
 </LinearLayout>

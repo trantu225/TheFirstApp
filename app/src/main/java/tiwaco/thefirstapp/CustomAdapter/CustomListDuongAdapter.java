@@ -3,6 +3,8 @@ package tiwaco.thefirstapp.CustomAdapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +35,15 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
     ListView listviewKH;
     DuongDTO duongchon;
     TextView tvmaduong;
+    TextView tvTitleKH;
     RecyclerView reduong;
-    public CustomListDuongAdapter(Context context,List<DuongDTO> listData,ListView listKH,TextView txtMaDuong,RecyclerView re) {
+    String title ="";
+    public CustomListDuongAdapter(Context context,List<DuongDTO> listData,ListView listKH,TextView txtMaDuong,RecyclerView re,TextView titleKH) {
         this.listDuong = listData;
         this.con = context;
         this.listviewKH = listKH;
         this.tvmaduong = txtMaDuong;
+        this.tvTitleKH = titleKH;
         this.reduong = re;
 
     }
@@ -75,6 +80,8 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                 DuongDTO duong = listDuong.get(position);
                 Bien.DuongDuocChon = duong;
                 tvmaduong.setText(duong.getMaDuong());
+                title =   "";
+
                 if(Bien.DuongDuocChon !=null) {
                     //        Toast.makeText(v.getContext(), Bien.DuongDuocChon.getMaDuong(), Toast.LENGTH_SHORT).show();
                     //       Log.e("DuongDuocChon",Bien.DuongDuocChon.getMaDuong());
@@ -85,6 +92,10 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                 liskhdao = khachhangDAO.getAllKHTheoDuong(duong.getMaDuong());
 
                 Bien.adapterKH = new CustomListAdapter(con,liskhdao);
+
+              //  tt.setText(spannablecontent);
+                title += String.valueOf(liskhdao.size()) +" khách hàng";
+                tvTitleKH.setText(title);
                 //adapterKH.notifyDataSetChanged();
                 listviewKH.setAdapter(Bien.adapterKH);
                 //      Toast.makeText(v.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
@@ -94,23 +105,18 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
             }
 
                 });
-                       /*
-                        if (  reduong.findViewHolderForAdapterPosition(Bien.selected_item).itemView != null) {
-                            reduong.findViewHolderForAdapterPosition(Bien.selected_item).itemView.setSelected(true);
-                        }
 
-                        if (reduong.findViewHolderForAdapterPosition(Bien.pre_item).itemView != null) {
-                            reduong.findViewHolderForAdapterPosition(Bien.pre_item).itemView.setSelected(false);
-                        }
-
-*/
 
                     if(position == Bien.selected_item){
                         holder.itemView.setSelected(true);
+                        holder.itemView.setPressed(true);
+
                     }
                     else
                     {
                         holder.itemView.setSelected(false);
+                        holder.itemView.setPressed(false);
+
                     }
 
 

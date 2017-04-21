@@ -27,7 +27,5 @@ public class Bien {
     public static int pre_item = 0;
     public static final String GOITIN_MADUONG = "goitinmaduong";
     public static final String MADUONG = "maduong";
-    public static String  STT_HienTai= "1";
-
 
 }

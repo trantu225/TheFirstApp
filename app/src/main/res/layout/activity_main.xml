@@ -113,10 +113,17 @@
                     android:id="@+id/tv_hotenKH"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
                     android:padding="@dimen/dp3"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textSize="@dimen/sp14" />
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit ="marquee_forever"
+                    android:textSize="@dimen/sp14"
+                    android:maxLines="1" />
             </TableRow>
 
             <TableRow
@@ -349,7 +356,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12" />
 
                 <TextView
                     android:id="@+id/tv_m3cu1"
@@ -361,7 +368,7 @@
                     android:padding="@dimen/dp10"
                     android:text="23"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12" />
 
                 <TextView
                     android:id="@+id/tv_chisocu2"
@@ -373,7 +380,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1106"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12" />
 
                 <TextView
                     android:id="@+id/tv_m3cu2"
@@ -385,7 +392,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12"  />
 
                 <TextView
                     android:id="@+id/tv_chisocu3"
@@ -397,7 +404,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1076"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12"  />
 
                 <TextView
                     android:id="@+id/tv_m3cu3"
@@ -409,7 +416,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12"  />
 
             </TableRow>
 
@@ -443,7 +450,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12" />
 
                 <TextView
                     android:id="@+id/tv_m3cu1con"
@@ -455,7 +462,7 @@
                     android:padding="@dimen/dp10"
                     android:text="23"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12" />
 
                 <TextView
                     android:id="@+id/tv_chisocu2con"
@@ -467,7 +474,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1106"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12"  />
 
                 <TextView
                     android:id="@+id/tv_m3cu2con"
@@ -479,7 +486,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12"  />
 
                 <TextView
                     android:id="@+id/tv_chisocu3con"
@@ -491,7 +498,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1076"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12"  />
 
                 <TextView
                     android:id="@+id/tv_m3cu3con"
@@ -503,7 +510,7 @@
                     android:padding="@dimen/dp10"
                     android:text="1129"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp12"  />
 
             </TableRow>
             <!-- Row 3 with 2 columns -->
@@ -519,7 +526,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisomoi"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp14"  />
             </TableRow>
 
             <TableRow
@@ -561,7 +568,7 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisomoicon"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp14"  />
             </TableRow>
 
             <TableRow

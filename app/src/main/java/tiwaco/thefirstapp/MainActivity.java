@@ -2,7 +2,9 @@ package tiwaco.thefirstapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -13,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -98,10 +101,47 @@ public class MainActivity extends AppCompatActivity {
         //có intent rồi thì lấy Bundle dựa vào key Calculation
         Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONG);
         if (packageFromCaller == null) {
-            Toast.makeText(this, "Chưa chọn mã đường", Toast.LENGTH_SHORT).show();
+            //get sharepreferences
+            String SPduongdangghi  = getDataDuongDangGhiTrongSP();
+            if(SPduongdangghi.equalsIgnoreCase("")){
+               //dialog chọn đường
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.main_chuacothongtinduong);
+                // thiết lập nội dung cho dialog
+                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent myIntent=new Intent(MainActivity.this, ListActivity.class);
+                        startActivity(myIntent);
+                        finish();
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.show();
+            }
+            else{
+                maduong_nhan = SPduongdangghi;
+                SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
+                setDataForView(STT_HienTai,maduong_nhan);
+                Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
+            }
+
+
         } else {
             //Có Bundle rồi thì lấy các thông số dựa vào key NUMBERA và NUMBERB
             maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
+            luuDataDuongDangGhiTrongSP(maduong_nhan);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
             setDataForView(STT_HienTai,maduong_nhan);
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
@@ -183,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         STT.setText(khachhang.getSTT());
         MaKH.setText(khachhang.getMaKhachHang());
         HoTen.setText(khachhang.getTenKhachHang());
+
         DiaChi.setText(khachhang.getDiaChi());
         MaTLK.setText(khachhang.getMasotlk());
         HieuTLK.setText(khachhang.getHieutlk());
@@ -239,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
         STT = (TextView) findViewById(R.id.tv_sttKH);
         MaKH= (TextView) findViewById(R.id.tv_maKH);
         HoTen= (TextView) findViewById(R.id.tv_hotenKH);
+        HoTen.setSelected(true);
         DiaChi= (TextView) findViewById(R.id.tv_diachiKH);
         MaTLK= (TextView) findViewById(R.id.tv_maTLK);
         HieuTLK= (TextView) findViewById(R.id.tv_hieuTLK);
@@ -433,6 +475,22 @@ public class MainActivity extends AppCompatActivity {
         }
         int soluongKH = khachhangDAO.countKhachHangTheoDuong("01");
         Log.e("soluongKh", String.valueOf(soluongKH));
+    }
+
+    private String getDataDuongDangGhiTrongSP(){
+        SharedPreferences pre=getSharedPreferences
+                (Bien.SPDATA,MODE_PRIVATE);
+
+        String maduong=pre.getString(Bien.SPMADUONG, "");
+        return maduong;
+    }
+    private void luuDataDuongDangGhiTrongSP(String maduong){
+        SharedPreferences pre=getSharedPreferences
+                (Bien.SPDATA, MODE_PRIVATE);
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putString(Bien.SPMADUONG, maduong);
+        editor.commit();
     }
 }
 

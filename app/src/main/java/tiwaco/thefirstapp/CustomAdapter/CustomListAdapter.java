@@ -52,6 +52,7 @@ public class CustomListAdapter extends BaseAdapter {
 
             holder = new ViewHolder();
             holder.Ten = (TextView)convertView.findViewById(R.id.tv_hoten);
+
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
         //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
@@ -65,6 +66,7 @@ public class CustomListAdapter extends BaseAdapter {
 
         KhachHangDTO cus = customerList.get(position);
         holder.Ten.setText(cus.getTenKhachHang());
+        holder.Ten.setSelected(true);
         holder.STT.setText(cus.getSTT());
         holder.DiaChi.setText(cus.getDiaChi());
         if(cus.getChiSo().equalsIgnoreCase("")){

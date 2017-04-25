@@ -201,123 +201,123 @@ public class LoadActivity extends AppCompatActivity {
                                 String loaikh = "";
                                 String masotlk  ="";
                                 if(objKH.has("ChiSo")){
-                                    ChiSo = objKH.getString("ChiSo");
+                                    ChiSo = objKH.getString("ChiSo").toString().trim();
                                 }
 
                                 if(objKH.has("ChiSo1")){
-                                    ChiSo1 = objKH.getString("ChiSo1");
+                                    ChiSo1 = objKH.getString("ChiSo1").toString().trim();
                                 }
                                 if(objKH.has("ChiSo1con")){
-                                    ChiSo1con = objKH.getString("ChiSo1con");
+                                    ChiSo1con = objKH.getString("ChiSo1con").toString().trim();
                                 }
 
                                 if(objKH.has("ChiSo2")){
-                                    ChiSo2 = objKH.getString("ChiSo2");
+                                    ChiSo2 = objKH.getString("ChiSo2").toString().trim();
                                 }
                                 if(objKH.has("ChiSo2con")){
-                                    ChiSo2con = objKH.getString("ChiSo2con");
+                                    ChiSo2con = objKH.getString("ChiSo2con").toString().trim();
                                 }
 
                                 if(objKH.has("ChiSo3")){
-                                    ChiSo3 = objKH.getString("ChiSo3");
+                                    ChiSo3 = objKH.getString("ChiSo3").toString().trim();
                                 }
                                 if(objKH.has("ChiSo3con")){
-                                    ChiSo3con = objKH.getString("ChiSo3con");
+                                    ChiSo3con = objKH.getString("ChiSo3con").toString().trim();
                                 }
 
                                 if(objKH.has("ChiSocon")){
-                                    ChiSocon = objKH.getString("ChiSocon");
+                                    ChiSocon = objKH.getString("ChiSocon").toString().trim();
                                 }
                                 if(objKH.has("DanhBo")){
-                                    DanhBo = objKH.getString("DanhBo");
+                                    DanhBo = objKH.getString("DanhBo").toString().trim();
                                 }
 
                                 if(objKH.has("DiaChi")){
-                                    DiaChi = objKH.getString("DiaChi");
+                                    DiaChi = objKH.getString("DiaChi").toString().trim();
                                 }
                                 if(objKH.has("DienThoai")){
-                                    DienThoai = objKH.getString("DienThoai");
+                                    DienThoai = objKH.getString("DienThoai").toString().trim();
                                 }
 
                                 if(objKH.has("GhiChu")){
-                                    GhiChu = objKH.getString("GhiChu");
+                                    GhiChu = objKH.getString("GhiChu").toString().trim();
                                 }
                                 if(objKH.has("Lat")){
-                                    Lat = objKH.getString("Lat");
+                                    Lat = objKH.getString("Lat").toString().trim();
                                 }
 
                                 if(objKH.has("Lon")){
-                                    Lon = objKH.getString("Lon");
+                                    Lon = objKH.getString("Lon").toString().trim();
                                 }
                                 if(objKH.has("MaKhachHang")){
-                                    MaKhachHang = objKH.getString("MaKhachHang");
+                                    MaKhachHang = objKH.getString("MaKhachHang").toString().trim();
                                 }
 
                                 if(objKH.has("NhanVien")){
-                                    NhanVien = objKH.getString("NhanVien");
+                                    NhanVien = objKH.getString("NhanVien").toString().trim();
                                 }
                                 if(objKH.has("SLTieuThu")){
-                                    SLTieuThu = objKH.getString("SLTieuThu");
+                                    SLTieuThu = objKH.getString("SLTieuThu").toString().trim();
                                 }
 
                                 if(objKH.has("SLTieuThu1")){
-                                    SLTieuThu1 = objKH.getString("SLTieuThu1");
+                                    SLTieuThu1 = objKH.getString("SLTieuThu1").toString().trim();
                                 }
                                 if(objKH.has("SLTieuThu1con")){
-                                    SLTieuThu1con = objKH.getString("SLTieuThu1con");
+                                    SLTieuThu1con = objKH.getString("SLTieuThu1con").toString().trim();
                                 }
 
                                 if(objKH.has("SLTieuThu2")){
-                                    SLTieuThu2 = objKH.getString("SLTieuThu2");
+                                    SLTieuThu2 = objKH.getString("SLTieuThu2").toString().trim();
                                 }
                                 if(objKH.has("SLTieuThu2con")){
-                                    SLTieuThu2con = objKH.getString("SLTieuThu2con");
+                                    SLTieuThu2con = objKH.getString("SLTieuThu2con").toString().trim();
                                 }
 
                                 if(objKH.has("SLTieuThu3")){
-                                    SLTieuThu3 = objKH.getString("SLTieuThu3");
+                                    SLTieuThu3 = objKH.getString("SLTieuThu3").toString().trim();
                                 }
                                 if(objKH.has("SLTieuThu3con")){
-                                    SLTieuThu3con = objKH.getString("SLTieuThu3con");
+                                    SLTieuThu3con = objKH.getString("SLTieuThu3con").toString().trim();
                                 }
 
                                 if(objKH.has("SLTieuThucon")){
-                                    SLTieuThucon = objKH.getString("SLTieuThucon");
+                                    SLTieuThucon = objKH.getString("SLTieuThucon").toString().trim();
                                 }
                                 if(objKH.has("STT")){
-                                    STT = objKH.getString("STT");
+                                    STT = objKH.getString("STT").toString().trim();
                                 }
 
                                 if(objKH.has("TenKhachHang")){
-                                    TenKhachHang = objKH.getString("TenKhachHang");
+                                    TenKhachHang = objKH.getString("TenKhachHang").toString().trim();
                                 }
                                 if(objKH.has("ThoiGian")){
-                                    ThoiGian = objKH.getString("ThoiGian");
+                                    ThoiGian = objKH.getString("ThoiGian").toString().trim();
                                 }
 
                                 if(objKH.has("TrangThaiTLK")){
-                                    TrangThaiTLK = objKH.getString("TrangThaiTLK");
+                                    TrangThaiTLK = objKH.getString("TrangThaiTLK").toString().trim();
                                 }
                                 if(objKH.has("chitietloai")){
-                                    chitietloai = objKH.getString("chitietloai");
+                                    chitietloai = objKH.getString("chitietloai").toString().trim();
                                 }
 
                                 if(objKH.has("cotlk")){
-                                    cotlk = objKH.getString("cotlk");
+                                    cotlk = objKH.getString("cotlk").toString().trim();
                                 }
                                 if(objKH.has("dinhmuc")){
-                                    dinhmuc = objKH.getString("dinhmuc");
+                                    dinhmuc = objKH.getString("dinhmuc").toString().trim();
                                 }
 
                                 if(objKH.has("hieutlk")){
-                                    hieutlk = objKH.getString("hieutlk");
+                                    hieutlk = objKH.getString("hieutlk").toString().trim();
                                 }
                                 if(objKH.has("loaikh")){
-                                    loaikh = objKH.getString("loaikh");
+                                    loaikh = objKH.getString("loaikh").toString().trim();
                                 }
 
                                 if(objKH.has("masotlk")){
-                                    masotlk = objKH.getString("masotlk");
+                                    masotlk = objKH.getString("masotlk").toString().trim();
                                 }
 
                                 KhachHangDTO kh = new KhachHangDTO();

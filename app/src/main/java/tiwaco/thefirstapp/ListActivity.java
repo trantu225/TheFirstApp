@@ -89,6 +89,7 @@ public class ListActivity extends AppCompatActivity {
 
 
 
+
     }
 
     @Override
@@ -116,6 +117,7 @@ public class ListActivity extends AppCompatActivity {
                                 Bundle bundle = new Bundle();
                                 bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
                                 intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                bundle.putString(Bien.STT,"1");
                                 startActivity(intent);
                             }
                         })

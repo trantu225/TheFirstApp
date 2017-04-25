@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,11 +76,12 @@ public class MainActivity extends AppCompatActivity {
     KhachHangDTO khachhang;
     TextView STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi;
     EditText DienThoai, ChiSoMoi, TinhTrangTLK;
+    TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
     LinearLayout lay_toi , lay_lui , lay_ghi;
     String STT_HienTai ="1";
     int SoLuongKH = 0;
-    String maduong_nhan="";
+    String maduong_nhan="",stt_nhan ="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
         Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONG);
         if (packageFromCaller == null) {
             //get sharepreferences
-            String SPduongdangghi  = getDataDuongDangGhiTrongSP();
+            String SPduongdangghi  = getDataDuongDangGhiTrongSP(); //lấy đường đang ghi
+            String STT ="1";  //tìm min(stt) của khách hàng chưa nghi tại đường đang ghi
             if(SPduongdangghi.equalsIgnoreCase("")){
                //dialog chọn đường
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -132,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 maduong_nhan = SPduongdangghi;
+                STT_HienTai = STT;
                 SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
                 setDataForView(STT_HienTai,maduong_nhan);
                 Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
@@ -141,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //Có Bundle rồi thì lấy các thông số dựa vào key NUMBERA và NUMBERB
             maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
+            stt_nhan =  packageFromCaller.getString(Bien.STT);
+            STT_HienTai =stt_nhan;
             luuDataDuongDangGhiTrongSP(maduong_nhan);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
             setDataForView(STT_HienTai,maduong_nhan);
@@ -179,7 +185,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        Toi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lay_toi.performClick();
+            }
+        });
         lay_lui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,6 +226,44 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        Lui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lay_lui.performClick();
+            }
+        });
+        DoiSDT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String makh = MaKH.getText().toString().trim();
+                String dt = DienThoai.getText().toString().trim();
+
+                if(khachhangDAO.updateDienThoai(makh,dt)){
+                    Toast.makeText(con, R.string.main_capnhatsdt_thanhcong,Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //dialog chọn đường
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    // khởi tạo dialog
+                    alertDialogBuilder.setMessage(R.string.main_capnhatsdt_thatbai);
+                    // thiết lập nội dung cho dialog
+
+                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.show();
+                }
+            }
+        });
+
+
     }
 
     private void setDataForView(String tt, String maduong) {
@@ -234,12 +283,27 @@ public class MainActivity extends AppCompatActivity {
         m31.setText(khachhang.getSLTieuThu1());
         m32.setText(khachhang.getSLTieuThu2());
         m33.setText(khachhang.getSLTieuThu3());
-        ChiSoCon1.setText(khachhang.getChiSo1con());
-        ChiSoCon2.setText(khachhang.getChiSo2con());
-        ChiSoCon3.setText(khachhang.getChiSo3con());
-        m3con1.setText(khachhang.getSLTieuThu1con());
-        m3con2.setText(khachhang.getSLTieuThu2con());
-        m3con3.setText(khachhang.getSLTieuThu3con());
+        if(khachhang.getChiSo1con().equals("0") && khachhang.getChiSo2con().equals("0") && khachhang.getChiSo3con().equals("0")
+            &&  khachhang.getSLTieuThu1con().equals("0")  &&  khachhang.getSLTieuThu2con().equals("0")  &&  khachhang.getSLTieuThu3con().equals("0")){
+
+            chisocu_con_lb.setVisibility(View.GONE);
+            chisocu_con.setVisibility(View.GONE);
+            chisomoi_con_lb.setVisibility(View.GONE);
+            chisomoi_con.setVisibility(View.GONE);
+        }
+        else {
+            chisocu_con_lb.setVisibility(View.VISIBLE);
+            chisocu_con.setVisibility(View.VISIBLE);
+            chisomoi_con_lb.setVisibility(View.VISIBLE);
+            chisomoi_con.setVisibility(View.VISIBLE);
+
+            ChiSoCon1.setText(khachhang.getChiSo1con());
+            ChiSoCon2.setText(khachhang.getChiSo2con());
+            ChiSoCon3.setText(khachhang.getChiSo3con());
+            m3con1.setText(khachhang.getSLTieuThu1con());
+            m3con2.setText(khachhang.getSLTieuThu2con());
+            m3con3.setText(khachhang.getSLTieuThu3con());
+        }
         DienThoai.setText(khachhang.getDienThoai());
 
 
@@ -307,14 +371,27 @@ public class MainActivity extends AppCompatActivity {
         DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
         Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
         Toi = (ImageButton) findViewById(R.id.btn_toi);
+        Lui = (ImageButton) findViewById(R.id.btn_lui);
 
 
         lay_toi =(LinearLayout)findViewById(R.id.layout_toi);
         lay_lui =(LinearLayout)findViewById(R.id.layout_lui);
         lay_ghi =(LinearLayout)findViewById(R.id.layout_ghi);
 
+        chisocu_con_lb =(TableRow) findViewById(R.id.tableRow_chisocucon_lb);
+        chisocu_con =(TableRow) findViewById(R.id.tableRow_chisocucon);
+
+        chisomoi_con_lb =(TableRow) findViewById(R.id.tableRow_chisomoicon_lb);
+        chisomoi_con =(TableRow) findViewById(R.id.tableRow_chisomoicon);
+
     }
 
+    private boolean KiemTraDieuKienGhiNuoc(){
+
+        return true;
+    }
+    /*
+    //-----------------------------------------------------------------------------
     private void askPermissionAndWriteFile(String path, String data) {
         boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -375,19 +452,12 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_ID_READ_PERMISSION: {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        // readFile(duongdanfile);
-                        //luu database
-                        // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-                        //  task.execute(duongdanfile);
-                        //                       Log.e("canread", "chay vao request read");
-//                        readFileandSaveDatabase();
 
-                        loadDataDuongfromDB();
                     }
                 }
                 case REQUEST_ID_WRITE_PERMISSION: {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        // writeFile(duongdanfile,dataGhi);
+
                     }
                 }
             }
@@ -460,22 +530,8 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(path);
         return file.exists();
     }
-
-    private void loadDataDuongfromDB() {
-        Bien.listDuongChuaGhi = duongDAO.getAllDuongChuaGhi();
-        String maduongchuaghi = "";
-        if (Bien.listDuongChuaGhi.size() > 0) {
-            for (DuongDTO x : Bien.listDuongChuaGhi) {
-                maduongchuaghi += x.getMaDuong() + " ";
-
-            }
-            danhsachduong.setText(maduongchuaghi);
-        } else {
-            danhsachduong.setText(R.string.THONGBAO_DUONGCHUAGHI_ERROR);
-        }
-        int soluongKH = khachhangDAO.countKhachHangTheoDuong("01");
-        Log.e("soluongKh", String.valueOf(soluongKH));
-    }
+ //-------------------------------------------------------------------------------------
+*/
 
     private String getDataDuongDangGhiTrongSP(){
         SharedPreferences pre=getSharedPreferences

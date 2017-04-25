@@ -150,6 +150,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public SQLiteDatabase openDB(){
+
         return this.getWritableDatabase();
     }
 

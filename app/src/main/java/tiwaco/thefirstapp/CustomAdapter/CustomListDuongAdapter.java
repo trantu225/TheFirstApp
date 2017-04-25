@@ -78,29 +78,18 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                 }
 
                 DuongDTO duong = listDuong.get(position);
-                Bien.DuongDuocChon = duong;
+                Bien.ma_duong_dang_chon = duong.getMaDuong();
+                Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon);
                 tvmaduong.setText(duong.getMaDuong());
                 title =   "";
-
-                if(Bien.DuongDuocChon !=null) {
-                    //        Toast.makeText(v.getContext(), Bien.DuongDuocChon.getMaDuong(), Toast.LENGTH_SHORT).show();
-                    //       Log.e("DuongDuocChon",Bien.DuongDuocChon.getMaDuong());
-                }
-                        /*ListView listviewKH = (ListView) itemView.findViewById(R.id.lv_khachhang);*/
                 List<KhachHangDTO> liskhdao = new ArrayList<KhachHangDTO>();
                 KhachHangDAO khachhangDAO = new KhachHangDAO(con);
                 liskhdao = khachhangDAO.getAllKHTheoDuong(duong.getMaDuong());
 
                 Bien.adapterKH = new CustomListAdapter(con,liskhdao);
-
-              //  tt.setText(spannablecontent);
                 title += String.valueOf(liskhdao.size()) +" khách hàng";
                 tvTitleKH.setText(title);
-                //adapterKH.notifyDataSetChanged();
                 listviewKH.setAdapter(Bien.adapterKH);
-                //      Toast.makeText(v.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-
-
 
             }
 

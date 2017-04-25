@@ -25,14 +25,17 @@
 
     <!-- Listactivity -->
     <string name="list_chuyendulieu_hoighinuoc1">Bạn có muốn ghi nước đường: </string>
+    <string name="list_chuyendulieu_hoighinuoc_khachhang">Bạn có muốn ghi nước khách hàng: </string>
     <string name="list_chuyendulieu_hoighinuoc2"> không? </string>
     <!-- Mainactivity -->
     <string name="main_chuacothongtinduong"> Chưa chọn đường để ghi nước. Bạn có muốn chọn đường để ghi nước không? </string>
-
+    <string name="main_capnhatsdt_thanhcong">Cập nhật SĐT thành công</string>
+    <string name="main_capnhatsdt_thatbai">Cập nhật SĐT thất bại</string>
     <!-- button -->
-    <string name="btn_backup">Back up</string>
+    <string name="btn_backup">Lưu dữ liệu</string>
     <string name="btn_ghinuoc">Ghi nước</string>
     <string name="btn_doisodt">Đổi</string>
+    <string name="btn_timkiem">Tìm kiếm</string>
     <string name="tab_ghinuoc">Ghi nước</string>
     <string name="tab_dsKH">Danh sách KH</string>
     <string name="tab_dsduong">Danh sách đường</string>
@@ -67,6 +70,7 @@
     <string name="btn_next">TỚI</string>
     <string name="btn_pre">LÙI</string>
     <string name="string_duong">đường</string>
+
 
 
 </resources>

@@ -1,6 +1,11 @@
 package tiwaco.thefirstapp.CustomAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +17,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.ListActivity;
+import tiwaco.thefirstapp.MainActivity;
 import tiwaco.thefirstapp.R;
 
 /**
@@ -46,7 +54,7 @@ public class CustomListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder ;
+        final ViewHolder holder ;
      if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.listkh_item,null);
 
@@ -64,7 +72,7 @@ public class CustomListAdapter extends BaseAdapter {
             holder  = (ViewHolder)convertView.getTag();
         }
 
-        KhachHangDTO cus = customerList.get(position);
+        final KhachHangDTO cus = customerList.get(position);
         holder.Ten.setText(cus.getTenKhachHang());
         holder.Ten.setSelected(true);
         holder.STT.setText(cus.getSTT());
@@ -76,6 +84,39 @@ public class CustomListAdapter extends BaseAdapter {
         else{
             holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
         }
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cus.getChiSo().equalsIgnoreCase("")){
+                  //chua ghi
+                    Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon);
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getString(R.string.tab_ghinuoc))
+                            .setMessage(context.getString(R.string.list_chuyendulieu_hoighinuoc_khachhang) +" "+ cus.getTenKhachHang() + " "+ context.getString(R.string.list_chuyendulieu_hoighinuoc2))
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                    bundle.putString(Bien.STT,cus.getSTT());
+                                    intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                    context.startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .show();
+
+                }
+                else{
+
+                }
+            }
+        });
         return convertView;
     }
 

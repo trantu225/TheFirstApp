@@ -187,24 +187,20 @@ public class KhachHangDAO {
 
     // Updating SDT
     public boolean updateDienThoai(String  maKH, String sdt) {
-
+        db = myda.openDB();
         ContentValues values = new ContentValues();
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI, sdt);
 
         // updating row
-        long kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[] { maKH });
-        if(kt != 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+      boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
+        db.close();
+        return kt ;
 
     }
 
 
     public boolean updateKhachHang(String  maKH,String Chiso, String Chisocon, String Dienthoai, String ghichu,String vido, String kinhdo,String nhanvien, String SL, String SLCon, String thoigian, String trangthaiTLK ) {
-
+        db = myda.openDB();
         ContentValues values = new ContentValues();
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISO, Chiso);
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISOCON, Chisocon);
@@ -217,17 +213,10 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHUCON, SLCon);
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN, thoigian);
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TRANGTHAITLK, trangthaiTLK);
-
-
-
-        // updating row
-        long kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[] { maKH });
-        if(kt != 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+      // updating row
+        boolean kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[] { maKH }) >0;
+        db.close();
+        return  kt ;
 
     }
     public int countKhachHangTheoDuong(String maduong){

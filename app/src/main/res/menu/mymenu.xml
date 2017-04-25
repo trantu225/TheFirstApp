@@ -12,12 +12,12 @@
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="@string/btn_ghinuoc"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/btn_timkiem"
+        app:showAsAction="collapseActionView"/>
     <item
         android:id="@+id/action_save"
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/btn_backup"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="collapseActionView"/>
 
 </menu>

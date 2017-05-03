@@ -45,6 +45,8 @@ public class StartActivity extends AppCompatActivity  {
 
                     break;
                 case R.id.btn_backup:
+                    myIntent=new Intent(StartActivity.this, Backup_Activity.class);
+                    startActivity(myIntent);
                     break;
                 case R.id.btn_loaddata:
                     myIntent=new Intent(StartActivity.this, LoadActivity.class);

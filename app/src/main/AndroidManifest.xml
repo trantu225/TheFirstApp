@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -30,9 +30,12 @@
         <activity android:name=".LoadActivity" />
         <activity
             android:name=".ListActivity"
-            android:parentActivityName=".StartActivity"/>
-        <activity android:name=".Tab_MainActivity"></activity>
-        <activity android:name=".StartActivity"></activity>
+            android:parentActivityName=".StartActivity" />
+        <activity android:name=".Tab_MainActivity" />
+        <activity android:name=".StartActivity" />
+        <activity
+            android:name=".Backup_Activity"
+            android:parentActivityName=".StartActivity"></activity>
     </application>
 
 </manifest>

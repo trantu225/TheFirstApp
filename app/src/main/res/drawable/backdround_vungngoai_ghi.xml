@@ -5,7 +5,9 @@
 
     <item android:state_pressed="false" android:drawable="@color/green_6a" />
     <item android:state_pressed="true" android:drawable="@color/centre_button_color" />
-
+    <item android:state_enabled="false" android:drawable="@color/space_background_color" />
+    <item android:state_enabled="true" android:drawable="@color/centre_button_color" />
+    <item  android:drawable="@color/green_6a" />
 </selector>
 
 

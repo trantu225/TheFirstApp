@@ -162,8 +162,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("SoLuongKH", String.valueOf(SoLuongKH));
                 if (next+1 > SoLuongKH) {
                     lay_toi.setEnabled(false);
+                    Toi.setEnabled(false);
                 } else {
                     lay_toi.setEnabled(true);
+                    Toi.setEnabled(true);
                 }
                 if (next > 0 && next <= SoLuongKH) {
                     setDataForView(STT_HienTai, maduong_nhan);
@@ -171,13 +173,17 @@ public class MainActivity extends AppCompatActivity {
                     int pre = Integer.parseInt(STT_HienTai) - 1;
                     if (next > SoLuongKH) {
                         lay_toi.setEnabled(false);
+                        Toi.setEnabled(false);
                     } else {
                         lay_toi.setEnabled(true);
+                        Toi.setEnabled(true);
                     }
                     if (pre <= 0) {
                         lay_lui.setEnabled(false);
+                        Lui.setEnabled(false);
                     } else {
                         lay_lui.setEnabled(true);
+                        Lui.setEnabled(true);
                     }
                 } else {
                     Log.e("BienSTTHIenTai", STT_HienTai);
@@ -201,8 +207,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("SoLuongKH", String.valueOf(SoLuongKH));
                 if (pre-1 <= 0) {
                     lay_lui.setEnabled(false);
+                    Lui.setEnabled(false);
                 } else {
                     lay_lui.setEnabled(true);
+                    Lui.setEnabled(true);
                 }
                 if (pre > 0 && pre <= SoLuongKH) {
                     Log.e("BienSTTHIenTai", "chay vao 3");
@@ -211,13 +219,17 @@ public class MainActivity extends AppCompatActivity {
                     int next = Integer.parseInt(STT_HienTai) + 1;
                     if (next > SoLuongKH) {
                         lay_toi.setEnabled(false);
+                        Toi.setEnabled(false);
                     } else {
                         lay_toi.setEnabled(true);
+                        Toi.setEnabled(true);
                     }
                     if (pre <= 0) {
                         lay_lui.setEnabled(false);
+                        Lui.setEnabled(false);
                     } else {
                         lay_lui.setEnabled(true);
+                        Lui.setEnabled(true);
                     }
 
                 } else {

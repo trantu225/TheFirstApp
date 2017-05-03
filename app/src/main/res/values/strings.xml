@@ -58,6 +58,13 @@
     <string name="KH_maTLK">Mã: </string>
     <string name="KH_loaiKH">Loại KH: </string>
     <string name="ThongTinKH">Thông tin KH </string>
+    <string name="ThongTinTenFile">Tên file </string>
+    <string name="ThongTinLuuFie">Thông tin lưu </string>
+    <string name="ThongTinLuuFie_Tatca">Tất cả </string>
+    <string name="ThongTinLuuFie_Daghi">Đã ghi </string>
+    <string name="ThongTinLuuFie_Chuaghi">Chưa ghi </string>
+    <string name="ThongTinLuuFie_Lưu">Lưu</string>
+    <string name="ThongTinLuuFie_Trove">Trở về</string>
     <string name="ThongTinDH">Thông tin TLK </string>
     <string name="ThongTinGN">Thông tin ghi nước </string>
 
@@ -70,7 +77,6 @@
     <string name="btn_next">TỚI</string>
     <string name="btn_pre">LÙI</string>
     <string name="string_duong">đường</string>
-
 
 
 </resources>

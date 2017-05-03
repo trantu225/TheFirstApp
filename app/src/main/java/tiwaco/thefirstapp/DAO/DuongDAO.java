@@ -46,6 +46,31 @@ public class DuongDAO {
         }
     }
     //// Getting All Duong
+    public List<DuongDTO> getAllDuong() {
+        db = myda.openDB();
+        List<DuongDTO> ListDuong = new ArrayList<DuongDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DUONG ;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                DuongDTO duong = new DuongDTO();
+                duong.setMaDuong(cursor.getString(0));
+                duong.setTenDuong(cursor.getString(1));
+                duong.setTrangThai(Integer.parseInt(cursor.getString(2)));
+                // Adding contact to list
+                ListDuong.add(duong);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return ListDuong;
+    }
+
+
+
     public List<DuongDTO> getAllDuongChuaGhi() {
         db = myda.openDB();
         List<DuongDTO> ListDuong = new ArrayList<DuongDTO>();
@@ -65,6 +90,7 @@ public class DuongDAO {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         return ListDuong;
     }
 
@@ -89,26 +115,28 @@ public class DuongDAO {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         // return contact list
         return ListDuong;
     }
 
-
+    //0: là chưa ghi 1: đã ghi
     // Updating trạng thái Duong
-    public boolean updateContact(String  maduong, int trangthai) {
-
+    public boolean updateDuongDaGhi(String  maduong) {
+        db = myda.openDB();
         ContentValues values = new ContentValues();
-        values.put(MyDatabaseHelper.KEY_DUONG_TRANGTHAI, trangthai);
+        values.put(MyDatabaseHelper.KEY_DUONG_TRANGTHAI, 1);//1:: đã ghi
 
         // updating row
         long kt = db.update(MyDatabaseHelper.TABLE_DUONG, values, KEY_DUONG_MADUONG + " = ?", new String[] { maduong });
-
+        db.close();
         if(kt != 0){
             return true;
         }
         else{
             return false;
         }
+
 
     }
     public boolean checkExistDuong(String maduong){
@@ -125,7 +153,7 @@ public class DuongDAO {
           duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2));
         }
         cursor.close();
-
+        db.close();
         if(duong!=null){
             return true;
         }
@@ -141,6 +169,7 @@ public class DuongDAO {
             int soduong = 0;
             soduong= cursor.getCount();
             cursor.close();
+            db.close();
             return soduong;
 
         }

@@ -661,14 +661,15 @@
 
                 </ImageButton>
             </LinearLayout>
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:layout_gravity="center"
 
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.7"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+            >
+
                 <LinearLayout
                     android:id="@+id/layout_view"
                     android:layout_width="match_parent"

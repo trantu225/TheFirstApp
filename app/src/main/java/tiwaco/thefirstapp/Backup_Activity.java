@@ -2,11 +2,16 @@ package tiwaco.thefirstapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.os.EnvironmentCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +31,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
@@ -40,19 +47,29 @@ import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.ListJsonData;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
+import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.File.XuLyFile;
 
-public class Backup_Activity extends AppCompatActivity {
+public class Backup_Activity extends AppCompatActivity  {
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
+    private static final String THUMUCBACKUP = "BACKUPTIWAREAD";
+    private static final String THUMUCTATCA = "TATCA";
+    private static final String THUMUCDAGHI = "DAGHI";
+    private static final String THUMUCCHUAGHI = "CHUAGHI";
+    private static final String THUMUCLAST = "LAST";
+    private static final String TENFILETATCA_LAST = "customers_last.txt";
+    private static final String TENFILEDAGHI_LAST = "customers_daghi_last.txt";
+    private static final String TENFILECHUAGHI_LAST = "customers_chuaghi_last.txt";
     RadioButton radioTatca, radioDaghi, radioChuaghi;
     RadioGroup group;
     EditText tenfile;
     Button luu, trove;
-
     DuongDAO duongdao;
     KhachHangDAO khachangdao;
     Context con;
+    SPData spdata;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +79,8 @@ public class Backup_Activity extends AppCompatActivity {
         con = Backup_Activity.this;
         duongdao = new DuongDAO(con);
         khachangdao = new KhachHangDAO(con);
+
+
         getView();
 
 
@@ -111,22 +130,115 @@ public class Backup_Activity extends AppCompatActivity {
         finish();
 
     }
-
+    //Backup --------------------------------------------------------------------------
     public void backupfile(View view) {
         Log.e("ghi file","vao trong request");
-        String result_tatca_string = taoJSONData_KH_TatCa(tenfile.getText().toString());
+        spdata = new SPData(con);
+        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+        Bien.bienbkall = spdata.getDataBKALLTrongSP();
+        Bien.bienbkcg = spdata.getDataBKCGTrongSP();
+        Bien.bienbkdg = spdata.getDataBKDGTrongSP();
         XuLyFile xl  = new XuLyFile(con);
-        String path = xl.getBoNhoTrong();
-        String path1 = getSdCardPath();
-        Log.e("path",path);
-        Log.e("path1",path1);
-        String filename = path +"/"+ tenfile.getText().toString();
-        String filename1 = path1+"/"+ tenfile.getText().toString();
-        writeFile(filename,result_tatca_string);
-        writeFile(filename1,result_tatca_string);
-       // askPermissionAndWriteFile(filename,result_tatca_string);
+        String path = "";
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            path = xl.getBoNhoTrong();
+        } else {
+            path = getFilesDir().getAbsolutePath();
+        }
 
+        Log.e("path",path);
+        String thumucchuafile = path+"/"+THUMUCBACKUP;
+        File rootfile = new File(thumucchuafile);
+        if(rootfile.exists()==false){
+            spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0);
+            Log.e("asdasd","asdasdasdasd");
+            taoThuMuc(thumucchuafile);
+        }
+
+
+        String filename="";
+        String filenameLAST = "";
+        boolean kt =false, ktlast =false;
+        if (radioTatca.isChecked() == true) {
+            if(Bien.bienbkall  == Bien.bienghi) {
+                taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+            }
+            else {
+                Log.e("back up", "Vao tat ca");
+                String result_tatca_string = taoJSONData_KH_TatCa(tenfile.getText().toString());
+                if (!result_tatca_string.equals("")) {
+                    filename = thumucchuafile + "/" + THUMUCTATCA;
+                    filenameLAST = thumucchuafile + "/" + THUMUCLAST;
+                    taoThuMuc(filename);
+                    taoThuMuc(filenameLAST);
+                    kt = writeFile(filename, tenfile.getText().toString(), result_tatca_string);
+                    ktlast = writeFile(filenameLAST, TENFILETATCA_LAST, result_tatca_string);
+                    spdata.luuDataFlagBKAllTrongSP(Bien.bienghi);
+                    //   MediaScannerConnection.scanFile(con, new String[]{filename,filenameLAST}, null, null);
+                }
+            }
+        }
+        else if (radioDaghi.isChecked() == true)
+        {
+            if(Bien.bienbkdg  == Bien.bienghi) {
+                taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+            }
+            else {
+                Log.e("back up", "Vao da ghi");
+                String result_daghi_string = taoJSONData_KH_DaGhi(tenfile.getText().toString());
+                if (!result_daghi_string.equals("")) {
+                    filename = thumucchuafile + "/" + THUMUCDAGHI;
+                    filenameLAST = thumucchuafile + "/" + THUMUCLAST;
+                    taoThuMuc(filename);
+                    taoThuMuc(filenameLAST);
+                    kt = writeFile(filename, tenfile.getText().toString(), result_daghi_string);
+                    ktlast = writeFile(filenameLAST, TENFILEDAGHI_LAST, result_daghi_string);
+                    spdata.luuDataFlagBKDaghiTrongSP(Bien.bienghi);
+                }
+            }
+        }
+        else if(radioChuaghi.isChecked() == true){
+            if(Bien.bienbkcg  == Bien.bienghi) {
+                taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+            }
+            else {
+                Log.e("back up", "Vao chua ghi");
+                String result_chuaghi_string = taoJSONData_KH_ChuaGhi(tenfile.getText().toString());
+                if (!result_chuaghi_string.equals("")) {
+                    filename = thumucchuafile + "/" + THUMUCCHUAGHI;
+                    filenameLAST = thumucchuafile + "/" + THUMUCLAST;
+                    taoThuMuc(filename);
+                    taoThuMuc(filenameLAST);
+                    kt = writeFile(filename, tenfile.getText().toString(), result_chuaghi_string);
+                    ktlast = writeFile(filenameLAST, TENFILECHUAGHI_LAST, result_chuaghi_string);
+                    spdata.luuDataFlagBKChuaGhiTrongSP(Bien.bienghi);
+                }
+            }
+        }
+        if(kt && ktlast) {
+            //Hiển thị dialog
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(R.string.backup_thanhcong);
+            // thiết lập nội dung cho dialog
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.show();
+            // hiển thị dialog
+        }
     }
+    //-------------------------------------------------------------------------------------------
     public  String getSdCardPath() {
 
         String[] deviceID = getExternalStorageDirectories();
@@ -255,25 +367,150 @@ public class Backup_Activity extends AppCompatActivity {
             tiwaread.setMaDuong(maduong);
             tiwaread.setTenDuong(tenduong);
             tiwaread.setTiwareadList(listkh);
-            listtiwaread.add(tiwaread);
+            if(listkh.size() >0) {
+                listtiwaread.add(tiwaread);
+            }
         }
-        jsondata.setListTiwaread(listtiwaread);
-        jsondata.setTenDS(tendanhsach);
-        jsondata.setTongSLkh(soluongKH);
+        String json ="";
+        if(listtiwaread.size()>0) {
+            jsondata.setListTiwaread(listtiwaread);
+            jsondata.setTenDS(tendanhsach);
+            jsondata.setTongSLkh(soluongKH);
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+        }
+        else{
+            //Hiển thị dialog
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(R.string.backup_listrong_tatca);
+            // thiết lập nội dung cho dialog
 
-        Gson gson = new Gson();
-        String json = gson.toJson(jsondata);
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.show();
+            // hiển thị dialog
+        }
+
         return json;
     }
 
-    private ListJsonData taoJSONData_KH_DaGhi() {
+    private String taoJSONData_KH_DaGhi(String tendanhsach) {
         ListJsonData jsondata = new ListJsonData();
-        return jsondata;
+        //Lấy danh sách tất cả các đường
+        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
+        List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
+        String soluongKH = String.valueOf(khachangdao.countKhachHangAll());
+        listduong = duongdao.getAllDuong();
+        for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
+            String maduong = listduong.get(thutuduong).getMaDuong();
+            String tenduong = listduong.get(thutuduong).getTenDuong();
+            List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
+            listkh = khachangdao.getAllKHDaGhiTheoDuong(maduong);
+            ListTiwareadDTO tiwaread = new ListTiwareadDTO();
+            tiwaread.setMaDuong(maduong);
+            tiwaread.setTenDuong(tenduong);
+            tiwaread.setTiwareadList(listkh);
+            if(listkh.size() >0) {
+                listtiwaread.add(tiwaread);
+            }
+        }
+        String json="";
+        if(listtiwaread.size()>0) {
+            jsondata.setListTiwaread(listtiwaread);
+            jsondata.setTenDS(tendanhsach);
+            jsondata.setTongSLkh(soluongKH);
+
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+        }
+        else{
+            //Hiển thị dialog
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(R.string.backup_listrong_daghi);
+            // thiết lập nội dung cho dialog
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.show();
+            // hiển thị dialog
+        }
+        return json;
     }
 
-    private ListJsonData taoJSONData_KH_ChuaGhi() {
+    private String taoJSONData_KH_ChuaGhi(String tendanhsach) {
         ListJsonData jsondata = new ListJsonData();
-        return jsondata;
+        //Lấy danh sách tất cả các đường
+        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
+        List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
+        String soluongKH = String.valueOf(khachangdao.countKhachHangAll());
+        listduong = duongdao.getAllDuong();
+        for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
+            String maduong = listduong.get(thutuduong).getMaDuong();
+            String tenduong = listduong.get(thutuduong).getTenDuong();
+            List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
+            listkh = khachangdao.getAllKHChuaGhiTheoDuong(maduong);
+            ListTiwareadDTO tiwaread = new ListTiwareadDTO();
+            tiwaread.setMaDuong(maduong);
+            tiwaread.setTenDuong(tenduong);
+            tiwaread.setTiwareadList(listkh);
+            if(listkh.size()>0) {
+                listtiwaread.add(tiwaread);
+            }
+        }
+        String json="";
+        if(listtiwaread.size()>0) {
+            jsondata.setListTiwaread(listtiwaread);
+            jsondata.setTenDS(tendanhsach);
+            jsondata.setTongSLkh(soluongKH);
+
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+        }
+        else{
+            //Hiển thị dialog
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(R.string.backup_listrong_chuaghinuoc);
+            // thiết lập nội dung cho dialog
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.show();
+            // hiển thị dialog
+        }
+        return json;
     }
 
     private String ObjectToJson(ListJsonData jsondata) {
@@ -283,13 +520,13 @@ public class Backup_Activity extends AppCompatActivity {
         return json;
     }
 
-    private void askPermissionAndWriteFile(String path, String data) {
+    private void askPermissionAndWriteFile(String path, String tenfile,String data) {
         boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         //
         if (canWrite) {
             Log.e("ghi file","vao trong ghi");
-            this.writeFile(path, data);
+            this.writeFile(path, tenfile,data);
         }
     }
 
@@ -348,21 +585,80 @@ public class Backup_Activity extends AppCompatActivity {
         }
     }
 
-    private void writeFile(String path, String data) {
+    private boolean writeFile(String path,String tenfile, String data) {
+
 
         try {
-            File myFile = new File(path);
-            myFile.createNewFile();
+            Log.e("duongdanfile",path);
+            Log.e("file",tenfile);
+            String duongdanfile = path+"/"+tenfile;
+            File myFile = new File(duongdanfile);
+           // myFile.createNewFile();
             FileOutputStream fOut = new FileOutputStream(myFile);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             myOutWriter.append(data);
+            MediaScannerConnection.scanFile(con, new String[]{duongdanfile}, null, null);
             myOutWriter.close();
             fOut.close();
-
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+
+            //Hiển thị dialog
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(R.string.backup_thatbai);
+            // thiết lập nội dung cho dialog
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.show();
+            // hiển thị dialog
+            return false;
         }
     }
+    private void taoThuMuc(String path){
+        File f = new File(path);
+        if(!f.exists()) {
+            f.mkdirs();
+
+        }
+    }
+    private void taoDialogThongBao(String message)
+    {
+        //Hiển thị dialog
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+        // khởi tạo dialog
+        alertDialogBuilder.setMessage(message);
+        // thiết lập nội dung cho dialog
+
+        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                // button "no" ẩn dialog đi
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // tạo dialog
+        alertDialog.show();
+        // hiển thị dialog
+    }
+
+
 
 
 }

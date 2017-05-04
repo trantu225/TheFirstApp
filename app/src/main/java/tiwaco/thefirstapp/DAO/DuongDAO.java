@@ -30,14 +30,14 @@ public class DuongDAO {
     }
     //ADD TABLE_DUONG
     public boolean addTable_Duong(DuongDTO duong) {
-
+        db = myda.openDB();
         ContentValues values = new ContentValues();
         values.put(MyDatabaseHelper.KEY_DUONG_MADUONG, duong.getMaDuong());
         values.put(MyDatabaseHelper.KEY_DUONG_TENDUONG, duong.getTenDuong());
         values.put(MyDatabaseHelper.KEY_DUONG_TRANGTHAI, duong.getTrangThai());
         // Inserting Row
         long kt = db.insert(MyDatabaseHelper.TABLE_DUONG, null, values);
-
+        db.close();
         if(kt !=0) {
             return true;
         }

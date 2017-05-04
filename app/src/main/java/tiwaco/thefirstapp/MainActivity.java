@@ -58,6 +58,7 @@ import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
+import tiwaco.thefirstapp.Database.SPData;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -75,13 +76,14 @@ public class MainActivity extends AppCompatActivity {
     KhachHangDAO khachhangDAO;
     KhachHangDTO khachhang;
     TextView STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi;
-    EditText DienThoai, ChiSoMoi, TinhTrangTLK;
+    EditText DienThoai, ChiSoMoi, TinhTrangTLK,GhiChu;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
     LinearLayout lay_toi , lay_lui , lay_ghi;
     String STT_HienTai ="1";
     int SoLuongKH = 0;
     String maduong_nhan="",stt_nhan ="";
+    SPData spdata;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.tab_ghinuoc);
         taoView();
+        spdata = new SPData(con);
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
 
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONG);
         if (packageFromCaller == null) {
             //get sharepreferences
-            String SPduongdangghi  = getDataDuongDangGhiTrongSP(); //lấy đường đang ghi
+            String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP(); //lấy đường đang ghi
             String STT ="1";  //tìm min(stt) của khách hàng chưa nghi tại đường đang ghi
             if(SPduongdangghi.equalsIgnoreCase("")){
                //dialog chọn đường
@@ -143,11 +146,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else {
-            //Có Bundle rồi thì lấy các thông số dựa vào key NUMBERA và NUMBERB
+            //Có Bundle rồi thì lấy các thông số dựa vào key maduong và stt
             maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
             stt_nhan =  packageFromCaller.getString(Bien.STT);
             STT_HienTai =stt_nhan;
-            luuDataDuongDangGhiTrongSP(maduong_nhan);//luu vao sharepreferences
+            spdata.luuDataDuongDangGhiTrongSP(maduong_nhan);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
             setDataForView(STT_HienTai,maduong_nhan);
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
@@ -281,20 +284,21 @@ public class MainActivity extends AppCompatActivity {
     private void setDataForView(String tt, String maduong) {
         //Lấy khách hàng có stt hiện tại...mặc đình là 1
         khachhang =  khachhangDAO.getKHTheoSTT_Duong(tt,maduong);
-        STT.setText(khachhang.getSTT());
-        MaKH.setText(khachhang.getMaKhachHang());
-        HoTen.setText(khachhang.getTenKhachHang());
+        STT.setText(khachhang.getSTT().trim());
+        MaKH.setText(khachhang.getMaKhachHang().trim());
+        HoTen.setText(khachhang.getTenKhachHang().trim());
 
-        DiaChi.setText(khachhang.getDiaChi());
-        MaTLK.setText(khachhang.getMasotlk());
-        HieuTLK.setText(khachhang.getHieutlk());
-        CoTLK.setText(khachhang.getCotlk());
-        ChiSo1.setText(khachhang.getChiSo1());
-        ChiSo2.setText(khachhang.getChiSo2());
-        ChiSo3.setText(khachhang.getChiSo3());
-        m31.setText(khachhang.getSLTieuThu1());
-        m32.setText(khachhang.getSLTieuThu2());
-        m33.setText(khachhang.getSLTieuThu3());
+        DiaChi.setText(khachhang.getDiaChi().trim());
+        MaTLK.setText(khachhang.getMasotlk().trim());
+        HieuTLK.setText(khachhang.getHieutlk().trim());
+        CoTLK.setText(khachhang.getCotlk().trim());
+        ChiSo1.setText(khachhang.getChiSo1().trim());
+        ChiSo2.setText(khachhang.getChiSo2().trim());
+        ChiSo3.setText(khachhang.getChiSo3().trim());
+        m31.setText(khachhang.getSLTieuThu1().trim());
+        m32.setText(khachhang.getSLTieuThu2().trim());
+        m33.setText(khachhang.getSLTieuThu3().trim());
+        GhiChu.setText(khachhang.getGhiChu().trim());
         if(khachhang.getChiSo1con().equals("0") && khachhang.getChiSo2con().equals("0") && khachhang.getChiSo3con().equals("0")
             &&  khachhang.getSLTieuThu1con().equals("0")  &&  khachhang.getSLTieuThu2con().equals("0")  &&  khachhang.getSLTieuThu3con().equals("0")){
 
@@ -309,14 +313,14 @@ public class MainActivity extends AppCompatActivity {
             chisomoi_con_lb.setVisibility(View.VISIBLE);
             chisomoi_con.setVisibility(View.VISIBLE);
 
-            ChiSoCon1.setText(khachhang.getChiSo1con());
-            ChiSoCon2.setText(khachhang.getChiSo2con());
-            ChiSoCon3.setText(khachhang.getChiSo3con());
-            m3con1.setText(khachhang.getSLTieuThu1con());
-            m3con2.setText(khachhang.getSLTieuThu2con());
-            m3con3.setText(khachhang.getSLTieuThu3con());
+            ChiSoCon1.setText(khachhang.getChiSo1con().trim());
+            ChiSoCon2.setText(khachhang.getChiSo2con().trim());
+            ChiSoCon3.setText(khachhang.getChiSo3con().trim());
+            m3con1.setText(khachhang.getSLTieuThu1con().trim());
+            m3con2.setText(khachhang.getSLTieuThu2con().trim());
+            m3con3.setText(khachhang.getSLTieuThu3con().trim());
         }
-        DienThoai.setText(khachhang.getDienThoai());
+        DienThoai.setText(khachhang.getDienThoai().trim());
 
 
     }
@@ -379,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
         DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
         ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
         TinhTrangTLK = (EditText) findViewById(R.id.edit_chisomoicon);
+        GhiChu = (EditText) findViewById(R.id.edit_ghichu);
 
         DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
         Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
@@ -545,20 +550,6 @@ public class MainActivity extends AppCompatActivity {
  //-------------------------------------------------------------------------------------
 */
 
-    private String getDataDuongDangGhiTrongSP(){
-        SharedPreferences pre=getSharedPreferences
-                (Bien.SPDATA,MODE_PRIVATE);
 
-        String maduong=pre.getString(Bien.SPMADUONG, "");
-        return maduong;
-    }
-    private void luuDataDuongDangGhiTrongSP(String maduong){
-        SharedPreferences pre=getSharedPreferences
-                (Bien.SPDATA, MODE_PRIVATE);
-        //tạo đối tượng Editor để lưu thay đổi
-        SharedPreferences.Editor editor=pre.edit();
-        editor.putString(Bien.SPMADUONG, maduong);
-        editor.commit();
-    }
 }
 

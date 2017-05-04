@@ -31,7 +31,6 @@
         <activity
             android:name=".ListActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".Tab_MainActivity" />
         <activity android:name=".StartActivity" />
         <activity
             android:name=".Backup_Activity"

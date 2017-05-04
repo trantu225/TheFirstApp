@@ -25,10 +25,17 @@ public class Bien {
     public static String ma_duong_dang_chon ="";
     public static int selected_item = 0;
     public static int pre_item = 0;
+    public static int bienghi = 1;
+    public static int bienbkall = 0;
+    public static int bienbkcg = 0;
+    public static int bienbkdg = 0;
     public static final String GOITIN_MADUONG = "goitinmaduong";
     public static final String MADUONG = "maduong";
     public static final String STT = "stt";
     public static final String SPMADUONG = "spmaduong";
     public static final String SPDATA = "spdata";
-
+    public static final String SPBKALL = "spbackupall";
+    public static final String SPBKDG= "spbackupdaghi";
+    public static final String SPBKCG = "spbackupchuaghi";
+    public static final String SPFLAGGHI = "spghi";
 }

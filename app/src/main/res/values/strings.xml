@@ -19,10 +19,16 @@
     <string name="error_incorrect_password">Tên hoặc mật khẩu không đúng.Hãy thử lại</string>
     <string name="error_field_required">Bạn chưa nhập thông tin</string>
     <!-- Load activity -->
-    <string name="error_load">Quá trình load dữ liệu thất bại. Chọn OK để load lại. Chọn Thoát để kết thúc</string>
+    <string name="error_load">Quá trình load dữ liệu thất bại. Chọn OK để load lại. Chọn Thoát để kết thúc.</string>
     <string name="error_load_file">Quá trình load dữ liệu thất bại do không tồn tại file dữ liệu.</string>
     <string name="delete_file_load_file">Bạn có muốn xóa dữ liệu cũ không?</string>
-
+    <!-- Backup activity -->
+    <string name="backup_listrong_daghi">Chưa có khách hàng nào được ghi.Hãy tiến hành ghi nước.</string>
+    <string name="backup_listrong_chuaghinuoc">Toàn bộ khách hàng đã được ghi nước </string>
+    <string name="backup_listrong_tatca">Không tồn tại dữ liệu khách hàng.</string>
+    <string name="backup_thanhcong">Lưu dữ liệu thành công.</string>
+    <string name="backup_thatbai">Lưu dữ liệu thất bại.</string>
+    <string name="backup_dialog_moinhat">Bạn đã lưu dữ liệu mới nhất</string>
     <!-- Listactivity -->
     <string name="list_chuyendulieu_hoighinuoc1">Bạn có muốn ghi nước đường: </string>
     <string name="list_chuyendulieu_hoighinuoc_khachhang">Bạn có muốn ghi nước khách hàng: </string>
@@ -50,7 +56,7 @@
     <string name="KH_chisomoi">Chỉ số/m3 mới ĐH chính: </string>
     <string name="KH_chisomoicon">Chỉ số/m3 mới ĐH con: </string>
     <string name="KH_m3moi">m3 mới: </string>
-    <string name="KH_ghichu">Ghi chú: </string>
+    <string name="KH_ghichu">Ghi chú </string>
     <string name="KH_STT">STT: </string>
     <string name="KH_tinhtrangdongho">Tình trạng: </string>
     <string name="KH_hieuTLK">Hiệu: </string>
@@ -77,6 +83,7 @@
     <string name="btn_next">TỚI</string>
     <string name="btn_pre">LÙI</string>
     <string name="string_duong">đường</string>
+
 
 
 </resources>

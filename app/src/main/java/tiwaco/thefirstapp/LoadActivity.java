@@ -41,6 +41,7 @@ import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
+import tiwaco.thefirstapp.Database.SPData;
 
 public class LoadActivity extends AppCompatActivity {
     private String filename = "";
@@ -51,6 +52,7 @@ public class LoadActivity extends AppCompatActivity {
     DuongDAO duongDAO ;
     Context con;
     KhachHangDAO khachhangDAO;
+    SPData spdata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +60,14 @@ public class LoadActivity extends AppCompatActivity {
         con = LoadActivity.this;
         duongDAO = new DuongDAO(LoadActivity.this);
         khachhangDAO = new KhachHangDAO(LoadActivity.this);
+        spdata = new SPData(con);
         File extStore = Environment.getExternalStorageDirectory();
         filename = getString(R.string.data_file_name);
         duongdanfile = extStore.getAbsolutePath() + "/" + filename;
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
         prgTime.setProgress(0);
         prgTime.setText("0 %");
+
         askPermissionAndReadFile();
     }
 
@@ -476,6 +480,8 @@ public class LoadActivity extends AppCompatActivity {
                                     Log.e("Them database_KH: "+MaKhachHang+" " + TenKhachHang, "ko Thanh cong");
 
                                 }
+
+
                                 FlagupdateDB = kt;
 
                                 long status = (j+1) *100/listKH.length();
@@ -600,6 +606,9 @@ public class LoadActivity extends AppCompatActivity {
             else{
                 MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
                 task.execute(duongdanfile);
+                spdata = new SPData(con);
+                spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0);
+
             }
         }
         else{
@@ -631,7 +640,8 @@ public class LoadActivity extends AppCompatActivity {
             // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
             //  task.execute(duongdanfile);
          //   readFileandSaveDatabase();
-            loadData();;
+            loadData();
+
         }
     }
     private void askPermissionAndWriteFile(String path, String data) {
@@ -679,6 +689,7 @@ public class LoadActivity extends AppCompatActivity {
                 case REQUEST_ID_READ_PERMISSION: {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     loadData();
+
                     }
                 }
                 case REQUEST_ID_WRITE_PERMISSION: {

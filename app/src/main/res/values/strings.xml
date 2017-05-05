@@ -63,6 +63,7 @@
     <string name="KH_coTLK">Cỡ: </string>
     <string name="KH_maTLK">Mã: </string>
     <string name="KH_loaiKH">Loại KH: </string>
+    <string name="KH_DuongDangGhi">Đường: </string>
     <string name="ThongTinKH">Thông tin KH </string>
     <string name="ThongTinTenFile">Tên file </string>
     <string name="ThongTinLuuFie">Thông tin lưu </string>
@@ -83,7 +84,7 @@
     <string name="btn_next">TỚI</string>
     <string name="btn_pre">LÙI</string>
     <string name="string_duong">đường</string>
-
+    <string name="string_con">Còn lại:</string>
 
 
 </resources>

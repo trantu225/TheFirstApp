@@ -38,4 +38,5 @@ public class Bien {
     public static final String SPBKDG= "spbackupdaghi";
     public static final String SPBKCG = "spbackupchuaghi";
     public static final String SPFLAGGHI = "spghi";
+    public static final String SPNHANVIEN = "spnhanvien";
 }

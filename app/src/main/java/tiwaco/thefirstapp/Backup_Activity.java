@@ -3,11 +3,13 @@ package tiwaco.thefirstapp;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.os.EnvironmentCompat;
@@ -138,6 +140,13 @@ public class Backup_Activity extends AppCompatActivity  {
         Bien.bienbkall = spdata.getDataBKALLTrongSP();
         Bien.bienbkcg = spdata.getDataBKCGTrongSP();
         Bien.bienbkdg = spdata.getDataBKDGTrongSP();
+
+
+        Log.e("flag flagghi 1", String.valueOf(Bien.bienghi));
+        Log.e("flag flagall 1", String.valueOf( Bien.bienbkall));
+        Log.e("flag flagcg 1", String.valueOf(Bien.bienbkcg));
+        Log.e("flag flagdg 1", String.valueOf(Bien.bienbkdg));
+  
         XuLyFile xl  = new XuLyFile(con);
         String path = "";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -215,7 +224,16 @@ public class Backup_Activity extends AppCompatActivity  {
                 }
             }
         }
+
         if(kt && ktlast) {
+            Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+            Bien.bienbkall = spdata.getDataBKALLTrongSP();
+            Bien.bienbkcg = spdata.getDataBKCGTrongSP();
+            Bien.bienbkdg = spdata.getDataBKDGTrongSP();
+            Log.e("flag flagghi 2", String.valueOf(Bien.bienghi));
+            Log.e("flag flagall 2", String.valueOf( Bien.bienbkall));
+            Log.e("flag flagcg 2", String.valueOf(Bien.bienbkcg));
+            Log.e("flag flagdg 2", String.valueOf(Bien.bienbkdg));
             //Hiển thị dialog
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
             // khởi tạo dialog
@@ -380,6 +398,8 @@ public class Backup_Activity extends AppCompatActivity  {
             json = gson.toJson(jsondata);
         }
         else{
+            spdata.luuDataFlagBKAllTrongSP(-1);
+            Bien.bienbkall = -1;
             //Hiển thị dialog
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
             // khởi tạo dialog
@@ -435,6 +455,8 @@ public class Backup_Activity extends AppCompatActivity  {
             json = gson.toJson(jsondata);
         }
         else{
+            spdata.luuDataFlagBKDaghiTrongSP(-1);
+            Bien.bienbkdg = -1;
             //Hiển thị dialog
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
             // khởi tạo dialog
@@ -489,6 +511,8 @@ public class Backup_Activity extends AppCompatActivity  {
             json = gson.toJson(jsondata);
         }
         else{
+            spdata.luuDataFlagBKChuaGhiTrongSP(-1);
+            Bien.bienbkcg = -1;
             //Hiển thị dialog
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
             // khởi tạo dialog

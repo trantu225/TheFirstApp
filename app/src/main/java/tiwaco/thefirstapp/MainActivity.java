@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     DuongDAO duongDAO;
     KhachHangDAO khachhangDAO;
     KhachHangDTO khachhang;
-    TextView STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi;
+    TextView STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
     EditText DienThoai, ChiSoMoi, TinhTrangTLK,GhiChu;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
     int SoLuongKH = 0;
     String maduong_nhan="",stt_nhan ="";
     SPData spdata;
+    String tenduong;
+    String soKHconlai,tongsoKHTheoDuong;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -254,6 +256,9 @@ public class MainActivity extends AppCompatActivity {
                 String dt = DienThoai.getText().toString().trim();
 
                 if(khachhangDAO.updateDienThoai(makh,dt)){
+                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                    Bien.bienghi = Bien.bienghi +1;
+                    spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
                     Toast.makeText(con, R.string.main_capnhatsdt_thanhcong,Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -283,6 +288,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDataForView(String tt, String maduong) {
         //Lấy khách hàng có stt hiện tại...mặc đình là 1
+        tenduong =  duongDAO.getTenDuongTheoMa(maduong).trim();
+        DuongDangGhi.setText(tenduong);
+        soKHconlai = String.valueOf(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong)) ;
+        tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong)) ;
+        ConLai.setText(getString(R.string.string_con)+" "+soKHconlai+"/"+ tongsoKHTheoDuong);
+
         khachhang =  khachhangDAO.getKHTheoSTT_Duong(tt,maduong);
         STT.setText(khachhang.getSTT().trim());
         MaKH.setText(khachhang.getMaKhachHang().trim());
@@ -379,7 +390,9 @@ public class MainActivity extends AppCompatActivity {
         m3con3= (TextView) findViewById(R.id.tv_m3cu3con);
         m3moi= (TextView) findViewById(R.id.tv_m3moi);
         m3conmoi= (TextView) findViewById(R.id.tv_m3moicon);
-
+        DuongDangGhi= (TextView) findViewById(R.id.tv_duongdangghi);
+        ConLai= (TextView) findViewById(R.id.tv_conlai);
+        DuongDangGhi.setSelected(true);
         DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
         ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
         TinhTrangTLK = (EditText) findViewById(R.id.edit_chisomoicon);
@@ -550,6 +563,13 @@ public class MainActivity extends AppCompatActivity {
  //-------------------------------------------------------------------------------------
 */
 
+//hàm ghi nước
+    private void ghinuoc(){
+
+    }
+    private boolean kiemTraDieuKienDeGhiNuoc(){
+        return true;
+    }
 
 }
 

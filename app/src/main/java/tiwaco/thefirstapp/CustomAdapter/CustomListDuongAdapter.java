@@ -126,7 +126,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
             MaDuong = (TextView) itemView.findViewById(R.id.tv_MaDuong);
             TenDuong = (TextView) itemView.findViewById(R.id.tv_TenDuong);
-
+            TenDuong.setSelected(true);
 
 
         }

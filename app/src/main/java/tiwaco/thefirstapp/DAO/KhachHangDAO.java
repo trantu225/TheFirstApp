@@ -347,6 +347,18 @@ public class KhachHangDAO {
         return sokh;
     }
 
+    public int countKhachHangChuaGhiTheoDuong(String maduong){
+        db = myda.openDB();
+        int sokh = 0;
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO+"=''";
+
+        Cursor cursor = db.rawQuery(countQuery, null);
+        sokh =cursor.getCount();
+        cursor.close();
+        db.close();
+        return sokh;
+    }
+
     public int countKhachHangAll(){
         db = myda.openDB();
         int sokh = 0;

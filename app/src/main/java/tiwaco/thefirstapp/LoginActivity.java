@@ -16,6 +16,7 @@ import android.widget.EditText;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DAO.NhanVienDAO;
 import tiwaco.thefirstapp.DTO.NhanVienDTO;
+import tiwaco.thefirstapp.Database.SPData;
 
 
 /**
@@ -80,6 +81,9 @@ public class LoginActivity extends AppCompatActivity  {
             boolean kt = nhanviendao.kiemtraDangNhap(edt_ten.getText().toString(),edt_pass.getText().toString(),Bien.listNV,LoginActivity.this);
 
             if(kt){
+                //Bien.nhanvien = edt_ten.getText().toString().trim();
+                SPData spdata = new SPData(con);
+                spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
                 KhachHangDAO khdao = new KhachHangDAO(LoginActivity.this);
                 if(khdao.countKhachHangAll() >0){
                     Intent myIntent=new Intent(this, StartActivity.class);

@@ -43,12 +43,26 @@ public class SPData  {
         editor.commit();
     }
 
-    public void luuDataFlagGhiTrongSP1(int bienghi){
+    public void luuDataFlagGhiTrongSP(int bienghi){
 
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor=pre.edit();
         editor.putInt(Bien.SPFLAGGHI, bienghi);
         editor.commit();
+    }
+
+    public void luuDataNhanVienTrongSP(String nhanvien){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putString(Bien.SPNHANVIEN, nhanvien);
+        editor.commit();
+    }
+    public String getDataNhanVienTrongSP(){
+
+
+        String nhvien=pre.getString(Bien.SPNHANVIEN, "");
+        return nhvien;
     }
     public int getDataFlagGhiTrongSP(){
 
@@ -83,7 +97,7 @@ public class SPData  {
     public int getDataBKALLTrongSP(){
 
 
-        int flagghi=pre.getInt(Bien.SPBKALL, 0);
+        int flagghi=pre.getInt(Bien.SPBKALL, 1);
         return flagghi;
     }
 

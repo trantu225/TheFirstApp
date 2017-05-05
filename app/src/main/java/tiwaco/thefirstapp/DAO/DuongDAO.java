@@ -161,6 +161,32 @@ public class DuongDAO {
             return false;
         }
     }
+
+    public String getTenDuongTheoMa(String maduong){
+        db = myda.openDB();
+        Cursor cursor = db.query(TABLE_DUONG,
+                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI },
+                KEY_DUONG_MADUONG + "=?",
+                new String[] { String.valueOf(maduong) },
+                null, null, null, null);
+        DuongDTO duong = null;
+        if (cursor != null &&cursor.moveToFirst()) {
+
+
+            duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2));
+        }
+        cursor.close();
+        db.close();
+            if(duong!=null){
+                return duong.getTenDuong();
+            }
+            else{
+                return "";
+            }
+    }
+
+
+
         public int countDuong(){
             db = myda.openDB();
             String countQuery = "SELECT  * FROM " + TABLE_DUONG;

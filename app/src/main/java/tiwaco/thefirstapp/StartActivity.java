@@ -3,9 +3,12 @@ package tiwaco.thefirstapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -16,6 +19,7 @@ public class StartActivity extends AppCompatActivity  {
     ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup;
     Context con;
     SPData spdata;
+    SharedPreferences pre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +30,33 @@ public class StartActivity extends AppCompatActivity  {
         btnBackup = (ImageButton) findViewById(R.id.btn_backup);
 
         getSupportActionBar().hide();
-
+        con =  StartActivity.this;
         btnGhinuoc.setOnClickListener(myclick);
         btnDanhSachKH.setOnClickListener(myclick);
         btnLoadDl.setOnClickListener(myclick);
-      //  btnBackup.setOnClickListener(myclick);
+        btnBackup.setOnClickListener(myclick);
+       // pre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        spdata = new SPData(con);
+        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+        Bien.bienbkall = spdata.getDataBKALLTrongSP();
+        Bien.bienbkcg = spdata.getDataBKCGTrongSP();
+        Bien.bienbkdg = spdata.getDataBKDGTrongSP();
+        Log.e("flag flagghi", String.valueOf(Bien.bienghi));
+        Log.e("flag flagall", String.valueOf(Bien.bienbkall));
+        Log.e("flag flagcg", String.valueOf(Bien.bienbkcg));
+        Log.e("flag flagdg", String.valueOf(Bien.bienbkdg));
+        if( Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi  )
+        {
+            btnBackup.setEnabled(false);
+            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
+          //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+        }
+        else{
+
+            btnBackup.setEnabled(true);
+            btnBackup.setBackgroundResource(R.drawable.ic_save);
+        }
 
     }
 
@@ -39,7 +65,26 @@ public class StartActivity extends AppCompatActivity  {
         super.onStart();
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if( (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==Bien.bienghi)
+                || Bien.bienbkall == -1
+                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==-1 )
+                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg == -1 ))
+        {
+            btnBackup.setEnabled(false);
+            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
+            //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+        }
+        else{
 
+            btnBackup.setEnabled(true);
+            btnBackup.setBackgroundResource(R.drawable.ic_save);
+        }
+     //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
+
+    }
     private View.OnClickListener myclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -56,31 +101,18 @@ public class StartActivity extends AppCompatActivity  {
                     startActivity(myIntent);
 
                     break;
-
-/*                     myIntent=new Intent(StartActivity.this, Backup_Activity.class);
+                case R.id.btn_backup:
+                     myIntent=new Intent(StartActivity.this, Backup_Activity.class);
                     startActivity(myIntent);
-                   spdata = new SPData(con);
-                    int ghi = spdata.getDataFlagGhiTrongSP();
-                    Bien.bienbkall = spdata.getDataBKALLTrongSP();
-                    Bien.bienbkcg = spdata.getDataBKCGTrongSP();
-                    Bien.bienbkdg = spdata.getDataBKDGTrongSP();
+                    break;
 
-                    if(Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi)
-                    {
-
-                        taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-                    }
-                    else{
-                        myIntent=new Intent(StartActivity.this, Backup_Activity.class);
-                        startActivity(myIntent);
-                    }
-*/
 
                 case R.id.btn_loaddata:
                     myIntent=new Intent(StartActivity.this, LoadActivity.class);
                     startActivity(myIntent);
                     break;
             }
+
         }
     };
     private void taoDialogThongBao(String message)
@@ -106,22 +138,5 @@ public class StartActivity extends AppCompatActivity  {
         alertDialog.show();
         // hiển thị dialog
     }
-    public void gobackup(View view){
-                 /*   spdata = new SPData(con);
-                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                    Bien.bienbkall = spdata.getDataBKALLTrongSP();
-                    Bien.bienbkcg = spdata.getDataBKCGTrongSP();
-                    Bien.bienbkdg = spdata.getDataBKDGTrongSP();
 
-                    if(Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi)
-                    {
-
-                        taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-                    }
-                    else{*/
-                         Intent myIntent=new Intent(StartActivity.this, Backup_Activity.class);
-                         startActivity(myIntent);
-                 //   }
-
-    }
 }

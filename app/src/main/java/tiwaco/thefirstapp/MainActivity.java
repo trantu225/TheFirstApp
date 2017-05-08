@@ -1,26 +1,27 @@
 package tiwaco.thefirstapp;
 
-import android.Manifest;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
 
-import android.support.v4.app.Fragment;
+import android.content.pm.PackageManager;
+import android.location.Location;
+
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.view.LayoutInflater;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,34 +35,25 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.luseen.spacenavigation.SpaceItem;
+import com.google.android.gms.common.ConnectionResult;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import com.luseen.spacenavigation.SpaceNavigationView;
-import com.luseen.spacenavigation.SpaceOnClickListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
-import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
-import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     TextView danhsachduong;
     ImageButton btnghi;
@@ -76,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     KhachHangDAO khachhangDAO;
     KhachHangDTO khachhang;
     TextView STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
-    EditText DienThoai, ChiSoMoi, TinhTrangTLK,GhiChu;
+    EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
     LinearLayout lay_toi , lay_lui , lay_ghi;
@@ -86,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
     SPData spdata;
     String tenduong;
     String soKHconlai,tongsoKHTheoDuong;
+    double longitude,latitude;
+    String vido ="" ;
+    String kinhdo="";
+    GPSTracker gps;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +94,12 @@ public class MainActivity extends AppCompatActivity {
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
 
+        //----- lay toa do
 
+        if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
+        }
         //----------------------------------------------------------------------------
         //lấy intent gọi Activity này
         //Lấy kết quả khi chọn button ghi nước tại listactivity
@@ -158,6 +158,19 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
         }
         //--------------------------------------------------------------------------
+        lay_ghi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ghinuoc();
+            }
+        });
+        Ghi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lay_ghi.performClick();
+            }
+        });
+
         lay_toi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,6 +299,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     private void setDataForView(String tt, String maduong) {
         //Lấy khách hàng có stt hiện tại...mặc đình là 1
         tenduong =  duongDAO.getTenDuongTheoMa(maduong).trim();
@@ -309,6 +324,11 @@ public class MainActivity extends AppCompatActivity {
         m31.setText(khachhang.getSLTieuThu1().trim());
         m32.setText(khachhang.getSLTieuThu2().trim());
         m33.setText(khachhang.getSLTieuThu3().trim());
+        ChiSoMoi.setText(khachhang.getChiSo().trim());
+         m3moi.setText(khachhang.getSLTieuThu().trim());
+        ChiSoMoiCon.setText(khachhang.getChiSocon().trim());
+        m3conmoi.setText(khachhang.getSLTieuThucon().trim());
+        TinhTrangTLK.setText(khachhang.getTrangThaiTLK().trim());
         GhiChu.setText(khachhang.getGhiChu().trim());
         if(khachhang.getChiSo1con().equals("0") && khachhang.getChiSo2con().equals("0") && khachhang.getChiSo3con().equals("0")
             &&  khachhang.getSLTieuThu1con().equals("0")  &&  khachhang.getSLTieuThu2con().equals("0")  &&  khachhang.getSLTieuThu3con().equals("0")){
@@ -395,7 +415,8 @@ public class MainActivity extends AppCompatActivity {
         DuongDangGhi.setSelected(true);
         DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
         ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
-        TinhTrangTLK = (EditText) findViewById(R.id.edit_chisomoicon);
+        ChiSoMoiCon = (EditText) findViewById(R.id.edit_chisomoicon);
+        TinhTrangTLK = (EditText) findViewById(R.id.edit_tinhtrangTLK);
         GhiChu = (EditText) findViewById(R.id.edit_ghichu);
 
         DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
@@ -416,10 +437,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean KiemTraDieuKienGhiNuoc(){
 
-        return true;
-    }
     /*
     //-----------------------------------------------------------------------------
     private void askPermissionAndWriteFile(String path, String data) {
@@ -564,12 +582,133 @@ public class MainActivity extends AppCompatActivity {
 */
 
 //hàm ghi nước
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    switch (requestCode) {
+        case 1: {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                // permission was granted, yay! Do the
+
+                // contacts-related task you need to do.
+
+                gps = new GPSTracker(con, MainActivity.this);
+
+                // Check if GPS enabled
+                if (gps.canGetLocation()) {
+
+                     latitude = gps.getLatitude();
+                     longitude = gps.getLongitude();
+                    vido = String.valueOf(latitude);
+                    kinhdo = String.valueOf(longitude);
+
+                    Log.e("Toa do", vido +"-"+kinhdo );
+                    // \n is for new line
+                   Toast.makeText(getApplicationContext(), "REQUEST: Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                } else {
+                    // Can't get location.
+                    // GPS or network is not enabled.
+                    // Ask user to enable GPS/network in settings.
+                    gps.showSettingsAlert();
+                }
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+
+                Toast.makeText(con, "REQUEST: You need to grant permission....", Toast.LENGTH_SHORT).show();
+
+            }
+            return;
+        }
+    }
+}
     private void ghinuoc(){
+
+
+        if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(con,"GHI NUOC:You need have granted permission.......",Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+        } else {
+
+            gps = new GPSTracker(con, MainActivity.this);
+
+            // Check if GPS enabled
+            if (gps.canGetLocation()) {
+                String maKH = MaKH.getText().toString().trim();
+                String Chiso = ChiSoMoi.getText().toString().trim();
+                String Chisocon = ChiSoMoiCon.getText().toString().trim();
+                String Dienthoai = DienThoai.getText().toString().trim();
+                String ghichu = GhiChu.getText().toString().trim();
+                 latitude = gps.getLatitude();
+                 longitude = gps.getLongitude();
+                 vido = String.valueOf(latitude);
+                 kinhdo = String.valueOf(longitude);
+                // \n is for new line
+                Toast.makeText(getApplicationContext(), "GHI NUOC:Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                Log.e("Toa do", vido +"-"+kinhdo );
+                String nhanvien = spdata.getDataNhanVienTrongSP();
+                String SL =  String.valueOf(Integer.parseInt(ChiSoMoi.getText().toString()) - Integer.parseInt(ChiSo1.getText().toString())).trim();
+                String SLCon;
+                if(!ChiSoMoiCon.getText().toString().equals("")) {
+                    SLCon = String.valueOf(Integer.parseInt(ChiSoMoiCon.getText().toString()) - Integer.parseInt(ChiSoCon1.getText().toString())).trim();
+                }
+                else{
+                    SLCon ="";
+                }
+                String thoigian = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+                Log.e("Thoi gian", thoigian );
+                String trangthaiTLK  = TinhTrangTLK.getText().toString().trim();
+
+                if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,SL,SLCon,thoigian,trangthaiTLK))
+                {
+                    Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(con,"Ghi nước thất bại",Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // Can't get location.
+                // GPS or network is not enabled.
+                // Ask user to enable GPS/network in settings.
+                gps.showSettingsAlert();
+            }
+        }
+
+
 
     }
     private boolean kiemTraDieuKienDeGhiNuoc(){
+
+        boolean kt = true;
+
+        if(ChiSoMoi.getText().toString().trim().equals("")){
+            kt = false;
+        }
+        else{
+            //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
+        }
+        if(chisomoi_con.getVisibility()==View.VISIBLE){
+            if(ChiSoMoiCon.getText().toString().trim().equals("")){
+                kt = false;
+            }
+            else{
+                kt =true;
+            }
+
+        }
+
         return true;
     }
+
+
+
 
 }
 

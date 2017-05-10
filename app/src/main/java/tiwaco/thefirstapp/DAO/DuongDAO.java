@@ -200,4 +200,17 @@ public class DuongDAO {
 
         }
 
+    public int countDuongChuaGhi(){
+        db = myda.openDB();
+        String countQuery = "SELECT  * FROM " + TABLE_DUONG +" WHERE "+ MyDatabaseHelper.KEY_DUONG_TRANGTHAI+"=0";
+
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int soduong = 0;
+        soduong= cursor.getCount();
+        cursor.close();
+        db.close();
+        return soduong;
+
+    }
+
 }

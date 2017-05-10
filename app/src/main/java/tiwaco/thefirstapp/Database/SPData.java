@@ -24,12 +24,18 @@ public class SPData  {
         String maduong=pre.getString(Bien.SPMADUONG, "");
         return maduong;
     }
-    public void luuDataDuongDangGhiTrongSP(String maduong){
+    public String getDataSTTDangGhiTrongSP(){
+
+        String stt=pre.getString(Bien.SPSTTDANGGHI, "");
+        return stt;
+    }
+    public void luuDataDuongVaSTTDangGhiTrongSP(String maduong,String stt){
 
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor=pre.edit();
         editor.putString(Bien.SPMADUONG, maduong);
-        editor.apply();
+        editor.putString(Bien.SPSTTDANGGHI, stt);
+        editor.commit();
     }
 
     public void luuDataFlagGhivaBackUpTrongSP(int bienghi,int flagall, int flagdaghi, int flagchuaghi){

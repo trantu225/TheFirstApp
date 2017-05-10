@@ -37,6 +37,8 @@
     <string name="main_chuacothongtinduong"> Chưa chọn đường để ghi nước. Bạn có muốn chọn đường để ghi nước không? </string>
     <string name="main_capnhatsdt_thanhcong">Cập nhật SĐT thành công</string>
     <string name="main_capnhatsdt_thatbai">Cập nhật SĐT thất bại</string>
+    <string name="main_ghinuoc_duongdaghixong">Đường này đã được ghi nước xong.</string>
+    <string name="main_ghinuoc_duongdaghixongtatca">Tất cả các đường đã được ghi nước xong.</string>
     <!-- button -->
     <string name="btn_backup">Lưu dữ liệu</string>
     <string name="btn_ghinuoc">Ghi nước</string>

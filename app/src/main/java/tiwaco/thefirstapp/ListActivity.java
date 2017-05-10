@@ -64,7 +64,7 @@ public class ListActivity extends AppCompatActivity {
         txtduongchon = (TextView) findViewById(R.id.txt_maduongchon);
         txtTiltle =(TextView) findViewById(R.id.txt_title_dskh1);
         duongDAO = new DuongDAO(con);
-        listduong = duongDAO.getAllDuongChuaGhi();
+        listduong = duongDAO.getAllDuong();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
         adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon,recyclerView,txtTiltle);
@@ -117,7 +117,9 @@ public class ListActivity extends AppCompatActivity {
                                 Bundle bundle = new Bundle();
                                 bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
                                 intent.putExtra(Bien.GOITIN_MADUONG, bundle);
-                                bundle.putString(Bien.STT,"1");
+                                Log.e("gui bundle maduong", Bien.ma_duong_dang_chon);
+                                Log.e("gui bundle sott",khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
+                                bundle.putString(Bien.STT,khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
                                 startActivity(intent);
                             }
                         })

@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity  {
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
 
+
         //----- lay toa do
 
         if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -105,12 +106,13 @@ public class MainActivity extends AppCompatActivity  {
         //Lấy kết quả khi chọn button ghi nước tại listactivity
         Intent callerIntent = getIntent();
 
-        //có intent rồi thì lấy Bundle dựa vào key Calculation
+        //có intent rồi thì lấy Bundle dựa vào key
         Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONG);
         if (packageFromCaller == null) {
             //get sharepreferences
             String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP(); //lấy đường đang ghi
-            String STT ="1";  //tìm min(stt) của khách hàng chưa nghi tại đường đang ghi
+            //tìm min(stt) của khách hàng chưa nghi tại đường đang ghi
+
             if(SPduongdangghi.equalsIgnoreCase("")){
                //dialog chọn đường
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -139,8 +141,14 @@ public class MainActivity extends AppCompatActivity  {
                 alertDialog.show();
             }
             else{
+                //sharedpreferences
                 maduong_nhan = SPduongdangghi;
+                String STT = spdata.getDataSTTDangGhiTrongSP() ;
+                if(STT.equals("")) {
+                   STT= khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
+                }
                 STT_HienTai = STT;
+                Log.e("STTMIN SP--------------------------",STT_HienTai);
                 SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
                 setDataForView(STT_HienTai,maduong_nhan);
                 Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
@@ -152,12 +160,17 @@ public class MainActivity extends AppCompatActivity  {
             maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
             stt_nhan =  packageFromCaller.getString(Bien.STT);
             STT_HienTai =stt_nhan;
-            spdata.luuDataDuongDangGhiTrongSP(maduong_nhan);//luu vao sharepreferences
+            spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan,STT_HienTai);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
             setDataForView(STT_HienTai,maduong_nhan);
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
         }
+
         //--------------------------------------------------------------------------
+
+
+
+
         lay_ghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,9 +194,11 @@ public class MainActivity extends AppCompatActivity  {
                 if (next+1 > SoLuongKH) {
                     lay_toi.setEnabled(false);
                     Toi.setEnabled(false);
+                    lay_toi.setBackgroundResource(R.color.space_background_color);
                 } else {
                     lay_toi.setEnabled(true);
                     Toi.setEnabled(true);
+                    lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                 }
                 if (next > 0 && next <= SoLuongKH) {
                     setDataForView(STT_HienTai, maduong_nhan);
@@ -192,16 +207,20 @@ public class MainActivity extends AppCompatActivity  {
                     if (next > SoLuongKH) {
                         lay_toi.setEnabled(false);
                         Toi.setEnabled(false);
+                        lay_toi.setBackgroundResource(R.color.space_background_color);
                     } else {
                         lay_toi.setEnabled(true);
                         Toi.setEnabled(true);
+                        lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                     }
                     if (pre <= 0) {
                         lay_lui.setEnabled(false);
                         Lui.setEnabled(false);
+                        lay_lui.setBackgroundResource(R.color.space_background_color);
                     } else {
                         lay_lui.setEnabled(true);
                         Lui.setEnabled(true);
+                        lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                     }
                 } else {
                     Log.e("BienSTTHIenTai", STT_HienTai);
@@ -226,9 +245,11 @@ public class MainActivity extends AppCompatActivity  {
                 if (pre-1 <= 0) {
                     lay_lui.setEnabled(false);
                     Lui.setEnabled(false);
+                    lay_lui.setBackgroundResource(R.color.space_background_color);
                 } else {
                     lay_lui.setEnabled(true);
                     Lui.setEnabled(true);
+                    lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                 }
                 if (pre > 0 && pre <= SoLuongKH) {
                     Log.e("BienSTTHIenTai", "chay vao 3");
@@ -238,16 +259,20 @@ public class MainActivity extends AppCompatActivity  {
                     if (next > SoLuongKH) {
                         lay_toi.setEnabled(false);
                         Toi.setEnabled(false);
+                        lay_toi.setBackgroundResource(R.color.space_background_color);
                     } else {
                         lay_toi.setEnabled(true);
                         Toi.setEnabled(true);
+                        lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                     }
                     if (pre <= 0) {
                         lay_lui.setEnabled(false);
                         Lui.setEnabled(false);
+                        lay_lui.setBackgroundResource(R.color.space_background_color);
                     } else {
                         lay_lui.setEnabled(true);
                         Lui.setEnabled(true);
+                        lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                     }
 
                 } else {
@@ -352,7 +377,17 @@ public class MainActivity extends AppCompatActivity  {
             m3con3.setText(khachhang.getSLTieuThu3con().trim());
         }
         DienThoai.setText(khachhang.getDienThoai().trim());
-
+        //set background cho tới và lùi
+        if(tt.equals("1")){
+            lay_lui.setBackgroundResource(R.color.space_background_color);
+        }
+        else if(tt.equals(String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong)))){
+            lay_toi.setBackgroundResource(R.color.space_background_color);
+        }
+        else{
+            lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+            lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+        }
 
     }
 
@@ -438,148 +473,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    /*
-    //-----------------------------------------------------------------------------
-    private void askPermissionAndWriteFile(String path, String data) {
-        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        //
-        if (canWrite) {
 
-            this.writeFile(path, data);
-        }
-    }
-
-    private void askPermissionAndReadFile() {
-        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        Log.e("canread", String.valueOf(canRead));
-        if (canRead) {
-
-            Log.e("canread", "chay vao if");
-            // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-            //  task.execute(duongdanfile);
-
-        }
-    }
-
-
-    // Với Android Level >= 23 bạn phải hỏi người dùng cho phép các quyền với thiết bị
-    // (Chẳng hạn đọc/ghi dữ liệu vào thiết bị).
-    private boolean askPermission(int requestId, String permissionName) {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-
-            // Kiểm tra quyền
-            int permission = ActivityCompat.checkSelfPermission(con, permissionName);
-
-
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-
-                // Nếu không có quyền, cần nhắc người dùng cho phép.
-                this.requestPermissions(
-                        new String[]{permissionName},
-                        requestId
-                );
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Khi yêu cầu hỏi người dùng được trả về (Chấp nhận hoặc không chấp nhận).
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
-
-        // Chú ý: Nếu yêu cầu bị hủy, mảng kết quả trả về là rỗng.
-        if (grantResults.length > 0) {
-            switch (requestCode) {
-                case REQUEST_ID_READ_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    }
-                }
-                case REQUEST_ID_WRITE_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(con, "Permission Cancelled!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    private void writeFile(String path, String data) {
-        // Thư mục gốc của SD Card.
-
-
-        try {
-            File myFile = new File(path);
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(data);
-            myOutWriter.close();
-            fOut.close();
-
-            Toast.makeText(con, filename + " saved", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String readFile(String path) {
-        Log.i("ExternalStorageDemo", "Read file: " + path);
-        Log.e("file path ne", path);
-        String s = "";
-        String fileContent = "";
-        try {
-            File myFile = new File(path);
-            if (myFile.exists()) {
-                Log.e("file ton tai", "true");
-            } else {
-                Log.e("file ton tai", "false");
-            }
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-
-            while ((s = myReader.readLine()) != null) {
-                fileContent += s + "\n";
-            }
-            //          this.viewjson.setText(fileContent);
-            myReader.close();
-            // Log.e("file json",fileContent);
-            //String finalFileContent = fileContent;
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-
-        return fileContent;
-    }
-
-
-    //check database
-    private static boolean doesDatabaseExist(Context context, String dbName) {
-        File dbFile = context.getDatabasePath(dbName);
-        return dbFile.exists();
-    }
-
-    private static boolean doesFileExist(String path) {
-        File file = new File(path);
-        return file.exists();
-    }
- //-------------------------------------------------------------------------------------
-*/
 
 //hàm ghi nước
 @Override
@@ -669,6 +563,50 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,SL,SLCon,thoigian,trangthaiTLK))
                 {
                     Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
+                    //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
+                    if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
+                        //Cập nhật biến ghi
+                        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                        Bien.bienghi = Bien.bienghi + 1;
+                        spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
+                        //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
+                        String sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan,STT_HienTai);
+                        STT_HienTai = sothutu;
+                        setDataForView(sothutu,maduong_nhan);
+                        spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan,sothutu);
+                    }
+                    //KH đã ghi nước xong => cập nhật đường va show dialog
+                    else {
+                        //cập nhật trạng thái đường đã ghi
+                       if(duongDAO.updateDuongDaGhi(maduong_nhan)) {
+                           //show dialog đã ghi xong..trở về listactivity
+                           AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                           // khởi tạo dialog
+                           if(duongDAO.countDuongChuaGhi()>0) {
+                               alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixong);
+                               // thiết lập nội dung cho dialog
+                           }
+                           else{
+                               alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixongtatca);
+                           }
+                           alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   dialog.dismiss();
+                                   Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                                   startActivity(intent);
+                               }
+                           });
+
+
+                           AlertDialog alertDialog = alertDialogBuilder.create();
+                           // tạo dialog
+                           alertDialog.show();
+                           // hiển thị dialog
+                       }
+                    }
+
+
                 }
                 else{
                     Toast.makeText(con,"Ghi nước thất bại",Toast.LENGTH_SHORT).show();
@@ -700,11 +638,12 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             }
             else{
                 kt =true;
+                //Kiem tra bat thuong dong ho con
             }
 
         }
 
-        return true;
+        return kt;
     }
 
 

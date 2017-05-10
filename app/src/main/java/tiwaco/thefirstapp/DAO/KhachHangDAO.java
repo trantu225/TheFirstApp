@@ -35,7 +35,7 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_DANHBO , kh.getDanhBo().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIACHI , kh.getDiaChi().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI , kh.getDienThoai().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_STT , kh.getSTT().trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_STT , Integer.parseInt(kh.getSTT().trim()));
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TRANGTHAITLK , kh.getTrangThaiTLK().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHITIETLOAI , kh.getChitietloai().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_COTLK , kh.getCotlk().trim());
@@ -92,7 +92,7 @@ public class KhachHangDAO {
                 kh.setDanhBo(cursor.getString(2));
                 kh.setDiaChi(cursor.getString(3));
                 kh.setDienThoai(cursor.getString(4));
-                kh.setSTT(cursor.getString(5));
+                kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6));
                 kh.setChitietloai(cursor.getString(7));
                 kh.setCotlk(cursor.getString(8));
@@ -149,7 +149,7 @@ public class KhachHangDAO {
                 kh.setDanhBo(cursor.getString(2));
                 kh.setDiaChi(cursor.getString(3));
                 kh.setDienThoai(cursor.getString(4));
-                kh.setSTT(cursor.getString(5));
+                kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6));
                 kh.setChitietloai(cursor.getString(7));
                 kh.setCotlk(cursor.getString(8));
@@ -205,7 +205,7 @@ public class KhachHangDAO {
                 kh.setDanhBo(cursor.getString(2));
                 kh.setDiaChi(cursor.getString(3));
                 kh.setDienThoai(cursor.getString(4));
-                kh.setSTT(cursor.getString(5));
+                kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6));
                 kh.setChitietloai(cursor.getString(7));
                 kh.setCotlk(cursor.getString(8));
@@ -261,7 +261,7 @@ public class KhachHangDAO {
                 kh.setDanhBo(cursor.getString(2));
                 kh.setDiaChi(cursor.getString(3));
                 kh.setDienThoai(cursor.getString(4));
-                kh.setSTT(cursor.getString(5));
+                kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6));
                 kh.setChitietloai(cursor.getString(7));
                 kh.setCotlk(cursor.getString(8));
@@ -425,7 +425,7 @@ public class KhachHangDAO {
             kh.setDanhBo(cursor.getString(2));
             kh.setDiaChi(cursor.getString(3));
             kh.setDienThoai(cursor.getString(4));
-            kh.setSTT(cursor.getString(5));
+            kh.setSTT(String.valueOf(cursor.getInt(5)));
             kh.setTrangThaiTLK(cursor.getString(6));
             kh.setChitietloai(cursor.getString(7));
             kh.setCotlk(cursor.getString(8));
@@ -518,7 +518,7 @@ public class KhachHangDAO {
             kh.setDanhBo(cursor.getString(2));
             kh.setDiaChi(cursor.getString(3));
             kh.setDienThoai(cursor.getString(4));
-            kh.setSTT(cursor.getString(5));
+            kh.setSTT(String.valueOf(cursor.getInt(5)));
             kh.setTrangThaiTLK(cursor.getString(6));
             kh.setChitietloai(cursor.getString(7));
             kh.setCotlk(cursor.getString(8));
@@ -557,5 +557,41 @@ public class KhachHangDAO {
         else{
             return null;
         }
+    }
+    public String getSTTChuaGhiNhoNhat(String maduong){
+            String data= "1";
+            db = myda.openDB();
+            Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
+                    new String[]{"MIN(" +MyDatabaseHelper.KEY_DANHSACHKH_STT + ") AS MINSTT"},
+                    MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO + "='' ",
+                    new String[] { maduong },
+                    null, null, null, null);
+           if(cursor!=null &&  cursor.moveToFirst()) {
+               Log.e("lay so thu tu chua ghi nho nhat","ok");
+               data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
+               if(data.equals("0")){
+                   data ="1";
+               }
+           }
+
+            db.close();
+            return data;
+
+    }
+
+    public String getSTTChuaGhiNhoNhatLonHonHienTai(String maduong,String stthientai){
+        String data= "1";
+        db = myda.openDB();
+        Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
+                new String[]{"MIN(" +MyDatabaseHelper.KEY_DANHSACHKH_STT + ") AS MINSTT"},
+                MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO + "='' and "+ MyDatabaseHelper.KEY_DANHSACHKH_STT + ">? ",
+                new String[] { maduong ,stthientai},
+                null, null, null, null);
+        if(cursor!=null &&  cursor.moveToFirst()) {
+            data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
+        }
+        db.close();
+        return data;
+
     }
 }

@@ -24,6 +24,8 @@ import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.R;
 
+import static android.R.color.holo_green_dark;
+
 /**
  * Created by TUTRAN on 12/04/2017.
  */
@@ -60,8 +62,19 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
         holder.MaDuong.setText(listDuong.get(position).getMaDuong());
         holder.TenDuong.setText(listDuong.get(position).getTenDuong());
+        if(listDuong.get(position).getTrangThai()==1){
+            holder.MaDuong.setBackgroundResource(R.drawable.button_round_daghi);
+            holder.TenDuong.setTextColor(con.getResources().getColor(R.color.selector_recylerview_text_daghi));
+        }
+        else{
+            holder.MaDuong.setBackgroundResource(R.drawable.button_round);
+            holder.TenDuong.setTextColor(con.getResources().getColor(R.color.selector_recylerview_text));
+
+        }
+
         if(position == Bien.selected_item){
             holder.itemView.setSelected(true);
+
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -93,18 +106,22 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
             }
 
-                });
+                        });
 
 
                     if(position == Bien.selected_item){
                         holder.itemView.setSelected(true);
                         holder.itemView.setPressed(true);
+                        holder.MaDuong.setSelected(true);
+                        holder.TenDuong.setSelected(true);
 
                     }
                     else
                     {
                         holder.itemView.setSelected(false);
                         holder.itemView.setPressed(false);
+                        holder.MaDuong.setSelected(false);
+                        holder.TenDuong.setSelected(false);
 
                     }
 
@@ -126,7 +143,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
             MaDuong = (TextView) itemView.findViewById(R.id.tv_MaDuong);
             TenDuong = (TextView) itemView.findViewById(R.id.tv_TenDuong);
-            TenDuong.setSelected(true);
+            //TenDuong.setSelected(true);
 
 
         }

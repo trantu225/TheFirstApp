@@ -94,7 +94,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_DANHBO + " TEXT,"
                 + KEY_DANHSACHKH_DIACHI + " TEXT,"
                 + KEY_DANHSACHKH_DIENTHOAI + " TEXT,"
-                + KEY_DANHSACHKH_STT + " TEXT,"
+                + KEY_DANHSACHKH_STT + " INTEGER,"
                 + KEY_DANHSACHKH_TRANGTHAITLK + " TEXT,"
                 + KEY_DANHSACHKH_CHITIETLOAI + " TEXT,"
                 + KEY_DANHSACHKH_COTLK + " TEXT,"

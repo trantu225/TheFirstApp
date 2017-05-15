@@ -29,6 +29,20 @@ public class SPData  {
         String stt=pre.getString(Bien.SPSTTDANGGHI, "");
         return stt;
     }
+
+    public int getDataIndexDuongDangGhiTrongSP(){
+
+        int stt=pre.getInt(Bien.SPINDEXDUONG, 0);
+        return stt;
+    }
+    public void luuDataIndexDuongDangGhiTrongSP(int index){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putInt(Bien.SPINDEXDUONG, index);
+        editor.commit();
+    }
+
     public void luuDataDuongVaSTTDangGhiTrongSP(String maduong,String stt){
 
         //tạo đối tượng Editor để lưu thay đổi
@@ -119,5 +133,11 @@ public class SPData  {
 
         int flagghi=pre.getInt(Bien.SPBKDG, 0);
         return flagghi;
+    }
+
+    public void KhoiTaoLaiSPDATA(){
+        SharedPreferences.Editor editor = pre.edit();
+        editor.clear();
+        editor.commit();
     }
 }

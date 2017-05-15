@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity  {
     DuongDAO duongDAO;
     KhachHangDAO khachhangDAO;
     KhachHangDTO khachhang;
-    TextView STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
+    TextView LabelDuong,STT, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
     EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity  {
     String STT_HienTai ="1";
     int SoLuongKH = 0;
     String maduong_nhan="",stt_nhan ="";
+    int vitri_nhan = 0;
     SPData spdata;
     String tenduong;
     String soKHconlai,tongsoKHTheoDuong;
@@ -110,9 +111,11 @@ public class MainActivity extends AppCompatActivity  {
         Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONG);
         if (packageFromCaller == null) {
             //get sharepreferences
-            String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP(); //lấy đường đang ghi
-            //tìm min(stt) của khách hàng chưa nghi tại đường đang ghi
+            final String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP(); //lấy đường đang ghi
 
+             //tìm min(stt) của khách hàng chưa nghi tại đường đang ghi
+            //luc bat dau chua co gi
+            Log.e("MAIN","luc bat dau chua co gi");
             if(SPduongdangghi.equalsIgnoreCase("")){
                //dialog chọn đường
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -141,28 +144,46 @@ public class MainActivity extends AppCompatActivity  {
                 alertDialog.show();
             }
             else{
-                //sharedpreferences
+                //tu start vao main
+                Log.e("MAIN","tu start vao main");
+
+
                 maduong_nhan = SPduongdangghi;
                 String STT = spdata.getDataSTTDangGhiTrongSP() ;
                 if(STT.equals("")) {
-                   STT= khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
+                    STT= khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
                 }
                 STT_HienTai = STT;
                 Log.e("STTMIN SP--------------------------",STT_HienTai);
                 SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
                 setDataForView(STT_HienTai,maduong_nhan);
-                Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
+
+                //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
+                //  spdata.luuDataIndexDuongDangGhiTrongSP(Bien.bien_index_duong);
+                // Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+                Toast.makeText(MainActivity.this, maduong_nhan, Toast.LENGTH_SHORT).show();
+
             }
 
 
         } else {
+            //từ listactivity  sang main để ghi nước
+            Log.e("MAIN","từ listactivity  sang main để ghi nước");
             //Có Bundle rồi thì lấy các thông số dựa vào key maduong và stt
             maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
             stt_nhan =  packageFromCaller.getString(Bien.STT);
+            vitri_nhan =  packageFromCaller.getInt(Bien.VITRI);
             STT_HienTai =stt_nhan;
             spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan,STT_HienTai);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
             setDataForView(STT_HienTai,maduong_nhan);
+          //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
+            if(vitri_nhan !=-1) {
+                spdata.luuDataIndexDuongDangGhiTrongSP(vitri_nhan);
+                Log.e("MAINACTIVITY_vitriduong", String.valueOf(vitri_nhan));
+                Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+
+            }
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
         }
 
@@ -174,7 +195,9 @@ public class MainActivity extends AppCompatActivity  {
         lay_ghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ghinuoc();
+                if(kiemTraDieuKienDeGhiNuoc()) {
+                    ghinuoc();
+                }
             }
         });
         Ghi.setOnClickListener(new View.OnClickListener() {
@@ -297,6 +320,7 @@ public class MainActivity extends AppCompatActivity  {
                     Bien.bienghi = spdata.getDataFlagGhiTrongSP();
                     Bien.bienghi = Bien.bienghi +1;
                     spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
+                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
                     Toast.makeText(con, R.string.main_capnhatsdt_thanhcong,Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -324,7 +348,12 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
 
+        Log.e("select duong-mainactivity", String.valueOf(Bien.selected_item));
+    }
 
     private void setDataForView(String tt, String maduong) {
         //Lấy khách hàng có stt hiện tại...mặc đình là 1
@@ -355,6 +384,17 @@ public class MainActivity extends AppCompatActivity  {
         m3conmoi.setText(khachhang.getSLTieuThucon().trim());
         TinhTrangTLK.setText(khachhang.getTrangThaiTLK().trim());
         GhiChu.setText(khachhang.getGhiChu().trim());
+        if(!khachhang.getChiSo().equals("")){
+            LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
+            DuongDangGhi.setBackgroundResource(android.R.color.holo_red_dark);
+            ConLai.setBackgroundResource(android.R.color.holo_red_dark);
+        }
+        else{
+            LabelDuong.setBackgroundResource(R.color.colorPrimaryDark);
+            DuongDangGhi.setBackgroundResource(R.color.colorPrimaryDark);
+            ConLai.setBackgroundResource(R.color.colorPrimaryDark);
+        }
+
         if(khachhang.getChiSo1con().equals("0") && khachhang.getChiSo2con().equals("0") && khachhang.getChiSo3con().equals("0")
             &&  khachhang.getSLTieuThu1con().equals("0")  &&  khachhang.getSLTieuThu2con().equals("0")  &&  khachhang.getSLTieuThu3con().equals("0")){
 
@@ -407,7 +447,8 @@ public class MainActivity extends AppCompatActivity  {
 
                 break;
             case R.id.action_search:
-
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
             break;
         }
 
@@ -445,6 +486,7 @@ public class MainActivity extends AppCompatActivity  {
         m3con3= (TextView) findViewById(R.id.tv_m3cu3con);
         m3moi= (TextView) findViewById(R.id.tv_m3moi);
         m3conmoi= (TextView) findViewById(R.id.tv_m3moicon);
+        LabelDuong = (TextView) findViewById(R.id.tv_label_duong);
         DuongDangGhi= (TextView) findViewById(R.id.tv_duongdangghi);
         ConLai= (TextView) findViewById(R.id.tv_conlai);
         DuongDangGhi.setSelected(true);
@@ -469,6 +511,7 @@ public class MainActivity extends AppCompatActivity  {
 
         chisomoi_con_lb =(TableRow) findViewById(R.id.tableRow_chisomoicon_lb);
         chisomoi_con =(TableRow) findViewById(R.id.tableRow_chisomoicon);
+
 
     }
 
@@ -563,12 +606,14 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,SL,SLCon,thoigian,trangthaiTLK))
                 {
                     Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
+                    //Cập nhật biến ghi
+                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                    Bien.bienghi = Bien.bienghi +1;
+                    spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
+                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
                     //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
                     if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
-                        //Cập nhật biến ghi
-                        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                        Bien.bienghi = Bien.bienghi + 1;
-                        spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
+
                         //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
                         String sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan,STT_HienTai);
                         STT_HienTai = sothutu;
@@ -630,7 +675,27 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             kt = false;
         }
         else{
-            //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
+            //Kiem tra chi so moi có nhỏ hơn chỉ số cũ ko
+            int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
+            int chisocu =  Integer.parseInt(ChiSo1.getText().toString().trim());
+            //Kiểm tra âm
+            if(chisomoi<0){
+                //Show dialog thông báo âm
+                showDiaLogThongBao(getString(R.string.main_thongbao_soam));
+                kt = false;
+            }
+            else{
+                if(chisomoi <chisocu){
+                    //Show dialog thông báo nhỏ hơn chỉ số cũ
+                    showDiaLogThongBao(getString(R.string.main_thongbao_csmoinhohoncscu));
+                    kt = false;
+                }
+                else{
+                    //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
+                    kt = true;
+                }
+            }
+
         }
         if(chisomoi_con.getVisibility()==View.VISIBLE){
             if(ChiSoMoiCon.getText().toString().trim().equals("")){
@@ -638,7 +703,24 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             }
             else{
                 kt =true;
-                //Kiem tra bat thuong dong ho con
+                int chisomoicon = Integer.parseInt(ChiSoMoiCon.getText().toString().trim());
+                int chisocucon =  Integer.parseInt(ChiSoCon1.getText().toString().trim());
+
+                if(chisomoicon<0){
+                    //Show dialog thông báo âm
+                    showDiaLogThongBao(getString(R.string.main_thongbao_soam));
+                    kt = false;
+                }
+                else{
+                    if(chisomoicon <chisocucon){
+                        //Show dialog thông báo nhỏ hơn chỉ số cũ
+                        showDiaLogThongBao(getString(R.string.main_thongbao_csmoinhohoncscu));
+                        kt = false;
+                    }
+                    else{
+                        kt = true;
+                    }
+                }
             }
 
         }
@@ -646,8 +728,34 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
         return kt;
     }
 
+private void showDiaLogThongBao(String mess){
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+    // khởi tạo dialog
+
+    alertDialogBuilder.setMessage(mess);
+
+    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            resetViewGhiNuoc();
+            dialog.dismiss();
+
+        }
+    });
 
 
+    AlertDialog alertDialog = alertDialogBuilder.create();
+    // tạo dialog
+    alertDialog.show();
+    // hiển thị dialog
+}
+private void  resetViewGhiNuoc(){
+    DienThoai.setText("");
+    TinhTrangTLK.setText("");
+    ChiSoMoi.setText("");
+    ChiSoMoiCon.setText("");
+    GhiChu.setText("");
+}
 
 }
 

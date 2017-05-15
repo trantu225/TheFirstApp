@@ -22,6 +22,7 @@ import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.R;
 
 import static android.R.color.holo_green_dark;
@@ -40,6 +41,11 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
     TextView tvTitleKH;
     RecyclerView reduong;
     String title ="";
+    SPData spdata ;
+    int vitri = 0;
+
+
+
     public CustomListDuongAdapter(Context context,List<DuongDTO> listData,ListView listKH,TextView txtMaDuong,RecyclerView re,TextView titleKH) {
         this.listDuong = listData;
         this.con = context;
@@ -47,6 +53,8 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
         this.tvmaduong = txtMaDuong;
         this.tvTitleKH = titleKH;
         this.reduong = re;
+        spdata = new SPData(con);
+
 
     }
     @Override
@@ -59,7 +67,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
     @Override
     public void onBindViewHolder(final CustomListDuongAdapter.RecyclerViewHolder holder, final int position) {
-
+        vitri  =position;
         holder.MaDuong.setText(listDuong.get(position).getMaDuong());
         holder.TenDuong.setText(listDuong.get(position).getTenDuong());
         if(listDuong.get(position).getTrangThai()==1){
@@ -72,10 +80,24 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
         }
 
-        if(position == Bien.selected_item){
+
+        Log.e("select duong--customlistduong bien.select", String.valueOf(Bien.selected_item));
+
+        if (position ==   Bien.selected_item) {
             holder.itemView.setSelected(true);
+            holder.itemView.setPressed(true);
+            holder.MaDuong.setSelected(true);
+            holder.TenDuong.setSelected(true);
+
+        } else {
+            holder.itemView.setSelected(false);
+            holder.itemView.setPressed(false);
+            holder.MaDuong.setSelected(false);
+            holder.TenDuong.setSelected(false);
 
         }
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,13 +107,17 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
                 if (pos != RecyclerView.NO_POSITION) {
 
-                    Bien.pre_item = Bien.selected_item;
-                    Bien.selected_item = pos;
+                  Bien.selected_item = pos;
+
+                   // selected_item =pos;
+
+
                     notifyDataSetChanged();
                 }
 
                 DuongDTO duong = listDuong.get(position);
                 Bien.ma_duong_dang_chon = duong.getMaDuong();
+             //   Bien.bien_index_duong = pos;
                 Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon);
                 tvmaduong.setText(duong.getMaDuong());
                 title =   "";
@@ -99,7 +125,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                 KhachHangDAO khachhangDAO = new KhachHangDAO(con);
                 liskhdao = khachhangDAO.getAllKHTheoDuong(duong.getMaDuong());
 
-                Bien.adapterKH = new CustomListAdapter(con,liskhdao);
+                Bien.adapterKH = new CustomListAdapter(con,liskhdao,pos);
                 title += String.valueOf(liskhdao.size()) +" khách hàng";
                 tvTitleKH.setText(title);
                 listviewKH.setAdapter(Bien.adapterKH);
@@ -107,27 +133,41 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
             }
 
                         });
+        if (position ==   Bien.selected_item) {
+            holder.itemView.setSelected(true);
+            holder.itemView.setPressed(true);
+            holder.MaDuong.setSelected(true);
+            holder.TenDuong.setSelected(true);
+
+        } else {
+            holder.itemView.setSelected(false);
+            holder.itemView.setPressed(false);
+            holder.MaDuong.setSelected(false);
+            holder.TenDuong.setSelected(false);
+
+        }
 
 
-                    if(position == Bien.selected_item){
-                        holder.itemView.setSelected(true);
-                        holder.itemView.setPressed(true);
-                        holder.MaDuong.setSelected(true);
-                        holder.TenDuong.setSelected(true);
 
-                    }
-                    else
-                    {
-                        holder.itemView.setSelected(false);
-                        holder.itemView.setPressed(false);
-                        holder.MaDuong.setSelected(false);
-                        holder.TenDuong.setSelected(false);
 
-                    }
+    //    Log.e("select duong--customlistduong", String.valueOf(Bien.selected_item));
 
 
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    public int getPosition(){
+        return vitri;
+    }
     @Override
     public int getItemCount() {
         return listDuong.size();
@@ -144,6 +184,8 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
             MaDuong = (TextView) itemView.findViewById(R.id.tv_MaDuong);
             TenDuong = (TextView) itemView.findViewById(R.id.tv_TenDuong);
             //TenDuong.setSelected(true);
+            Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+            Log.e("select duong--customlistduong--khoitao", String.valueOf(Bien.selected_item));
 
 
         }

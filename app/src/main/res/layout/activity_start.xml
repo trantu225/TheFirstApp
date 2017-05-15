@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@drawable/bitmap_background_button_start"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/layout_start"
@@ -11,7 +12,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/dp30"
-        android:background="@drawable/background_start_shape">
+       >
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
@@ -19,20 +20,24 @@
         android:shrinkColumns="*"
         android:stretchColumns="*"
         android:orientation="horizontal"
+
         android:gravity="center">
 
          <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+             android:layout_weight="1"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-             android:gravity="center">
+        android:gravity="center"
+        android:padding="@dimen/dp20"
+        android:layout_margin="@dimen/dp3"
+        android:background="@drawable/background_start_shape">
 
         <ImageButton
             android:id="@+id/btn_ghinuoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_button_ghinuoc_change"
-
             android:padding="@dimen/dp50"/>
              <android.support.v7.widget.AppCompatTextView
                  android:id="@+id/tv_ghinuoc"
@@ -44,9 +49,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="@dimen/dp20"
+            android:layout_margin="@dimen/dp3"
+            android:background="@drawable/background_start_shape"
             android:gravity="center">
 
             <ImageButton
@@ -66,19 +75,21 @@
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:shrinkColumns="*"
         android:stretchColumns="*"
         android:orientation="horizontal"
-        tools:context=".MainActivity"
         android:gravity="center">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/background_start_shape"
+            android:padding="@dimen/dp20"
+            android:layout_margin="@dimen/dp3"
             android:gravity="center">
         <ImageButton
             android:id="@+id/btn_loaddata"
@@ -98,6 +109,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="@dimen/dp20"
+            android:layout_margin="@dimen/dp3"
+            android:background="@drawable/background_start_shape"
             android:gravity="center">
         <ImageButton
                 android:id="@+id/btn_backup"

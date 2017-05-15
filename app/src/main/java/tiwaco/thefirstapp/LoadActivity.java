@@ -57,6 +57,7 @@ public class LoadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loaddata);
+        getSupportActionBar().hide();
         con = LoadActivity.this;
         duongDAO = new DuongDAO(LoadActivity.this);
         khachhangDAO = new KhachHangDAO(LoadActivity.this);
@@ -588,6 +589,19 @@ public class LoadActivity extends AppCompatActivity {
                         MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
                         task.execute(duongdanfile);
 
+                        Bien.selected_item =0;
+                        Bien.bien_index_duong = 0;
+                        Bien.bien_index_khachhang = 0;
+                        Bien.pre_item = 0;
+                        Bien.bienghi = 1;
+                        Bien.bienbkall = 0;
+                        Bien.bienbkcg = 0;
+                        Bien.bienbkdg = 0;
+                        spdata.KhoiTaoLaiSPDATA();
+                        spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg);
+
+
+
                     }
                 });
 
@@ -607,7 +621,18 @@ public class LoadActivity extends AppCompatActivity {
                 MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
                 task.execute(duongdanfile);
                 spdata = new SPData(con);
-                spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0);
+
+                Bien.selected_item =0;
+                Bien.bien_index_duong = 0;
+                Bien.bien_index_khachhang = 0;
+                Bien.pre_item = 0;
+                Bien.bienghi = 1;
+                Bien.bienbkall = 0;
+                Bien.bienbkcg = 0;
+                Bien.bienbkdg = 0;
+                spdata.KhoiTaoLaiSPDATA();
+                spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg);
+
 
             }
         }

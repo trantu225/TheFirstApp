@@ -32,6 +32,7 @@
     <!-- Listactivity -->
     <string name="list_chuyendulieu_hoighinuoc1">Bạn có muốn ghi nước đường: </string>
     <string name="list_chuyendulieu_hoighinuoc_khachhang">Bạn có muốn ghi nước khách hàng: </string>
+    <string name="list_chuyendulieu_hoighinuoc_capnhatkhachhang">Bạn có muốn cập nhật lại thông tin ghi nước của khách hàng: </string>
     <string name="list_chuyendulieu_hoighinuoc2"> không? </string>
     <!-- Mainactivity -->
     <string name="main_chuacothongtinduong"> Chưa chọn đường để ghi nước. Bạn có muốn chọn đường để ghi nước không? </string>
@@ -39,6 +40,8 @@
     <string name="main_capnhatsdt_thatbai">Cập nhật SĐT thất bại</string>
     <string name="main_ghinuoc_duongdaghixong">Đường này đã được ghi nước xong.</string>
     <string name="main_ghinuoc_duongdaghixongtatca">Tất cả các đường đã được ghi nước xong.</string>
+    <string name="main_thongbao_soam">Chỉ số nước không thể là số âm</string>
+    <string name="main_thongbao_csmoinhohoncscu">Chỉ số nước mới không thể nhỏ hơn chỉ số cũ</string>
     <!-- button -->
     <string name="btn_backup">Lưu dữ liệu</string>
     <string name="btn_ghinuoc">Ghi nước</string>
@@ -87,6 +90,8 @@
     <string name="btn_pre">LÙI</string>
     <string name="string_duong">đường</string>
     <string name="string_con">Còn lại:</string>
+
+    <string name="start_chuacoduongdeghinuoc">Bạn chưa ghi nước đường nào.Bạn có muốn chọn đường để ghi nước không?</string>
 
 
 </resources>

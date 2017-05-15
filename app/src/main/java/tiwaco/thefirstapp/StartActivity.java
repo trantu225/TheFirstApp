@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.Database.SPData;
 
 public class StartActivity extends AppCompatActivity  {
@@ -19,6 +21,7 @@ public class StartActivity extends AppCompatActivity  {
     ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup;
     Context con;
     SPData spdata;
+    DuongDAO duongDAO;
     SharedPreferences pre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class StartActivity extends AppCompatActivity  {
         btnLoadDl.setOnClickListener(myclick);
         btnBackup.setOnClickListener(myclick);
        // pre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
+        duongDAO = new DuongDAO(con);
         spdata = new SPData(con);
         Bien.bienghi = spdata.getDataFlagGhiTrongSP();
         Bien.bienbkall = spdata.getDataBKALLTrongSP();
@@ -91,17 +94,100 @@ public class StartActivity extends AppCompatActivity  {
             Intent myIntent;
             switch(v.getId()){
                 case R.id.btn_ghinuoc:
-                     myIntent = new Intent(StartActivity.this,MainActivity.class);
-                    startActivity(myIntent);
+                    String maduong = spdata.getDataDuongDangGhiTrongSP();
 
+                    String tenduong = duongDAO.getTenDuongTheoMa(maduong);
+                    if(maduong.equals("")){
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                        // khởi tạo dialog
+                        alertDialogBuilder.setMessage(R.string.start_chuacoduongdeghinuoc );
+                        // thiết lập nội dung cho dialog
+                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent myIntent2=new Intent(StartActivity.this, ListActivity.class);
+                                startActivity(myIntent2);
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.show();
+                    }else {
+                        String mess = "Bạn có muốn tiếp tục ghi nước đường " + maduong + "." + tenduong + " không?";
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                        // khởi tạo dialog
+                        alertDialogBuilder.setMessage(mess);
+                        // thiết lập nội dung cho dialog
+                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent myIntent1 = new Intent(StartActivity.this, MainActivity.class);
+                                startActivity(myIntent1);
+
+                                //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
+                                //  spdata.luuDataIndexDuongDangGhiTrongSP(Bien.bien_index_duong);
+                                // Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                                // khởi tạo dialog
+                                alertDialogBuilder.setMessage("Bạn có muốn ghi nước đường khác không?");
+                                // thiết lập nội dung cho dialog
+                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        Intent myIntent2 = new Intent(StartActivity.this, ListActivity.class);
+                                        startActivity(myIntent2);
+                                    }
+                                });
+
+                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+
+                                    }
+                                });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                // tạo dialog
+                                alertDialog.show();
+
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.show();
+
+                    }
                     break;
 
                 case R.id.btn_dskh:
+                    Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
                     myIntent=new Intent(StartActivity.this, ListActivity.class);
                     startActivity(myIntent);
 
                     break;
                 case R.id.btn_backup:
+
                      myIntent=new Intent(StartActivity.this, Backup_Activity.class);
                     startActivity(myIntent);
                     break;

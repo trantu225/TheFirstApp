@@ -30,6 +30,7 @@ import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.Database.SPData;
 
 /**
  * Created by TUTRAN on 17/04/2017.
@@ -50,44 +51,57 @@ public class ListActivity extends AppCompatActivity {
     TextView txtduongchon,txtTiltle;
     int vitri = 0;
     String title ="";
+    SPData spdata;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.listkh_fragment);
         super.onCreate(savedInstanceState);
+
 
         con = ListActivity.this;
 
         bar = getSupportActionBar();
         bar.setTitle(getString(R.string.tab_dsKH));
         bar.setLogo(R.mipmap.ic_logo_tiwaco);
+        spdata= new SPData(con);
         ListView listviewKH = (ListView) findViewById(R.id.lv_khachhang);
         txtduongchon = (TextView) findViewById(R.id.txt_maduongchon);
         txtTiltle =(TextView) findViewById(R.id.txt_title_dskh1);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
         duongDAO = new DuongDAO(con);
         listduong = duongDAO.getAllDuong();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
+
         adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon,recyclerView,txtTiltle);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(con);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+      //  Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+        layoutManager.scrollToPositionWithOffset(spdata.getDataIndexDuongDangGhiTrongSP() , 0);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        SPData spdata = new SPData(con);
+        String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP();
+        if(!SPduongdangghi.equals("")){
+            Bien.ma_duong_dang_chon = SPduongdangghi;
+        }else {
+            Bien.ma_duong_dang_chon = listduong.get(spdata.getDataIndexDuongDangGhiTrongSP()).getMaDuong();
+        }
 
-        Bien.ma_duong_dang_chon = listduong.get(Bien.selected_item).getMaDuong();
         khachhangDAO = new KhachHangDAO(con);
         liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
 
         title +=  String.valueOf(liskhdao.size()) +" khách hàng";
         txtTiltle.setText(title);
-        Bien.adapterKH = new CustomListAdapter(con, liskhdao);
+        Bien.adapterKH = new CustomListAdapter(con, liskhdao, spdata.getDataIndexDuongDangGhiTrongSP());
         listviewKH.setAdapter(Bien.adapterKH);
+        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+        listviewKH.setSelection( Bien.bien_index_khachhang);
 
 
-
-
+        Log.e("select duong---listactivity", String.valueOf(Bien.selected_item));
 
 
     }
@@ -106,8 +120,13 @@ public class ListActivity extends AppCompatActivity {
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.action_ghinuoc:
-
-
+                int vitriduong = 0;
+                for(int  i  = 0; i<listduong.size();i++){
+                    if(listduong.get(i).getMaDuong().equals(Bien.ma_duong_dang_chon)){
+                        vitriduong = i;
+                    }
+                }
+                final int finalVitriduong = vitriduong;
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.tab_ghinuoc))
                         .setMessage(getString(R.string.list_chuyendulieu_hoighinuoc1) +" "+ Bien.ma_duong_dang_chon + " "+ getString(R.string.list_chuyendulieu_hoighinuoc2))
@@ -116,6 +135,8 @@ public class ListActivity extends AppCompatActivity {
                                 Intent intent = new Intent(ListActivity.this, MainActivity.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                bundle.putInt(Bien.VITRI,finalVitriduong);
+                                Log.e("LISTACTIVITY_vitriduongghi", String.valueOf(finalVitriduong));
                                 intent.putExtra(Bien.GOITIN_MADUONG, bundle);
                                 Log.e("gui bundle maduong", Bien.ma_duong_dang_chon);
                                 Log.e("gui bundle sott",khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
@@ -146,4 +167,17 @@ public class ListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop() {
+        Log.e("onstop listactivity","OK");
+        super.onStop();
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.e("ondestroy listactivity","OK");
+        super.onDestroy();
+    }
 }

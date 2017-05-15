@@ -19,6 +19,7 @@ import java.util.List;
 
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.ListActivity;
 import tiwaco.thefirstapp.MainActivity;
 import tiwaco.thefirstapp.R;
@@ -32,10 +33,14 @@ public class CustomListAdapter extends BaseAdapter {
     private List<KhachHangDTO> customerList ;
     private LayoutInflater layoutInflater;
     private Context context;
-    public CustomListAdapter(Context con, List<KhachHangDTO> listcus){
+    private int index_duong;
+    SPData spdata;
+    public CustomListAdapter(Context con, List<KhachHangDTO> listcus,int vitriduong){
         customerList = listcus ;
         context = con ;
         layoutInflater = LayoutInflater.from(con);
+        index_duong = vitriduong;
+        spdata = new SPData(context);
     }
     @Override
     public int getCount() {
@@ -56,6 +61,7 @@ public class CustomListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder ;
      if(convertView == null){
+
             convertView = layoutInflater.inflate(R.layout.listkh_item,null);
 
             holder = new ViewHolder();
@@ -99,6 +105,9 @@ public class CustomListAdapter extends BaseAdapter {
                                     Bundle bundle = new Bundle();
                                     bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
                                     bundle.putString(Bien.STT,cus.getSTT());
+                                    if(index_duong !=-1) {
+                                        bundle.putInt(Bien.VITRI, index_duong);
+                                    }
                                     intent.putExtra(Bien.GOITIN_MADUONG, bundle);
                                     context.startActivity(intent);
                                 }
@@ -113,8 +122,32 @@ public class CustomListAdapter extends BaseAdapter {
 
                 }
                 else{
+                    Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon);
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getString(R.string.tab_ghinuoc))
+                            .setMessage(context.getString(R.string.list_chuyendulieu_hoighinuoc_capnhatkhachhang) +" "+ cus.getTenKhachHang() + " "+ context.getString(R.string.list_chuyendulieu_hoighinuoc2))
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                    bundle.putString(Bien.STT,cus.getSTT());
+                                    bundle.putInt(Bien.VITRI,index_duong);
+                                    intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                    context.startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .show();
+
 
                 }
+
             }
         });
         return convertView;

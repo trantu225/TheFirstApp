@@ -24,6 +24,8 @@ public class Bien {
     public static CustomListAdapter adapterKH =null;
     public static String ma_duong_dang_chon ="";
     public static int selected_item = 0;
+    public static int bien_index_duong = 0;
+    public static int bien_index_khachhang = 0;
     public static int pre_item = 0;
     public static int bienghi = 1;
     public static int bienbkall = 0;
@@ -31,6 +33,7 @@ public class Bien {
     public static int bienbkdg = 0;
     public static final String GOITIN_MADUONG = "goitinmaduong";
     public static final String MADUONG = "maduong";
+    public static final String VITRI = "indexmaduong";
     public static final String STT = "stt";
     public static final String SPMADUONG = "spmaduong";
     public static final String SPDATA = "spdata";
@@ -40,4 +43,5 @@ public class Bien {
     public static final String SPFLAGGHI = "spghi";
     public static final String SPSTTDANGGHI = "spstt";
     public static final String SPNHANVIEN = "spnhanvien";
+    public static final String SPINDEXDUONG= "spindexduong";
 }

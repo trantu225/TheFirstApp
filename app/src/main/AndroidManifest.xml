@@ -14,8 +14,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_tiwaread_vuong"
@@ -23,7 +21,8 @@
         android:roundIcon="@mipmap/ic_tiwaread"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <service android:name=".utilities.GPSTracker"/>
+        <service android:name=".utilities.GPSTracker" />
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +40,8 @@
         <activity android:name=".StartActivity" />
         <activity
             android:name=".Backup_Activity"
-            android:parentActivityName=".StartActivity"></activity>
+            android:parentActivityName=".StartActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

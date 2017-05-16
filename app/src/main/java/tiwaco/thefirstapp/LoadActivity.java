@@ -563,10 +563,32 @@ public class LoadActivity extends AppCompatActivity {
         return true;
     }
     private void loadData(){
-        getSdCardPath();
+//        getSdCardPath();
         File file = new File(duongdanfile);
         if(file.exists()) {
             if(KiemTraTonTaiDuLieu()) {
+
+                //xóa sqlite
+                MyDatabaseHelper mydata = new MyDatabaseHelper(con);
+                SQLiteDatabase db = mydata.openDB();
+                mydata.resetDatabase(db);
+
+
+                //Thêm data vào sqlite
+                MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
+                task.execute(duongdanfile);
+
+                Bien.selected_item =0;
+                Bien.bien_index_duong = 0;
+                Bien.bien_index_khachhang = 0;
+                Bien.pre_item = 0;
+                Bien.bienghi = 1;
+                Bien.bienbkall = 0;
+                Bien.bienbkcg = 0;
+                Bien.bienbkdg = 0;
+                spdata.KhoiTaoLaiSPDATA();
+                spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg);
+/*
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.delete_file_load_file);
@@ -615,7 +637,7 @@ public class LoadActivity extends AppCompatActivity {
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 // tạo dialog
-                alertDialog.show();
+                alertDialog.show();*/
             }
             else{
                 MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();

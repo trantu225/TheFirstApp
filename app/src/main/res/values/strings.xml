@@ -41,6 +41,7 @@
     <string name="main_ghinuoc_duongdaghixong">Đường này đã được ghi nước xong.</string>
     <string name="main_ghinuoc_duongdaghixongtatca">Tất cả các đường đã được ghi nước xong.</string>
     <string name="main_thongbao_soam">Chỉ số nước không thể là số âm</string>
+    <string name="main_thongbao_batthuong">Chỉ số nước bất thường. Bạn có muốn tiếp tục sử dụng chỉ số này không?</string>
     <string name="main_thongbao_csmoinhohoncscu">Chỉ số nước mới không thể nhỏ hơn chỉ số cũ</string>
     <!-- button -->
     <string name="btn_backup">Lưu dữ liệu</string>
@@ -58,15 +59,19 @@
     <string name="KH_chisocu">Chỉ số/m3 cũ ĐH chính: </string>
     <string name="KH_chisocucon">Chỉ số/m3 cũ ĐH con: </string>
     <string name="KH_m3cu">m3 cũ: </string>
-    <string name="KH_chisomoi">Chỉ số/m3 mới ĐH chính: </string>
-    <string name="KH_chisomoicon">Chỉ số/m3 mới ĐH con: </string>
-    <string name="KH_m3moi">m3 mới: </string>
+    <string name="KH_chisomoi_label">Chỉ số/m3 mới ĐH chính: </string>
+    <string name="KH_chisomoicon_label">Chỉ số/m3 mới ĐH con: </string>
+    <string name="KH_chisomoi">Chỉ số: </string>
+    <string name="KH_m3moi">m3: </string>
+    <string name="KH_chisomoicon">Chỉ số: </string>
+    <string name="KH_m3moicon">m3: </string>
     <string name="KH_ghichu">Ghi chú </string>
     <string name="KH_STT">STT: </string>
     <string name="KH_tinhtrangdongho">Tình trạng: </string>
     <string name="KH_hieuTLK">Hiệu: </string>
     <string name="KH_coTLK">Cỡ: </string>
     <string name="KH_maTLK">Mã: </string>
+    <string name="KH_danhbo">DBộ: </string>
     <string name="KH_loaiKH">Loại KH: </string>
     <string name="KH_DuongDangGhi">Đường: </string>
     <string name="ThongTinKH">Thông tin KH </string>
@@ -83,7 +88,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ghi_nuoc">Ghi nước</string>
-    <string name="DSKH">Danh sách KH</string>
+    <string name="DSKH">Danh sách</string>
     <string name="nhap_du_lieu">Nhập dữ liệu</string>
     <string name="load_status">Đang xử lý...</string>
     <string name="btn_next">TỚI</string>

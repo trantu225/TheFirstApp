@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
+import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 
 public class StartActivity extends AppCompatActivity  {
@@ -22,6 +25,7 @@ public class StartActivity extends AppCompatActivity  {
     Context con;
     SPData spdata;
     DuongDAO duongDAO;
+    KhachHangDAO khachhangDAO;
     SharedPreferences pre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class StartActivity extends AppCompatActivity  {
         btnBackup = (ImageButton) findViewById(R.id.btn_backup);
 
         getSupportActionBar().hide();
+        khachhangDAO = new KhachHangDAO(con);
         con =  StartActivity.this;
         btnGhinuoc.setOnClickListener(myclick);
         btnDanhSachKH.setOnClickListener(myclick);
@@ -83,7 +88,7 @@ public class StartActivity extends AppCompatActivity  {
         else{
 
             btnBackup.setEnabled(true);
-            btnBackup.setBackgroundResource(R.drawable.ic_save);
+            btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
         }
      //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
 
@@ -92,21 +97,21 @@ public class StartActivity extends AppCompatActivity  {
         @Override
         public void onClick(View v) {
             Intent myIntent;
-            switch(v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_ghinuoc:
                     String maduong = spdata.getDataDuongDangGhiTrongSP();
 
                     String tenduong = duongDAO.getTenDuongTheoMa(maduong);
-                    if(maduong.equals("")){
+                    if (maduong.equals("")) {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
                         // khởi tạo dialog
-                        alertDialogBuilder.setMessage(R.string.start_chuacoduongdeghinuoc );
+                        alertDialogBuilder.setMessage(R.string.start_chuacoduongdeghinuoc);
                         // thiết lập nội dung cho dialog
                         alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                Intent myIntent2=new Intent(StartActivity.this, ListActivity.class);
+                                Intent myIntent2 = new Intent(StartActivity.this, ListActivity.class);
                                 startActivity(myIntent2);
                             }
                         });
@@ -122,7 +127,7 @@ public class StartActivity extends AppCompatActivity  {
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         // tạo dialog
                         alertDialog.show();
-                    }else {
+                    } else {
                         String mess = "Bạn có muốn tiếp tục ghi nước đường " + maduong + "." + tenduong + " không?";
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
                         // khởi tạo dialog
@@ -182,47 +187,86 @@ public class StartActivity extends AppCompatActivity  {
 
                 case R.id.btn_dskh:
                     Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
-                    myIntent=new Intent(StartActivity.this, ListActivity.class);
+                    myIntent = new Intent(StartActivity.this, ListActivity.class);
                     startActivity(myIntent);
 
                     break;
                 case R.id.btn_backup:
 
-                     myIntent=new Intent(StartActivity.this, Backup_Activity.class);
+                    myIntent = new Intent(StartActivity.this, Backup_Activity.class);
                     startActivity(myIntent);
                     break;
 
 
                 case R.id.btn_loaddata:
-                    myIntent=new Intent(StartActivity.this, LoadActivity.class);
-                    startActivity(myIntent);
-                    break;
-            }
+                    if (KiemTraTonTaiDuLieu()) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                        // khởi tạo dialog
+                        alertDialogBuilder.setMessage(R.string.delete_file_load_file);
+                        // thiết lập nội dung cho dialog
 
+
+                        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Luu lai file chua sqlite cũ
+
+
+                                Intent myIntent = new Intent(StartActivity.this, LoadActivity.class);
+                                startActivity(myIntent);
+
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                // button "no" ẩn dialog đi
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.show();
+                    }
+
+                        break;
+                    }
+
+            }
         }
-    };
-    private void taoDialogThongBao(String message)
-    {
-        //Hiển thị dialog
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
-        // khởi tạo dialog
-        alertDialogBuilder.setMessage(message);
-        // thiết lập nội dung cho dialog
 
-        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+        ;
 
-                // button "no" ẩn dialog đi
-            }
-        });
+        private void taoDialogThongBao(String message) {
+            //Hiển thị dialog
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(message);
+            // thiết lập nội dung cho dialog
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
 
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        // tạo dialog
-        alertDialog.show();
-        // hiển thị dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.show();
+            // hiển thị dialog
+        }
+    private Boolean KiemTraTonTaiDuLieu(){
+
+        if(duongDAO.countDuong() <=0 && khachhangDAO.countKhachHangAll()<=0)
+        {
+            return false;
+        }
+        return true;
     }
-
 }

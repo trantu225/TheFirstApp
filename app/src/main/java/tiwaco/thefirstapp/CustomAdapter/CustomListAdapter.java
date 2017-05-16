@@ -69,6 +69,7 @@ public class CustomListAdapter extends BaseAdapter {
 
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
+            holder.DanhBo  = (TextView) convertView.findViewById(R.id.tv_danhbo);
         //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
 
@@ -83,6 +84,7 @@ public class CustomListAdapter extends BaseAdapter {
         holder.Ten.setSelected(true);
         holder.STT.setText(cus.getSTT());
         holder.DiaChi.setText(cus.getDiaChi());
+        holder.DanhBo.setText(cus.getDanhBo());
         if(cus.getChiSo().equalsIgnoreCase("")){
             holder.STT.setBackgroundResource(R.drawable.remove_bg);
 
@@ -159,5 +161,6 @@ public class CustomListAdapter extends BaseAdapter {
         TextView STT;
       //  ImageView TrangThai;
         TextView DiaChi;
+        TextView DanhBo;
     }
 }

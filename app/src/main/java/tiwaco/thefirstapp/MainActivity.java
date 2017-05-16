@@ -826,7 +826,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                         public void onClick(DialogInterface dialog, int which) {
 
 
-                            if(!m3moi.getText().equals("")) {
+                            if(!m3moi.getText().toString().trim().equals("")) {
                                 ghinuoc();
                             }
                             else{
@@ -884,11 +884,12 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-
-                                if(!m3conmoi.getText().equals("")) {
+                                Log.e("m3 rong","co - vo day");
+                                if(!m3conmoi.getText().toString().trim().equals("")) {
                                     ghinuoc();
                                 }
                                 else{
+                                    Log.e("m3 rong","vo day");
                                     showDiaLogThongBao("Sử dụng chỉ số bất thường cần nhập m3 nước.");
                                 }
                                 dialog.dismiss();

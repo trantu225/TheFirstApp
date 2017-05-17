@@ -548,6 +548,7 @@ public class LoadActivity extends AppCompatActivity {
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
                 alertDialog.show();
                 // hiển thị dialog
             }
@@ -675,6 +676,7 @@ public class LoadActivity extends AppCompatActivity {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
     }

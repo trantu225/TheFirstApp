@@ -1,11 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:focusableInTouchMode="true"
+    android:background="@drawable/bitmap_background_button_start"
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layout_khungtieude"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/black"
+        android:padding="@dimen/dp10"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp10"
+
+            android:background="@drawable/ic_back"/>
+        <EditText
+            android:id="@+id/edit_khungtimkiem"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:padding="@dimen/dp10"
+            android:layout_marginStart="@dimen/dp10"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:hint="@string/search_label"
+            android:textSize="@dimen/sp14"
+            android:textColorHint="@android:color/background_dark"
+            android:typeface="monospace" />
+        <ImageButton
+            android:id="@+id/btn_tim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp10"
+            android:background="@drawable/ic_search"/>
+        <ImageButton
+            android:id="@+id/btn_an"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp10"
+            android:background="@drawable/ic_eye"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_khungchitieu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="@dimen/dp3">
+
+        <TextView
+            android:id="@+id/tv_tieude_chitieutimkiem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp3"
+            android:text="@string/search_label_chitieu"
+            android:textColor="@color/wallet_link_text_light"
+            android:textColorHint="@android:color/white"
+            android:textSize="@dimen/sp14"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_tieude_chitieutimkiem_duong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:text="@string/KH_DuongDangGhi"
+                android:textColorHint="@android:color/white"
+                android:textSize="@dimen/sp14"
+                android:textStyle="bold"
+                android:typeface="monospace" />
+
+            <Spinner
+                android:id="@+id/spin_dsduong"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/dp3">
+
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:orientation="horizontal"
+           >
+
+            <CheckBox
+                android:id="@+id/cb_danhbo"
+                style="@android:style/Widget.Holo.Light.CompoundButton.CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="Danh Bộ"
+
+                android:textSize="@dimen/sp14" />
+
+            <CheckBox
+                android:id="@+id/cb_hoten"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Họ tên"
+
+                android:textSize="@dimen/sp14" />
+
+            <CheckBox
+                android:id="@+id/cb_dienthoai"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Điện thoại"
+                android:textSize="@dimen/sp14" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lvData"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
+    </ListView>
 </LinearLayout>

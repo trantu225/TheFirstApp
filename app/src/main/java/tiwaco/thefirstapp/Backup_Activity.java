@@ -252,6 +252,7 @@ public class Backup_Activity extends AppCompatActivity  {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
             // hiển thị dialog
         }
@@ -418,6 +419,7 @@ public class Backup_Activity extends AppCompatActivity  {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
             // hiển thị dialog
         }
@@ -475,6 +477,7 @@ public class Backup_Activity extends AppCompatActivity  {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
             // hiển thị dialog
         }
@@ -531,6 +534,7 @@ public class Backup_Activity extends AppCompatActivity  {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
             // hiển thị dialog
         }
@@ -646,6 +650,7 @@ public class Backup_Activity extends AppCompatActivity  {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
             // hiển thị dialog
             return false;
@@ -678,6 +683,7 @@ public class Backup_Activity extends AppCompatActivity  {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         // tạo dialog
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
         // hiển thị dialog
     }

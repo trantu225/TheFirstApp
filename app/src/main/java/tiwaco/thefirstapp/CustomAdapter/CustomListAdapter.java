@@ -84,6 +84,7 @@ public class CustomListAdapter extends BaseAdapter {
         holder.Ten.setSelected(true);
         holder.STT.setText(cus.getSTT());
         holder.DiaChi.setText(cus.getDiaChi());
+        holder.DiaChi.setSelected(true);
         holder.DanhBo.setText(cus.getDanhBo());
         if(cus.getChiSo().equalsIgnoreCase("")){
             holder.STT.setBackgroundResource(R.drawable.remove_bg);
@@ -120,6 +121,7 @@ public class CustomListAdapter extends BaseAdapter {
                                 }
                             })
                             .setIcon(android.R.drawable.ic_dialog_info)
+                            .setCancelable(false)
                             .show();
 
                 }
@@ -145,6 +147,7 @@ public class CustomListAdapter extends BaseAdapter {
                                 }
                             })
                             .setIcon(android.R.drawable.ic_dialog_info)
+                            .setCancelable(false)
                             .show();
 
 

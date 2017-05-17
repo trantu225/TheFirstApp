@@ -59,10 +59,16 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
     }
     @Override
     public CustomListDuongAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.listduong_item, parent, false);
+        RecyclerViewHolder mViewHold = new RecyclerViewHolder(mView);
+        return mViewHold;
+        /*
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemview = inflater.inflate(R.layout.listduong_item, parent, false);
 
         return new RecyclerViewHolder(itemview);
+        */
     }
 
     @Override
@@ -83,19 +89,6 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
         Log.e("select duong--customlistduong bien.select", String.valueOf(Bien.selected_item));
 
-        if (position ==   Bien.selected_item) {
-            holder.itemView.setSelected(true);
-            holder.itemView.setPressed(true);
-            holder.MaDuong.setSelected(true);
-            holder.TenDuong.setSelected(true);
-
-        } else {
-            holder.itemView.setSelected(false);
-            holder.itemView.setPressed(false);
-            holder.MaDuong.setSelected(false);
-            holder.TenDuong.setSelected(false);
-
-        }
 
 
 
@@ -133,6 +126,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
             }
 
                         });
+
         if (position ==   Bien.selected_item) {
             holder.itemView.setSelected(true);
             holder.itemView.setPressed(true);
@@ -146,7 +140,6 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
             holder.TenDuong.setSelected(false);
 
         }
-
 
 
 
@@ -184,7 +177,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
             MaDuong = (TextView) itemView.findViewById(R.id.tv_MaDuong);
             TenDuong = (TextView) itemView.findViewById(R.id.tv_TenDuong);
             //TenDuong.setSelected(true);
-            Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+            //Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
             Log.e("select duong--customlistduong--khoitao", String.valueOf(Bien.selected_item));
 
 

@@ -149,7 +149,9 @@ public class ListActivity extends AppCompatActivity {
                                 // do nothing
                             }
                         })
+
                         .setIcon(android.R.drawable.ic_dialog_info)
+                        .setCancelable(false)
                         .show();
 
 

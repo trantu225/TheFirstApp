@@ -126,6 +126,7 @@ public class StartActivity extends AppCompatActivity  {
 
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
                     } else {
                         String mess = "Bạn có muốn tiếp tục ghi nước đường " + maduong + "." + tenduong + " không?";
@@ -173,6 +174,7 @@ public class StartActivity extends AppCompatActivity  {
 
                                 AlertDialog alertDialog = alertDialogBuilder.create();
                                 // tạo dialog
+                                alertDialog.setCanceledOnTouchOutside(false);
                                 alertDialog.show();
 
                             }
@@ -180,6 +182,7 @@ public class StartActivity extends AppCompatActivity  {
 
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
 
                     }
@@ -228,6 +231,7 @@ public class StartActivity extends AppCompatActivity  {
 
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
                     }
 
@@ -258,6 +262,7 @@ public class StartActivity extends AppCompatActivity  {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
             // hiển thị dialog
         }

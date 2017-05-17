@@ -97,6 +97,8 @@
     <string name="string_con">Còn lại:</string>
 
     <string name="start_chuacoduongdeghinuoc">Bạn chưa ghi nước đường nào.Bạn có muốn chọn đường để ghi nước không?</string>
+    <string name="search_label">Tìm kiếm</string>
+    <string name="search_label_chitieu">Chỉ tiêu tìm kiếm</string>
 
 
 </resources>

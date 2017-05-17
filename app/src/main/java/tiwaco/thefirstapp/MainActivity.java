@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity  {
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
                 alertDialog.show();
             }
             else{
@@ -340,6 +341,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.show();
                 }
             }
@@ -476,6 +478,7 @@ public class MainActivity extends AppCompatActivity  {
 
                                 AlertDialog alertDialog = alertDialogBuilder.create();
                                 // tạo dialog
+                                alertDialog.setCanceledOnTouchOutside(false);
                                 alertDialog.show();
                                 // hiển thị dialog
                             } else {
@@ -535,7 +538,7 @@ public class MainActivity extends AppCompatActivity  {
                                 });
 
                                 AlertDialog alertDialog = alertDialogBuilder.create();
-
+                                alertDialog.setCanceledOnTouchOutside(false);
                                 // tạo dialog
                                 alertDialog.show();
                                 // hiển thị dialog
@@ -587,7 +590,9 @@ public class MainActivity extends AppCompatActivity  {
     private void taoView() {
         STT = (TextView) findViewById(R.id.tv_sttKH);
         MaKH= (TextView) findViewById(R.id.tv_maKH);
+        MaKH.setSelected(true);
         DanhBo = (TextView) findViewById(R.id.tv_DanhBo);
+        DanhBo.setSelected(true);
         HoTen= (TextView) findViewById(R.id.tv_hotenKH);
         HoTen.setSelected(true);
         DiaChi= (TextView) findViewById(R.id.tv_diachiKH);
@@ -717,8 +722,12 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
               //  Toast.makeText(getApplicationContext(), "GHI NUOC:Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 Log.e("Toa do", vido +"-"+kinhdo );
                 String nhanvien = spdata.getDataNhanVienTrongSP();
-                /*
-                String SL =  String.valueOf(Integer.parseInt(ChiSoMoi.getText().toString()) - Integer.parseInt(ChiSo1.getText().toString())).trim();
+               /*
+                if(m3.equals("")){
+                    String SL =  String.valueOf(Integer.parseInt(ChiSoMoi.getText().toString()) - Integer.parseInt(ChiSo1.getText().toString())).trim();
+                }
+
+
                 String SLCon;
                 if(!ChiSoMoiCon.getText().toString().equals("")) {
                     SLCon = String.valueOf(Integer.parseInt(ChiSoMoiCon.getText().toString()) - Integer.parseInt(ChiSoCon1.getText().toString())).trim();
@@ -774,6 +783,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                            AlertDialog alertDialog = alertDialogBuilder.create();
                            // tạo dialog
+                           alertDialog.setCanceledOnTouchOutside(false);
                            alertDialog.show();
                            // hiển thị dialog
                        }
@@ -849,12 +859,19 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.show();
                     // hiển thị dialog
                 }
                 else{
                     //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
-                   ghinuoc();
+                   if(m3moi.getText().toString().trim().equals("")){
+                       m3moi.setText(String.valueOf(chisomoi -chisocu));
+                       ghinuoc();
+                   }
+                   else {
+                       ghinuoc();
+                   }
                 }
             }
 
@@ -908,11 +925,18 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
                         // hiển thị dialog
                     }
                     else{
-                    ghinuoc();
+                        if(m3conmoi.getText().toString().trim().equals("")){
+                            m3moi.setText(String.valueOf(chisomoicon -chisocucon));
+                            ghinuoc();
+                        }
+                        else {
+                            ghinuoc();
+                        }
                     }
                 }
             }
@@ -940,6 +964,7 @@ private void showDiaLogThongBao(String mess){
 
     AlertDialog alertDialog = alertDialogBuilder.create();
     // tạo dialog
+    alertDialog.setCanceledOnTouchOutside(false);
     alertDialog.show();
     // hiển thị dialog
 }

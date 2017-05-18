@@ -120,6 +120,7 @@ public class DuongDAO {
         return ListDuong;
     }
 
+
     //0: là chưa ghi 1: đã ghi
     // Updating trạng thái Duong
     public boolean updateDuongDaGhi(String  maduong) {
@@ -177,12 +178,29 @@ public class DuongDAO {
         }
         cursor.close();
         db.close();
-            if(duong!=null){
-                return duong.getTenDuong();
-            }
-            else{
-                return "";
-            }
+        if(duong!=null){
+            return duong.getTenDuong();
+        }
+        else{
+            return "";
+        }
+    }
+    public DuongDTO getDuongTheoMa(String maduong){
+        db = myda.openDB();
+        Cursor cursor = db.query(TABLE_DUONG,
+                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI },
+                KEY_DUONG_MADUONG + "=?",
+                new String[] { String.valueOf(maduong) },
+                null, null, null, null);
+        DuongDTO duong = null;
+        if (cursor != null &&cursor.moveToFirst()) {
+
+
+            duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2));
+        }
+        cursor.close();
+        db.close();
+       return duong;
     }
 
 
@@ -212,5 +230,19 @@ public class DuongDAO {
         return soduong;
 
     }
+    public int getindexDuong(String maduong){
+        db = myda.openDB();
+        String countQuery = "SELECT  * FROM " + TABLE_DUONG +" WHERE "+ MyDatabaseHelper.KEY_DUONG_MADUONG+"='"+maduong+"'";
 
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int index = 0;
+        index= cursor.getPosition();
+        if(index ==-1) {
+            index = 0;
+        }
+        cursor.close();
+        db.close();
+        return index;
+
+    }
 }

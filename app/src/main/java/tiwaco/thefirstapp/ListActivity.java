@@ -169,17 +169,5 @@ public class ListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStop() {
-        Log.e("onstop listactivity","OK");
-        super.onStop();
 
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.e("ondestroy listactivity","OK");
-        super.onDestroy();
-    }
 }

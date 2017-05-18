@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -68,7 +69,10 @@ public class LoadActivity extends AppCompatActivity {
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
         prgTime.setProgress(0);
         prgTime.setText("0 %");
+        if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(LoadActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
+        }
         askPermissionAndReadFile();
     }
 
@@ -746,6 +750,45 @@ public class LoadActivity extends AppCompatActivity {
                         // writeFile(duongdanfile,dataGhi);
                         //backup file json
                     }
+                }
+                case 1: {
+                    // If request is cancelled, the result arrays are empty.
+                    if (grantResults.length > 0
+                            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                        // permission was granted, yay! Do the
+
+                        // contacts-related task you need to do.
+
+                        GPSTracker gps = new GPSTracker(con, LoadActivity.this);
+
+                        // Check if GPS enabled
+                        if (gps.canGetLocation()) {
+
+                            double latitude = gps.getLatitude();
+                            double longitude = gps.getLongitude();
+                            String vido = String.valueOf(latitude);
+                            String kinhdo = String.valueOf(longitude);
+
+                            Log.e("Toa do", vido +"-"+kinhdo );
+                            // \n is for new line
+                            Toast.makeText(getApplicationContext(), "REQUEST: Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                        } else {
+                            // Can't get location.
+                            // GPS or network is not enabled.
+                            // Ask user to enable GPS/network in settings.
+                            gps.showSettingsAlert();
+                        }
+
+                    } else {
+
+                        // permission denied, boo! Disable the
+                        // functionality that depends on this permission.
+
+                        Toast.makeText(con, "REQUEST: You need to grant permission....", Toast.LENGTH_SHORT).show();
+
+                    }
+                    return;
                 }
 
             }

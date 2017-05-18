@@ -39,7 +39,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:parentActivityName=".StartActivity" />
+             />
         <activity android:name=".LoadActivity" />
         <activity
             android:name=".ListActivity"

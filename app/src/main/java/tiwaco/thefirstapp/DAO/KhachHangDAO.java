@@ -650,4 +650,108 @@ public class KhachHangDAO {
         return data;
 
     }
+
+
+    public List<KhachHangDTO> TimKiemTheoSQL(String sqlstring) {
+        db = myda.openDB();
+        List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
+        // Select All Query
+    //    String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH ;
+        Cursor cursor = db.rawQuery(sqlstring, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                KhachHangDTO kh = new KhachHangDTO();
+                kh.setMaKhachHang(cursor.getString(0));
+                kh.setTenKhachHang(cursor.getString(1));
+                kh.setDanhBo(cursor.getString(2));
+                kh.setDiaChi(cursor.getString(3));
+                kh.setDienThoai(cursor.getString(4));
+                kh.setSTT(String.valueOf(cursor.getInt(5)));
+                kh.setTrangThaiTLK(cursor.getString(6));
+                kh.setChitietloai(cursor.getString(7));
+                kh.setCotlk(cursor.getString(8));
+                kh.setDinhmuc(cursor.getString(9));
+                kh.setHieutlk(cursor.getString(10));
+                kh.setLoaikh(cursor.getString(11));
+                kh.setMasotlk(cursor.getString(12));
+                kh.setGhiChu(cursor.getString(13));
+                kh.setChiSo(cursor.getString(14));
+                kh.setChiSocon(cursor.getString(15));
+                kh.setChiSo1(cursor.getString(16));
+                kh.setChiSo1con(cursor.getString(17));
+                kh.setChiSo2(cursor.getString(18));
+                kh.setChiSo2con(cursor.getString(19));
+                kh.setChiSo3(cursor.getString(20));
+                kh.setChiSo3con(cursor.getString(21));
+                kh.setSLTieuThu(cursor.getString(22));
+                kh.setSLTieuThu1(cursor.getString(23));
+                kh.setSLTieuThu1con(cursor.getString(24));
+                kh.setSLTieuThu2(cursor.getString(25));
+                kh.setSLTieuThu2con(cursor.getString(26));
+                kh.setSLTieuThu3(cursor.getString(27));
+                kh.setSLTieuThu3con(cursor.getString(28));
+                kh.setSLTieuThucon(cursor.getString(29));
+                kh.setLat(cursor.getString(30));
+                kh.setLon(cursor.getString(31));
+                kh.setThoiGian(cursor.getString(32));
+                kh.setNhanVien(cursor.getString(33));
+
+
+                // Adding contact to list
+                ListKH.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        Log.e("so luong danh sach kh tim kiem", String.valueOf(ListKH.size()));
+        return ListKH;
+    }
+
+    public String getMaDuongTheoMaKhachHang(String makhachhang){
+        String data= "";
+        db = myda.openDB();
+        Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
+                new String[]{ MyDatabaseHelper.KEY_DANHSACHKH_MADUONG },
+                MyDatabaseHelper.KEY_DANHSACHKH_MAKH + "=? ",
+                new String[] { makhachhang },
+                null, null, null, null);
+        if(cursor!=null &&  cursor.moveToFirst()) {
+            Log.e("lay so thu tu chua ghi nho nhat","ok");
+            data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
+
+        }
+
+        db.close();
+        return data;
+
+    }
+
+
+    public List<DuongDTO> getListDuongTheoDK(Context con,String dk) {
+        db = myda.openDB();
+        DuongDAO duongdao = new DuongDAO(con);
+        List<DuongDTO> ListDuong= new ArrayList<DuongDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  DISTINCT "+MyDatabaseHelper.KEY_DANHSACHKH_MADUONG+" FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +"  "+ dk ;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                String maduong = "";
+                maduong = cursor.getString(0);
+                Log.e("maduongtheodk",maduong);
+                DuongDTO duong = duongdao.getDuongTheoMa(maduong);
+
+                // Adding contact to list
+                ListDuong.add(duong);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        Log.e("so luong duong thoa dk", String.valueOf(ListDuong.size()));
+        return ListDuong;
+    }
 }

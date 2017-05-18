@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:padding="@dimen/dp10"
 
-            android:background="@drawable/ic_back"/>
+            android:background="@drawable/selector_pre"/>
         <EditText
             android:id="@+id/edit_khungtimkiem"
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="@dimen/dp10"
-            android:background="@drawable/ic_search"/>
+            android:background="@drawable/selector_timkiem"/>
         <ImageButton
             android:id="@+id/btn_an"
             android:layout_width="wrap_content"
@@ -148,7 +148,14 @@
         android:id="@+id/lvData"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="gone">
 
     </ListView>
+
+    <ExpandableListView
+        android:id="@+id/eplData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 </LinearLayout>

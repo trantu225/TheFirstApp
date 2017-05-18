@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity  {
         con = MainActivity.this;
 
         getSupportActionBar().setTitle(R.string.tab_ghinuoc);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         taoView();
         spdata = new SPData(con);
         duongDAO = new DuongDAO(con);
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity  {
             //luc bat dau chua co gi
             Log.e("MAIN","luc bat dau chua co gi");
             if(SPduongdangghi.equalsIgnoreCase("")){
+
                //dialog chọn đường
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                 // khởi tạo dialog
@@ -564,16 +567,22 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void selectItem(MenuItem item) {
-
+        Intent intent;
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.action_save:
+                intent = new Intent(MainActivity.this, Backup_Activity.class);
+                startActivity(intent);
 
                 break;
             case R.id.action_search:
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
-            break;
+                break;
+            case android.R.id.home:
+                MainActivity.this.finish();
+                break;
+
         }
 
 

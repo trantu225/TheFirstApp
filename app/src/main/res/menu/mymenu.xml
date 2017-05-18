@@ -13,11 +13,11 @@
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/btn_timkiem"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_save"
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/btn_backup"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

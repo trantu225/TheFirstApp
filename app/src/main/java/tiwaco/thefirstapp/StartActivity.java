@@ -21,7 +21,7 @@ import tiwaco.thefirstapp.Database.SPData;
 
 public class StartActivity extends AppCompatActivity  {
 
-    ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup;
+    ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup,btnSearch, btnLogout;
     Context con;
     SPData spdata;
     DuongDAO duongDAO;
@@ -35,6 +35,8 @@ public class StartActivity extends AppCompatActivity  {
         btnDanhSachKH = (ImageButton) findViewById(R.id.btn_dskh);
         btnLoadDl = (ImageButton) findViewById(R.id.btn_loaddata);
         btnBackup = (ImageButton) findViewById(R.id.btn_backup);
+        btnSearch = (ImageButton) findViewById(R.id.btn_timkiem);
+        btnLogout =(ImageButton) findViewById(R.id.btn_dangxuat);
 
         getSupportActionBar().hide();
         khachhangDAO = new KhachHangDAO(con);
@@ -43,6 +45,8 @@ public class StartActivity extends AppCompatActivity  {
         btnDanhSachKH.setOnClickListener(myclick);
         btnLoadDl.setOnClickListener(myclick);
         btnBackup.setOnClickListener(myclick);
+        btnSearch.setOnClickListener(myclick);
+        btnLogout.setOnClickListener(myclick);
        // pre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         duongDAO = new DuongDAO(con);
         spdata = new SPData(con);
@@ -236,6 +240,21 @@ public class StartActivity extends AppCompatActivity  {
                     }
 
                         break;
+
+                case R.id.btn_timkiem:
+
+                    myIntent = new Intent(StartActivity.this, SearchActivity.class);
+                    startActivity(myIntent);
+
+                    break;
+
+                case R.id.btn_dangxuat:
+                    spdata.luuDataNhanVienTrongSP("");
+                    myIntent = new Intent(StartActivity.this, LoginActivity.class);
+                    startActivity(myIntent);
+                    finish();
+
+                    break;
                     }
 
             }

@@ -23,7 +23,7 @@ import tiwaco.thefirstapp.Database.SPData;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity  {
-    Button btn_dangnhap;
+    Button btn_dangnhap,btn_thoat;
     EditText edt_ten;
     EditText edt_pass;
     NhanVienDTO nhanviendto ;
@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity  {
 
         con = LoginActivity.this;
         btn_dangnhap = (Button) this.findViewById(R.id.sign_in_button) ;
+        btn_thoat = (Button) this.findViewById(R.id.close_button) ;
         edt_ten =(EditText) this.findViewById(R.id.idnhanvien) ;
         edt_pass =(EditText) this.findViewById(R.id.password) ;
 
@@ -49,6 +50,12 @@ public class LoginActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 dangnhap();
+            }
+        });
+        btn_thoat.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
         ActionBar bar = this.getSupportActionBar();

@@ -15,6 +15,7 @@
     <string name="prompt_ID">ID nhân viên</string>
     <string name="prompt_password">Mật khẩu</string>
     <string name="action_sign_in">Đăng nhập</string>
+    <string name="action_close">Thoát</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_incorrect_password">Tên hoặc mật khẩu không đúng.Hãy thử lại</string>
     <string name="error_field_required">Bạn chưa nhập thông tin</string>

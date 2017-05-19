@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -36,7 +39,9 @@ import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 
-public class SearchActivity  extends AppCompatActivity {
+
+
+public class SearchActivity  extends AppCompatActivity  {
     private ListView listview;
     CustomListAdapter adapter;
     CustomTimKiem adapterTK;
@@ -53,9 +58,10 @@ public class SearchActivity  extends AppCompatActivity {
     LinearLayout layout_chitieu;
     String maduong ="";
     int vitriduong =-1;
-    Boolean flagEye  = true;
+    Boolean flagEye  = false;
+    ExpandableListView epdlistdata;
     HashMap<String, List<KhachHangDTO>> mDataTimKiem;
-    ExpandableListView epdlistdata ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +114,20 @@ public class SearchActivity  extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+
+        if(adapterTK != null) {
+            timkiem();
+            adapterTK.notifyDataSetChanged();
+        }
+        if(adapter !=null) {
+            timkiem();
+            adapter.notifyDataSetChanged();
+        }
+        super.onResume();
+    }
+
     private void timkiem() {
         String sqlstringselect = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +"  ";
         String dieukien ="";
@@ -116,7 +136,7 @@ public class SearchActivity  extends AppCompatActivity {
         String stringmaduong = "";
         String stringhoten = "";
         String stringdienthoai = "";
-
+        hideKeyboard(SearchActivity.this);
         if(!flagEye){
             vitriduong = -1;
             if(stringtim.equals("")){
@@ -146,43 +166,8 @@ public class SearchActivity  extends AppCompatActivity {
             for(int i=0; i < adapterTK.getGroupCount(); i++){
                 epdlistdata.expandGroup(i);
             }
-            DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            int width = metrics.widthPixels;
-            epdlistdata.setIndicatorBounds(width - dp2px(50), width - dp2px(10));
-            final String TAG = "MainActivity";
-            epdlistdata.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                    Log.e(TAG, "onChildClick: " + listduongtheoDK.get(groupPosition) + ", " + mDataTimKiem.get(listduongtheoDK.get(groupPosition)).get(childPosition).getTenKhachHang());
-                    return false;
-                }
-            });
 
-            epdlistdata.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    Log.e(TAG, "onGroupClick: " + groupPosition);
-                    epdlistdata.expandGroup(groupPosition);
-                    return true;
-                }
-            });
 
-            epdlistdata.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-                @Override
-                public void onGroupCollapse(int groupPosition) {
-                    Log.e(TAG, "onGroupCollapse: " + groupPosition);
-                    epdlistdata.collapseGroup(groupPosition);
-                }
-            });
-
-            epdlistdata.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-                @Override
-                public void onGroupExpand(int groupPosition) {
-                    Log.e(TAG, "onGroupExpand: " + groupPosition);
-                    epdlistdata.expandGroup(groupPosition);
-                }
-            });
         }
         else{
 
@@ -193,7 +178,7 @@ public class SearchActivity  extends AppCompatActivity {
                         stringdanhbo ="";
                     }
                     else {
-                        stringdanhbo = " and " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "'";
+                        stringdanhbo = " or " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "'";
                     }
                 }else{
                     stringdanhbo ="";
@@ -203,7 +188,7 @@ public class SearchActivity  extends AppCompatActivity {
                     if(stringtim.equals("")){
                         stringdienthoai ="";
                     }else {
-                        stringdienthoai = " and " + MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "'";
+                        stringdienthoai = " or " + MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "'";
                     }
 
                 }else{
@@ -214,19 +199,34 @@ public class SearchActivity  extends AppCompatActivity {
                     if(stringtim.equals("")){
                         stringdienthoai ="";
                     }else {
-                        stringhoten = " and " + MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%'";
+                        stringhoten = " or " + MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%'";
                     }
                 }else{
                     stringhoten ="";
                 }
 
-                dieukien = stringmaduong + stringdanhbo + stringdienthoai + stringhoten;
+                if(!ckDanhBo.isChecked() &&!ckDienThoai.isChecked() &&!ckHoten.isChecked() )
+                {
+                    dieukien = stringmaduong;
+                }
+                else{
+                    dieukien = stringmaduong + " and ( " + stringdanhbo + stringdienthoai + stringhoten +" )";
+                }
+
+
                 String sqlstr = sqlstringselect + dieukien;
                 listkhachhang = khachhangdao.TimKiemTheoSQL(sqlstr);
                 adapter = new CustomListAdapter(con,listkhachhang,vitriduong);
                 listview.setAdapter(adapter);
                 listview.setVisibility(View.VISIBLE);
                 epdlistdata.setVisibility(View.GONE);
+            epdlistdata.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    return  epdlistdata.isGroupExpanded(groupPosition) ? epdlistdata.collapseGroup(groupPosition) : epdlistdata.expandGroup(groupPosition);
+                }
+            });
+
         }
 
 
@@ -234,6 +234,19 @@ public class SearchActivity  extends AppCompatActivity {
 
 
     }
+    public static void hideKeyboard(AppCompatActivity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+
 
     private void taoview(){
         listview = (ListView) findViewById(R.id.lvData);
@@ -248,7 +261,7 @@ public class SearchActivity  extends AppCompatActivity {
         layout_chitieu =(LinearLayout) findViewById(R.id.layout_khungchitieu);
         epdlistdata = (ExpandableListView) findViewById(R.id.eplData);
         epdlistdata.setVisibility(View.GONE);
-        layout_chitieu.setVisibility(View.VISIBLE);
+        layout_chitieu.setVisibility(View.GONE);
     }
     public int dp2px(float dp) {
         // Get the screen's density scale
@@ -296,7 +309,6 @@ public class SearchActivity  extends AppCompatActivity {
 
 
     }
-
 
 
 

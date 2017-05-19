@@ -5,131 +5,203 @@
     android:gravity="center"
     android:background="@drawable/bitmap_background_button_start"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/layout_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/dp30"
-       >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:shrinkColumns="*"
-        android:stretchColumns="*"
-        android:orientation="horizontal"
+        android:padding="@dimen/dp30">
 
-        android:gravity="center">
-
-         <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="@dimen/dp20"
-        android:layout_margin="@dimen/dp3"
-        android:background="@drawable/background_start_shape">
-
-        <ImageButton
-            android:id="@+id/btn_ghinuoc"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_button_ghinuoc_change"
-            android:padding="@dimen/dp50"/>
-             <android.support.v7.widget.AppCompatTextView
-                 android:id="@+id/tv_ghinuoc"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:gravity="center"
-                 android:textSize="@dimen/sp14"
-                 android:text="@string/ghi_nuoc"/>
-        </LinearLayout>
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:shrinkColumns="*"
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/dp20"
-            android:layout_margin="@dimen/dp3"
-            android:background="@drawable/background_start_shape"
-            android:gravity="center">
+            android:stretchColumns="*">
 
-            <ImageButton
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp3"
+                android:layout_weight="1"
+                android:background="@drawable/background_start_shape"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp20">
+
+                <ImageButton
+                    android:id="@+id/btn_ghinuoc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_button_ghinuoc_change"
+                    android:padding="@dimen/dp50" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_ghinuoc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/ghi_nuoc"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp3"
+                android:layout_weight="1"
+                android:background="@drawable/background_start_shape"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp20">
+
+                <ImageButton
                     android:id="@+id/btn_dskh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_button_danhsachkh_change"
-                android:padding="@dimen/dp50" />
+                    android:padding="@dimen/dp50" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_dskh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/sp14"
-                android:text="@string/DSKH"/>
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:shrinkColumns="*"
-        android:stretchColumns="*"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/background_start_shape"
-            android:padding="@dimen/dp20"
-            android:layout_margin="@dimen/dp3"
-            android:gravity="center">
-        <ImageButton
-            android:id="@+id/btn_loaddata"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_button_loaddata_change"
-            android:padding="@dimen/dp50" />
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_loaddulieu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/sp14"
-                android:text="@string/nhap_du_lieu"/>
-</LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/dp20"
-            android:layout_margin="@dimen/dp3"
-            android:background="@drawable/background_start_shape"
-            android:gravity="center">
-        <ImageButton
-                android:id="@+id/btn_backup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_button_backup_change"
-                android:padding="@dimen/dp50" />
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_backupdulieu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/sp14"
-                android:text="Lưu dữ liệu"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_dskh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/DSKH"
+                    android:textSize="@dimen/sp14" />
             </LinearLayout>
 
         </LinearLayout>
-</LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp3"
+                android:layout_weight="1"
+                android:background="@drawable/background_start_shape"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp20">
+
+                <ImageButton
+                    android:id="@+id/btn_loaddata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_button_loaddata_change"
+                    android:padding="@dimen/dp50" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_loaddulieu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/nhap_du_lieu"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp3"
+                android:layout_weight="1"
+                android:background="@drawable/background_start_shape"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp20">
+
+                <ImageButton
+                    android:id="@+id/btn_backup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_button_backup_change"
+                    android:padding="@dimen/dp50" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_backupdulieu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Lưu dữ liệu"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp3"
+                android:layout_weight="1"
+                android:background="@drawable/background_start_shape"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp20">
+
+                <ImageButton
+                    android:id="@+id/btn_timkiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_button_search_change"
+                    android:padding="@dimen/dp50" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_timkiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/btn_timkiem"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp3"
+                android:layout_weight="1"
+                android:background="@drawable/background_start_shape"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp20">
+
+                <ImageButton
+                    android:id="@+id/btn_dangxuat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_button_logout_change"
+                    android:padding="@dimen/dp50" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_dangxuat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Đăng xuất"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

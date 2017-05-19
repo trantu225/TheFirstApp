@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -51,6 +52,7 @@ import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.SPData;
+
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -573,11 +575,13 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.action_save:
                 intent = new Intent(MainActivity.this, Backup_Activity.class);
                 startActivity(intent);
+                MainActivity.this.finish();
 
                 break;
             case R.id.action_search:
                 intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
+                MainActivity.this.finish();
                 break;
             case android.R.id.home:
                 MainActivity.this.finish();
@@ -798,6 +802,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                        }
                     }
 
+                    hideKeyboard(MainActivity.this);
 
                 }
                 else{
@@ -977,6 +982,16 @@ private void showDiaLogThongBao(String mess){
     alertDialog.show();
     // hiển thị dialog
 }
+    public static void hideKeyboard(AppCompatActivity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 private void  resetViewGhiNuoc(){
     DienThoai.setText("");
     TinhTrangTLK.setText("");

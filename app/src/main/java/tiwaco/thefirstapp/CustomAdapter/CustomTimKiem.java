@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -47,6 +48,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
         spdata = new SPData(context);
         duongdao = new DuongDAO(context);
         khachhangdao = new KhachHangDAO(context);
+
     }
 
     @Override
@@ -85,16 +87,17 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater li = LayoutInflater.from(mContext);
             convertView = li.inflate(R.layout.epl_duong_item, parent, false);
         }
 
-        TextView tvHeader = (TextView) convertView.findViewById(R.id.tv_tenduongTK);
+        final TextView tvHeader = (TextView) convertView.findViewById(R.id.tv_tenduongTK);
         TextView soketqua = (TextView) convertView.findViewById(R.id.tv_conlaiTK);
         tvHeader.setText(mHeaderGroup.get(groupPosition).getMaDuong()+"."+mHeaderGroup.get(groupPosition).getTenDuong());
         soketqua.setText(String.valueOf(getChildrenCount(groupPosition)) +" kết quả");
+
         return convertView;
     }
 
@@ -160,7 +163,6 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
                                     }
                                     intent.putExtra(Bien.GOITIN_MADUONG, bundle);
                                     mContext.startActivity(intent);
-                                    finish();
 
                                 }
                             })
@@ -197,7 +199,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
                                     }
                                     intent.putExtra(Bien.GOITIN_MADUONG, bundle);
                                     mContext.startActivity(intent);
-                                    finish();
+
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -217,9 +219,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    private void finish() {
-        this.finish();
-    }
+
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {

@@ -14,19 +14,25 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.LichSuDAO;
+import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 
 public class StartActivity extends AppCompatActivity  {
 
-    ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup,btnSearch, btnLogout;
+    ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup,btnSearch, btnLogout,btnStart;
     Context con;
     SPData spdata;
     DuongDAO duongDAO;
     KhachHangDAO khachhangDAO;
     SharedPreferences pre;
+    LichSuDAO lichsudao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +43,19 @@ public class StartActivity extends AppCompatActivity  {
         btnBackup = (ImageButton) findViewById(R.id.btn_backup);
         btnSearch = (ImageButton) findViewById(R.id.btn_timkiem);
         btnLogout =(ImageButton) findViewById(R.id.btn_dangxuat);
-
+        btnStart = (ImageButton) findViewById(R.id.btn_lichsu);
+        con =  StartActivity.this;
         getSupportActionBar().hide();
         khachhangDAO = new KhachHangDAO(con);
-        con =  StartActivity.this;
+        lichsudao = new LichSuDAO(con);
+
         btnGhinuoc.setOnClickListener(myclick);
         btnDanhSachKH.setOnClickListener(myclick);
         btnLoadDl.setOnClickListener(myclick);
         btnBackup.setOnClickListener(myclick);
         btnSearch.setOnClickListener(myclick);
         btnLogout.setOnClickListener(myclick);
+        btnStart.setOnClickListener(myclick);
        // pre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         duongDAO = new DuongDAO(con);
         spdata = new SPData(con);
@@ -247,9 +256,21 @@ public class StartActivity extends AppCompatActivity  {
                     startActivity(myIntent);
 
                     break;
+                case R.id.btn_lichsu:
 
+                    myIntent = new Intent(StartActivity.this, HistoryActivity.class);
+                    startActivity(myIntent);
+
+                    break;
                 case R.id.btn_dangxuat:
+                    LichSuDTO ls = new LichSuDTO();
+                    ls.setNoiDungLS(spdata.getDataNhanVienTrongSP() +" đăng xuất.");
+                    ls.setMaLenh("DN");
+                    String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                    ls.setThoiGianLS(thoigian1);
+                    lichsudao.addTable_History(ls);
                     spdata.luuDataNhanVienTrongSP("");
+
                     myIntent = new Intent(StartActivity.this, LoginActivity.class);
                     startActivity(myIntent);
                     finish();

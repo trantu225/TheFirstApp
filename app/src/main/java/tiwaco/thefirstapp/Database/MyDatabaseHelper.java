@@ -30,6 +30,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     // Table name
     public static final String TABLE_DUONG = "Duong";
     public static final String TABLE_DANHSACHKH = "danhsachkh";
+    public static final String TABLE_LICHSU = "lichsu";
 
 
     // Duong Table Columns names
@@ -76,6 +77,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_MADUONG= "maduong";
 
 
+    // Duong Table Columns names
+    public static final String KEY_LISHSU_MALS = "malichsu";
+    public static final String KEY_LICHSU_NDLS = "noidunglichsu";
+    public static final String KEY_LICHSU_THOIGIAN = "thoigianlichsu";
+    public static final String KEY_LICHSU_MALENH = "malenh";
+
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -88,7 +95,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DUONG_TENDUONG + " TEXT,"
                 + KEY_DUONG_TRANGTHAI + " INTEGER" + ")";
 
-        String CREATE_KHACHHANG_TABLE = "CREATE TABLE " + TABLE_DANHSACHKH + "("
+        String CREATE_KHACHHANG_TABLE = "CREATE TABLE  " + TABLE_DANHSACHKH + "("
                 + KEY_DANHSACHKH_MAKH + " TEXT PRIMARY KEY,"
                 + KEY_DANHSACHKH_TENKH + " TEXT,"
                 + KEY_DANHSACHKH_DANHBO + " TEXT,"
@@ -125,8 +132,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_NHANVIEN + " TEXT,"
                 + KEY_DANHSACHKH_MADUONG + " TEXT" + ")";
 
+        String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
+                + KEY_LISHSU_MALS + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + KEY_LICHSU_NDLS + " TEXT,"
+                + KEY_LICHSU_MALENH + " TEXT,"
+                + KEY_LICHSU_THOIGIAN + " TEXT" + ")";
+
         db.execSQL(CREATE_DUONG_TABLE);
         db.execSQL(CREATE_KHACHHANG_TABLE);
+        db.execSQL(CREATE_LISHSU_TABLE);
     }
 
     @Override
@@ -137,6 +151,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             // Drop older table if existed
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_DUONG);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
             // Create tables again
             onCreate(db);
         }
@@ -145,6 +160,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DUONG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
         // Create tables again
         onCreate(db);
     }

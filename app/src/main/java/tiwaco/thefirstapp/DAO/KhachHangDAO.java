@@ -421,7 +421,11 @@ public class KhachHangDAO {
         String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH ;
 
         Cursor cursor = db.rawQuery(countQuery, null);
-        sokh =cursor.getCount();
+        if(cursor ==null){
+            sokh =0;
+        }else {
+            sokh = cursor.getCount();
+        }
         cursor.close();
         db.close();
         Log.e("sokh", String.valueOf(sokh));

@@ -45,8 +45,10 @@ import java.util.List;
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.DTO.ListJsonData;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
 import tiwaco.thefirstapp.Database.SPData;
@@ -71,6 +73,7 @@ public class Backup_Activity extends AppCompatActivity  {
     KhachHangDAO khachangdao;
     Context con;
     SPData spdata;
+    LichSuDAO lichsudao;
 
 
     @Override
@@ -81,8 +84,7 @@ public class Backup_Activity extends AppCompatActivity  {
         con = Backup_Activity.this;
         duongdao = new DuongDAO(con);
         khachangdao = new KhachHangDAO(con);
-
-
+        lichsudao = new LichSuDAO(con);
         getView();
 
 
@@ -234,6 +236,12 @@ public class Backup_Activity extends AppCompatActivity  {
             Log.e("flag flagall 2", String.valueOf( Bien.bienbkall));
             Log.e("flag flagcg 2", String.valueOf(Bien.bienbkcg));
             Log.e("flag flagdg 2", String.valueOf(Bien.bienbkdg));
+            LichSuDTO ls = new LichSuDTO();
+            ls.setNoiDungLS("Lưu dữ liệu ghi nước");
+            ls.setMaLenh("BK");
+            String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+            ls.setThoiGianLS(thoigian1);
+            lichsudao.addTable_History(ls);
             //Hiển thị dialog
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
             // khởi tạo dialog

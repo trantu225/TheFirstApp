@@ -13,8 +13,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DAO.NhanVienDAO;
+import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.DTO.NhanVienDTO;
 import tiwaco.thefirstapp.Database.SPData;
 
@@ -29,6 +34,7 @@ public class LoginActivity extends AppCompatActivity  {
     NhanVienDTO nhanviendto ;
     NhanVienDAO nhanviendao;
     Context con ;
+    LichSuDAO lichsudao;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
 
@@ -44,6 +50,7 @@ public class LoginActivity extends AppCompatActivity  {
 
         nhanviendto = new NhanVienDTO();
         nhanviendao = new NhanVienDAO();
+        lichsudao = new LichSuDAO(con);
         Bien.listNV = nhanviendao.TaoDSNhanVien();
 
         btn_dangnhap.setOnClickListener(new OnClickListener() {
@@ -92,6 +99,12 @@ public class LoginActivity extends AppCompatActivity  {
                 //Bien.nhanvien = edt_ten.getText().toString().trim();
                 SPData spdata = new SPData(con);
                 spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
+                LichSuDTO ls = new LichSuDTO();
+                ls.setNoiDungLS(edt_ten.getText().toString().trim() +" đăng nhập.");
+                ls.setMaLenh("DN");
+                String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                ls.setThoiGianLS(thoigian1);
+                lichsudao.addTable_History(ls);
                 KhachHangDAO khdao = new KhachHangDAO(LoginActivity.this);
                 if(khdao.countKhachHangAll() >0){
                     Intent myIntent=new Intent(this, StartActivity.class);

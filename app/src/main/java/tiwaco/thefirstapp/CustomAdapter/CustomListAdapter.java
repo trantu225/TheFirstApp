@@ -31,7 +31,6 @@ import tiwaco.thefirstapp.R;
  */
 
 public class CustomListAdapter extends BaseAdapter {
-
     private List<KhachHangDTO> customerList ;
     private LayoutInflater layoutInflater;
     private Context context;
@@ -66,7 +65,7 @@ public class CustomListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder ;
-     if(convertView == null){
+        if(convertView == null){
 
             convertView = layoutInflater.inflate(R.layout.listkh_item,null);
 
@@ -77,7 +76,7 @@ public class CustomListAdapter extends BaseAdapter {
 
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
             holder.DanhBo  = (TextView) convertView.findViewById(R.id.tv_danhbo);
-        //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
+            //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
 
         }
@@ -91,12 +90,12 @@ public class CustomListAdapter extends BaseAdapter {
         Log.e("index", String.valueOf(index_duong));
         if(index_duong == -1){
             Log.e("AN STT","OK");
-           // holder.STT.setVisibility(View.GONE);
+            // holder.STT.setVisibility(View.GONE);
             holder.STT.setText(String.valueOf(position+1));
         }
         else{
             Log.e("AN STT","NO");
-          //  holder.STT.setVisibility(View.VISIBLE);
+            //  holder.STT.setVisibility(View.VISIBLE);
             holder.STT.setText(cus.getSTT());
         }
 
@@ -116,7 +115,7 @@ public class CustomListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if(cus.getChiSo().equalsIgnoreCase("")){
-                  //chua ghi
+                    //chua ghi
                     Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon);
                     new AlertDialog.Builder(context)
                             .setTitle(context.getString(R.string.tab_ghinuoc))
@@ -125,7 +124,7 @@ public class CustomListAdapter extends BaseAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent intent = new Intent(context, MainActivity.class);
                                     Bundle bundle = new Bundle();
-                                   // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                    // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
                                     bundle.putString(Bien.MADUONG, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
                                     bundle.putString(Bien.STT,cus.getSTT() );
                                     if(index_duong !=-1) { //tu tim kiem chuyen qua
@@ -158,7 +157,7 @@ public class CustomListAdapter extends BaseAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent intent = new Intent(context, MainActivity.class);
                                     Bundle bundle = new Bundle();
-                                   // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                    // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
                                     bundle.putString(Bien.MADUONG, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
                                     bundle.putString(Bien.STT,cus.getSTT());
                                     if(index_duong !=-1) {
@@ -193,8 +192,9 @@ public class CustomListAdapter extends BaseAdapter {
 
         TextView Ten;
         TextView STT;
-      //  ImageView TrangThai;
+        //  ImageView TrangThai;
         TextView DiaChi;
         TextView DanhBo;
     }
+
 }

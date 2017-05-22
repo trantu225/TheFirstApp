@@ -50,7 +50,9 @@ import java.util.List;
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.Database.SPData;
 
 
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity  {
     Context con;
     DuongDAO duongDAO;
     KhachHangDAO khachhangDAO;
+    LichSuDAO lichsudao;
     KhachHangDTO khachhang;
     TextView LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
     EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu;
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity  {
         spdata = new SPData(con);
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
-
+        lichsudao = new LichSuDAO(con);
 
         //----- lay toa do
 
@@ -761,6 +764,14 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     Bien.bienghi = Bien.bienghi +1;
                     spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
                     Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+
+                    LichSuDTO ls = new LichSuDTO();
+                    ls.setNoiDungLS("Ghi nước đường "+ tenduong +", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
+                    ls.setMaLenh("GN");
+                    String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+
+                    ls.setThoiGianLS(thoigian1);
+                    lichsudao.addTable_History(ls);
                     //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
                     if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
 

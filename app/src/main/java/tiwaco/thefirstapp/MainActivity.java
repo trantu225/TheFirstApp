@@ -20,6 +20,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 
 import android.view.Menu;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity  {
     String kinhdo="";
     GPSTracker gps;
     boolean kt = false;
+    private static boolean flagDangGhi = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,24 +222,12 @@ public class MainActivity extends AppCompatActivity  {
         lay_toi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int next = Integer.parseInt(STT_HienTai) + 1;
-                STT_HienTai = String.valueOf(next);
-                Log.e("BienSTTHIenTai", STT_HienTai);
-                Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                if (next+1 > SoLuongKH) {
-                    lay_toi.setEnabled(false);
-                    Toi.setEnabled(false);
-                    lay_toi.setBackgroundResource(R.color.space_background_color);
-                } else {
-                    lay_toi.setEnabled(true);
-                    Toi.setEnabled(true);
-                    lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
-                }
-                if (next > 0 && next <= SoLuongKH) {
-                    setDataForView(STT_HienTai, maduong_nhan);
-                    next = Integer.parseInt(STT_HienTai) + 1;
-                    int pre = Integer.parseInt(STT_HienTai) - 1;
-                    if (next > SoLuongKH) {
+                if(!flagDangGhi) {
+                    int next = Integer.parseInt(STT_HienTai) + 1;
+                    STT_HienTai = String.valueOf(next);
+                    Log.e("BienSTTHIenTai", STT_HienTai);
+                    Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                    if (next + 1 > SoLuongKH) {
                         lay_toi.setEnabled(false);
                         Toi.setEnabled(false);
                         lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -245,19 +236,100 @@ public class MainActivity extends AppCompatActivity  {
                         Toi.setEnabled(true);
                         lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                     }
-                    if (pre <= 0) {
-                        lay_lui.setEnabled(false);
-                        Lui.setEnabled(false);
-                        lay_lui.setBackgroundResource(R.color.space_background_color);
+                    if (next > 0 && next <= SoLuongKH) {
+                        setDataForView(STT_HienTai, maduong_nhan);
+                        next = Integer.parseInt(STT_HienTai) + 1;
+                        int pre = Integer.parseInt(STT_HienTai) - 1;
+                        if (next > SoLuongKH) {
+                            lay_toi.setEnabled(false);
+                            Toi.setEnabled(false);
+                            lay_toi.setBackgroundResource(R.color.space_background_color);
+                        } else {
+                            lay_toi.setEnabled(true);
+                            Toi.setEnabled(true);
+                            lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                        }
+                        if (pre <= 0) {
+                            lay_lui.setEnabled(false);
+                            Lui.setEnabled(false);
+                            lay_lui.setBackgroundResource(R.color.space_background_color);
+                        } else {
+                            lay_lui.setEnabled(true);
+                            Lui.setEnabled(true);
+                            lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                        }
                     } else {
-                        lay_lui.setEnabled(true);
-                        Lui.setEnabled(true);
-                        lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                        Log.e("BienSTTHIenTai", STT_HienTai);
                     }
-                } else {
-                    Log.e("BienSTTHIenTai", STT_HienTai);
                 }
+                else{
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    // khởi tạo dialog
 
+                    alertDialogBuilder.setMessage("Bạn đang ghi nước.Bạn có muốn hủy ghi nước không?");
+
+                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                            int next = Integer.parseInt(STT_HienTai) + 1;
+                            STT_HienTai = String.valueOf(next);
+                            Log.e("BienSTTHIenTai", STT_HienTai);
+                            Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                            if (next + 1 > SoLuongKH) {
+                                lay_toi.setEnabled(false);
+                                Toi.setEnabled(false);
+                                lay_toi.setBackgroundResource(R.color.space_background_color);
+                            } else {
+                                lay_toi.setEnabled(true);
+                                Toi.setEnabled(true);
+                                lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            }
+                            if (next > 0 && next <= SoLuongKH) {
+                                setDataForView(STT_HienTai, maduong_nhan);
+                                next = Integer.parseInt(STT_HienTai) + 1;
+                                int pre = Integer.parseInt(STT_HienTai) - 1;
+                                if (next > SoLuongKH) {
+                                    lay_toi.setEnabled(false);
+                                    Toi.setEnabled(false);
+                                    lay_toi.setBackgroundResource(R.color.space_background_color);
+                                } else {
+                                    lay_toi.setEnabled(true);
+                                    Toi.setEnabled(true);
+                                    lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                                }
+                                if (pre <= 0) {
+                                    lay_lui.setEnabled(false);
+                                    Lui.setEnabled(false);
+                                    lay_lui.setBackgroundResource(R.color.space_background_color);
+                                } else {
+                                    lay_lui.setEnabled(true);
+                                    Lui.setEnabled(true);
+                                    lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                                }
+                            } else {
+                                Log.e("BienSTTHIenTai", STT_HienTai);
+                            }
+
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+                    // hiển thị dialog
+                }
             }
         });
         Toi.setOnClickListener(new View.OnClickListener() {
@@ -269,48 +341,124 @@ public class MainActivity extends AppCompatActivity  {
         lay_lui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pre = Integer.parseInt(STT_HienTai) - 1;
-                STT_HienTai = String.valueOf(pre);
+                if(!flagDangGhi){
+                    int pre = Integer.parseInt(STT_HienTai) - 1;
+                    STT_HienTai = String.valueOf(pre);
 
-                Log.e("BienSTTHIenTai", STT_HienTai);
-                Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                if (pre-1 <= 0) {
-                    lay_lui.setEnabled(false);
-                    Lui.setEnabled(false);
-                    lay_lui.setBackgroundResource(R.color.space_background_color);
-                } else {
-                    lay_lui.setEnabled(true);
-                    Lui.setEnabled(true);
-                    lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
-                }
-                if (pre > 0 && pre <= SoLuongKH) {
-                    Log.e("BienSTTHIenTai", "chay vao 3");
-                    setDataForView(STT_HienTai, maduong_nhan);
-                    pre = Integer.parseInt(STT_HienTai) - 1;
-                    int next = Integer.parseInt(STT_HienTai) + 1;
-                    if (next > SoLuongKH) {
-                        lay_toi.setEnabled(false);
-                        Toi.setEnabled(false);
-                        lay_toi.setBackgroundResource(R.color.space_background_color);
-                    } else {
-                        lay_toi.setEnabled(true);
-                        Toi.setEnabled(true);
-                        lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
-                    }
-                    if (pre <= 0) {
+                    Log.e("BienSTTHIenTai", STT_HienTai);
+                    Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                    if (pre-1 <= 0) {
                         lay_lui.setEnabled(false);
                         Lui.setEnabled(false);
                         lay_lui.setBackgroundResource(R.color.space_background_color);
                     } else {
                         lay_lui.setEnabled(true);
                         Lui.setEnabled(true);
-                        lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                        lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                     }
+                    if (pre > 0 && pre <= SoLuongKH) {
+                        Log.e("BienSTTHIenTai", "chay vao 3");
+                        setDataForView(STT_HienTai, maduong_nhan);
+                        pre = Integer.parseInt(STT_HienTai) - 1;
+                        int next = Integer.parseInt(STT_HienTai) + 1;
+                        if (next > SoLuongKH) {
+                            lay_toi.setEnabled(false);
+                            Toi.setEnabled(false);
+                            lay_toi.setBackgroundResource(R.color.space_background_color);
+                        } else {
+                            lay_toi.setEnabled(true);
+                            Toi.setEnabled(true);
+                            lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                        }
+                        if (pre <= 0) {
+                            lay_lui.setEnabled(false);
+                            Lui.setEnabled(false);
+                            lay_lui.setBackgroundResource(R.color.space_background_color);
+                        } else {
+                            lay_lui.setEnabled(true);
+                            Lui.setEnabled(true);
+                            lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                        }
 
-                } else {
-                    Log.e("BienSTTHIenTai", "chay vao 4");
+                    } else {
+                        Log.e("BienSTTHIenTai", "chay vao 4");
 
+                    }
                 }
+                else{
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    // khởi tạo dialog
+
+                    alertDialogBuilder.setMessage("Bạn đang ghi nước.Bạn có muốn hủy ghi nước không?");
+
+                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                            int pre = Integer.parseInt(STT_HienTai) - 1;
+                            STT_HienTai = String.valueOf(pre);
+
+                            Log.e("BienSTTHIenTai", STT_HienTai);
+                            Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                            if (pre-1 <= 0) {
+                                lay_lui.setEnabled(false);
+                                Lui.setEnabled(false);
+                                lay_lui.setBackgroundResource(R.color.space_background_color);
+                            } else {
+                                lay_lui.setEnabled(true);
+                                Lui.setEnabled(true);
+                                lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            }
+                            if (pre > 0 && pre <= SoLuongKH) {
+                                Log.e("BienSTTHIenTai", "chay vao 3");
+                                setDataForView(STT_HienTai, maduong_nhan);
+                                pre = Integer.parseInt(STT_HienTai) - 1;
+                                int next = Integer.parseInt(STT_HienTai) + 1;
+                                if (next > SoLuongKH) {
+                                    lay_toi.setEnabled(false);
+                                    Toi.setEnabled(false);
+                                    lay_toi.setBackgroundResource(R.color.space_background_color);
+                                } else {
+                                    lay_toi.setEnabled(true);
+                                    Toi.setEnabled(true);
+                                    lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                                }
+                                if (pre <= 0) {
+                                    lay_lui.setEnabled(false);
+                                    Lui.setEnabled(false);
+                                    lay_lui.setBackgroundResource(R.color.space_background_color);
+                                } else {
+                                    lay_lui.setEnabled(true);
+                                    Lui.setEnabled(true);
+                                    lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                                }
+
+                            } else {
+                                Log.e("BienSTTHIenTai", "chay vao 4");
+
+                            }
+
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+                    // hiển thị dialog
+                }
+
+
             }
         });
         Lui.setOnClickListener(new View.OnClickListener() {
@@ -390,10 +538,12 @@ public class MainActivity extends AppCompatActivity  {
         m33.setText(khachhang.getSLTieuThu3().trim());
         ChiSoMoi.setText(khachhang.getChiSo().trim());
          m3moi.setText(khachhang.getSLTieuThu().trim());
+        m3moi.setEnabled(false);
         ChiSoMoiCon.setText(khachhang.getChiSocon().trim());
         m3conmoi.setText(khachhang.getSLTieuThucon().trim());
         TinhTrangTLK.setText(khachhang.getTrangThaiTLK().trim());
         GhiChu.setText(khachhang.getGhiChu().trim());
+        flagDangGhi = false;
         if(!khachhang.getChiSo().equals("")){
             LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
             DuongDangGhi.setBackgroundResource(android.R.color.holo_red_dark);
@@ -438,13 +588,166 @@ public class MainActivity extends AppCompatActivity  {
             lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
             lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
         }
+
+        DienThoai.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (!DienThoai.getText().toString().trim().equals("")) {
+                        flagDangGhi = true;
+
+                    }
+                    else{
+                        if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                            flagDangGhi = false;
+                        }
+                        else{
+                            flagDangGhi = true;
+                        }
+
+
+                    }
+                }
+            }
+        });
+        DienThoai.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() ==0) {
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+
+                }
+                else{
+                    flagDangGhi = true;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        TinhTrangTLK.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (!TinhTrangTLK.getText().toString().trim().equals("")) {
+                        flagDangGhi = true;
+
+                    }
+                    else{
+                        if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                            flagDangGhi = false;
+                        }
+                        else{
+                            flagDangGhi = true;
+                        }
+
+                    }
+                }
+            }
+        });
+        TinhTrangTLK.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() ==0) {
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+
+                }
+                else{
+                    flagDangGhi = true;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        GhiChu.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (!GhiChu.getText().toString().trim().equals("")) {
+                        flagDangGhi = true;
+
+                    }
+                    else{
+                        if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                            flagDangGhi = false;
+                        }
+                        else{
+                            flagDangGhi = true;
+                        }
+                    }
+                }
+            }
+        });
+        GhiChu.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() ==0) {
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+
+                }
+                else{
+                    flagDangGhi = true;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         ChiSoMoi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (ChiSoMoi.getText().toString().trim().equals("")) {
+
                         showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ con.");
+                        if(DienThoai.getText().toString().trim().equals("") && ChiSoMoiCon.getText().toString().trim().equals("")  &&
+                                GhiChu.getText().toString().trim().equals("") &&  TinhTrangTLK.getText().toString().trim().equals("")) {
+                            flagDangGhi = false;
+                        }
+
                     } else {
+                        flagDangGhi = true;
                         int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
                         int chisocu = Integer.parseInt(ChiSo1.getText().toString().trim());
                         //Kiểm tra âm
@@ -505,6 +808,7 @@ public class MainActivity extends AppCompatActivity  {
                     if (ChiSoMoiCon.getText().toString().trim().equals("")) {
                         showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ con.");
                     } else {
+                        flagDangGhi = true;
                         int chisomoicon = Integer.parseInt(ChiSoMoiCon.getText().toString().trim());
                         int chisocucon = Integer.parseInt(ChiSoCon1.getText().toString().trim());
                         //Kiểm tra âm
@@ -764,7 +1068,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     Bien.bienghi = Bien.bienghi +1;
                     spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
                     Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-
+                    flagDangGhi = false;
                     LichSuDTO ls = new LichSuDTO();
                     ls.setNoiDungLS("Ghi nước đường "+ tenduong +", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
                     ls.setMaLenh("GN");
@@ -1011,5 +1315,19 @@ private void  resetViewGhiNuoc(){
     GhiChu.setText("");
 }
 
+public boolean KiemTraDaGhi(String maKH){
+    KhachHangDTO kh = khachhangDAO.getKHTheoMaKH(maKH);
+    if(kh.getDienThoai().equals(DienThoai.getText().toString().trim())  &&
+            kh.getTrangThaiTLK().equals(TinhTrangTLK.getText().toString().trim()) &&
+            kh.getChiSo().equals(ChiSoMoi.getText().toString().trim()) &&
+            kh.getChiSocon().equals(ChiSoMoiCon.getText().toString().trim()) &&
+            kh.getGhiChu().equals(GhiChu.getText().toString().trim()))
+    {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 }
 

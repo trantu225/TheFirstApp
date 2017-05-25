@@ -21,6 +21,7 @@
     <string name="error_field_required">Bạn chưa nhập thông tin</string>
     <!-- Load activity -->
     <string name="error_load">Quá trình load dữ liệu thất bại. Chọn OK để load lại. Chọn Thoát để kết thúc.</string>
+    <string name="error_backup">Quá trình backup dữ liệu thất bại.</string>
     <string name="error_load_file">Quá trình load dữ liệu thất bại do không tồn tại file dữ liệu.</string>
     <string name="delete_file_load_file">Bạn có muốn xóa dữ liệu cũ không?</string>
     <!-- Backup activity -->

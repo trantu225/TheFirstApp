@@ -24,11 +24,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -619,7 +621,7 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() ==0) {
+
                     if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                         flagDangGhi = false;
                     }
@@ -627,10 +629,6 @@ public class MainActivity extends AppCompatActivity  {
                         flagDangGhi = true;
                     }
 
-                }
-                else{
-                    flagDangGhi = true;
-                }
             }
 
             @Override
@@ -644,11 +642,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (!TinhTrangTLK.getText().toString().trim().equals("")) {
-                        flagDangGhi = true;
 
-                    }
-                    else{
                         if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                             flagDangGhi = false;
                         }
@@ -656,7 +650,7 @@ public class MainActivity extends AppCompatActivity  {
                             flagDangGhi = true;
                         }
 
-                    }
+
                 }
             }
         });
@@ -668,7 +662,7 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() ==0) {
+
                     if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                         flagDangGhi = false;
                     }
@@ -676,10 +670,6 @@ public class MainActivity extends AppCompatActivity  {
                         flagDangGhi = true;
                     }
 
-                }
-                else{
-                    flagDangGhi = true;
-                }
             }
 
             @Override
@@ -692,18 +682,15 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (!GhiChu.getText().toString().trim().equals("")) {
-                        flagDangGhi = true;
 
-                    }
-                    else{
+
                         if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                             flagDangGhi = false;
                         }
                         else{
                             flagDangGhi = true;
                         }
-                    }
+
                 }
             }
         });
@@ -715,7 +702,7 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() ==0) {
+
                     if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                         flagDangGhi = false;
                     }
@@ -723,10 +710,7 @@ public class MainActivity extends AppCompatActivity  {
                         flagDangGhi = true;
                     }
 
-                }
-                else{
-                    flagDangGhi = true;
-                }
+
             }
 
             @Override
@@ -741,11 +725,105 @@ public class MainActivity extends AppCompatActivity  {
                 if (!hasFocus) {
                     if (ChiSoMoi.getText().toString().trim().equals("")) {
 
-                        showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ con.");
-                        if(DienThoai.getText().toString().trim().equals("") && ChiSoMoiCon.getText().toString().trim().equals("")  &&
-                                GhiChu.getText().toString().trim().equals("") &&  TinhTrangTLK.getText().toString().trim().equals("")) {
-                            flagDangGhi = false;
+                        showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ .");
+
+                        m3moi.setText("");
+                    } else {
+
+                        int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
+                        int chisocu = Integer.parseInt(ChiSo1.getText().toString().trim());
+                        //Kiểm tra âm
+                        if (chisomoi < 0) {
+                            //Show dialog thông báo âm
+                            showDiaLogThongBao(getString(R.string.main_thongbao_soam));
+
+                        } else {
+                            if (chisomoi < chisocu) {
+                                //Show dialog thông báo nhỏ hơn chỉ số cũ
+                                //showDiaLogThongBao(getString(R.string.main_thongbao_batthuong));
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                // khởi tạo dialog
+
+                                alertDialogBuilder.setMessage(getString(R.string.main_thongbao_batthuong));
+
+                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        dialog.dismiss();
+                                        m3moi.setEnabled(true);
+                                        m3moi.setText("");
+
+                                    }
+                                });
+                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        resetViewGhiNuoc();
+                                        m3moi.setEnabled(false);
+                                        m3moi.setText("");
+                                        dialog.dismiss();
+
+
+                                    }
+                                });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                // tạo dialog
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+                                // hiển thị dialog
+                            } else {
+                                m3moi.setEnabled(false);
+                                m3moi.setText(String.valueOf(chisomoi - chisocu));
+                            }
                         }
+                    }
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+                }
+            }
+        });
+
+        ChiSoMoi.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        ChiSoMoi.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (ChiSoMoi.getText().toString().trim().equals("")) {
+
+                        showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ .");
+                        m3moi.setText("");
 
                     } else {
                         flagDangGhi = true;
@@ -799,11 +877,88 @@ public class MainActivity extends AppCompatActivity  {
                             }
                         }
                     }
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+
+                    return true;
                 }
+                return false;
             }
         });
 
-        ChiSoMoi.addTextChangedListener(new TextWatcher() {
+        ChiSoMoiCon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (ChiSoMoiCon.getText().toString().trim().equals("")) {
+                        showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ con.");
+                    } else {
+
+                        int chisomoicon = Integer.parseInt(ChiSoMoiCon.getText().toString().trim());
+                        int chisocucon = Integer.parseInt(ChiSoCon1.getText().toString().trim());
+                        //Kiểm tra âm
+                        if (chisomoicon < 0) {
+                            //Show dialog thông báo âm
+                            showDiaLogThongBao(getString(R.string.main_thongbao_soam));
+
+                        } else {
+                            if (chisomoicon < chisocucon) {
+                                //Show dialog thông báo nhỏ hơn chỉ số cũ
+                                //showDiaLogThongBao(getString(R.string.main_thongbao_batthuong));
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                // khởi tạo dialog
+
+                                alertDialogBuilder.setMessage(getString(R.string.main_thongbao_batthuong));
+
+                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+
+                                        m3conmoi.setEnabled(true);
+                                        m3conmoi.setText("");
+                                        dialog.dismiss();
+
+                                    }
+                                });
+                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        resetViewGhiNuoc();
+                                        m3conmoi.setEnabled(false);
+                                        m3conmoi.setText("");
+                                        dialog.dismiss();
+
+
+                                    }
+                                });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                // tạo dialog
+                                alertDialog.show();
+                                // hiển thị dialog
+                            } else {
+                                m3conmoi.setEnabled(false);
+                                m3conmoi.setText(String.valueOf(chisomoicon - chisocucon));
+                            }
+                        }
+                    }
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+                }
+            }
+        });
+        ChiSoMoiCon.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -819,18 +974,18 @@ public class MainActivity extends AppCompatActivity  {
                         flagDangGhi = true;
                     }
 
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
-        ChiSoMoiCon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        ChiSoMoiCon.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     if (ChiSoMoiCon.getText().toString().trim().equals("")) {
                         showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ con.");
                     } else {
@@ -886,18 +1041,6 @@ public class MainActivity extends AppCompatActivity  {
                             }
                         }
                     }
-                }
-            }
-        });
-        ChiSoMoiCon.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                     if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                         flagDangGhi = false;
                     }
@@ -905,14 +1048,11 @@ public class MainActivity extends AppCompatActivity  {
                         flagDangGhi = true;
                     }
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                    return true;
+                }
+                return false;
             }
         });
-
     }
 
 

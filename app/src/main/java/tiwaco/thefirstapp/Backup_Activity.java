@@ -3,10 +3,12 @@ package tiwaco.thefirstapp;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -24,6 +26,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -43,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import circleprogress.DonutProgress;
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DAO.LichSuDAO;
@@ -67,6 +72,7 @@ public class Backup_Activity extends AppCompatActivity  {
     private static final String TENFILECHUAGHI_LAST = "customers_chuaghi_last.txt";
     RadioButton radioTatca, radioDaghi, radioChuaghi;
     RadioGroup group;
+    TextView mstatus;
     EditText tenfile;
     Button luu, trove;
     DuongDAO duongdao;
@@ -74,8 +80,9 @@ public class Backup_Activity extends AppCompatActivity  {
     Context con;
     SPData spdata;
     LichSuDAO lichsudao;
-
-
+    DonutProgress prgTime;
+    TableLayout table;
+    String thumucchuafile="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +92,7 @@ public class Backup_Activity extends AppCompatActivity  {
         duongdao = new DuongDAO(con);
         khachangdao = new KhachHangDAO(con);
         lichsudao = new LichSuDAO(con);
+
         getView();
 
 
@@ -98,6 +106,13 @@ public class Backup_Activity extends AppCompatActivity  {
         radioTatca = (RadioButton) findViewById(R.id.radio_tatca);
         radioDaghi = (RadioButton) findViewById(R.id.radio_daghi);
         radioChuaghi = (RadioButton) findViewById(R.id.radio_chuaghi);
+        prgTime = (DonutProgress) findViewById(R.id.prgTime);
+        table = (TableLayout) findViewById(R.id.TableLayout1);
+        mstatus = (TextView) findViewById(R.id.tv_status);
+        mstatus.setVisibility(View.GONE);
+        prgTime.setProgress(0);
+        prgTime.setText("0 %");
+        spdata = new SPData(con);
         if (radioTatca.isChecked() == false && radioDaghi.isChecked() == false && radioChuaghi.isChecked() == false) {
             radioTatca.setChecked(true);
             tenfile.setText(taoTenFile("customers"));
@@ -137,7 +152,77 @@ public class Backup_Activity extends AppCompatActivity  {
     //Backup --------------------------------------------------------------------------
     public void backupfile(View view) {
         Log.e("ghi file","vao trong request");
-        spdata = new SPData(con);
+        //Duong dan file
+        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+        Bien.bienbkall = spdata.getDataBKALLTrongSP();
+        Bien.bienbkcg = spdata.getDataBKCGTrongSP();
+        Bien.bienbkdg = spdata.getDataBKDGTrongSP();
+
+
+        Log.e("flag flagghi 1", String.valueOf(Bien.bienghi));
+        Log.e("flag flagall 1", String.valueOf( Bien.bienbkall));
+        Log.e("flag flagcg 1", String.valueOf(Bien.bienbkcg));
+        Log.e("flag flagdg 1", String.valueOf(Bien.bienbkdg));
+
+        XuLyFile xl  = new XuLyFile(con);
+        String path = "";
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            path = xl.getBoNhoTrong();
+        } else {
+            path = getFilesDir().getAbsolutePath();
+        }
+
+        Log.e("path",path);
+        thumucchuafile = path+"/"+THUMUCBACKUP;
+        File rootfile = new File(thumucchuafile);
+        if(rootfile.exists()==false){
+            spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0);
+            Log.e("asdasd","asdasdasdasd");
+            taoThuMuc(thumucchuafile);
+        }
+
+       // prgTime.setVisibility(View.VISIBLE);
+
+
+
+        if (radioTatca.isChecked() == true) {
+            if(Bien.bienbkall  == Bien.bienghi) {
+                taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+            }
+            else {
+                mstatus.setVisibility(View.VISIBLE);
+                table.setVisibility(View.GONE);
+                MyBackUpTask task = new MyBackUpTask();
+                task.execute();
+            }
+        }
+        else if (radioDaghi.isChecked() == true)
+        {
+            if(Bien.bienbkdg  == Bien.bienghi) {
+                taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+            }
+            else {
+                mstatus.setVisibility(View.VISIBLE);
+                table.setVisibility(View.GONE);
+                MyBackUpTask task = new MyBackUpTask();
+                task.execute();
+            }
+        }
+        else if(radioChuaghi.isChecked() == true){
+            if(Bien.bienbkcg  == Bien.bienghi) {
+                taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+            }
+            else {
+                mstatus.setVisibility(View.VISIBLE);
+                table.setVisibility(View.GONE);
+                MyBackUpTask task = new MyBackUpTask();
+                task.execute();
+            }
+        }
+
+
+
+        /*
         Bien.bienghi = spdata.getDataFlagGhiTrongSP();
         Bien.bienbkall = spdata.getDataBKALLTrongSP();
         Bien.bienbkcg = spdata.getDataBKCGTrongSP();
@@ -263,7 +348,8 @@ public class Backup_Activity extends AppCompatActivity  {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
             // hiển thị dialog
-        }
+
+        } */
     }
     //-------------------------------------------------------------------------------------------
     public  String getSdCardPath() {
@@ -695,7 +781,213 @@ public class Backup_Activity extends AppCompatActivity  {
         alertDialog.show();
         // hiển thị dialog
     }
+    public class MyBackUpTask extends AsyncTask<Void, String , Boolean > {
 
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            //Lấy URL truyền vào
+            Boolean FlagupdateDB = true;
+
+
+            String filename="";
+            String filenameLAST = "";
+            String status ="";
+            boolean kt =false, ktlast =false;
+            if (radioTatca.isChecked() == true) {
+                if(Bien.bienbkall  == Bien.bienghi) {
+                 //   taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+                }
+
+                else {
+                    Log.e("back up", "Vao tat ca");
+
+
+                    status = "Đang tập hợp dữ liệu...";
+                    //     String.valueOf(status)
+                    publishProgress(String.valueOf(status));
+                    String result_tatca_string = taoJSONData_KH_TatCa(tenfile.getText().toString());
+
+
+                    if (!result_tatca_string.equals("")) {
+                        filename = thumucchuafile + "/" + THUMUCTATCA;
+                        filenameLAST = thumucchuafile + "/" + THUMUCLAST;
+                        taoThuMuc(filename);
+                        taoThuMuc(filenameLAST);
+                        status = "Đang tạo file dữ liệu...";
+                        publishProgress(String.valueOf(status));
+                        kt = writeFile(filename, tenfile.getText().toString(), result_tatca_string);
+                        ktlast = writeFile(filenameLAST, TENFILETATCA_LAST, result_tatca_string);
+                        spdata.luuDataFlagBKAllTrongSP(Bien.bienghi);
+                        //   MediaScannerConnection.scanFile(con, new String[]{filename,filenameLAST}, null, null);
+                    }
+                }
+            }
+            else if (radioDaghi.isChecked() == true)
+            {
+                if(Bien.bienbkdg  == Bien.bienghi) {
+                 //   taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+                }
+                else {
+                    Log.e("back up", "Vao da ghi");
+                     status = "Đang tập hợp dữ liệu...";
+                    //     String.valueOf(status)
+                    publishProgress(String.valueOf(status));
+
+                    String result_daghi_string = taoJSONData_KH_DaGhi(tenfile.getText().toString());
+
+
+
+
+                    if (!result_daghi_string.equals("")) {
+                        status = "Đang tạo file dữ liệu...";
+                        publishProgress(String.valueOf(status));
+                        filename = thumucchuafile + "/" + THUMUCDAGHI;
+                        filenameLAST = thumucchuafile + "/" + THUMUCLAST;
+                        taoThuMuc(filename);
+                        taoThuMuc(filenameLAST);
+                        kt = writeFile(filename, tenfile.getText().toString(), result_daghi_string);
+                        ktlast = writeFile(filenameLAST, TENFILEDAGHI_LAST, result_daghi_string);
+                        spdata.luuDataFlagBKDaghiTrongSP(Bien.bienghi);
+                    }
+                }
+            }
+            else if(radioChuaghi.isChecked() == true){
+                if(Bien.bienbkcg  == Bien.bienghi) {
+                //    taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+                }
+                else {
+                    Log.e("back up", "Vao chua ghi");
+                     status = "Đang tập hợp dữ liệu...";
+                    //     String.valueOf(status)
+                    publishProgress(String.valueOf(status));
+                    String result_chuaghi_string = taoJSONData_KH_ChuaGhi(tenfile.getText().toString());
+
+
+                    if (!result_chuaghi_string.equals("")) {
+                        status = "Đang tạo file dữ liệu...";
+                        publishProgress(String.valueOf(status));
+                        filename = thumucchuafile + "/" + THUMUCCHUAGHI;
+                        filenameLAST = thumucchuafile + "/" + THUMUCLAST;
+                        taoThuMuc(filename);
+                        taoThuMuc(filenameLAST);
+                        kt = writeFile(filename, tenfile.getText().toString(), result_chuaghi_string);
+                        ktlast = writeFile(filenameLAST, TENFILECHUAGHI_LAST, result_chuaghi_string);
+                        spdata.luuDataFlagBKChuaGhiTrongSP(Bien.bienghi);
+                    }
+                }
+            }
+
+            if(kt && ktlast) {
+
+                FlagupdateDB = true;
+                Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                Bien.bienbkall = spdata.getDataBKALLTrongSP();
+                Bien.bienbkcg = spdata.getDataBKCGTrongSP();
+                Bien.bienbkdg = spdata.getDataBKDGTrongSP();
+                Log.e("flag flagghi 2", String.valueOf(Bien.bienghi));
+                Log.e("flag flagall 2", String.valueOf( Bien.bienbkall));
+                Log.e("flag flagcg 2", String.valueOf(Bien.bienbkcg));
+                Log.e("flag flagdg 2", String.valueOf(Bien.bienbkdg));
+                LichSuDTO ls = new LichSuDTO();
+                ls.setNoiDungLS("Lưu dữ liệu ghi nước");
+                ls.setMaLenh("BK");
+                String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                ls.setThoiGianLS(thoigian1);
+                lichsudao.addTable_History(ls);
+                status = "Thành công";
+                publishProgress(String.valueOf(status));
+
+            }
+            else{
+                FlagupdateDB = false;
+            }
+
+            return FlagupdateDB;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            String status = values[0];
+
+            mstatus.setText(status);
+          //  prgTime.setProgress(Integer.parseInt(status));
+
+            // update giá trị ở TextView
+           // prgTime.setText(getString(R.string.load_status));
+            if(status.equalsIgnoreCase("Thành công")) {
+                mstatus.setVisibility(View.GONE);
+                table.setVisibility(View.VISIBLE);
+            }
+        }
+
+
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            super.onPostExecute(result);
+            if(result){
+                //Hiển thị dialog
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.backup_thanhcong);
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+                mstatus.setVisibility(View.GONE);
+                table.setVisibility(View.VISIBLE);
+            }
+            else{
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.error_backup);
+                // thiết lập nội dung cho dialog
+
+
+
+                alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        // button "no" ẩn dialog đi
+                        mstatus.setVisibility(View.GONE);
+                        table.setVisibility(View.VISIBLE);
+
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            }
+
+
+        }
+    }
 
 
 

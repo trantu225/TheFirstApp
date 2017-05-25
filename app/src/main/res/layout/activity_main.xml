@@ -289,7 +289,7 @@
                     android:layout_weight="9"
                     android:background="@android:drawable/editbox_background_normal"
                     android:inputType="numberDecimal"
-
+                    android:maxLines="1"
                     android:textSize="@dimen/sp14" />
 
                 <ImageButton
@@ -437,6 +437,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+
+                    android:maxLines="1"
                     android:background="@android:drawable/editbox_background_normal"
                     android:textSize="@dimen/sp14" />
                 </LinearLayout>
@@ -689,6 +691,7 @@
                     android:background="@android:drawable/editbox_background_normal"
                     android:gravity="center"
                     android:inputType="numberDecimal"
+                    android:maxLines="1"
                     android:padding="@dimen/dp10"
                     android:textSize="@dimen/sp14"
                     android:textColor="#000000" />
@@ -709,6 +712,8 @@
                     android:gravity="center"
                     android:padding="@dimen/dp10"
                     android:textSize="@dimen/sp14"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
                     android:textColor="#000000" />
                 </LinearLayout>
             </TableRow>
@@ -754,6 +759,8 @@
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:padding="@dimen/dp10"
+
+                    android:maxLines="1"
                     android:textSize="@dimen/sp14"
                     android:textColor="#000000" />
                 <TextView
@@ -773,6 +780,8 @@
                     android:gravity="center"
                     android:padding="@dimen/dp10"
                     android:textSize="@dimen/sp14"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
                     android:textColor="#000000" />
                 </LinearLayout>
             </TableRow>

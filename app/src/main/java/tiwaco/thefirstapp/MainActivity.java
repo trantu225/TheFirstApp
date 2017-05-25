@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.internal.zzi;
 import com.google.android.gms.location.LocationServices;
 
 import com.luseen.spacenavigation.SpaceNavigationView;
@@ -801,6 +802,31 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
         });
+
+        ChiSoMoi.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         ChiSoMoiCon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -863,7 +889,29 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
         });
+        ChiSoMoiCon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
+                        flagDangGhi = false;
+                    }
+                    else{
+                        flagDangGhi = true;
+                    }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -1081,9 +1129,43 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                         //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
                         String sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan,STT_HienTai);
-                        STT_HienTai = sothutu;
-                        setDataForView(sothutu,maduong_nhan);
-                        spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan,sothutu);
+                        if(!sothutu.equals("0")) {
+                            STT_HienTai = sothutu;
+                            setDataForView(sothutu, maduong_nhan);
+                            spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
+                        }
+                        else{
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                            alertDialogBuilder.setMessage("Vẫn còn khách hàng bạn chưa ghi nước, bạn có muốn ghi nước khách hàng này không");
+                            alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    String sothutukhConLai = khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
+                                    if(!sothutukhConLai.equals("")) {
+                                        STT_HienTai = sothutukhConLai;
+                                        setDataForView(sothutukhConLai, maduong_nhan);
+                                        spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutukhConLai);
+                                    }
+
+                                }
+                            });
+                            alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    MainActivity.this.finish();
+
+                                }
+                            });
+
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            // tạo dialog
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.show();
+                            // hiển thị dialog
+                        }
                     }
                     //KH đã ghi nước xong => cập nhật đường va show dialog
                     else {
@@ -1103,8 +1185,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                @Override
                                public void onClick(DialogInterface dialog, int which) {
                                    dialog.dismiss();
-                                   Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                                   startActivity(intent);
+                                   MainActivity.this.finish();
                                }
                            });
 

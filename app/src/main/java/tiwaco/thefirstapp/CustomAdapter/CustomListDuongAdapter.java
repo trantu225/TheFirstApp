@@ -57,6 +57,10 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
 
     }
+    public void setData(List<DuongDTO> list){
+        listDuong = list;
+    }
+
     @Override
     public CustomListDuongAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

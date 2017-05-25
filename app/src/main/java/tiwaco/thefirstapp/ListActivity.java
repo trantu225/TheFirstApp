@@ -63,12 +63,14 @@ public class ListActivity extends AppCompatActivity {
         bar = getSupportActionBar();
         bar.setTitle(getString(R.string.tab_dsKH));
         bar.setLogo(R.mipmap.ic_logo_tiwaco);
-        spdata= new SPData(con);
-        ListView listviewKH = (ListView) findViewById(R.id.lv_khachhang);
+
+        listviewKH = (ListView) findViewById(R.id.lv_khachhang);
         txtduongchon = (TextView) findViewById(R.id.txt_maduongchon);
         txtTiltle =(TextView) findViewById(R.id.txt_title_dskh1);
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
+        spdata= new SPData(con);
         duongDAO = new DuongDAO(con);
+        khachhangDAO = new KhachHangDAO(con);
         listduong = duongDAO.getAllDuong();
 
 
@@ -76,13 +78,13 @@ public class ListActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(con);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-      //  Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+        //  Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
         layoutManager.scrollToPositionWithOffset(spdata.getDataIndexDuongDangGhiTrongSP() , 0);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        SPData spdata = new SPData(con);
+
         String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP();
         if(!SPduongdangghi.equals("")){
             Bien.ma_duong_dang_chon = SPduongdangghi;
@@ -90,10 +92,10 @@ public class ListActivity extends AppCompatActivity {
             Bien.ma_duong_dang_chon = listduong.get(spdata.getDataIndexDuongDangGhiTrongSP()).getMaDuong();
         }
 
-        khachhangDAO = new KhachHangDAO(con);
+
         liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
 
-        title +=  String.valueOf(liskhdao.size()) +" khách hàng";
+        title =  String.valueOf(liskhdao.size()) +" khách hàng";
         txtTiltle.setText(title);
         Bien.adapterKH = new CustomListAdapter(con, liskhdao, spdata.getDataIndexDuongDangGhiTrongSP());
         listviewKH.setAdapter(Bien.adapterKH);
@@ -102,8 +104,7 @@ public class ListActivity extends AppCompatActivity {
 
 
         Log.e("select duong---listactivity", String.valueOf(Bien.selected_item));
-
-
+     //   setview();
     }
 
     @Override
@@ -167,6 +168,63 @@ public class ListActivity extends AppCompatActivity {
 
         selectItem(item);
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onResume() {
+
+        //adapter duong
+        if(adapter != null &&  Bien.adapterKH !=null ) {
+
+            Log.e("RESUME LIST","OK");
+         //   setview();
+            listduong = duongDAO.getAllDuong();
+            adapter.setData(listduong);
+            adapter.notifyDataSetChanged();
+            liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
+            Bien.adapterKH.setData(liskhdao);
+            Bien.adapterKH.notifyDataSetChanged();
+        }
+
+        super.onResume();
+    }
+    public void setview(){
+
+
+        listduong = duongDAO.getAllDuong();
+
+
+        adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon,recyclerView,txtTiltle);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(con);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //  Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+        layoutManager.scrollToPositionWithOffset(spdata.getDataIndexDuongDangGhiTrongSP() , 0);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+
+        String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP();
+        if(!SPduongdangghi.equals("")){
+            Bien.ma_duong_dang_chon = SPduongdangghi;
+        }else {
+            Bien.ma_duong_dang_chon = listduong.get(spdata.getDataIndexDuongDangGhiTrongSP()).getMaDuong();
+        }
+
+
+        liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
+
+        title =  String.valueOf(liskhdao.size()) +" khách hàng";
+        txtTiltle.setText(title);
+        if(Bien.adapterKH == null) {
+            Bien.adapterKH = new CustomListAdapter(con, liskhdao, spdata.getDataIndexDuongDangGhiTrongSP());
+        }
+        listviewKH.setAdapter(Bien.adapterKH);
+        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+        listviewKH.setSelection( Bien.bien_index_khachhang);
+
+
+        Log.e("select duong---listactivity", String.valueOf(Bien.selected_item));
     }
 
 

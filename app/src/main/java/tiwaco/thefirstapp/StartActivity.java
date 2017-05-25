@@ -5,13 +5,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Point;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -26,7 +32,8 @@ import tiwaco.thefirstapp.Database.SPData;
 
 public class StartActivity extends AppCompatActivity  {
 
-    ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup,btnSearch, btnLogout,btnStart;
+    ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup,btnSearch, btnLogout,btnHistory;
+    LinearLayout layout2, layout3;
     Context con;
     SPData spdata;
     DuongDAO duongDAO;
@@ -37,25 +44,35 @@ public class StartActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        con =  StartActivity.this;
+        getSupportActionBar().hide();
+        khachhangDAO = new KhachHangDAO(con);
+        lichsudao = new LichSuDAO(con);
         btnGhinuoc = (ImageButton) findViewById(R.id.btn_ghinuoc);
         btnDanhSachKH = (ImageButton) findViewById(R.id.btn_dskh);
         btnLoadDl = (ImageButton) findViewById(R.id.btn_loaddata);
         btnBackup = (ImageButton) findViewById(R.id.btn_backup);
         btnSearch = (ImageButton) findViewById(R.id.btn_timkiem);
         btnLogout =(ImageButton) findViewById(R.id.btn_dangxuat);
-        btnStart = (ImageButton) findViewById(R.id.btn_lichsu);
-        con =  StartActivity.this;
-        getSupportActionBar().hide();
-        khachhangDAO = new KhachHangDAO(con);
-        lichsudao = new LichSuDAO(con);
+        btnHistory = (ImageButton) findViewById(R.id.btn_lichsu);
+        layout2 = (LinearLayout) findViewById(R.id.layout_2);
+        layout3 = (LinearLayout) findViewById(R.id.layout_3);
 
+        ViewGroup.LayoutParams params = layout3.getLayoutParams();
+
+        params.height = getViewHeight(layout2);
+        Log.e("chieu cao 2", String.valueOf(getViewHeight(layout2)));
+        layout3.setLayoutParams(params);
         btnGhinuoc.setOnClickListener(myclick);
         btnDanhSachKH.setOnClickListener(myclick);
         btnLoadDl.setOnClickListener(myclick);
         btnBackup.setOnClickListener(myclick);
         btnSearch.setOnClickListener(myclick);
+
         btnLogout.setOnClickListener(myclick);
-        btnStart.setOnClickListener(myclick);
+        btnHistory.setOnClickListener(myclick);
+
        // pre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         duongDAO = new DuongDAO(con);
         spdata = new SPData(con);
@@ -105,6 +122,26 @@ public class StartActivity extends AppCompatActivity  {
         }
      //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
 
+    }
+    public static int getViewHeight(View view) {
+        WindowManager wm =
+                (WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+
+        int deviceWidth;
+
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2){
+            Point size = new Point();
+            display.getSize(size);
+            deviceWidth = size.x;
+        } else {
+            deviceWidth = display.getWidth();
+        }
+
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(deviceWidth, View.MeasureSpec.AT_MOST);
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        view.measure(widthMeasureSpec, heightMeasureSpec);
+        return view.getMeasuredHeight(); //        view.getMeasuredWidth();
     }
     private View.OnClickListener myclick = new View.OnClickListener() {
         @Override

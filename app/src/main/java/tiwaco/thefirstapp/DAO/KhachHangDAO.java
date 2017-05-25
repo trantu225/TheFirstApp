@@ -736,7 +736,7 @@ public class KhachHangDAO {
     }
 
     public String getSTTChuaGhiNhoNhatLonHonHienTai(String maduong,String stthientai){
-        String data= "1";
+        String data= "";
         db = myda.openDB();
         Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
                 new String[]{"MIN(" +MyDatabaseHelper.KEY_DANHSACHKH_STT + ") AS MINSTT"},
@@ -746,6 +746,10 @@ public class KhachHangDAO {
         if(cursor!=null &&  cursor.moveToFirst()) {
             data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
         }
+        else{
+            data= "0";
+        }
+        Log.e("data chua ghi nho nhat lon hon hien tai",data);
         db.close();
         return data;
 

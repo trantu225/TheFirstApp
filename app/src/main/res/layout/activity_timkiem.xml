@@ -34,7 +34,8 @@
             android:background="@android:drawable/editbox_dropdown_light_frame"
             android:hint="@string/search_label"
             android:textSize="@dimen/sp14"
-            android:textColorHint="@android:color/background_dark"
+            android:maxLines="1"
+            android:textColorHint="@android:color/darker_gray"
             android:typeface="monospace" />
         <ImageButton
             android:id="@+id/btn_tim"
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp10"
-            android:background="@drawable/ic_eye"/>
+            android:background="@drawable/ic_eye_red"/>
     </LinearLayout>
 
     <LinearLayout

@@ -47,6 +47,10 @@ public class CustomListAdapter extends BaseAdapter {
         duongdao = new DuongDAO(context);
         khachhangdao = new KhachHangDAO(context);
     }
+    public void setData(List<KhachHangDTO> list){
+        customerList = list;
+    }
+
     @Override
     public int getCount() {
         return customerList.size();

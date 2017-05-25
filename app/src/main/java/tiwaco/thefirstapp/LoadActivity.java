@@ -29,12 +29,14 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import circleprogress.DonutProgress;
 import tiwaco.thefirstapp.DAO.DuongDAO;
@@ -225,10 +227,51 @@ public class LoadActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... params) {
             //Lấy URL truyền vào
             Boolean FlagupdateDB = true;
-            String jsontext = readFile(params[0])  ;
+            //Duong dan file
+            String duongdan = params[0];
+            String fileContent ="";
+            fileContent = readFile(duongdan);
+
+
+/*
+            FileInputStream inputStream = null;
+            Scanner sc = null;
+            try {
+                inputStream = new FileInputStream(duongdan);
+                sc = new Scanner(inputStream, "UTF-8");
+                while (sc.hasNextLine()) {
+                    String line = sc.nextLine();
+                    fileContent += line + "\n";
+                    // System.out.println(line);
+                }
+                // note that Scanner suppresses exceptions
+                if (sc.ioException() != null) {
+                    throw sc.ioException();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (sc != null) {
+                    sc.close();
+                }
+            }
+
+            //String jsontext = readFile(params[0]);
+*/
+
+
             JSONObject jsonobj = null;
             try {
-                jsonobj = new JSONObject(jsontext);
+                jsonobj = new JSONObject(fileContent);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

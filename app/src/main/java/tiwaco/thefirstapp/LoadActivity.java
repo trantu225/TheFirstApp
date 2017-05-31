@@ -71,11 +71,15 @@ public class LoadActivity extends AppCompatActivity {
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
         prgTime.setProgress(0);
         prgTime.setText("0 %");
+
         if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(LoadActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
         }
-        askPermissionAndReadFile();
+        else{
+            askPermissionAndReadFile();
+        }
+
     }
 
     private String readFile(String path) {
@@ -727,6 +731,26 @@ public class LoadActivity extends AppCompatActivity {
             alertDialog.show();
         }
     }
+    private void askPermissionLocation() {
+        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (canRead) {
+
+            // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
+            //  task.execute(duongdanfile);
+            //   readFileandSaveDatabase();
+            loadData();
+
+        }
+
+        if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(LoadActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+        }
+    }
+
+
     private void askPermissionAndReadFile() {
         boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -815,7 +839,8 @@ public class LoadActivity extends AppCompatActivity {
 
                             Log.e("Toa do", vido +"-"+kinhdo );
                             // \n is for new line
-                            Toast.makeText(getApplicationContext(), "REQUEST: Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                        //    Toast.makeText(getApplicationContext(), "REQUEST: Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                            askPermissionAndReadFile();
                         } else {
                             // Can't get location.
                             // GPS or network is not enabled.
@@ -831,7 +856,7 @@ public class LoadActivity extends AppCompatActivity {
                         Toast.makeText(con, "REQUEST: You need to grant permission....", Toast.LENGTH_SHORT).show();
 
                     }
-                    return;
+
                 }
 
             }

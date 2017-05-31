@@ -799,6 +799,18 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+                if (!ChiSoMoi.getText().toString().trim().equals("") ) {
+                   if( Integer.parseInt(ChiSoMoi.getText().toString().trim())>Integer.parseInt(ChiSo1.getText().toString().trim())){
+                       m3moi.setEnabled(false);
+                       m3moi.setText(String.valueOf(Integer.parseInt(ChiSoMoi.getText().toString().trim()) - Integer.parseInt(ChiSo1.getText().toString().trim())));
+                   }else{
+                       m3moi.setEnabled(true);
+                       m3moi.setText("");
+                   }
+
+                }
+
+
                     if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                         flagDangGhi = false;
                     }
@@ -966,6 +978,19 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!ChiSoMoiCon.getText().toString().trim().equals("")  ) {
+
+                 if(Integer.parseInt(ChiSoMoiCon.getText().toString().trim())>Integer.parseInt(ChiSoCon1.getText().toString().trim())){
+                     m3conmoi.setEnabled(false);
+                     m3conmoi.setText(String.valueOf(Integer.parseInt(ChiSoMoiCon.getText().toString().trim()) - Integer.parseInt(ChiSoCon1.getText().toString().trim())));
+                 }
+                 else{
+                     m3conmoi.setEnabled(true);
+                     m3conmoi.setText("");
+                 }
+
+                }
+
 
                     if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
                         flagDangGhi = false;

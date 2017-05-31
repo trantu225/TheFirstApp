@@ -102,6 +102,7 @@
     <string name="start_chuacoduongdeghinuoc">Bạn chưa ghi nước đường nào.Bạn có muốn chọn đường để ghi nước không?</string>
     <string name="search_label">Tìm kiếm</string>
     <string name="search_label_chitieu">Chỉ tiêu tìm kiếm</string>
+    <string name="search_label_khongtimthay">Không tìm được kết quả nào</string>
 
 
 </resources>

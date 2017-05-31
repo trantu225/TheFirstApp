@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +62,7 @@ public class SearchActivity  extends AppCompatActivity  {
     Boolean flagEye  = false;
     ExpandableListView epdlistdata;
     HashMap<String, List<KhachHangDTO>> mDataTimKiem;
+    TextView khongtimthay;
 
 
     @Override
@@ -136,6 +138,8 @@ public class SearchActivity  extends AppCompatActivity  {
         String stringmaduong = "";
         String stringhoten = "";
         String stringdienthoai = "";
+        String or1 = "";
+        String or2 ="";
         hideKeyboard(SearchActivity.this);
         if(!flagEye){
             vitriduong = -1;
@@ -159,15 +163,21 @@ public class SearchActivity  extends AppCompatActivity  {
                 mDataTimKiem.put(maduong,listkh);
             }
             Log.e("kich thuoc hashmap", String.valueOf(mDataTimKiem.size()));
-            adapterTK = new CustomTimKiem(con,listduongtheoDK,mDataTimKiem,-1);
-            epdlistdata.setAdapter(adapterTK);
-            listview.setVisibility(View.GONE);
-            epdlistdata.setVisibility(View.VISIBLE);
-            for(int i=0; i < adapterTK.getGroupCount(); i++){
-                epdlistdata.expandGroup(i);
+            if(mDataTimKiem.size() >0) {
+                adapterTK = new CustomTimKiem(con, listduongtheoDK, mDataTimKiem, -1);
+                epdlistdata.setAdapter(adapterTK);
+                listview.setVisibility(View.GONE);
+                epdlistdata.setVisibility(View.VISIBLE);
+              //  for (int i = 0; i < adapterTK.getGroupCount(); i++) {
+               //     epdlistdata.expandGroup(i);
+               // }
+                khongtimthay.setVisibility(View.GONE);
             }
-
-
+            else{
+                khongtimthay.setVisibility(View.VISIBLE);
+                epdlistdata.setVisibility(View.GONE);
+                listview.setVisibility(View.GONE);
+            }
         }
         else{
 
@@ -178,7 +188,7 @@ public class SearchActivity  extends AppCompatActivity  {
                         stringdanhbo ="";
                     }
                     else {
-                        stringdanhbo = " or " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "'";
+                        stringdanhbo = " " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "'";
                     }
                 }else{
                     stringdanhbo ="";
@@ -188,7 +198,7 @@ public class SearchActivity  extends AppCompatActivity  {
                     if(stringtim.equals("")){
                         stringdienthoai ="";
                     }else {
-                        stringdienthoai = " or " + MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "'";
+                        stringdienthoai = " " + MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "' ";
                     }
 
                 }else{
@@ -199,7 +209,7 @@ public class SearchActivity  extends AppCompatActivity  {
                     if(stringtim.equals("")){
                         stringdienthoai ="";
                     }else {
-                        stringhoten = " or " + MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%'";
+                        stringhoten = " " + MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%'";
                     }
                 }else{
                     stringhoten ="";
@@ -210,20 +220,53 @@ public class SearchActivity  extends AppCompatActivity  {
                     dieukien = stringmaduong;
                 }
                 else{
-                    dieukien = stringmaduong + " and ( " + stringdanhbo + stringdienthoai + stringhoten +" )";
+
+                    if(stringdanhbo.equals("")){
+                        or1 ="";
+                    }
+                    else if(!stringdanhbo.equals("") && stringhoten.equals("") && stringdienthoai.equals("") )
+                    {
+                        or1 = "";
+                    }
+                    else{
+                        or1= " or ";
+                    }
+                    Log.d("or1",or1);
+                    if(stringdienthoai.equals("")){
+                        or2 ="";
+                    }
+                    else if (!stringdienthoai.equals("") && stringdanhbo.equals("") && stringhoten.equals("")){
+
+                        or2= "";
+                    }
+                    else {
+                        or2 = " or ";
+                    }
+                    Log.d("or2",or2);
+                    dieukien = stringmaduong + " and ( " + stringdanhbo + or1 +   stringhoten + or2 + stringdienthoai+" )";
+                    Log.d("dieukiensearch",dieukien);
                 }
 
 
                 String sqlstr = sqlstringselect + dieukien;
                 listkhachhang = khachhangdao.TimKiemTheoSQL(sqlstr);
-                adapter = new CustomListAdapter(con,listkhachhang,vitriduong);
-                listview.setAdapter(adapter);
-                listview.setVisibility(View.VISIBLE);
-                epdlistdata.setVisibility(View.GONE);
-            epdlistdata.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                 if(listkhachhang.size() >0) {
+                     adapter = new CustomListAdapter(con, listkhachhang, vitriduong);
+                     listview.setAdapter(adapter);
+                     listview.setVisibility(View.VISIBLE);
+                     epdlistdata.setVisibility(View.GONE);
+                     khongtimthay.setVisibility(View.GONE);
+                 }
+                 else{
+
+                     khongtimthay.setVisibility(View.VISIBLE);
+                     epdlistdata.setVisibility(View.GONE);
+                     listview.setVisibility(View.GONE);
+                 }
+                epdlistdata.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
                 public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    return  epdlistdata.isGroupExpanded(groupPosition) ? epdlistdata.collapseGroup(groupPosition) : epdlistdata.expandGroup(groupPosition);
+                return  epdlistdata.isGroupExpanded(groupPosition) ? epdlistdata.collapseGroup(groupPosition) : epdlistdata.expandGroup(groupPosition);
                 }
             });
 
@@ -260,8 +303,10 @@ public class SearchActivity  extends AppCompatActivity  {
         khungtimkiem = (EditText) findViewById(R.id.edit_khungtimkiem);
         layout_chitieu =(LinearLayout) findViewById(R.id.layout_khungchitieu);
         epdlistdata = (ExpandableListView) findViewById(R.id.eplData);
+        khongtimthay = (TextView) findViewById(R.id.tv_khongtimthay);
         epdlistdata.setVisibility(View.GONE);
         layout_chitieu.setVisibility(View.GONE);
+        khongtimthay.setVisibility(View.GONE);
     }
     public int dp2px(float dp) {
         // Get the screen's density scale

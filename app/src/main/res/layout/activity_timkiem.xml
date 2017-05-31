@@ -161,4 +161,16 @@
         android:layout_weight="1"
         android:textIsSelectable="false"
         />
+
+    <TextView
+        android:id="@+id/tv_khongtimthay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
+        android:text="@string/search_label_khongtimthay"
+        android:textSize="@dimen/sp14"
+        android:textStyle="bold"
+        android:textColor="@color/badge_background_color"
+        android:typeface="monospace" />
 </LinearLayout>

@@ -486,11 +486,12 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#FFB500"
+                    android:background="#FFd900"
                     android:gravity="center"
                     android:padding="@dimen/dp10"
                     android:text="1129"
-                    android:textColor="#000000"
+                    android:textColor="@color/badge_background_color"
+                    android:textStyle="bold"
                     android:textSize="@dimen/sp12" />
 
                 <TextView
@@ -498,7 +499,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#FFB500"
+                    android:background="#FFd900"
                     android:gravity="center"
                     android:padding="@dimen/dp10"
                     android:text="23"
@@ -514,7 +515,8 @@
                     android:gravity="center"
                     android:padding="@dimen/dp10"
                     android:text="1106"
-                    android:textColor="#000000"
+                    android:textColor="@color/badge_background_color"
+                    android:textStyle="bold"
                     android:textSize="@dimen/sp12" />
 
                 <TextView
@@ -534,11 +536,12 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#F4C612"
+                    android:background="#F4e612"
                     android:gravity="center"
                     android:padding="@dimen/dp10"
                     android:text="1076"
-                    android:textColor="#000000"
+                    android:textColor="@color/badge_background_color"
+                    android:textStyle="bold"
                     android:textSize="@dimen/sp12"  />
 
                 <TextView
@@ -546,7 +549,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#F4C612"
+                    android:background="#F4e612"
                     android:gravity="center"
                     android:padding="@dimen/dp10"
                     android:text="1129"

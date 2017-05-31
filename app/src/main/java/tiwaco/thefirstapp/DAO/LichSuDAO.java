@@ -48,7 +48,7 @@ public class LichSuDAO {
         db = myda.openDB();
         List<LichSuDTO> ListLS = new ArrayList<LichSuDTO>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_LICHSU +" ORDER BY "+ MyDatabaseHelper.KEY_LISHSU_MALS ;
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_LICHSU +" ORDER BY "+ MyDatabaseHelper.KEY_LISHSU_MALS + " DESC";
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list

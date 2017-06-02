@@ -54,7 +54,7 @@ public class SearchActivity  extends AppCompatActivity  {
     List<DuongDTO> listduong;
     ImageButton btnBack, btnEye , btnSearch;
     Spinner spinDuong;
-    CheckBox ckDanhBo, ckHoten, ckDienThoai;
+    CheckBox ckDanhBo, ckHoten, ckDienThoai,ckMaTLK, ckDiaChi;
     EditText khungtimkiem ;
     LinearLayout layout_chitieu;
     String maduong ="";
@@ -138,8 +138,12 @@ public class SearchActivity  extends AppCompatActivity  {
         String stringmaduong = "";
         String stringhoten = "";
         String stringdienthoai = "";
+        String stringdiachi = "";
+        String stringtlk = "";
         String or1 = "";
         String or2 ="";
+        String or3 ="";
+        String or4 ="";
         hideKeyboard(SearchActivity.this);
         if(!flagEye){
             vitriduong = -1;
@@ -149,6 +153,8 @@ public class SearchActivity  extends AppCompatActivity  {
             else {
                 dieukien = " WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%' or " +
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIACHI + " LIKE '%" + stringtim + "%' or " +
+                        MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "' ";
             }
             final List<DuongDTO> listduongtheoDK = khachhangdao.getListDuongTheoDK(con,dieukien);
@@ -158,6 +164,8 @@ public class SearchActivity  extends AppCompatActivity  {
                 String dieukien2 =" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + " = '" + maduong + "' and (" +
                         MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%' or " +
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIACHI + " LIKE '%" + stringtim + "%' or " +
+                        MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "' )";
                 List<KhachHangDTO> listkh = khachhangdao.TimKiemTheoSQL(sqlstringselect+dieukien2);
                 mDataTimKiem.put(maduong,listkh);
@@ -207,7 +215,7 @@ public class SearchActivity  extends AppCompatActivity  {
 
                 if(ckHoten.isChecked()){
                     if(stringtim.equals("")){
-                        stringdienthoai ="";
+                        stringhoten ="";
                     }else {
                         stringhoten = " " + MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%'";
                     }
@@ -215,7 +223,28 @@ public class SearchActivity  extends AppCompatActivity  {
                     stringhoten ="";
                 }
 
-                if(!ckDanhBo.isChecked() &&!ckDienThoai.isChecked() &&!ckHoten.isChecked() )
+            
+
+                if(ckDiaChi.isChecked()){
+                if(stringtim.equals("")){
+                    stringdiachi ="";
+                }else {
+                    stringdiachi = " " + MyDatabaseHelper.KEY_DANHSACHKH_DIACHI + " LIKE '%" + stringtim + "%'";
+                }
+                }else{
+                    stringdiachi ="";
+                }
+            if(ckMaTLK.isChecked()){
+                if(stringtim.equals("")){
+                    stringtlk ="";
+                }else {
+                    stringtlk = " " + MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK + " = '" + stringtim + "'";
+                }
+            }else{
+                stringtlk ="";
+            }
+
+            if(!ckDanhBo.isChecked() &&!ckDienThoai.isChecked() &&!ckHoten.isChecked()  &&!ckDiaChi.isChecked()   &&!ckMaTLK.isChecked() )
                 {
                     dieukien = stringmaduong;
                 }
@@ -224,27 +253,51 @@ public class SearchActivity  extends AppCompatActivity  {
                     if(stringdanhbo.equals("")){
                         or1 ="";
                     }
-                    else if(!stringdanhbo.equals("") && stringhoten.equals("") && stringdienthoai.equals("") )
+                    else if(!stringdanhbo.equals("") && stringhoten.equals("") && stringdienthoai.equals("")&& stringdiachi.equals("")&& stringtlk.equals("") )
                     {
                         or1 = "";
                     }
                     else{
                         or1= " or ";
                     }
-                    Log.d("or1",or1);
-                    if(stringdienthoai.equals("")){
+                    Log.e("or1",or1);
+                    if(stringhoten.equals("")){
                         or2 ="";
                     }
-                    else if (!stringdienthoai.equals("") && stringdanhbo.equals("") && stringhoten.equals("")){
+                    else if (!stringhoten.equals("") && stringdienthoai.equals("") && stringdiachi.equals("")&& stringtlk.equals("")){
 
                         or2= "";
                     }
                     else {
                         or2 = " or ";
                     }
-                    Log.d("or2",or2);
-                    dieukien = stringmaduong + " and ( " + stringdanhbo + or1 +   stringhoten + or2 + stringdienthoai+" )";
-                    Log.d("dieukiensearch",dieukien);
+                    Log.e("or2",or2);
+                    if(stringdienthoai.equals("")){
+                         or3 ="";
+                    }
+                     else if (!stringdienthoai.equals("")  && stringdiachi.equals("")&& stringtlk.equals("")){
+
+                        or3= "";
+                     }
+                    else {
+                       or3 = " or ";
+                     }
+                     Log.e("or3",or3);
+                if(stringdiachi.equals("")){
+                    or4 ="";
+                }
+                else if (!stringdiachi.equals("")  && stringtlk.equals("")){
+
+                    or4= "";
+                }
+                else {
+                    or4 = " or ";
+                }
+                Log.e("or4",or4);
+
+
+                dieukien = stringmaduong + " and ( " + stringdanhbo + or1 +   stringhoten + or2 + stringdienthoai+ or3+stringdiachi+or4+stringtlk +" )";
+                    Log.e("dieukiensearch",dieukien);
                 }
 
 
@@ -300,6 +353,8 @@ public class SearchActivity  extends AppCompatActivity  {
         ckDanhBo = (CheckBox) findViewById(R.id.cb_danhbo);
         ckHoten = (CheckBox) findViewById(R.id.cb_hoten);
         ckDienThoai =(CheckBox) findViewById(R.id.cb_dienthoai);
+        ckMaTLK =(CheckBox) findViewById(R.id.cb_seriTLK);
+        ckDiaChi  =(CheckBox) findViewById(R.id.cb_DiaChi);
         khungtimkiem = (EditText) findViewById(R.id.edit_khungtimkiem);
         layout_chitieu =(LinearLayout) findViewById(R.id.layout_khungchitieu);
         epdlistdata = (ExpandableListView) findViewById(R.id.eplData);

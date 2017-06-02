@@ -130,7 +130,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Họ tên"
-
                 android:textSize="@dimen/sp14" />
 
             <CheckBox
@@ -140,6 +139,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Điện thoại"
+                android:textSize="@dimen/sp14" />
+            <CheckBox
+                android:id="@+id/cb_DiaChi"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Điạ chỉ"
+                android:textSize="@dimen/sp14" />
+            <CheckBox
+                android:id="@+id/cb_seriTLK"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Seri TLK"
                 android:textSize="@dimen/sp14" />
 
         </LinearLayout>

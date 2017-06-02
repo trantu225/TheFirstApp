@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity  {
     KhachHangDAO khachhangDAO;
     LichSuDAO lichsudao;
     KhachHangDTO khachhang;
-    TextView BatThuong, BatThuongCon,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
+    TextView LoaiKH, DinhMuc,BatThuong, BatThuongCon,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
     EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
@@ -539,6 +539,8 @@ public class MainActivity extends AppCompatActivity  {
         m31.setText(khachhang.getSLTieuThu1().trim());
         m32.setText(khachhang.getSLTieuThu2().trim());
         m33.setText(khachhang.getSLTieuThu3().trim());
+        LoaiKH.setText(khachhang.getLoaikh().trim());
+        DinhMuc.setText(khachhang.getDinhmuc().trim());
         ChiSoMoi.setText(khachhang.getChiSo().trim());
          m3moi.setText(khachhang.getSLTieuThu().trim());
         m3moi.setEnabled(false);
@@ -1201,10 +1203,14 @@ public class MainActivity extends AppCompatActivity  {
         TinhTrangTLK = (EditText) findViewById(R.id.edit_tinhtrangTLK);
         GhiChu = (EditText) findViewById(R.id.edit_ghichu);
 
+        LoaiKH= (TextView) findViewById(R.id.tv_loaiKH);
+        DinhMuc= (TextView) findViewById(R.id.tv_DinhMuc);
+
         DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
         Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
         Toi = (ImageButton) findViewById(R.id.btn_toi);
         Lui = (ImageButton) findViewById(R.id.btn_lui);
+
 
 
         lay_toi =(LinearLayout)findViewById(R.id.layout_toi);

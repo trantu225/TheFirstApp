@@ -138,7 +138,7 @@ public class KhachHangDAO {
         db = myda.openDB();
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"'";
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -194,7 +194,7 @@ public class KhachHangDAO {
         db = myda.openDB();
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"<>''";
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"<>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -250,7 +250,7 @@ public class KhachHangDAO {
         db = myda.openDB();
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"=''";
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"='' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -458,7 +458,7 @@ public class KhachHangDAO {
         db = myda.openDB();
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
-        String selectQuery =  "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE "+MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " +MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN +" LIKE '%"+ngay+"%' and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO+" <>''";
+        String selectQuery =  "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE "+MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " +MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN +" LIKE '%"+ngay+"%' and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO+" <>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list

@@ -74,6 +74,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_HIEUTLK= "hieutlk";
     public static final String KEY_DANHSACHKH_LOAIKH = "loaikh";
     public static final String KEY_DANHSACHKH_MASOTLK= "masotlk";
+    public static final String KEY_DANHSACHKH_BATTHUONG= "batthuong";
     public static final String KEY_DANHSACHKH_MADUONG= "maduong";
 
 
@@ -130,6 +131,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_KINHDO + " TEXT,"
                 + KEY_DANHSACHKH_THOIGIAN + " TEXT,"
                 + KEY_DANHSACHKH_NHANVIEN + " TEXT,"
+                + KEY_DANHSACHKH_BATTHUONG + " TEXT,"
                 + KEY_DANHSACHKH_MADUONG + " TEXT" + ")";
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("

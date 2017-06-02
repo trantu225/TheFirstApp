@@ -52,6 +52,15 @@
             android:textSize="@dimen/sp14"
             android:textStyle="bold" />
 
+        <Spinner
+            android:id="@+id/spin_tinhtrangghi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/dp3">
+
+        </Spinner>
+
         <TextView
             android:id="@+id/txt_title_dskh1"
             android:layout_width="0dp"

@@ -14,7 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import tiwaco.thefirstapp.Bien;
@@ -43,6 +45,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
     String title ="";
     SPData spdata ;
     int vitri = 0;
+    int loaighi = 0;
 
 
 
@@ -120,10 +123,27 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                 title =   "";
                 List<KhachHangDTO> liskhdao = new ArrayList<KhachHangDTO>();
                 KhachHangDAO khachhangDAO = new KhachHangDAO(con);
-                liskhdao = khachhangDAO.getAllKHTheoDuong(duong.getMaDuong());
+
+                //xu ly lay list tai day ( tat ca, da ghi, chua ghi)
+
+
+                if(Bien.bientrangthaighi == 0){
+                    liskhdao = khachhangDAO.getAllKHTheoDuong(duong.getMaDuong());
+                }
+                else if(Bien.bientrangthaighi ==1 )
+                {
+                    liskhdao = khachhangDAO.getAllKHDaGhiTheoDuong(duong.getMaDuong());
+                }
+                else if(Bien.bientrangthaighi ==2 ){
+                    liskhdao = khachhangDAO.getAllKHChuaGhiTheoDuong(duong.getMaDuong());
+                }
+                else{
+                    String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                    liskhdao = khachhangDAO.getAllKHDaGhiHomNay(duong.getMaDuong(),thoigian1);
+                }
 
                 Bien.adapterKH = new CustomListAdapter(con,liskhdao,pos);
-                title += String.valueOf(liskhdao.size()) +" khách hàng";
+                title += String.valueOf(liskhdao.size()) +" KH";
                 tvTitleKH.setText(title);
                 listviewKH.setAdapter(Bien.adapterKH);
 

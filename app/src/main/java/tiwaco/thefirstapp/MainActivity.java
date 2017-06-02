@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity  {
     KhachHangDAO khachhangDAO;
     LichSuDAO lichsudao;
     KhachHangDTO khachhang;
-    TextView LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
+    TextView BatThuong, BatThuongCon,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
     EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity  {
     SPData spdata;
     String tenduong;
     String soKHconlai,tongsoKHTheoDuong;
-    double longitude,latitude;
+    static double  longitude,latitude;
     String vido ="" ;
     String kinhdo="";
     GPSTracker gps;
@@ -548,14 +548,30 @@ public class MainActivity extends AppCompatActivity  {
         GhiChu.setText(khachhang.getGhiChu().trim());
         flagDangGhi = false;
         if(!khachhang.getChiSo().equals("")){
-            LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
-            DuongDangGhi.setBackgroundResource(android.R.color.holo_red_dark);
-            ConLai.setBackgroundResource(android.R.color.holo_red_dark);
+            if(khachhangDAO.checkTrangThaiBatThuongKH(khachhang.getMaKhachHang()).equals("")) {
+
+
+                LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
+                DuongDangGhi.setBackgroundResource(android.R.color.holo_red_dark);
+                ConLai.setBackgroundResource(android.R.color.holo_red_dark);
+                BatThuong.setVisibility(View.GONE);
+                BatThuongCon.setVisibility(View.GONE);
+            }
+            else{
+                LabelDuong.setBackgroundResource(android.R.color.holo_green_light);
+                DuongDangGhi.setBackgroundResource(android.R.color.holo_green_light);
+                ConLai.setBackgroundResource(android.R.color.holo_green_light);
+                BatThuong.setVisibility(View.VISIBLE);
+                BatThuongCon.setVisibility(View.VISIBLE);
+
+            }
         }
         else{
             LabelDuong.setBackgroundResource(R.color.colorPrimaryDark);
             DuongDangGhi.setBackgroundResource(R.color.colorPrimaryDark);
             ConLai.setBackgroundResource(R.color.colorPrimaryDark);
+            BatThuong.setVisibility(View.GONE);
+            BatThuongCon.setVisibility(View.GONE);
         }
 
         if(khachhang.getChiSo1con().equals("0") && khachhang.getChiSo2con().equals("0") && khachhang.getChiSo3con().equals("0")
@@ -583,13 +599,25 @@ public class MainActivity extends AppCompatActivity  {
         //set background cho tới và lùi
         if(tt.equals("1")){
             lay_lui.setBackgroundResource(R.color.space_background_color);
+            lay_lui.setEnabled(false);
+            Lui.setEnabled(false);
+            lay_toi.setEnabled(true);
+            Toi.setEnabled(true);
         }
         else if(tt.equals(String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong)))){
             lay_toi.setBackgroundResource(R.color.space_background_color);
+            lay_lui.setEnabled(true);
+            Lui.setEnabled(true);
+            lay_toi.setEnabled(false);
+            Toi.setEnabled(false);
         }
         else{
             lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
             lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+            lay_lui.setEnabled(true);
+            Lui.setEnabled(true);
+            lay_toi.setEnabled(true);
+            Toi.setEnabled(true);
         }
 
         DienThoai.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -753,6 +781,7 @@ public class MainActivity extends AppCompatActivity  {
                                         dialog.dismiss();
                                         m3moi.setEnabled(true);
                                         m3moi.setText("");
+                                        BatThuong.setVisibility(View.VISIBLE);
 
                                     }
                                 });
@@ -777,6 +806,7 @@ public class MainActivity extends AppCompatActivity  {
                             } else {
                                 m3moi.setEnabled(false);
                                 m3moi.setText(String.valueOf(chisomoi - chisocu));
+                                BatThuong.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -1104,9 +1134,22 @@ public class MainActivity extends AppCompatActivity  {
                 MainActivity.this.finish();
                 break;
             case android.R.id.home:
+
                 MainActivity.this.finish();
                 break;
+            case R.id.action_kieughi:
 
+                if(Bien.bienkieughi == 1){ // lui -> toi
+                    Bien.bienkieughi = 0;
+
+                    item.setIcon(android.R.drawable.ic_media_rew); //toi
+                }
+                else{ //toi -> lui
+                    Bien.bienkieughi = 1;
+                    item.setIcon(android.R.drawable.ic_media_ff); //toi
+                }
+
+                break;
         }
 
 
@@ -1144,8 +1187,8 @@ public class MainActivity extends AppCompatActivity  {
         m3con1= (TextView) findViewById(R.id.tv_m3cu1con);
         m3con2= (TextView) findViewById(R.id.tv_m3cu2con);
         m3con3= (TextView) findViewById(R.id.tv_m3cu3con);
-
-
+        BatThuong =(TextView) findViewById(R.id.tv_btmoi);
+        BatThuongCon =(TextView) findViewById(R.id.tv_btmoi_con);
         LabelDuong = (TextView) findViewById(R.id.tv_label_duong);
         DuongDangGhi= (TextView) findViewById(R.id.tv_duongdangghi);
         ConLai= (TextView) findViewById(R.id.tv_conlai);
@@ -1227,7 +1270,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
         }
     }
 }
-    private void ghinuoc(){
+    private void ghinuoc(String BT){
 
 
         if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -1273,7 +1316,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 Log.e("Thoi gian", thoigian );
                 String trangthaiTLK  = TinhTrangTLK.getText().toString().trim();
 
-                if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,m3,m3con,thoigian,trangthaiTLK))
+                if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,m3,m3con,thoigian,trangthaiTLK,BT))
                 {
                     Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
                     //Cập nhật biến ghi
@@ -1293,8 +1336,18 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
 
                         //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
-                        String sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan,STT_HienTai);
+
+                        //xu ly ghi truoc hay ghi lui tai day
+                        String sothutu = "";
+                        if (Bien.bienkieughi == 1){ //lui{
+                            sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
+                        }
+                        else{
+                            sothutu = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
+                        }
+                        Log.e("Ghi nuoc, stt",sothutu);
                         if(!sothutu.equals("0")) {
+
                             STT_HienTai = sothutu;
                             setDataForView(sothutu, maduong_nhan);
                             spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
@@ -1385,7 +1438,42 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
         if(ChiSoMoi.getText().toString().trim().equals("")){
-            showDiaLogThongBao("Bạn chưa nhập chỉ số nước.");
+            Log.e("da ghi nuoc", String.valueOf(KiemTraDaGhi(MaKH.getText().toString().trim())));
+            if(KiemTraDaGhi(MaKH.getText().toString().trim())) {
+                showDiaLogThongBao("Bạn chưa nhập chỉ số nước.");
+            }
+            else{
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                // khởi tạo dialog
+
+                alertDialogBuilder.setMessage("Bạn có muốn hủy ghi nước của khách hàng này không?");
+
+                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        ghinuoc("");
+
+
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            }
+
         }
         else{
             //Kiem tra chi so moi có nhỏ hơn chỉ số cũ ko
@@ -1412,7 +1500,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
                             if(!m3moi.getText().toString().trim().equals("")) {
-                                ghinuoc();
+                                ghinuoc("BT");
                             }
                             else{
                                 showDiaLogThongBao("Sử dụng chỉ số bất thường cần nhập m3 nước.");
@@ -1442,10 +1530,10 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
                    if(m3moi.getText().toString().trim().equals("")){
                        m3moi.setText(String.valueOf(chisomoi -chisocu));
-                       ghinuoc();
+                       ghinuoc("");
                    }
                    else {
-                       ghinuoc();
+                       ghinuoc("");
                    }
                 }
             }
@@ -1478,7 +1566,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                                 Log.e("m3 rong","co - vo day");
                                 if(!m3conmoi.getText().toString().trim().equals("")) {
-                                    ghinuoc();
+                                    ghinuoc("BT");
                                 }
                                 else{
                                     Log.e("m3 rong","vo day");
@@ -1507,10 +1595,10 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     else{
                         if(m3conmoi.getText().toString().trim().equals("")){
                             m3moi.setText(String.valueOf(chisomoicon -chisocucon));
-                            ghinuoc();
+                            ghinuoc("");
                         }
                         else {
-                            ghinuoc();
+                            ghinuoc("");
                         }
                     }
                 }
@@ -1563,9 +1651,11 @@ private void  resetViewGhiNuoc(){
 
 public boolean KiemTraDaGhi(String maKH){
     KhachHangDTO kh = khachhangDAO.getKHTheoMaKH(maKH);
+    Log.e("thong tin chi so", "Chi so db:" + kh.getChiSo() +  "  Chi so man hinh: "+ChiSoMoi.getText().toString().trim() );
     if(kh.getDienThoai().equals(DienThoai.getText().toString().trim())  &&
             kh.getTrangThaiTLK().equals(TinhTrangTLK.getText().toString().trim()) &&
             kh.getChiSo().equals(ChiSoMoi.getText().toString().trim()) &&
+            kh.getSLTieuThu().equals(m3moi.getText().toString().trim()) &&
             kh.getChiSocon().equals(ChiSoMoiCon.getText().toString().trim()) &&
             kh.getGhiChu().equals(GhiChu.getText().toString().trim()))
     {

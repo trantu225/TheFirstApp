@@ -64,6 +64,7 @@
     <string name="KH_m3cu">m3 cũ: </string>
     <string name="KH_chisomoi_label">Chỉ số/m3 mới ĐH chính: </string>
     <string name="KH_chisomoicon_label">Chỉ số/m3 mới ĐH con: </string>
+    <string name="KH_chisobatthuong">BẤT THƯỜNG </string>
     <string name="KH_chisomoi">Chỉ số: </string>
     <string name="KH_m3moi">m3: </string>
     <string name="KH_chisomoicon">Chỉ số: </string>
@@ -103,6 +104,7 @@
     <string name="search_label">Tìm kiếm</string>
     <string name="search_label_chitieu">Chỉ tiêu tìm kiếm</string>
     <string name="search_label_khongtimthay">Không tìm được kết quả nào</string>
+    <string name="btn_kieughi">Kiểu ghi</string>
 
 
 </resources>

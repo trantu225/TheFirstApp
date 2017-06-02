@@ -27,6 +27,8 @@ public class Bien {
     public static int bienbkall = 0;
     public static int bienbkcg = 0;
     public static int bienbkdg = 0;
+    public static int bientrangthaighi = 0;
+    public static int bienkieughi = 1; // 0: tới , 1: lùi
     public static final String GOITIN_MADUONG = "goitinmaduong";
     public static final String MADUONG = "maduong";
     public static final String VITRI = "indexmaduong";

@@ -48,11 +48,18 @@
             android:padding="@dimen/dp10"
             android:text="@string/string_con"
             android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
             android:textSize="@dimen/sp14"
-            android:gravity="end"
-            android:textStyle="bold" />
+            android:maxLines="1" />
 
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -74,6 +81,7 @@
             <!-- Row 1 with single column -->
 
             <TableRow
+                android:id="@+id/tb_KH"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
@@ -101,114 +109,118 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                        <TextView
+                            android:id="@+id/tv11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
 
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_STT"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                            android:padding="@dimen/dp3"
+                            android:text="@string/KH_STT"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
 
-                <TextView
-                    android:id="@+id/tv_sttKH"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                        <TextView
+                            android:id="@+id/tv_sttKH"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
 
-                    android:padding="@dimen/dp3"
-                    android:textColor="@color/centre_button_color"
-                    android:textSize="@dimen/sp14" />
+                            android:padding="@dimen/dp3"
+                            android:textColor="@color/centre_button_color"
+                            android:textSize="@dimen/sp14" />
                     </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_danhbo"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
 
-                <TextView
-                    android:id="@+id/tv_DanhBo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp3"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:singleLine="true"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:textSize="@dimen/sp14"
-                    android:maxLines="1" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp3"
+                            android:text="@string/KH_danhbo"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
+
+                        <TextView
+                            android:id="@+id/tv_DanhBo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:maxLines="1"
+                            android:padding="@dimen/dp3"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/sp14" />
                     </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_maTLK"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
 
-                <TextView
-                    android:id="@+id/tv_maKH"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp3"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:singleLine="true"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:textSize="@dimen/sp14"
-                    android:maxLines="1"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp3"
+                            android:text="@string/KH_maTLK"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
+
+                        <TextView
+                            android:id="@+id/tv_maKH"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:maxLines="1"
+                            android:padding="@dimen/dp3"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/sp14" />
                     </LinearLayout>
                 </LinearLayout>
             </TableRow>
 
             <TableRow
-                android:id="@+id/tableRow111"
+                android:id="@+id/tableRow12"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="clip_horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
-
 
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/tv111"
                             android:layout_width="wrap_content"
@@ -228,11 +240,13 @@
                             android:textColor="#000000"
                             android:textSize="@dimen/sp14" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="2"
                         android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -245,56 +259,18 @@
                             android:id="@+id/tv_DinhMuc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/dp3"
-                            android:textColor="#000000"
+                            android:ellipsize="marquee"
                             android:focusable="true"
                             android:focusableInTouchMode="true"
-                            android:singleLine="true"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:maxLines="1"
+                            android:padding="@dimen/dp3"
                             android:scrollHorizontally="true"
-                            android:ellipsize="marquee"
-                            android:marqueeRepeatLimit ="marquee_forever"
-                            android:textSize="@dimen/sp14"
-                            android:maxLines="1" />
+                            android:singleLine="true"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
                     </LinearLayout>
 
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                android:id="@+id/tableRow12"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="clip_horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_hoten"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
-
-                <TextView
-                    android:id="@+id/tv_hotenKH"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/dp3"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textStyle="bold"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:singleLine="true"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:textSize="@dimen/sp14"
-                    android:maxLines="1" />
                 </LinearLayout>
             </TableRow>
 
@@ -303,75 +279,120 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="clip_horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
 
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_diachi"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-                <TextView
-                    android:id="@+id/tv_diachiKH"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/dp3"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_hoten"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <TextView
+                        android:id="@+id/tv_hotenKH"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp3"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="@dimen/sp14"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </TableRow>
-
 
             <TableRow
                 android:id="@+id/tableRow14"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
+                android:gravity="clip_horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
 
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_dienthoai"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    <TextView
+                        android:id="@+id/tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-                <EditText
-                    android:id="@+id/edit_DienThoaiKH"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:textSize="@dimen/sp14" />
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_diachi"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
 
-                <ImageButton
-                    android:id="@+id/imgbtn_doi"
+                    <TextView
+                        android:id="@+id/tv_diachiKH"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="@dimen/dp3"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+                </LinearLayout>
+            </TableRow>
+
+
+            <TableRow
+                android:id="@+id/tableRow15"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/selector_button_change"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/dp3"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
-            </LinearLayout>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_dienthoai"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <EditText
+                        android:id="@+id/edit_DienThoaiKH"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textSize="@dimen/sp14" />
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_doi"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_button_change"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp3"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+                </LinearLayout>
 
             </TableRow>
 
@@ -379,6 +400,7 @@
             <!-- Row 2 with 3 columns -->
 
             <TableRow
+                android:id="@+id/tb_TLK"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
@@ -402,29 +424,31 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
 
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_maTLK"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-                <TextView
-                    android:id="@+id/tv_maTLK"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/dp3"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
-            </LinearLayout>
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_maTLK"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <TextView
+                        android:id="@+id/tv_maTLK"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="@dimen/dp3"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+                </LinearLayout>
             </TableRow>
 
             <TableRow
@@ -432,52 +456,57 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_hieuTLK"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
 
-                <TextView
-                    android:id="@+id/tv_hieuTLK"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/dp3"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
                     android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_coTLK"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
 
-                <TextView
-                    android:id="@+id/tv_coTLK"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/dp3"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp3"
+                            android:text="@string/KH_hieuTLK"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
+
+                        <TextView
+                            android:id="@+id/tv_hieuTLK"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/dp3"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp3"
+                            android:text="@string/KH_coTLK"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
+
+                        <TextView
+                            android:id="@+id/tv_coTLK"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/dp3"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
                     </LinearLayout>
                 </LinearLayout>
             </TableRow>
@@ -487,29 +516,40 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp3"
-                    android:text="@string/KH_tinhtrangdongho"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
-
-                <EditText
-                    android:id="@+id/edit_tinhtrangTLK"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                    android:maxLines="1"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:textSize="@dimen/sp14" />
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_tinhtrangdongho"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <EditText
+                        android:id="@+id/edit_tinhtrangTLK"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:maxLines="1"
+                        android:textSize="@dimen/sp14"
+                        android:visibility="gone" />
+
+                    <Spinner
+                        android:id="@+id/spin_tinhtrangtlk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:textSize="@dimen/sp14"></Spinner>
                 </LinearLayout>
             </TableRow>
 
@@ -550,80 +590,119 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tv_chisocu1"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#FFd900"
                     android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1129"
-                    android:textColor="@color/badge_background_color"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/sp12" />
+                    android:orientation="horizontal"
 
-                <TextView
-                    android:id="@+id/tv_m3cu1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFd900"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="23"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    >
 
-                <TextView
-                    android:id="@+id/tv_chisocu2"
+                    <TextView
+                        android:id="@+id/tv_chisocu1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1129"
+                        android:textColor="@color/badge_background_color"
+                        android:textSize="@dimen/sp12"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_m3cu1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="23"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#FFFA99"
                     android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1106"
-                    android:textColor="@color/badge_background_color"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/sp12" />
+                    android:orientation="horizontal"
 
-                <TextView
-                    android:id="@+id/tv_m3cu2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFA99"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1129"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12"  />
+                    >
 
-                <TextView
-                    android:id="@+id/tv_chisocu3"
+                    <TextView
+                        android:id="@+id/tv_chisocu2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1106"
+                        android:textColor="@color/badge_background_color"
+                        android:textSize="@dimen/sp12"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_m3cu2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1129"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#F4e612"
                     android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1076"
-                    android:textColor="@color/badge_background_color"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/sp12"  />
+                    android:orientation="horizontal"
 
-                <TextView
-                    android:id="@+id/tv_m3cu3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#F4e612"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1129"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12"  />
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_chisocu3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1076"
+                        android:textColor="@color/badge_background_color"
+                        android:textSize="@dimen/sp12"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_m3cu3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1129"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+
+
+                </LinearLayout>
+
 
             </TableRow>
 
@@ -647,78 +726,110 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tv_chisocu1con"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#FFB500"
+                    android:background="#FFd900"
                     android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1129"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    android:orientation="horizontal"
 
-                <TextView
-                    android:id="@+id/tv_m3cu1con"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFB500"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="23"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12" />
+                    >
 
-                <TextView
-                    android:id="@+id/tv_chisocu2con"
+                    <TextView
+                        android:id="@+id/tv_chisocu1con"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1129"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+
+                    <TextView
+                        android:id="@+id/tv_m3cu1con"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="23"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#FFFA99"
                     android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1106"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12"  />
+                    android:orientation="horizontal"
 
-                <TextView
-                    android:id="@+id/tv_m3cu2con"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_chisocu2con"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:background="#FFFA99"
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1106"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+
+                    <TextView
+                        android:id="@+id/tv_m3cu2con"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:background="#FFFA99"
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1129"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#FFFA99"
+                    android:background="#F4e612"
                     android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1129"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12"  />
+                    android:orientation="horizontal"
 
-                <TextView
-                    android:id="@+id/tv_chisocu3con"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#F4C612"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1076"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12"  />
+                    >
 
-                <TextView
-                    android:id="@+id/tv_m3cu3con"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#F4C612"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:text="1129"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp12"  />
+                    <TextView
+                        android:id="@+id/tv_chisocu3con"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
 
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1076"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+
+                    <TextView
+                        android:id="@+id/tv_m3cu3con"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:padding="@dimen/dp10"
+                        android:text="1129"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp12" />
+                </LinearLayout>
             </TableRow>
             <!-- Row 3 with 2 columns -->
 
@@ -733,17 +844,18 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisomoi_label"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14"  />
+                    android:textSize="@dimen/sp14" />
+
                 <TextView
                     android:id="@+id/tv_btmoi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisobatthuong"
-                    android:textStyle="bold"
-                    android:visibility="gone"
                     android:textColor="@color/badge_background_color"
-                    android:textSize="@dimen/sp14"  />
+                    android:textSize="@dimen/sp14"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </TableRow>
 
             <TableRow
@@ -751,52 +863,57 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/dp3"
-                    android:gravity="center_vertical"
-                    android:text="@string/KH_chisomoi"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14"  />
-                <EditText
-                    android:id="@+id/edit_chisomoi"
 
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:padding="@dimen/dp10"
-                    android:textSize="@dimen/sp14"
-                    android:textColor="#000000" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/dp3"
-                    android:gravity="center_vertical"
-                    android:text="@string/KH_m3moi"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14"  />
-                <EditText
-                    android:id="@+id/edit_m3moi"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:textSize="@dimen/sp14"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:textColor="#000000" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_chisomoi"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <EditText
+                        android:id="@+id/edit_chisomoi"
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp10"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_m3moi"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <EditText
+                        android:id="@+id/edit_m3moi"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp10"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
                 </LinearLayout>
             </TableRow>
 
@@ -811,17 +928,18 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisomoicon_label"
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14"  />
+                    android:textSize="@dimen/sp14" />
+
                 <TextView
                     android:id="@+id/tv_btmoi_con"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisobatthuong"
-                    android:textStyle="bold"
                     android:textColor="@color/badge_background_color"
-                    android:visibility="gone"
-                    android:textSize="@dimen/sp14"  />
+                    android:textSize="@dimen/sp14"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </TableRow>
 
             <TableRow
@@ -829,52 +947,57 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/dp3"
-                    android:gravity="center_vertical"
-                    android:text="@string/KH_chisomoicon"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14"  />
-                <EditText
-                    android:id="@+id/edit_chisomoicon"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:padding="@dimen/dp10"
 
-                    android:maxLines="1"
-                    android:textSize="@dimen/sp14"
-                    android:textColor="#000000" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/dp3"
-                    android:gravity="center_vertical"
-                    android:text="@string/KH_m3moicon"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/sp14"  />
-                <EditText
-                    android:id="@+id/edit_m3moicon"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:padding="@dimen/dp10"
-                    android:textSize="@dimen/sp14"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:textColor="#000000" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_chisomoicon"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <EditText
+                        android:id="@+id/edit_chisomoicon"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+
+                        android:padding="@dimen/dp10"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp3"
+                        android:text="@string/KH_m3moicon"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <EditText
+                        android:id="@+id/edit_m3moicon"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp10"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
                 </LinearLayout>
             </TableRow>
 
@@ -897,22 +1020,22 @@
 
 
             </TableRow>
+
             <TableRow
                 android:id="@+id/tableRow_ghichu"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/edit_ghichu"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:drawable/editbox_background_normal"
+                <EditText
+                    android:id="@+id/edit_ghichu"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/editbox_background_normal"
 
-                android:inputType="text"
-                android:padding="@dimen/dp10"
-                android:textSize="@dimen/sp14"
-                android:textColor="#000000" />
+                    android:inputType="text"
+                    android:padding="@dimen/dp10"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/sp14" />
             </TableRow>
 
         </TableLayout>

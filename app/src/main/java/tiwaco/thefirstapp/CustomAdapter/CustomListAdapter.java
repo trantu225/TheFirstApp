@@ -113,7 +113,12 @@ public class CustomListAdapter extends BaseAdapter {
 
         }
         else{
-            holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+            if(khachhangdao.checkTrangThaiBatThuongKH(cus.getMaKhachHang()).equals("BT")){
+                holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong);
+            }
+            else {
+                holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+            }
         }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

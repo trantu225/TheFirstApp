@@ -41,8 +41,10 @@ import java.util.Scanner;
 import circleprogress.DonutProgress;
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 
@@ -55,6 +57,7 @@ public class LoadActivity extends AppCompatActivity {
     DuongDAO duongDAO ;
     Context con;
     KhachHangDAO khachhangDAO;
+    TinhTrangTLKDAO tinhtrangtlkdao;
     SPData spdata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class LoadActivity extends AppCompatActivity {
         con = LoadActivity.this;
         duongDAO = new DuongDAO(LoadActivity.this);
         khachhangDAO = new KhachHangDAO(LoadActivity.this);
+        tinhtrangtlkdao = new TinhTrangTLKDAO(con);
         spdata = new SPData(con);
         File extStore = Environment.getExternalStorageDirectory();
         filename = getString(R.string.data_file_name);
@@ -271,7 +275,11 @@ public class LoadActivity extends AppCompatActivity {
 
             //String jsontext = readFile(params[0]);
 */
-
+            //THêm database loại tinh trang tlk
+            List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
+            for(int tt = 0 ; tt<listt.size();tt++){
+                tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
+            }
 
             JSONObject jsonobj = null;
             try {

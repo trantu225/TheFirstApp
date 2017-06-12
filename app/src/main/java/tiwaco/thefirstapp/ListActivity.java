@@ -11,7 +11,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -58,6 +61,7 @@ public class ListActivity extends AppCompatActivity {
     String title ="";
     SPData spdata;
     Spinner spinTTGhi;
+    EditText locSTT;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.listkh_fragment);
@@ -73,8 +77,10 @@ public class ListActivity extends AppCompatActivity {
         listviewKH = (ListView) findViewById(R.id.lv_khachhang);
         txtduongchon = (TextView) findViewById(R.id.txt_maduongchon);
         txtTiltle =(TextView) findViewById(R.id.txt_title_dskh1);
+        locSTT = (EditText) findViewById(R.id.txt_title_STT);
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
         spinTTGhi = (Spinner) findViewById(R.id.spin_tinhtrangghi);
+        spinTTGhi.setSelected(true);
         spdata= new SPData(con);
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
@@ -113,6 +119,36 @@ public class ListActivity extends AppCompatActivity {
         Log.e("select duong---listactivity", String.valueOf(Bien.selected_item));
      //   setview();
         loadDataDuong();
+
+
+        locSTT.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!locSTT.getText().toString().equals("")) {
+
+                    KhachHangDTO khchuyen = khachhangDAO.getKHTheoDanhBoSTTDuong(Bien.ma_duong_dang_chon,locSTT.getText().toString());
+                    if(khchuyen!=null) {
+                        int stt = Integer.parseInt(khchuyen.getSTT().toString()) - 1;
+                        if (stt > 0 && stt <= liskhdao.size()) {
+                            listviewKH.setSelection(stt);
+                        }
+                    }
+                }
+                else {
+                    listviewKH.setSelection(0);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override

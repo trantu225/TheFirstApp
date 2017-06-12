@@ -31,12 +31,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DUONG = "Duong";
     public static final String TABLE_DANHSACHKH = "danhsachkh";
     public static final String TABLE_LICHSU = "lichsu";
+    public static final String TABLE_TINHTRANGTLK = "tinhtrangtlk";
 
 
     // Duong Table Columns names
     public static final String KEY_DUONG_MADUONG = "maduong";
     public static final String KEY_DUONG_TENDUONG = "tenduong";
     public static final String KEY_DUONG_TRANGTHAI = "trangthai";
+
+    // TinhtrangTLK Table Columns names
+    public static final String KEY_TINHTRANGTLK_MATT  = "matinhtrang";
+    public static final String KEY_TINHTRANGTLK_TENTT  = "tentinhtrang";
+    public static final String KEY_TINHTRANGTLK_ThuTuTT  = "thututinhtrang";
 
     //KhachHang Table Columns names
 
@@ -140,9 +146,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_LICHSU_MALENH + " TEXT,"
                 + KEY_LICHSU_THOIGIAN + " TEXT" + ")";
 
+        String CREATE_TINHTRANGTLK_TABLE = "CREATE TABLE " + TABLE_TINHTRANGTLK + "("
+                + KEY_TINHTRANGTLK_MATT + " TEXT PRIMARY KEY,"
+                + KEY_TINHTRANGTLK_ThuTuTT + " INTEGER,"
+                + KEY_TINHTRANGTLK_TENTT + " TEXT" + ")";
+
         db.execSQL(CREATE_DUONG_TABLE);
         db.execSQL(CREATE_KHACHHANG_TABLE);
         db.execSQL(CREATE_LISHSU_TABLE);
+        db.execSQL(CREATE_TINHTRANGTLK_TABLE);
     }
 
     @Override
@@ -154,6 +166,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_DUONG);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
             // Create tables again
             onCreate(db);
         }
@@ -163,6 +176,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DUONG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
         // Create tables again
         onCreate(db);
     }

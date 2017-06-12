@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -106,31 +108,29 @@ public class SearchActivity  extends AppCompatActivity  {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timkiem();
+                timkiem(1);
             }
         });
       //  adapter = new CustomListAdapter(con,listkhachhang,-1);
 
      //   listview.setAdapter(adapter);
-
-
-    }
+     }
 
     @Override
     protected void onResume() {
 
         if(adapterTK != null) {
-            timkiem();
+            timkiem(1);
             adapterTK.notifyDataSetChanged();
         }
         if(adapter !=null) {
-            timkiem();
+            timkiem(1);
             adapter.notifyDataSetChanged();
         }
         super.onResume();
     }
 
-    private void timkiem() {
+    private void timkiem(int loai) {
         String sqlstringselect = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +"  ";
         String dieukien ="";
         String stringtim = khungtimkiem.getText().toString().trim();
@@ -144,7 +144,11 @@ public class SearchActivity  extends AppCompatActivity  {
         String or2 ="";
         String or3 ="";
         String or4 ="";
-        hideKeyboard(SearchActivity.this);
+        if (loai == 1) {
+            hideKeyboard(SearchActivity.this);
+        }
+
+
         if(!flagEye){
             vitriduong = -1;
             if(stringtim.equals("")){
@@ -223,7 +227,7 @@ public class SearchActivity  extends AppCompatActivity  {
                     stringhoten ="";
                 }
 
-            
+
 
                 if(ckDiaChi.isChecked()){
                 if(stringtim.equals("")){

@@ -42,8 +42,7 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/txt_title_dskh"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:padding="@dimen/dp3"
@@ -55,16 +54,33 @@
         <Spinner
             android:id="@+id/spin_tinhtrangghi"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/dp3">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp3"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textSize="@dimen/sp14">
 
         </Spinner>
-
+        <EditText
+            android:id="@+id/txt_title_STT"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/dp3"
+            android:hint="STT,DB"
+            android:textColor="@android:color/black"
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/sp14"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/txt_title_dskh1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="end"
@@ -72,6 +88,7 @@
             android:textColor="@android:color/holo_red_light"
             android:textSize="@dimen/sp14"
             android:textStyle="bold" />
+
 
 
     </LinearLayout>

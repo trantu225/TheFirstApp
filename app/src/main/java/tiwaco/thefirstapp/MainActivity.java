@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity  {
     TinhTrangTLKDAO tinhtrangtlkdao;
     ArrayList<String>  arrTT = null ;
     String tenTT ="";
+    Menu menumain;
+    int bienkieughi =1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1210,6 +1212,7 @@ public class MainActivity extends AppCompatActivity  {
         //set background cho tới và lùi
         if(tt.equals("1")){
             lay_lui.setBackgroundResource(R.color.space_background_color);
+            lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
             lay_lui.setEnabled(false);
             Lui.setEnabled(false);
             lay_toi.setEnabled(true);
@@ -1217,6 +1220,7 @@ public class MainActivity extends AppCompatActivity  {
         }
         else if(tt.equals(String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong)))){
             lay_toi.setBackgroundResource(R.color.space_background_color);
+            lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
             lay_lui.setEnabled(true);
             Lui.setEnabled(true);
             lay_toi.setEnabled(false);
@@ -1239,6 +1243,7 @@ public class MainActivity extends AppCompatActivity  {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.mymenu, menu);
+        this.menumain  = menu;
         return true;
     }
 
@@ -1263,13 +1268,13 @@ public class MainActivity extends AppCompatActivity  {
                 break;
             case R.id.action_kieughi:
 
-                if(Bien.bienkieughi == 1){ // lui -> toi
-                    Bien.bienkieughi = 0;
+                if(bienkieughi == 1){ // lui -> toi
+                    bienkieughi = 0;
 
                     item.setIcon(android.R.drawable.ic_media_rew); //toi
                 }
                 else{ //toi -> lui
-                    Bien.bienkieughi = 1;
+                    bienkieughi = 1;
                     item.setIcon(android.R.drawable.ic_media_ff); //toi
                 }
 
@@ -1467,7 +1472,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                         //xu ly ghi truoc hay ghi lui tai day
                         String sothutu = "";
-                        if (Bien.bienkieughi == 1){ //lui{
+                        if (bienkieughi == 1){ //lui{
                             sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
                         }
                         else{//truoc
@@ -1490,6 +1495,9 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                     String sothutukhConLai = khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
                                     if(!sothutukhConLai.equals("")) {
                                         STT_HienTai = sothutukhConLai;
+                                        bienkieughi = 1;
+                                        MenuItem itemkieughi = menumain.findItem(R.id.action_kieughi);
+                                        itemkieughi.setIcon(android.R.drawable.ic_media_ff);
                                         setDataForView(sothutukhConLai, maduong_nhan);
                                         spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutukhConLai);
                                     }
@@ -1561,7 +1569,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
     }
-    private void kiemTraDieuKienDeGhiNuoc(){
+private void kiemTraDieuKienDeGhiNuoc(){
 
 
 

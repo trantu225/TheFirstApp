@@ -150,6 +150,11 @@
                         android:layout_height="wrap_content"
                         android:text="@string/ThongTinLuuFie_Daghi"/>
                     <RadioButton
+                        android:id="@+id/radio_daghihomnay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Đã ghi hôm nay"/>
+                    <RadioButton
                         android:id="@+id/radio_chuaghi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

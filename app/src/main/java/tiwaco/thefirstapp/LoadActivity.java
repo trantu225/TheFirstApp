@@ -646,8 +646,9 @@ public class LoadActivity extends AppCompatActivity {
                 Bien.bienbkall = 0;
                 Bien.bienbkcg = 0;
                 Bien.bienbkdg = 0;
+                Bien.bienbkdghn = 0;
                 spdata.KhoiTaoLaiSPDATA();
-                spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg);
+                spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg,Bien.bienbkdghn);
 /*
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
                 // khởi tạo dialog
@@ -712,8 +713,9 @@ public class LoadActivity extends AppCompatActivity {
                 Bien.bienbkall = 0;
                 Bien.bienbkcg = 0;
                 Bien.bienbkdg = 0;
+                Bien.bienbkdghn = 0;
                 spdata.KhoiTaoLaiSPDATA();
-                spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg);
+                spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg,Bien.bienbkdghn);
 
 
             }

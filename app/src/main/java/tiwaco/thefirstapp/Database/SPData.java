@@ -52,7 +52,7 @@ public class SPData  {
         editor.commit();
     }
 
-    public void luuDataFlagGhivaBackUpTrongSP(int bienghi,int flagall, int flagdaghi, int flagchuaghi){
+    public void luuDataFlagGhivaBackUpTrongSP(int bienghi,int flagall, int flagdaghi, int flagchuaghi, int flagdaghihn){
 
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor=pre.edit();
@@ -60,6 +60,7 @@ public class SPData  {
         editor.putInt(Bien.SPBKALL, flagall);
         editor.putInt(Bien.SPBKCG, flagchuaghi);
         editor.putInt(Bien.SPBKDG, flagdaghi);
+        editor.putInt(Bien.SPBKDGHN, flagdaghihn);
         editor.commit();
     }
 
@@ -113,7 +114,13 @@ public class SPData  {
         editor.putInt(Bien.SPBKDG, bienghi);
         editor.commit();
     }
+    public void luuDataFlagBKDaghiHomNayTrongSP(int bienghi){
 
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putInt(Bien.SPBKDGHN, bienghi);
+        editor.commit();
+    }
     public int getDataBKALLTrongSP(){
 
 
@@ -132,6 +139,13 @@ public class SPData  {
 
 
         int flagghi=pre.getInt(Bien.SPBKDG, 0);
+        return flagghi;
+    }
+
+    public int getDataBKDGHomNayTrongSP(){
+
+
+        int flagghi=pre.getInt(Bien.SPBKDGHN, 0);
         return flagghi;
     }
 

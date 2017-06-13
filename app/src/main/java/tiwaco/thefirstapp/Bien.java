@@ -27,6 +27,7 @@ public class Bien {
     public static int bienbkall = 0;
     public static int bienbkcg = 0;
     public static int bienbkdg = 0;
+    public static int bienbkdghn = 0;
     public static int bientrangthaighi = 0;
     public static int bienkieughi = 1; // 0: tới , 1: lùi
     public static final String GOITIN_MADUONG = "goitinmaduong";
@@ -37,6 +38,7 @@ public class Bien {
     public static final String SPDATA = "spdata";
     public static final String SPBKALL = "spbackupall";
     public static final String SPBKDG= "spbackupdaghi";
+    public static final String SPBKDGHN= "spbackupdaghihomnay";
     public static final String SPBKCG = "spbackupchuaghi";
     public static final String SPFLAGGHI = "spghi";
     public static final String SPSTTDANGGHI = "spstt";

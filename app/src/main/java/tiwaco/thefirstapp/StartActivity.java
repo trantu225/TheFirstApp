@@ -80,11 +80,12 @@ public class StartActivity extends AppCompatActivity  {
         Bien.bienbkall = spdata.getDataBKALLTrongSP();
         Bien.bienbkcg = spdata.getDataBKCGTrongSP();
         Bien.bienbkdg = spdata.getDataBKDGTrongSP();
+        Bien.bienbkdghn = spdata.getDataBKDGHomNayTrongSP();
         Log.e("flag flagghi", String.valueOf(Bien.bienghi));
         Log.e("flag flagall", String.valueOf(Bien.bienbkall));
         Log.e("flag flagcg", String.valueOf(Bien.bienbkcg));
         Log.e("flag flagdg", String.valueOf(Bien.bienbkdg));
-        if( Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi  )
+        if( Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi  && Bien.bienbkdg ==Bien.bienghi  && Bien.bienbkdghn ==Bien.bienghi  )
         {
             btnBackup.setEnabled(false);
             btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
@@ -106,10 +107,11 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        if( (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==Bien.bienghi)
+        if( (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==Bien.bienghi && Bien.bienbkdghn ==Bien.bienghi)
                 || Bien.bienbkall == -1
-                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==-1 )
-                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg == -1 ))
+                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdghn ==Bien.bienghi && Bien.bienbkdg ==-1 )
+                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==Bien.bienghi && Bien.bienbkdghn ==-1 )
+                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkdg ==Bien.bienghi && Bien.bienbkdghn ==Bien.bienghi && Bien.bienbkcg == -1 ))
         {
             btnBackup.setEnabled(false);
             btnBackup.setBackgroundResource(R.drawable.ic_save_disable);

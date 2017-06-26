@@ -43,9 +43,16 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-
         con =  StartActivity.this;
+        spdata = new SPData(con);
+        if(spdata.getDataNhanVienTrongSP().equalsIgnoreCase("Tu") || spdata.getDataNhanVienTrongSP().equalsIgnoreCase("HoaiLinh")){
+
+            setContentView(R.layout.activity_start);
+        }
+        else {
+            setContentView(R.layout.activity_start_hide_loaddata);
+        }
+
         getSupportActionBar().hide();
         khachhangDAO = new KhachHangDAO(con);
         lichsudao = new LichSuDAO(con);
@@ -58,6 +65,8 @@ public class StartActivity extends AppCompatActivity  {
         btnHistory = (ImageButton) findViewById(R.id.btn_lichsu);
         layout2 = (LinearLayout) findViewById(R.id.layout_2);
         layout3 = (LinearLayout) findViewById(R.id.layout_3);
+
+
 
         ViewGroup.LayoutParams params = layout3.getLayoutParams();
 

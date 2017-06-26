@@ -30,9 +30,11 @@ public class Bien {
     public static int bienbkdghn = 0;
     public static int bientrangthaighi = 0;
     public static int bienkieughi = 1; // 0: tới , 1: lùi
+    public static int bienSoLuongKH = 0;
     public static final String GOITIN_MADUONG = "goitinmaduong";
     public static final String MADUONG = "maduong";
     public static final String VITRI = "indexmaduong";
+    public static final String MAKH= "danhbo";
     public static final String STT = "stt";
     public static final String SPMADUONG = "spmaduong";
     public static final String SPDATA = "spdata";
@@ -44,5 +46,6 @@ public class Bien {
     public static final String SPSTTDANGGHI = "spstt";
     public static final String SPNHANVIEN = "spnhanvien";
     public static final String SPINDEXDUONG= "spindexduong";
+
 
 }

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity  {
     KhachHangDAO khachhangDAO;
     LichSuDAO lichsudao;
     KhachHangDTO khachhang;
-    TextView LoaiKH, DinhMuc,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
+    TextView BinhQuanBaThang,LoaiKH, DinhMuc,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
     EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity  {
     LinearLayout lay_toi , lay_lui , lay_ghi;
     String STT_HienTai ="1";
     int SoLuongKH = 0;
-    String maduong_nhan="",stt_nhan ="";
+    String maduong_nhan="",stt_nhan ="",makh_nhan="";
     int vitri_nhan = 0;
     SPData spdata;
     String tenduong="";
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity  {
     String tenTT ="";
     Menu menumain;
     int bienkieughi =1;
+    List<String> listtoi = null, listlui=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +125,8 @@ public class MainActivity extends AppCompatActivity  {
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
         lichsudao = new LichSuDAO(con);
+        listtoi = new ArrayList<>();
+        listlui = new ArrayList<>();
         tinhtrangtlkdao = new TinhTrangTLKDAO(con);
         loadDataTinhTrangTLK();
 
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity  {
                 STT_HienTai = STT;
                 Log.e("STTMIN SP--------------------------",STT_HienTai);
                 SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
-                setDataForView(STT_HienTai,maduong_nhan);
+                setDataForView(STT_HienTai,maduong_nhan,"");
 
                 //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
                 //  spdata.luuDataIndexDuongDangGhiTrongSP(Bien.bien_index_duong);
@@ -208,10 +211,15 @@ public class MainActivity extends AppCompatActivity  {
             tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
             stt_nhan =  packageFromCaller.getString(Bien.STT);
             vitri_nhan =  packageFromCaller.getInt(Bien.VITRI);
+
+            makh_nhan = packageFromCaller.getString(Bien.MAKH);
+            if(makh_nhan == null){
+                makh_nhan ="";
+            }
             STT_HienTai =stt_nhan;
             spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan,STT_HienTai);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
-            setDataForView(STT_HienTai,maduong_nhan);
+            setDataForView(STT_HienTai,maduong_nhan,makh_nhan);
           //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
             if(vitri_nhan !=-1) {
                 spdata.luuDataIndexDuongDangGhiTrongSP(vitri_nhan);
@@ -250,24 +258,22 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
                 if(!flagDangGhi) {
-                    int next = Integer.parseInt(STT_HienTai) + 1;
-                    STT_HienTai = String.valueOf(next);
-                    Log.e("BienSTTHIenTai", STT_HienTai);
-                    Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                    if (next + 1 > SoLuongKH) {
-                        lay_toi.setEnabled(false);
-                        Toi.setEnabled(false);
-                        lay_toi.setBackgroundResource(R.color.space_background_color);
+                    listlui.clear();
+                    KhachHangDTO khnext = khachhangDAO.getKHTheoSTT_Duong_khacmaKH(STT_HienTai, maduong_nhan, DanhBo.getText().toString().trim(),"<>");
+                    if (khnext != null && !KiemTraPhanTuCoTrongList(khnext.getMaKhachHang(),listtoi)) {
+
+                        addListNeuChuaTonTai(MaKH.getText().toString().trim(),listtoi);
+                        setDataForView(STT_HienTai, maduong_nhan, khnext.getMaKhachHang());
+                        addListNeuChuaTonTai(khnext.getMaKhachHang(), listtoi);
+
+
                     } else {
-                        lay_toi.setEnabled(true);
-                        Toi.setEnabled(true);
-                        lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
-                    }
-                    if (next > 0 && next <= SoLuongKH) {
-                        setDataForView(STT_HienTai, maduong_nhan);
-                        next = Integer.parseInt(STT_HienTai) + 1;
-                        int pre = Integer.parseInt(STT_HienTai) - 1;
-                        if (next > SoLuongKH) {
+
+                        int next = Integer.parseInt(STT_HienTai) + 1;
+                        STT_HienTai = String.valueOf(next);
+                        Log.e("BienSTTHIenTai", STT_HienTai);
+                        Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                        if (next + 1 > SoLuongKH) {
                             lay_toi.setEnabled(false);
                             Toi.setEnabled(false);
                             lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -276,17 +282,34 @@ public class MainActivity extends AppCompatActivity  {
                             Toi.setEnabled(true);
                             lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                         }
-                        if (pre <= 0) {
-                            lay_lui.setEnabled(false);
-                            Lui.setEnabled(false);
-                            lay_lui.setBackgroundResource(R.color.space_background_color);
+                        if (next > 0 && next <= SoLuongKH) {
+
+
+                            setDataForView(STT_HienTai, maduong_nhan, "");
+
+                            next = Integer.parseInt(STT_HienTai) + 1;
+                            int pre = Integer.parseInt(STT_HienTai) - 1;
+                            if (next > SoLuongKH) {
+                                lay_toi.setEnabled(false);
+                                Toi.setEnabled(false);
+                                lay_toi.setBackgroundResource(R.color.space_background_color);
+                            } else {
+                                lay_toi.setEnabled(true);
+                                Toi.setEnabled(true);
+                                lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            }
+                            if (pre <= 0) {
+                                lay_lui.setEnabled(false);
+                                Lui.setEnabled(false);
+                                lay_lui.setBackgroundResource(R.color.space_background_color);
+                            } else {
+                                lay_lui.setEnabled(true);
+                                Lui.setEnabled(true);
+                                lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            }
                         } else {
-                            lay_lui.setEnabled(true);
-                            Lui.setEnabled(true);
-                            lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            Log.e("BienSTTHIenTai", STT_HienTai);
                         }
-                    } else {
-                        Log.e("BienSTTHIenTai", STT_HienTai);
                     }
                 }
                 else{
@@ -314,7 +337,7 @@ public class MainActivity extends AppCompatActivity  {
                                 lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                             }
                             if (next > 0 && next <= SoLuongKH) {
-                                setDataForView(STT_HienTai, maduong_nhan);
+                                setDataForView(STT_HienTai, maduong_nhan,"");
                                 next = Integer.parseInt(STT_HienTai) + 1;
                                 int pre = Integer.parseInt(STT_HienTai) - 1;
                                 if (next > SoLuongKH) {
@@ -370,47 +393,60 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if(!flagDangGhi){
-                    int pre = Integer.parseInt(STT_HienTai) - 1;
-                    STT_HienTai = String.valueOf(pre);
+                    listtoi.clear();
+                    KhachHangDTO khlui = khachhangDAO.getKHTheoSTT_Duong_khacmaKH(STT_HienTai, maduong_nhan, DanhBo.getText().toString().trim(),"<>");
+                    if (khlui != null && !KiemTraPhanTuCoTrongList(khlui.getMaKhachHang(),listlui)) {
 
-                    Log.e("BienSTTHIenTai", STT_HienTai);
-                    Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                    if (pre-1 <= 0) {
-                        lay_lui.setEnabled(false);
-                        Lui.setEnabled(false);
-                        lay_lui.setBackgroundResource(R.color.space_background_color);
+                        addListNeuChuaTonTai(MaKH.getText().toString().trim(),listlui);
+                        setDataForView(STT_HienTai, maduong_nhan, khlui.getMaKhachHang());
+                        addListNeuChuaTonTai(khlui.getMaKhachHang(), listlui);
+
+
                     } else {
-                        lay_lui.setEnabled(true);
-                        Lui.setEnabled(true);
-                        lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
-                    }
-                    if (pre > 0 && pre <= SoLuongKH) {
-                        Log.e("BienSTTHIenTai", "chay vao 3");
-                        setDataForView(STT_HienTai, maduong_nhan);
-                        pre = Integer.parseInt(STT_HienTai) - 1;
-                        int next = Integer.parseInt(STT_HienTai) + 1;
-                        if (next > SoLuongKH) {
-                            lay_toi.setEnabled(false);
-                            Toi.setEnabled(false);
-                            lay_toi.setBackgroundResource(R.color.space_background_color);
-                        } else {
-                            lay_toi.setEnabled(true);
-                            Toi.setEnabled(true);
-                            lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
-                        }
-                        if (pre <= 0) {
+
+
+                        int pre = Integer.parseInt(STT_HienTai) - 1;
+                        STT_HienTai = String.valueOf(pre);
+
+                        Log.e("BienSTTHIenTai", STT_HienTai);
+                        Log.e("SoLuongKH", String.valueOf(SoLuongKH));
+                        if (pre - 1 <= 0) {
                             lay_lui.setEnabled(false);
                             Lui.setEnabled(false);
                             lay_lui.setBackgroundResource(R.color.space_background_color);
                         } else {
                             lay_lui.setEnabled(true);
                             Lui.setEnabled(true);
-                            lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                         }
+                        if (pre > 0 && pre <= SoLuongKH) {
+                            Log.e("BienSTTHIenTai", "chay vao 3");
+                            setDataForView(STT_HienTai, maduong_nhan, "");
+                            pre = Integer.parseInt(STT_HienTai) - 1;
+                            int next = Integer.parseInt(STT_HienTai) + 1;
+                            if (next > SoLuongKH) {
+                                lay_toi.setEnabled(false);
+                                Toi.setEnabled(false);
+                                lay_toi.setBackgroundResource(R.color.space_background_color);
+                            } else {
+                                lay_toi.setEnabled(true);
+                                Toi.setEnabled(true);
+                                lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            }
+                            if (pre <= 0) {
+                                lay_lui.setEnabled(false);
+                                Lui.setEnabled(false);
+                                lay_lui.setBackgroundResource(R.color.space_background_color);
+                            } else {
+                                lay_lui.setEnabled(true);
+                                Lui.setEnabled(true);
+                                lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
+                            }
 
-                    } else {
-                        Log.e("BienSTTHIenTai", "chay vao 4");
+                        } else {
+                            Log.e("BienSTTHIenTai", "chay vao 4");
 
+                        }
                     }
                 }
                 else{
@@ -440,7 +476,7 @@ public class MainActivity extends AppCompatActivity  {
                             }
                             if (pre > 0 && pre <= SoLuongKH) {
                                 Log.e("BienSTTHIenTai", "chay vao 3");
-                                setDataForView(STT_HienTai, maduong_nhan);
+                                setDataForView(STT_HienTai, maduong_nhan,"");
                                 pre = Integer.parseInt(STT_HienTai) - 1;
                                 int next = Integer.parseInt(STT_HienTai) + 1;
                                 if (next > SoLuongKH) {
@@ -733,7 +769,7 @@ public class MainActivity extends AppCompatActivity  {
                                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                                         // khởi tạo dialog
 
-                                        alertDialogBuilder.setMessage("m3 mới lớn hơn m3 cũ 10%. Bạn có xác định đây là bất thường không?");
+                                        alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
 
                                         alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                             @Override
@@ -818,7 +854,7 @@ public class MainActivity extends AppCompatActivity  {
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                                 // khởi tạo dialog
 
-                                alertDialogBuilder.setMessage("m3 mới lớn hơn m3 cũ 10%. Bạn có xác định đây là bất thường không?");
+                                alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
 
                                 alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                     @Override
@@ -953,7 +989,7 @@ public class MainActivity extends AppCompatActivity  {
                                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                                         // khởi tạo dialog
 
-                                        alertDialogBuilder.setMessage("ĐH con có m3 mới lớn hơn m3 cũ 10%. Bạn có xác định đây là bất thường không?");
+                                        alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
 
                                         alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                             @Override
@@ -1031,7 +1067,7 @@ public class MainActivity extends AppCompatActivity  {
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                                 // khởi tạo dialog
 
-                                alertDialogBuilder.setMessage("ĐH con có m3 mới lớn hơn m3 cũ 10%. Bạn có xác định đây là bất thường không?");
+                                alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
 
                                 alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                     @Override
@@ -1102,7 +1138,7 @@ public class MainActivity extends AppCompatActivity  {
         Log.e("select duong-mainactivity", String.valueOf(Bien.selected_item));
     }
 
-    private void setDataForView(String tt, String maduong) {
+    private void setDataForView(String tt, String maduong,String Makhach) {
         //Lấy khách hàng có stt hiện tại...mặc đình là 1
         tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
        soKHconlai = String.valueOf(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong)) ;
@@ -1110,7 +1146,12 @@ public class MainActivity extends AppCompatActivity  {
         soKHHomNay  = String.valueOf(khachhangDAO.countKhachHangGhiTrongNgay(maduong,thoigian1));
         ConLai.setText("Hôm nay: "+ soKHHomNay+"   " +getString(R.string.string_con)+" "+soKHconlai+"/"+ tongsoKHTheoDuong);
         ConLai.setSelected(true);
-        khachhang =  khachhangDAO.getKHTheoSTT_Duong(tt,maduong);
+        if(Makhach==null || Makhach.equals("")) {
+            khachhang = khachhangDAO.getKHTheoSTT_Duong(tt, maduong);
+        }
+        else{
+            khachhang = khachhangDAO.getKHTheoSTT_Duong_maKH(tt, maduong,Makhach);
+        }
         STT.setText(khachhang.getSTT().trim());
         MaKH.setText(khachhang.getMaKhachHang().trim());
         HoTen.setText(khachhang.getTenKhachHang().trim());
@@ -1163,6 +1204,13 @@ public class MainActivity extends AppCompatActivity  {
         m3conmoi.setText(khachhang.getSLTieuThucon().trim());
         TinhTrangTLK.setText(khachhang.getTrangThaiTLK().trim());
         GhiChu.setText(khachhang.getGhiChu().trim());
+
+        int m3cu1 = Integer.parseInt(m31.getText().toString());
+        int m3cu2 = Integer.parseInt(m32.getText().toString());
+        int m3cu3 = Integer.parseInt(m33.getText().toString());
+
+        int binhquan3thang  = BinhQuanChiSoNuoc3Thang(m3cu1,m3cu2,m3cu3);
+        BinhQuanBaThang.setText("Bình quân 3 tháng gần nhất: "+ binhquan3thang +" m3");
         flagDangGhi = false;
         if(!khachhang.getChiSo().equals("")){
             if(khachhangDAO.checkTrangThaiBatThuongKH(khachhang.getMaKhachHang()).equals("")) {
@@ -1293,63 +1341,63 @@ public class MainActivity extends AppCompatActivity  {
 
 
     private void taoView() {
-        STT = (TextView) findViewById(R.id.tv_sttKH);
-        MaKH= (TextView) findViewById(R.id.tv_maKH);
-        MaKH.setSelected(true);
-        DanhBo = (TextView) findViewById(R.id.tv_DanhBo);
-        DanhBo.setSelected(true);
-        HoTen= (TextView) findViewById(R.id.tv_hotenKH);
-        HoTen.setSelected(true);
-        DiaChi= (TextView) findViewById(R.id.tv_diachiKH);
-        MaTLK= (TextView) findViewById(R.id.tv_maTLK);
-        HieuTLK= (TextView) findViewById(R.id.tv_hieuTLK);
-        CoTLK= (TextView) findViewById(R.id.tv_coTLK);
-        ChiSo1= (TextView) findViewById(R.id.tv_chisocu1);
-        ChiSo2= (TextView) findViewById(R.id.tv_chisocu2);
-        ChiSo3= (TextView) findViewById(R.id.tv_chisocu3);
-        m31= (TextView) findViewById(R.id.tv_m3cu1);
-        m32= (TextView) findViewById(R.id.tv_m3cu2);
-        m33= (TextView) findViewById(R.id.tv_m3cu3);
-        ChiSoCon1= (TextView) findViewById(R.id.tv_chisocu1con);
-        ChiSoCon2= (TextView) findViewById(R.id.tv_chisocu2con);
-        ChiSoCon3= (TextView) findViewById(R.id.tv_chisocu3con);
-        m3con1= (TextView) findViewById(R.id.tv_m3cu1con);
-        m3con2= (TextView) findViewById(R.id.tv_m3cu2con);
-        m3con3= (TextView) findViewById(R.id.tv_m3cu3con);
+            STT = (TextView) findViewById(R.id.tv_sttKH);
+            MaKH= (TextView) findViewById(R.id.tv_maKH);
+            MaKH.setSelected(true);
+            DanhBo = (TextView) findViewById(R.id.tv_DanhBo);
+            DanhBo.setSelected(true);
+            HoTen= (TextView) findViewById(R.id.tv_hotenKH);
+            HoTen.setSelected(true);
+            DiaChi= (TextView) findViewById(R.id.tv_diachiKH);
+            MaTLK= (TextView) findViewById(R.id.tv_maTLK);
+            HieuTLK= (TextView) findViewById(R.id.tv_hieuTLK);
+            CoTLK= (TextView) findViewById(R.id.tv_coTLK);
+            ChiSo1= (TextView) findViewById(R.id.tv_chisocu1);
+            ChiSo2= (TextView) findViewById(R.id.tv_chisocu2);
+            ChiSo3= (TextView) findViewById(R.id.tv_chisocu3);
+            m31= (TextView) findViewById(R.id.tv_m3cu1);
+            m32= (TextView) findViewById(R.id.tv_m3cu2);
+            m33= (TextView) findViewById(R.id.tv_m3cu3);
+            ChiSoCon1= (TextView) findViewById(R.id.tv_chisocu1con);
+            ChiSoCon2= (TextView) findViewById(R.id.tv_chisocu2con);
+            ChiSoCon3= (TextView) findViewById(R.id.tv_chisocu3con);
+            m3con1= (TextView) findViewById(R.id.tv_m3cu1con);
+            m3con2= (TextView) findViewById(R.id.tv_m3cu2con);
+            m3con3= (TextView) findViewById(R.id.tv_m3cu3con);
 
-        LabelDuong = (TextView) findViewById(R.id.tv_label_duong);
-        DuongDangGhi= (TextView) findViewById(R.id.tv_duongdangghi);
-        ConLai= (TextView) findViewById(R.id.tv_conlai);
-        ConLai.setSelected(true);
-        DuongDangGhi.setSelected(true);
-        DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
-        ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
-        m3moi= (TextView) findViewById(R.id.edit_m3moi);
-        ChiSoMoiCon = (EditText) findViewById(R.id.edit_chisomoicon);
-        m3conmoi= (TextView) findViewById(R.id.edit_m3moicon);
-        TinhTrangTLK = (EditText) findViewById(R.id.edit_tinhtrangTLK);
-        GhiChu = (EditText) findViewById(R.id.edit_ghichu);
+            LabelDuong = (TextView) findViewById(R.id.tv_label_duong);
+            DuongDangGhi= (TextView) findViewById(R.id.tv_duongdangghi);
+            ConLai= (TextView) findViewById(R.id.tv_conlai);
+            ConLai.setSelected(true);
+            DuongDangGhi.setSelected(true);
+            DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
+            ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
+            m3moi= (TextView) findViewById(R.id.edit_m3moi);
+            ChiSoMoiCon = (EditText) findViewById(R.id.edit_chisomoicon);
+            m3conmoi= (TextView) findViewById(R.id.edit_m3moicon);
+            TinhTrangTLK = (EditText) findViewById(R.id.edit_tinhtrangTLK);
+            GhiChu = (EditText) findViewById(R.id.edit_ghichu);
 
-        LoaiKH= (TextView) findViewById(R.id.tv_loaiKH);
-        DinhMuc= (TextView) findViewById(R.id.tv_DinhMuc);
+            LoaiKH= (TextView) findViewById(R.id.tv_loaiKH);
+            DinhMuc= (TextView) findViewById(R.id.tv_DinhMuc);
+            BinhQuanBaThang = (TextView) findViewById(R.id.tv_binhquan3thang);
+            DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
+            Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
+            Toi = (ImageButton) findViewById(R.id.btn_toi);
+            Lui = (ImageButton) findViewById(R.id.btn_lui);
 
-        DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
-        Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
-        Toi = (ImageButton) findViewById(R.id.btn_toi);
-        Lui = (ImageButton) findViewById(R.id.btn_lui);
 
 
+            lay_toi =(LinearLayout)findViewById(R.id.layout_toi);
+            lay_lui =(LinearLayout)findViewById(R.id.layout_lui);
+            lay_ghi =(LinearLayout)findViewById(R.id.layout_ghi);
 
-        lay_toi =(LinearLayout)findViewById(R.id.layout_toi);
-        lay_lui =(LinearLayout)findViewById(R.id.layout_lui);
-        lay_ghi =(LinearLayout)findViewById(R.id.layout_ghi);
+            chisocu_con_lb =(TableRow) findViewById(R.id.tableRow_chisocucon_lb);
+            chisocu_con =(TableRow) findViewById(R.id.tableRow_chisocucon);
 
-        chisocu_con_lb =(TableRow) findViewById(R.id.tableRow_chisocucon_lb);
-        chisocu_con =(TableRow) findViewById(R.id.tableRow_chisocucon);
-
-        chisomoi_con_lb =(TableRow) findViewById(R.id.tableRow_chisomoicon_lb);
-        chisomoi_con =(TableRow) findViewById(R.id.tableRow_chisomoicon);
-        spinTT  = (Spinner) findViewById(R.id.spin_tinhtrangtlk);
+            chisomoi_con_lb =(TableRow) findViewById(R.id.tableRow_chisomoicon_lb);
+            chisomoi_con =(TableRow) findViewById(R.id.tableRow_chisomoicon);
+            spinTT  = (Spinner) findViewById(R.id.spin_tinhtrangtlk);
 
     }
 
@@ -1482,7 +1530,13 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                         if(!sothutu.equals("0")) {
 
                             STT_HienTai = sothutu;
-                            setDataForView(sothutu, maduong_nhan);
+                            KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi(STT_HienTai, maduong_nhan, MaKH.getText().toString().trim());
+                            if(khghike == null) {
+                                setDataForView(sothutu, maduong_nhan, "");
+                            }
+                            else{
+                                setDataForView(sothutu, maduong_nhan, khghike.getMaKhachHang());
+                            }
                             spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
                         }
                         else{
@@ -1498,7 +1552,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                         bienkieughi = 1;
                                         MenuItem itemkieughi = menumain.findItem(R.id.action_kieughi);
                                         itemkieughi.setIcon(android.R.drawable.ic_media_ff);
-                                        setDataForView(sothutukhConLai, maduong_nhan);
+                                        setDataForView(sothutukhConLai, maduong_nhan,"");
                                         spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutukhConLai);
                                     }
 
@@ -2076,7 +2130,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                             // khởi tạo dialog
 
-                            alertDialogBuilder.setMessage("m3 mới lớn hơn m3 cũ 10%. Bạn có xác định đây là bất thường không?");
+                            alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
 
                             alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                 @Override
@@ -2328,7 +2382,7 @@ public boolean KiemTraDaGhi(String maKH){
         return Math.round(ketqua);
     }
     public boolean kiemtraBatThuongLonHon(int x,int binhquan3thang){
-        if( x  >= binhquan3thang * 1.1 && x >10 ){
+        if( x  >= binhquan3thang * 2 && Math.abs(x - binhquan3thang) > 20 ){
             return true;
         }
         else{
@@ -2336,5 +2390,23 @@ public boolean KiemTraDaGhi(String maKH){
         }
 
     }
+    public boolean KiemTraPhanTuCoTrongList(String makh,List<String> listmakh){
+        boolean kt = true;
+        if(listmakh.contains(makh)){
+            kt = true;
+        }
+        else{
+            kt = false;
+        }
+
+        return kt;
+
+    }
+    public void addListNeuChuaTonTai(String makh,List<String> listmakh){
+        if(!KiemTraPhanTuCoTrongList(makh,listmakh)){
+            listmakh.add(makh);
+        }
+    }
+
 }
 

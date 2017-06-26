@@ -196,33 +196,26 @@ public class SearchActivity  extends AppCompatActivity  {
                 stringmaduong = " WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +" = '"+maduong+"' ";
 
                 if(ckDanhBo.isChecked()){
-                    if(stringtim.equals("")){
-                        stringdanhbo ="";
-                    }
-                    else {
+
                         stringdanhbo = " " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "'";
-                    }
+
                 }else{
                     stringdanhbo ="";
                 }
 
                 if(ckDienThoai.isChecked()){
-                    if(stringtim.equals("")){
-                        stringdienthoai ="";
-                    }else {
+
                         stringdienthoai = " " + MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "' ";
-                    }
+
 
                 }else{
                     stringdienthoai ="";
                 }
 
                 if(ckHoten.isChecked()){
-                    if(stringtim.equals("")){
-                        stringhoten ="";
-                    }else {
+
                         stringhoten = " " + MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%'";
-                    }
+
                 }else{
                     stringhoten ="";
                 }
@@ -230,25 +223,21 @@ public class SearchActivity  extends AppCompatActivity  {
 
 
                 if(ckDiaChi.isChecked()){
-                if(stringtim.equals("")){
-                    stringdiachi ="";
-                }else {
+
                     stringdiachi = " " + MyDatabaseHelper.KEY_DANHSACHKH_DIACHI + " LIKE '%" + stringtim + "%'";
-                }
+
                 }else{
                     stringdiachi ="";
                 }
-            if(ckMaTLK.isChecked()){
-                if(stringtim.equals("")){
-                    stringtlk ="";
-                }else {
-                    stringtlk = " " + MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK + " = '" + stringtim + "'";
-                }
+            if(ckMaTLK.isChecked()) {
+
+                stringtlk = " " + MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK + " = '" + stringtim + "'";
+
             }else{
                 stringtlk ="";
             }
 
-            if(!ckDanhBo.isChecked() &&!ckDienThoai.isChecked() &&!ckHoten.isChecked()  &&!ckDiaChi.isChecked()   &&!ckMaTLK.isChecked() )
+                if(!ckDanhBo.isChecked() && !ckDienThoai.isChecked() && !ckHoten.isChecked()  && !ckDiaChi.isChecked()   && !ckMaTLK.isChecked() )
                 {
                     dieukien = stringmaduong;
                 }

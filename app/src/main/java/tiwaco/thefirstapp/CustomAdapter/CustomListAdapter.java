@@ -143,6 +143,7 @@ public class CustomListAdapter extends BaseAdapter {
                                         int vitri=  duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
                                         bundle.putInt(Bien.VITRI, vitri);
                                     }
+                                    bundle.putString(Bien.MAKH,cus.getMaKhachHang());
                                     intent.putExtra(Bien.GOITIN_MADUONG, bundle);
                                     context.startActivity(intent);
                                 }
@@ -176,6 +177,9 @@ public class CustomListAdapter extends BaseAdapter {
                                         int vitri=  duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
                                         bundle.putInt(Bien.VITRI, vitri);
                                     }
+
+                                    bundle.putString(Bien.MAKH,cus.getMaKhachHang());
+
                                     intent.putExtra(Bien.GOITIN_MADUONG, bundle);
                                     context.startActivity(intent);
                                 }

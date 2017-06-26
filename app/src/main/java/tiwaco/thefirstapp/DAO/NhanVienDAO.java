@@ -117,6 +117,11 @@ public class NhanVienDAO {
         nvghi15.setIDNV("HoaiLinh");
         nvghi15.setPassNV("123");
         listnhanvien.add(nvghi15);
+
+        NhanVienDTO nvghi16 = new NhanVienDTO();
+        nvghi16.setIDNV("luanem");
+        nvghi16.setPassNV("123");
+        listnhanvien.add(nvghi16);
         return listnhanvien;
     }
 

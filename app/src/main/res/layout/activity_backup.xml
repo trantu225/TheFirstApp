@@ -87,6 +87,7 @@
 
 
 
+
             <TableRow
                 android:id="@+id/tableRow14"
                 android:layout_width="fill_parent"
@@ -108,7 +109,25 @@
 
 
             </TableRow>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp3"
+                android:gravity="center_horizontal">
 
+                <Spinner
+                    android:id="@+id/spinduong"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                   >
+
+                </Spinner>
+
+
+
+            </TableRow>
 
             <!-- Row 2 with 3 columns -->
 
@@ -134,11 +153,14 @@
 
             <TableRow
                 android:id="@+id/tableRow21"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
               >
                 <RadioGroup
-                    android:id="@+id/group">
+                    android:id="@+id/group"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
                     <RadioButton
                         android:id="@+id/radio_tatca"
                         android:layout_width="match_parent"
@@ -149,6 +171,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/ThongTinLuuFie_Daghi"/>
+
+
+                    <RadioButton
+                        android:id="@+id/radio_daghitheoduong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đã ghi theo đường"/>
+
                     <RadioButton
                         android:id="@+id/radio_daghihomnay"
                         android:layout_width="match_parent"
@@ -162,6 +192,7 @@
                 </RadioGroup>
 
             </TableRow>
+
 
 
 

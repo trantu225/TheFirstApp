@@ -144,6 +144,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
 
                 Bien.adapterKH = new CustomListAdapter(con,liskhdao,pos);
                 title += String.valueOf(liskhdao.size()) +" KH";
+                Bien.bienSoLuongKH = liskhdao.size();
                 tvTitleKH.setText(title);
                 listviewKH.setAdapter(Bien.adapterKH);
 

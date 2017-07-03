@@ -649,7 +649,9 @@ public class LoadActivity extends AppCompatActivity {
                 Bien.bienbkdghn = 0;
                 spdata.KhoiTaoLaiSPDATA();
                 spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg,Bien.bienbkdghn);
-/*
+
+
+                /*
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.delete_file_load_file);

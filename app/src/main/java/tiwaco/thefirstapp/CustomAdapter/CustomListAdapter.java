@@ -72,22 +72,17 @@ public class CustomListAdapter extends BaseAdapter {
         if(convertView == null){
 
             convertView = layoutInflater.inflate(R.layout.listkh_item,null);
-
             holder = new ViewHolder();
             holder.Ten = (TextView)convertView.findViewById(R.id.tv_hoten);
-
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
-
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
             holder.DanhBo  = (TextView) convertView.findViewById(R.id.tv_danhbo);
             //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
-
         }
         else{
             holder  = (ViewHolder)convertView.getTag();
         }
-
         final KhachHangDTO cus = customerList.get(position);
         holder.Ten.setText(cus.getTenKhachHang());
         holder.Ten.setSelected(true);
@@ -102,7 +97,7 @@ public class CustomListAdapter extends BaseAdapter {
             //  holder.STT.setVisibility(View.VISIBLE);
             holder.STT.setText(cus.getSTT());
         }
-
+        holder.STT.setSelected(true);
         holder.DiaChi.setText(cus.getDiaChi());
         holder.DiaChi.setSelected(true);
         holder.DanhBo.setText(cus.getDanhBo());

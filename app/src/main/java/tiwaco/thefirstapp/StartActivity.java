@@ -318,10 +318,10 @@ public class StartActivity extends AppCompatActivity  {
                     ls.setThoiGianLS(thoigian1);
                     lichsudao.addTable_History(ls);
                     spdata.luuDataNhanVienTrongSP("");
-
+                    finish();
                     myIntent = new Intent(StartActivity.this, LoginActivity.class);
                     startActivity(myIntent);
-                    finish();
+
 
                     break;
                     }

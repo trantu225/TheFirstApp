@@ -151,7 +151,9 @@ public class SPData  {
 
     public void KhoiTaoLaiSPDATA(){
         SharedPreferences.Editor editor = pre.edit();
+        String  nv = getDataNhanVienTrongSP();
         editor.clear();
         editor.commit();
+        luuDataNhanVienTrongSP(nv);
     }
 }

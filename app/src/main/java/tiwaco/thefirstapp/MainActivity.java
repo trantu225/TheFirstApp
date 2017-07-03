@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity  {
     KhachHangDAO khachhangDAO;
     LichSuDAO lichsudao;
     KhachHangDTO khachhang;
-    TextView BinhQuanBaThang,LoaiKH, DinhMuc,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3, m3moi, m3conmoi, DuongDangGhi, ConLai;
-    EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu;
+    TextView BinhQuanBaThang,LoaiKH, DinhMuc,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3,  DuongDangGhi, ConLai;
+    EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu,m3moi, m3conmoi;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
     ImageButton DoiSDT,Toi,Lui,Ghi;
     Spinner spinTT;
@@ -754,7 +754,12 @@ public class MainActivity extends AppCompatActivity  {
                                     alertDialog.show();
                                     // hiển thị dialog
                                 } else {
-                                    m3moi.setEnabled(false);
+                                    if(spinTT.getSelectedItemPosition() ==0) {
+                                        m3moi.setEnabled(false);
+                                    }
+                                    else{
+                                        m3moi.setEnabled(true);
+                                    }
                                     m3moi.setText(String.valueOf(chisomoi - chisocu));
                                 //    BatThuong.setVisibility(View.GONE);
                                     //
@@ -838,7 +843,12 @@ public class MainActivity extends AppCompatActivity  {
                 if (!ChiSoMoi.getText().toString().trim().equals("") ) {
                     if(TextUtils.isDigitsOnly(ChiSoMoi.getText().toString().trim())) {
                         if (Integer.parseInt(ChiSoMoi.getText().toString().trim()) >= Integer.parseInt(ChiSo1.getText().toString().trim())) {
-                            m3moi.setEnabled(false);
+                            if(spinTT.getSelectedItemPosition() ==0) {
+                                m3moi.setEnabled(false);
+                            }
+                            else{
+                                m3moi.setEnabled(true);
+                            }
                             m3moi.setText(String.valueOf(Integer.parseInt(ChiSoMoi.getText().toString().trim()) - Integer.parseInt(ChiSo1.getText().toString().trim())));
 
                             //    BatThuong.setVisibility(View.GONE);
@@ -1372,9 +1382,9 @@ public class MainActivity extends AppCompatActivity  {
             DuongDangGhi.setSelected(true);
             DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
             ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
-            m3moi= (TextView) findViewById(R.id.edit_m3moi);
+            m3moi= (EditText) findViewById(R.id.edit_m3moi);
             ChiSoMoiCon = (EditText) findViewById(R.id.edit_chisomoicon);
-            m3conmoi= (TextView) findViewById(R.id.edit_m3moicon);
+            m3conmoi= (EditText) findViewById(R.id.edit_m3moicon);
             TinhTrangTLK = (EditText) findViewById(R.id.edit_tinhtrangTLK);
             GhiChu = (EditText) findViewById(R.id.edit_ghichu);
 
@@ -1497,6 +1507,9 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 Log.e("Thoi gian", thoigian );
                // String trangthaiTLK  = TinhTrangTLK.getText().toString().trim();
                 String trangthaiTLK  = tenTT;
+                if(spinTT.getSelectedItemPosition()!=0){
+                    BT ="BT";
+                }
                 if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,m3,m3con,thoigian,trangthaiTLK,BT))
                 {
                     Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
@@ -2012,12 +2025,12 @@ private void kiemTraDieuKienDeGhiNuoc(){
             */
          Log.e("kiemtradieukien & kiemtradieukiencon", String.valueOf(kiemtradieukien) + kiemtradieukiencon);
             Log.e("batthuong1 & batthuong2", String.valueOf(batthuong1) + batthuong2);
-            if(KiemTraDaGhi(MaKH.getText().toString().trim())){
+         if(KiemTraDaGhi(MaKH.getText().toString().trim())){
                 kiemtradieukien =true;
                 kiemtradieukiencon = true;
             }
             if(kiemtradieukien && kiemtradieukiencon){
-                if(batthuong2.equals("") && batthuong1.equals("")){
+                if(batthuong2.equals("") && batthuong1.equals("")&& spinTT.getSelectedItemPosition()==0){
                     ghinuoc("");
                 }
                 else{
@@ -2345,6 +2358,36 @@ public boolean KiemTraDaGhi(String maKH){
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 tenTT = arrTT.get(position);
+                if(position==0){
+                    if(m3moi.getText().toString().trim().equals("")){
+                        Log.e("asdasdasd","ok");
+                        if(!ChiSoMoi.getText().toString().trim().equals("")) {
+                            int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
+                            int chisocu = Integer.parseInt(ChiSo1.getText().toString().trim());
+                            m3moi.setText(String.valueOf(chisomoi - chisocu));
+                        }
+                        else{
+                            m3moi.setText("");
+                        }
+                    }
+                    m3moi.setEnabled(false);
+
+                }
+                else{
+                    if(m3moi.getText().toString().trim().equals("")){
+                        Log.e("asdasdasd","ok");
+                        if(!ChiSoMoi.getText().toString().trim().equals("")) {
+                            int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
+                            int chisocu = Integer.parseInt(ChiSo1.getText().toString().trim());
+                            m3moi.setText(String.valueOf(chisomoi - chisocu));
+                        }
+                        else{
+                            m3moi.setText("");
+                        }
+                    }
+                    m3moi.setEnabled(true);
+
+                }
 
 
             }
@@ -2353,6 +2396,7 @@ public boolean KiemTraDaGhi(String maKH){
             public void onNothingSelected(AdapterView<?> parent) {
 
                 tenTT = arrTT.get(0);
+                m3moi.setEnabled(false);
 
             }
         });

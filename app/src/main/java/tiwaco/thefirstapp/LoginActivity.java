@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity  {
     NhanVienDAO nhanviendao;
     Context con ;
     LichSuDAO lichsudao;
+    SPData spdata;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
 
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity  {
         edt_ten =(EditText) this.findViewById(R.id.idnhanvien) ;
         edt_pass =(EditText) this.findViewById(R.id.password) ;
 
-
+        spdata= new SPData(con);
         nhanviendto = new NhanVienDTO();
         nhanviendao = new NhanVienDAO();
         lichsudao = new LichSuDAO(con);
@@ -97,7 +98,7 @@ public class LoginActivity extends AppCompatActivity  {
 
             if(kt){
                 //Bien.nhanvien = edt_ten.getText().toString().trim();
-                SPData spdata = new SPData(con);
+
                 spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
                 LichSuDTO ls = new LichSuDTO();
                 ls.setNoiDungLS(edt_ten.getText().toString().trim() +" đăng nhập.");

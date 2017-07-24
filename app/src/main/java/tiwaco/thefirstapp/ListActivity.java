@@ -135,10 +135,18 @@ public class ListActivity extends AppCompatActivity {
                     if(khchuyen!=null) {
                         Log.e("chuyendenstt",locSTT.getText().toString()+": codulieu");
                         int stt = Integer.parseInt(khchuyen.getSTT().toString()) - 1;
-
+                        int thutuchuyen =0;
+                        for(int t =0;t<Bien.listKH.size();t++){
+                            Log.e("stt tim + size",Bien.listKH.get(t).getSTT() +" " +Bien.listKH.size());
+                            if(Bien.listKH.get(t).getSTT().equals(khchuyen.getSTT()))
+                            {
+                                thutuchuyen = t;
+                            }
+                            Log.e("thutu", String.valueOf(thutuchuyen));
+                        }
                         Log.e("chuyendenstt-stt", String.valueOf(stt) +" "+Bien.bienSoLuongKH);
-                        if (stt > 0 && stt <= Bien.bienSoLuongKH) {
-                            listviewKH.setSelection(stt);
+                        if (stt > 0 && stt <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon))) {
+                            listviewKH.setSelection(thutuchuyen);
                         }
                     }
                 }
@@ -240,6 +248,7 @@ public class ListActivity extends AppCompatActivity {
                     Bien.adapterKH.notifyDataSetChanged();
                     Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                     listviewKH.setSelection( Bien.bien_index_khachhang);
+                    Bien.listKH = liskhdao;
                     break;
                 case 1:
                     liskhdao = khachhangDAO.getAllKHDaGhiTheoDuong(Bien.ma_duong_dang_chon);
@@ -247,6 +256,7 @@ public class ListActivity extends AppCompatActivity {
                     txtTiltle.setText(title);
                     Bien.adapterKH.setData(liskhdao);
                     Bien.adapterKH.notifyDataSetChanged();
+                    Bien.listKH = liskhdao;
                     break;
                 case 2:
                     liskhdao = khachhangDAO.getAllKHChuaGhiTheoDuong(Bien.ma_duong_dang_chon);
@@ -256,6 +266,7 @@ public class ListActivity extends AppCompatActivity {
                     Bien.adapterKH.notifyDataSetChanged();
                     Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                     listviewKH.setSelection( Bien.bien_index_khachhang);
+                    Bien.listKH = liskhdao;
                     break;
                 case 3:
                     String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
@@ -266,6 +277,7 @@ public class ListActivity extends AppCompatActivity {
                     Bien.adapterKH.notifyDataSetChanged();
                     Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                     listviewKH.setSelection( Bien.bien_index_khachhang);
+                    Bien.listKH = liskhdao;
                     break;
                 case 4:
                     liskhdao = khachhangDAO.getAllKHDaGhiBatThuong(Bien.ma_duong_dang_chon);
@@ -275,7 +287,31 @@ public class ListActivity extends AppCompatActivity {
                     Bien.adapterKH.notifyDataSetChanged();
                     Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                     listviewKH.setSelection( Bien.bien_index_khachhang);
+                    Bien.listKH = liskhdao;
                     break;
+                case 5: //ghi chu
+
+                    liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon);
+                    title =  String.valueOf(liskhdao.size()) +" KH";
+                    txtTiltle.setText(title);
+                    Bien.adapterKH.setData(liskhdao);
+                    Bien.adapterKH.notifyDataSetChanged();
+                    Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+                    listviewKH.setSelection( Bien.bien_index_khachhang);
+                    Bien.listKH = liskhdao;
+                    break;
+                case 6:
+
+                    liskhdao = khachhangDAO.getAllKHChuyenLoai(Bien.ma_duong_dang_chon);
+                    title =  String.valueOf(liskhdao.size()) +" KH";
+                    txtTiltle.setText(title);
+                    Bien.adapterKH.setData(liskhdao);
+                    Bien.adapterKH.notifyDataSetChanged();
+                    Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+                    listviewKH.setSelection( Bien.bien_index_khachhang);
+                    Bien.listKH = liskhdao;
+                    break;
+
             }
         }
 
@@ -328,6 +364,8 @@ public class ListActivity extends AppCompatActivity {
         listTTGhi.add("Chưa ghi");
         listTTGhi.add("Đã ghi hôm nay");
         listTTGhi.add("Bất thường");
+        listTTGhi.add("Ghi chú");
+        listTTGhi.add("Chuyển loại");
         ArrayAdapter<String> adapter=new ArrayAdapter<String>
                 (
                         this,
@@ -353,6 +391,7 @@ public class ListActivity extends AppCompatActivity {
                         Bien.adapterKH.notifyDataSetChanged();
                         Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                         listviewKH.setSelection( Bien.bien_index_khachhang);
+                        Bien.listKH = liskhdao;
 
                         break;
                     case 1:
@@ -361,6 +400,7 @@ public class ListActivity extends AppCompatActivity {
                         txtTiltle.setText(title);
                         Bien.adapterKH.setData(liskhdao);
                         Bien.adapterKH.notifyDataSetChanged();
+                        Bien.listKH = liskhdao;
                         break;
                     case 2:
                         liskhdao = khachhangDAO.getAllKHChuaGhiTheoDuong(Bien.ma_duong_dang_chon);
@@ -370,6 +410,7 @@ public class ListActivity extends AppCompatActivity {
                         Bien.adapterKH.notifyDataSetChanged();
                         Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                         listviewKH.setSelection( Bien.bien_index_khachhang);
+                        Bien.listKH = liskhdao;
                         break;
                     case 3:
                         String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
@@ -380,6 +421,7 @@ public class ListActivity extends AppCompatActivity {
                         Bien.adapterKH.notifyDataSetChanged();
                         Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                         listviewKH.setSelection( Bien.bien_index_khachhang);
+                        Bien.listKH = liskhdao;
                         break;
                     case 4:
 
@@ -390,6 +432,29 @@ public class ListActivity extends AppCompatActivity {
                         Bien.adapterKH.notifyDataSetChanged();
                         Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
                         listviewKH.setSelection( Bien.bien_index_khachhang);
+                        Bien.listKH = liskhdao;
+                        break;
+                    case 5: //ghi chu
+
+                        liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon);
+                        title =  String.valueOf(liskhdao.size()) +" KH";
+                        txtTiltle.setText(title);
+                        Bien.adapterKH.setData(liskhdao);
+                        Bien.adapterKH.notifyDataSetChanged();
+                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+                        listviewKH.setSelection( Bien.bien_index_khachhang);
+                        Bien.listKH = liskhdao;
+                        break;
+                    case 6:
+
+                        liskhdao = khachhangDAO.getAllKHChuyenLoai(Bien.ma_duong_dang_chon);
+                        title =  String.valueOf(liskhdao.size()) +" KH";
+                        txtTiltle.setText(title);
+                        Bien.adapterKH.setData(liskhdao);
+                        Bien.adapterKH.notifyDataSetChanged();
+                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+                        listviewKH.setSelection( Bien.bien_index_khachhang);
+                        Bien.listKH = liskhdao;
                         break;
                 }
 
@@ -400,6 +465,7 @@ public class ListActivity extends AppCompatActivity {
                 liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
                 Bien.adapterKH.setData(liskhdao);
                 Bien.adapterKH.notifyDataSetChanged();
+                Bien.listKH = liskhdao;
             }
         });
 

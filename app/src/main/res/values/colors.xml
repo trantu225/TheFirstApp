@@ -8,7 +8,7 @@
     <color name="title_bg">#ff2c5aa9</color>
     <color name="white">#ffffffff</color>
     <color name="centre_button_color_pressed">#58ACFA</color>
-
+    <color name="yellow">#6633cc</color>
     <color name="centre_color">#262626</color>
     <color name="inactive_color">#fffffe</color>
     <color name="whiteNew">#fffffe</color>

@@ -15,6 +15,7 @@ import java.util.List;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
+import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
 
 /**
  * Created by TUTRAN on 03/04/2017.
@@ -82,6 +83,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_MASOTLK= "masotlk";
     public static final String KEY_DANHSACHKH_BATTHUONG= "batthuong";
     public static final String KEY_DANHSACHKH_MADUONG= "maduong";
+    public static final String KEY_DANHSACHKH_LOAIKH_CU = "loaikhcu";
 
 
     // Duong Table Columns names
@@ -138,7 +140,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_THOIGIAN + " TEXT,"
                 + KEY_DANHSACHKH_NHANVIEN + " TEXT,"
                 + KEY_DANHSACHKH_BATTHUONG + " TEXT,"
-                + KEY_DANHSACHKH_MADUONG + " TEXT" + ")";
+                + KEY_DANHSACHKH_MADUONG + " TEXT,"
+                + KEY_DANHSACHKH_LOAIKH_CU + " TEXT "+ ")";
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
                 + KEY_LISHSU_MALS + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -180,7 +183,19 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // Create tables again
         onCreate(db);
     }
+    public void resetDatabaseTT(SQLiteDatabase db){
 
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
+        // Create tables again
+        String CREATE_TINHTRANGTLK_TABLE = "CREATE TABLE " + TABLE_TINHTRANGTLK + "("
+                + KEY_TINHTRANGTLK_MATT + " TEXT PRIMARY KEY,"
+                + KEY_TINHTRANGTLK_ThuTuTT + " INTEGER,"
+                + KEY_TINHTRANGTLK_TENTT + " TEXT" + ")";
+        db.execSQL(CREATE_TINHTRANGTLK_TABLE);
+
+
+    }
     public SQLiteDatabase openDB(){
 
         return this.getWritableDatabase();

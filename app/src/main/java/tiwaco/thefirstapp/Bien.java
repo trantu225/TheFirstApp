@@ -18,6 +18,7 @@ public class Bien {
 
     public static List<NhanVienDTO> listNV =null ;
     public static CustomListAdapter adapterKH =null;
+    public static List<KhachHangDTO> listKH =null;
     public static String ma_duong_dang_chon ="";
     public static int selected_item = 0;
     public static int bien_index_duong = 0;
@@ -31,6 +32,7 @@ public class Bien {
     public static int bientrangthaighi = 0;
     public static int bienkieughi = 1; // 0: tới , 1: lùi
     public static int bienSoLuongKH = 0;
+    public static String bienManHinhChuyenTimKiem = ""; //Start và Main , start thì ko finish, main thi finish
     public static final String GOITIN_MADUONG = "goitinmaduong";
     public static final String MADUONG = "maduong";
     public static final String VITRI = "indexmaduong";

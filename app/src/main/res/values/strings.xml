@@ -40,6 +40,12 @@
     <string name="main_chuacothongtinduong"> Chưa chọn đường để ghi nước. Bạn có muốn chọn đường để ghi nước không? </string>
     <string name="main_capnhatsdt_thanhcong">Cập nhật SĐT thành công</string>
     <string name="main_capnhatsdt_thatbai">Cập nhật SĐT thất bại</string>
+    <string name="main_capnhatloaikh_thanhcong">Chuyển loại KH thành công</string>
+    <string name="main_capnhatloaikh_thatbai">Chuyển loại KH thất bại</string>
+
+
+    <string name="main_capnhatghichu_thanhcong">Cập nhật ghi chú thành công</string>
+    <string name="main_capnhatghichu_thatbai">Cập nhật ghi chú thất bại</string>
     <string name="main_ghinuoc_duongdaghixong">Đường này đã được ghi nước xong.</string>
     <string name="main_ghinuoc_duongdaghixongtatca">Tất cả các đường đã được ghi nước xong.</string>
     <string name="main_thongbao_soam">Chỉ số nước không thể là số âm</string>
@@ -105,6 +111,7 @@
     <string name="search_label_chitieu">Chỉ tiêu tìm kiếm</string>
     <string name="search_label_khongtimthay">Không tìm được kết quả nào</string>
     <string name="btn_kieughi">Kiểu ghi</string>
+    <string name="btn_daghi">Đã ghi/Chưa ghi</string>
 
 
 </resources>

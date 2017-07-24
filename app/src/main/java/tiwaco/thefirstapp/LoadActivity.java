@@ -375,6 +375,7 @@ public class LoadActivity extends AppCompatActivity {
                                 String hieutlk  ="";
                                 String loaikh = "";
                                 String masotlk  ="";
+                                String loaikhcu="";
                                 if(objKH.has("ChiSo")){
                                     ChiSo = objKH.getString("ChiSo").toString().trim();
                                 }
@@ -489,6 +490,7 @@ public class LoadActivity extends AppCompatActivity {
                                 }
                                 if(objKH.has("loaikh")){
                                     loaikh = objKH.getString("loaikh").toString().trim();
+                                    loaikhcu = loaikh;
                                 }
 
                                 if(objKH.has("masotlk")){

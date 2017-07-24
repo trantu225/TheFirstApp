@@ -211,70 +211,88 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
-
                         <TextView
                             android:id="@+id/tv111"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:padding="@dimen/dp3"
+                            android:gravity="center_vertical"
                             android:text="Loại: "
                             android:textColor="#000000"
                             android:textSize="@dimen/sp14" />
-
                         <TextView
                             android:id="@+id/tv_loaiKH"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:gravity="center_vertical"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-
                             android:padding="@dimen/dp3"
                             android:textColor="#000000"
                             android:textSize="@dimen/sp14" />
+
+                        <ImageButton
+                            android:id="@+id/btn_chuyenloai"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:background="@drawable/selector_button_change"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/dp3" />
+
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dp3"
-                            android:text="Định mức: "
-                            android:textColor="#000000"
-                            android:textSize="@dimen/sp14" />
-
-                        <TextView
-                            android:id="@+id/tv_DinhMuc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="marquee"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
-                            android:marqueeRepeatLimit="marquee_forever"
-                            android:maxLines="1"
-                            android:padding="@dimen/dp3"
-                            android:scrollHorizontally="true"
-                            android:singleLine="true"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/sp14" />
-                    </LinearLayout>
 
                 </LinearLayout>
             </TableRow>
 
+            <TableRow
+                android:id="@+id/tableRow16"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="clip_horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp3"
+                        android:text="Định mức: "
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+
+                    <TextView
+                        android:id="@+id/tv_DinhMuc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp3"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/sp14" />
+                </LinearLayout>
+                </TableRow>
             <TableRow
                 android:id="@+id/tableRow13"
                 android:layout_width="fill_parent"
@@ -385,9 +403,9 @@
 
                     <ImageButton
                         android:id="@+id/imgbtn_doi"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
                         android:background="@drawable/selector_button_change"
                         android:gravity="center_vertical"
                         android:padding="@dimen/dp3"
@@ -1045,24 +1063,56 @@
                     android:textStyle="bold" />
 
 
+
+
             </TableRow>
 
             <TableRow
                 android:id="@+id/tableRow_ghichu"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    >
+
 
                 <EditText
                     android:id="@+id/edit_ghichu"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_weight="9"
+                    android:layout_height="wrap_content"
                     android:background="@android:drawable/editbox_background_normal"
 
                     android:inputType="text"
-                    android:padding="@dimen/dp10"
+
                     android:textColor="#000000"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp14"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+
+
+                    />
+                <ImageButton
+                    android:id="@+id/btn_updateghichu"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_button_change"
+                    android:padding="@dimen/dp3"
+
+
+
+                    />
+                </LinearLayout>
             </TableRow>
+
+
+
 
         </TableLayout>
 
@@ -1183,6 +1233,7 @@
                     android:id="@+id/btn_toi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:background="@drawable/selector_next"></ImageButton>
             </LinearLayout>
         </LinearLayout>

@@ -124,15 +124,16 @@ public class TinhTrangTLKDAO {
         List<TinhTrangTLKDTO> listtt = new ArrayList<TinhTrangTLKDTO>();
         TinhTrangTLKDTO ttA = new TinhTrangTLKDTO("A","Bình Thường","0");
         TinhTrangTLKDTO ttB = new TinhTrangTLKDTO("B","Không dùng","1");
-        TinhTrangTLKDTO ttC = new TinhTrangTLKDTO("C","Cúp","2");
+        TinhTrangTLKDTO ttC = new TinhTrangTLKDTO("C","Đứng số","2");
         TinhTrangTLKDTO ttD = new TinhTrangTLKDTO("D","Đứt chì","3");
         TinhTrangTLKDTO ttH = new TinhTrangTLKDTO("H","Hỏng","4");
         TinhTrangTLKDTO ttK = new TinhTrangTLKDTO("K","Lệch kim","5");
         TinhTrangTLKDTO ttL = new TinhTrangTLKDTO("L","Lố","6");
         TinhTrangTLKDTO ttM = new TinhTrangTLKDTO("M","Mờ số","7");
-        TinhTrangTLKDTO ttN = new TinhTrangTLKDTO("N","Nâng cấp đồng hồ nhiễm từ","8");
-        TinhTrangTLKDTO ttV = new TinhTrangTLKDTO("V","Vắng","9");
-        TinhTrangTLKDTO ttY = new TinhTrangTLKDTO("Y","Chảy van","10");
+        TinhTrangTLKDTO ttV = new TinhTrangTLKDTO("V","Vắng","8");
+        TinhTrangTLKDTO ttP = new TinhTrangTLKDTO("P","Không ghi được","9");
+        TinhTrangTLKDTO ttO = new TinhTrangTLKDTO("O","Chuyển loại","10");
+
         listtt.add(ttA);
         listtt.add(ttB);
         listtt.add(ttC);
@@ -141,9 +142,10 @@ public class TinhTrangTLKDAO {
         listtt.add(ttK);
         listtt.add(ttL);
         listtt.add(ttM);
-        listtt.add(ttN);
         listtt.add(ttV);
-        listtt.add(ttY);
+        listtt.add(ttP);
+        listtt.add(ttO);
+
 
 
         return listtt;

@@ -1,5 +1,6 @@
 package tiwaco.thefirstapp.CustomAdapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +41,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
     SPData spdata;
     DuongDAO duongdao  ;
     KhachHangDAO khachhangdao ;
+    String strghichu = "";
     public CustomTimKiem(Context context, List<DuongDTO> headerGroup, HashMap<String, List<KhachHangDTO>> datas,int vitriduong) {
         mContext = context;
         mHeaderGroup = headerGroup;
@@ -113,6 +115,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
             holder.DanhBo  = (TextView) convertView.findViewById(R.id.tv_danhbo);
+            holder.GhiChu = (TextView) convertView.findViewById(R.id.tv_ghichu);
             convertView.setTag(holder);
 
         }
@@ -128,7 +131,17 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
         holder.DiaChi.setText(cus.getDiaChi());
         holder.DiaChi.setSelected(true);
         holder.DanhBo.setText(cus.getDanhBo());
+        if(!cus.getGhiChu().toString().equals("")){
+            strghichu= "Ghi chú: "+ cus.getGhiChu();
+            holder.GhiChu.setVisibility(View.VISIBLE);
+            holder.GhiChu.setText(strghichu);
 
+        }
+        else{
+            strghichu = "";
+            holder.GhiChu.setVisibility(View.GONE);
+
+        }
 
         if(cus.getChiSo().equalsIgnoreCase("")){
             holder.STT.setBackgroundResource(R.drawable.remove_bg);
@@ -136,10 +149,21 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
         }
         else{
             if(khachhangdao.checkTrangThaiBatThuongKH(cus.getMaKhachHang()).equals("BT")){
-                holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong);
+                if(!cus.getTrangThaiTLK().toString().trim().equals("Bình Thường") || !cus.getGhiChu().toString().trim().equals("")) {
+
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong_tinhtrangtlk);
+                }
+                else{
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong);
+                }
             }
             else {
-                holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+                if(!cus.getGhiChu().toString().trim().equals("")) {
+
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong_tinhtrangtlk);
+                }else {
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+                }
             }
 
         }
@@ -168,7 +192,12 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
                                         bundle.putInt(Bien.VITRI, vitri);
                                     }
                                     intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                    if( !Bien.bienManHinhChuyenTimKiem.equals("start") ) {
+                                        ((Activity) mContext).finish();
+                                    }
                                     mContext.startActivity(intent);
+
+
 
                                 }
                             })
@@ -204,6 +233,9 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
                                         bundle.putInt(Bien.VITRI, vitri);
                                     }
                                     intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                    if( !Bien.bienManHinhChuyenTimKiem.equals("start") ) {
+                                        ((Activity) mContext).finish();
+                                    }
                                     mContext.startActivity(intent);
 
                                 }
@@ -238,5 +270,6 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
         //  ImageView TrangThai;
         TextView DiaChi;
         TextView DanhBo;
+        TextView GhiChu;
     }
 }

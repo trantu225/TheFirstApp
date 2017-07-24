@@ -141,10 +141,16 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                     String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
                     liskhdao = khachhangDAO.getAllKHDaGhiHomNay(duong.getMaDuong(),thoigian1);
                 }
-                else{
+                else  if(Bien.bientrangthaighi ==4 ){
                     liskhdao = khachhangDAO.getAllKHDaGhiBatThuong(duong.getMaDuong());
                 }
-
+                else  if(Bien.bientrangthaighi ==5 ){
+                    liskhdao = khachhangDAO.getAllKHGhiChu(duong.getMaDuong());
+                }
+                else  if(Bien.bientrangthaighi ==6 ){
+                    liskhdao = khachhangDAO.getAllKHChuyenLoai(duong.getMaDuong());
+                }
+                Bien.listKH = liskhdao;
                 Bien.adapterKH = new CustomListAdapter(con,liskhdao,pos);
                 title += String.valueOf(liskhdao.size()) +" KH";
                 Bien.bienSoLuongKH = liskhdao.size();

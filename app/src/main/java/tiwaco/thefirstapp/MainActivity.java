@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 
 import android.location.LocationListener;
@@ -35,6 +37,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -65,6 +68,7 @@ import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
+import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 
 
@@ -89,7 +93,8 @@ public class MainActivity extends AppCompatActivity  {
     TextView BinhQuanBaThang,LoaiKH, DinhMuc,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3,  DuongDangGhi, ConLai;
     EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu,m3moi, m3conmoi;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
-    ImageButton DoiSDT,Toi,Lui,Ghi;
+    ImageButton DoiSDT,Toi,Lui,Ghi,CapNhatGhiChu;
+    ImageButton ChuyenLoai;
     Spinner spinTT;
     LinearLayout lay_toi , lay_lui , lay_ghi;
     String STT_HienTai ="1";
@@ -110,6 +115,8 @@ public class MainActivity extends AppCompatActivity  {
     String tenTT ="";
     Menu menumain;
     int bienkieughi =1;
+    int sttmax =0;
+    boolean biendaghichuaghi = false;
     List<String> listtoi = null, listlui=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +136,18 @@ public class MainActivity extends AppCompatActivity  {
         listlui = new ArrayList<>();
         tinhtrangtlkdao = new TinhTrangTLKDAO(con);
         loadDataTinhTrangTLK();
+
+        MyDatabaseHelper mydata = new MyDatabaseHelper(con);
+        SQLiteDatabase db = mydata.openDB();
+        mydata.resetDatabaseTT(db);
+        List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
+        for(int tt = 0 ; tt<listt.size();tt++){
+            tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
+        }
+
+
+
+
 
         //----- lay toa do
 
@@ -232,7 +251,7 @@ public class MainActivity extends AppCompatActivity  {
         //---set duong
         tenduong =  duongDAO.getTenDuongTheoMa(maduong_nhan).trim();
         DuongDangGhi.setText(tenduong);
-
+        sttmax = Integer.valueOf(khachhangDAO.getSTTLonNhat(maduong_nhan));
 
         //--------------------------------------------------------------------------
 
@@ -257,6 +276,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
+
                 if(!flagDangGhi) {
                     listlui.clear();
                     KhachHangDTO khnext = khachhangDAO.getKHTheoSTT_Duong_khacmaKH(STT_HienTai, maduong_nhan, DanhBo.getText().toString().trim(),"<>");
@@ -268,12 +288,26 @@ public class MainActivity extends AppCompatActivity  {
 
 
                     } else {
-
-                        int next = Integer.parseInt(STT_HienTai) + 1;
+                        Log.e("maduong stt",maduong_nhan + " " +STT_HienTai);
+                        String sttketiep = "";
+                        if(!biendaghichuaghi) {
+                            sttketiep= khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
+                        }
+                        else{
+                            sttketiep = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai1(maduong_nhan, STT_HienTai);
+                        }
+                        Log.e("sttketiep",sttketiep);
+                        int next = Integer.parseInt(sttketiep);// Integer.parseInt(STT_HienTai) + 1;
                         STT_HienTai = String.valueOf(next);
                         Log.e("BienSTTHIenTai", STT_HienTai);
                         Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                        if (next + 1 > SoLuongKH) {
+
+                        String strnextketiep = khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan,sttketiep);
+                        int nexttiep = Integer.parseInt(strnextketiep);
+                        //if (next + 1 > SoLuongKH) {
+                        Log.e("strnextketiep", strnextketiep+"  " );
+                        if (nexttiep >= sttmax) {
+
                             lay_toi.setEnabled(false);
                             Toi.setEnabled(false);
                             lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -282,14 +316,15 @@ public class MainActivity extends AppCompatActivity  {
                             Toi.setEnabled(true);
                             lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                         }
-                        if (next > 0 && next <= SoLuongKH) {
+                        if (next > 0 && next <= sttmax) {
 
 
                             setDataForView(STT_HienTai, maduong_nhan, "");
 
-                            next = Integer.parseInt(STT_HienTai) + 1;
-                            int pre = Integer.parseInt(STT_HienTai) - 1;
-                            if (next > SoLuongKH) {
+                            next = nexttiep;//Integer.parseInt(STT_HienTai) + 1;
+                            int pre =  Integer.valueOf(khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai));//Integer.parseInt(STT_HienTai) - 1;
+                            Log.e("ve truoc va ve sau",pre +" "+ next);
+                            if (next > sttmax || next == 0) {
                                 lay_toi.setEnabled(false);
                                 Toi.setEnabled(false);
                                 lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -323,11 +358,23 @@ public class MainActivity extends AppCompatActivity  {
                         public void onClick(DialogInterface dialog, int which) {
 
                             dialog.dismiss();
-                            int next = Integer.parseInt(STT_HienTai) + 1;
+                            String sttketiep = "";
+                            if(!biendaghichuaghi) {
+                                sttketiep= khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
+                            }
+                            else{
+                                sttketiep = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai1(maduong_nhan, STT_HienTai);
+                            } Log.e("sttketiep",sttketiep);
+                            int next = Integer.parseInt(sttketiep);// Integer.parseInt(STT_HienTai) + 1;
+                           // int next = Integer.parseInt(STT_HienTai) + 1;
                             STT_HienTai = String.valueOf(next);
                             Log.e("BienSTTHIenTai", STT_HienTai);
                             Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                            if (next + 1 > SoLuongKH) {
+                            String strnextketiep = khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan,sttketiep);
+                            Log.e("strnextketiep", strnextketiep);
+                            int nexttiep = Integer.parseInt(strnextketiep);
+                            //if (next + 1 > SoLuongKH) {
+                            if (nexttiep >= sttmax) {
                                 lay_toi.setEnabled(false);
                                 Toi.setEnabled(false);
                                 lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -336,11 +383,14 @@ public class MainActivity extends AppCompatActivity  {
                                 Toi.setEnabled(true);
                                 lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                             }
-                            if (next > 0 && next <= SoLuongKH) {
+                            if (next > 0 && next <= sttmax) {
                                 setDataForView(STT_HienTai, maduong_nhan,"");
-                                next = Integer.parseInt(STT_HienTai) + 1;
-                                int pre = Integer.parseInt(STT_HienTai) - 1;
-                                if (next > SoLuongKH) {
+                               // next = Integer.parseInt(STT_HienTai) + 1;
+                               // int pre = Integer.parseInt(STT_HienTai) - 1;
+                                next = nexttiep;//Integer.parseInt(STT_HienTai) + 1;
+                                int pre =  Integer.valueOf(khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai));//Integer.parseInt(STT_HienTai) - 1;
+                                Log.e("ve truoc va ve sau",pre +" "+ next);
+                                if (next > sttmax || next == 0) {
                                     lay_toi.setEnabled(false);
                                     Toi.setEnabled(false);
                                     lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -403,14 +453,27 @@ public class MainActivity extends AppCompatActivity  {
 
 
                     } else {
+                        //String stttruoc = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai);
+                        String stttruoc = "";
+                        if(!biendaghichuaghi) {
+                            stttruoc = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai);
+                        }
+                        else{
+                            stttruoc = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai1(maduong_nhan, STT_HienTai);
+                        }
+                        Log.e("stttruoc",stttruoc);
+                        int pre = Integer.parseInt(stttruoc);// Integer.parseInt(STT_HienTai) + 1;
 
-
-                        int pre = Integer.parseInt(STT_HienTai) - 1;
+                       // int pre = Integer.parseInt(STT_HienTai) - 1;
                         STT_HienTai = String.valueOf(pre);
 
                         Log.e("BienSTTHIenTai", STT_HienTai);
                         Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                        if (pre - 1 <= 0) {
+                        String strtruocdo = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,stttruoc);
+                        Log.e("strtruocdo", strtruocdo);
+                        int truocdonua = Integer.parseInt(strtruocdo);
+                        //if (pre - 1 <= 0) {
+                        if (truocdonua <= 0) {
                             lay_lui.setEnabled(false);
                             Lui.setEnabled(false);
                             lay_lui.setBackgroundResource(R.color.space_background_color);
@@ -419,12 +482,17 @@ public class MainActivity extends AppCompatActivity  {
                             Lui.setEnabled(true);
                             lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                         }
-                        if (pre > 0 && pre <= SoLuongKH) {
+                        if (pre > 0 && pre <= sttmax) {
                             Log.e("BienSTTHIenTai", "chay vao 3");
                             setDataForView(STT_HienTai, maduong_nhan, "");
-                            pre = Integer.parseInt(STT_HienTai) - 1;
-                            int next = Integer.parseInt(STT_HienTai) + 1;
-                            if (next > SoLuongKH) {
+                         //   pre = Integer.parseInt(STT_HienTai) - 1;
+                         //   int next = Integer.parseInt(STT_HienTai) + 1;
+                            pre = truocdonua;//Integer.parseInt(STT_HienTai) + 1;
+                            int next =  Integer.valueOf(khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan,STT_HienTai));
+                            Log.e("ve truoc va ve sau",pre +" "+ next);
+
+
+                            if (next > sttmax|| next == 0 ) {
                                 lay_toi.setEnabled(false);
                                 Toi.setEnabled(false);
                                 lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -460,12 +528,24 @@ public class MainActivity extends AppCompatActivity  {
                         public void onClick(DialogInterface dialog, int which) {
 
                             dialog.dismiss();
-                            int pre = Integer.parseInt(STT_HienTai) - 1;
+                            String stttruoc = "";
+                            if(!biendaghichuaghi) {
+                                stttruoc = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai);
+                            }
+                            else{
+                                stttruoc = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai1(maduong_nhan, STT_HienTai);
+                            }Log.e("stttruoc",stttruoc);
+                            int pre = Integer.parseInt(stttruoc);// Integer.parseInt(STT_HienTai) + 1;
+                            //int pre = Integer.parseInt(STT_HienTai) - 1;
                             STT_HienTai = String.valueOf(pre);
 
                             Log.e("BienSTTHIenTai", STT_HienTai);
                             Log.e("SoLuongKH", String.valueOf(SoLuongKH));
-                            if (pre-1 <= 0) {
+                            String strtruocdo = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,stttruoc);
+                            int truocdonua = Integer.parseInt(strtruocdo);
+                            Log.e("strtruocdo", strtruocdo);
+                            //if (pre - 1 <= 0) {
+                            if (truocdonua <= 0) {
                                 lay_lui.setEnabled(false);
                                 Lui.setEnabled(false);
                                 lay_lui.setBackgroundResource(R.color.space_background_color);
@@ -474,12 +554,15 @@ public class MainActivity extends AppCompatActivity  {
                                 Lui.setEnabled(true);
                                 lay_lui.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);
                             }
-                            if (pre > 0 && pre <= SoLuongKH) {
+                            if (pre > 0 && pre <= sttmax) {
                                 Log.e("BienSTTHIenTai", "chay vao 3");
                                 setDataForView(STT_HienTai, maduong_nhan,"");
-                                pre = Integer.parseInt(STT_HienTai) - 1;
-                                int next = Integer.parseInt(STT_HienTai) + 1;
-                                if (next > SoLuongKH) {
+                               // pre = Integer.parseInt(STT_HienTai) - 1;
+                               // int next = Integer.parseInt(STT_HienTai) + 1;
+                                pre = truocdonua;//Integer.parseInt(STT_HienTai) + 1;
+                                int next =  Integer.valueOf(khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan,STT_HienTai));
+                                Log.e("ve truoc va ve sau",pre +" "+ next);
+                                if (next > sttmax || next == 0) {
                                     lay_toi.setEnabled(false);
                                     Toi.setEnabled(false);
                                     lay_toi.setBackgroundResource(R.color.space_background_color);
@@ -549,6 +632,109 @@ public class MainActivity extends AppCompatActivity  {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                     // khởi tạo dialog
                     alertDialogBuilder.setMessage(R.string.main_capnhatsdt_thatbai);
+                    // thiết lập nội dung cho dialog
+
+                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+                }
+            }
+        });
+
+        ChuyenLoai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(con);
+                final EditText edittextLoaiKH = new EditText(con);
+                alert.setMessage("Nhập loại KH:");
+                alert.setTitle("Chuyển loại khách hàng:");
+
+                alert.setView(edittextLoaiKH);
+
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //What ever you want to do with the value
+
+                        //OR
+                        String makh = MaKH.getText().toString().trim();
+                        String loaimoi = edittextLoaiKH.getText().toString();
+                        String loaicu = khachhangDAO.getLoaiKHCu(makh);
+
+                        if(khachhangDAO.updateLoaiKH(makh,loaimoi)){
+                            if(!loaimoi.equals(loaicu)) {
+                                LoaiKH.setText(loaimoi + "(Loại KH cũ: " + loaicu + " )");
+                                LoaiKH.setTextColor(R.color.badge_background_color);
+                            }
+                            else{
+                                LoaiKH.setText(loaimoi);
+                                LoaiKH.setTextColor(R.color.space_default_color);
+                            }
+                            Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                            Bien.bienghi = Bien.bienghi +1;
+                            spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
+                            Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                            Toast.makeText(con, R.string.main_capnhatloaikh_thanhcong,Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            //dialog chọn đường
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                            // khởi tạo dialog
+                            alertDialogBuilder.setMessage(R.string.main_capnhatloaikh_thatbai);
+                            // thiết lập nội dung cho dialog
+
+                            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+
+                                }
+                            });
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            // tạo dialog
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.show();
+                        }
+                    }
+                });
+
+                alert.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                    }
+                });
+
+                alert.show();
+            }
+        });
+
+        CapNhatGhiChu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String makh = MaKH.getText().toString().trim();
+                String ghichu = GhiChu.getText().toString().trim();
+
+                if(khachhangDAO.updateGhiChu(makh,ghichu)){
+                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                    Bien.bienghi = Bien.bienghi +1;
+                    spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
+                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                    Toast.makeText(con, R.string.main_capnhatghichu_thanhcong,Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //dialog chọn đường
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    // khởi tạo dialog
+                    alertDialogBuilder.setMessage(R.string.main_capnhatghichu_thatbai);
                     // thiết lập nội dung cho dialog
 
                     alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -1205,7 +1391,14 @@ public class MainActivity extends AppCompatActivity  {
         }else {
             m33.setText(khachhang.getSLTieuThu3().trim());
         }
-        LoaiKH.setText(khachhang.getLoaikh().trim());
+        if(khachhang.getLoaikh().toString().trim().equals(khachhangDAO.getLoaiKHCu(khachhang.getMaKhachHang().trim()))) {
+            LoaiKH.setText(khachhang.getLoaikh().trim());
+            LoaiKH.setTextColor(R.color.default_active_item_color);
+        }
+        else{
+            LoaiKH.setTextColor(R.color.badge_background_color);
+            LoaiKH.setText(khachhang.getLoaikh().trim() + "(Loại KH cũ: "+ khachhangDAO.getLoaiKHCu(khachhang.getMaKhachHang().trim())+" )");
+        }
         DinhMuc.setText(khachhang.getDinhmuc().trim());
         ChiSoMoi.setText(khachhang.getChiSo().trim());
         m3moi.setText(khachhang.getSLTieuThu().trim());
@@ -1229,12 +1422,27 @@ public class MainActivity extends AppCompatActivity  {
                 LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
                 DuongDangGhi.setBackgroundResource(android.R.color.holo_red_dark);
                 ConLai.setBackgroundResource(android.R.color.holo_red_dark);
+
+                if( !khachhang.getGhiChu().trim().equals("")) {
+
+                    LabelDuong.setBackgroundResource(R.color.yellow);
+                    DuongDangGhi.setBackgroundResource(R.color.yellow);
+                    ConLai.setBackgroundResource(R.color.yellow);
+                }
             }
             else{
-                LabelDuong.setBackgroundResource(android.R.color.holo_green_light);
-                DuongDangGhi.setBackgroundResource(android.R.color.holo_green_light);
-                ConLai.setBackgroundResource(android.R.color.holo_green_light);
+                if(spinTT.getSelectedItemPosition()!=0 || !khachhang.getGhiChu().trim().equals("")) {
 
+                    LabelDuong.setBackgroundResource(R.color.yellow);
+                    DuongDangGhi.setBackgroundResource(R.color.yellow);
+                    ConLai.setBackgroundResource(R.color.yellow);
+                }
+                else{
+                    LabelDuong.setBackgroundResource(android.R.color.holo_green_light);
+                    DuongDangGhi.setBackgroundResource(android.R.color.holo_green_light);
+                    ConLai.setBackgroundResource(android.R.color.holo_green_light);
+
+                }
 
             }
         }
@@ -1312,7 +1520,7 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.action_save:
                 intent = new Intent(MainActivity.this, Backup_Activity.class);
                 startActivity(intent);
-                MainActivity.this.finish();
+            //    MainActivity.this.finish();
 
                 break;
             case R.id.action_search:
@@ -1334,6 +1542,20 @@ public class MainActivity extends AppCompatActivity  {
                 else{ //toi -> lui
                     bienkieughi = 1;
                     item.setIcon(android.R.drawable.ic_media_ff); //toi
+                }
+
+                break;
+
+            case R.id.action_daghi:
+
+                if(biendaghichuaghi == false){
+                    biendaghichuaghi = true;
+
+                    item.setIcon(android.R.drawable.presence_online); //toi
+                }
+                else{ //toi -> lui
+                    biendaghichuaghi = false;
+                    item.setIcon(android.R.drawable.presence_invisible); //toi
                 }
 
                 break;
@@ -1395,8 +1617,8 @@ public class MainActivity extends AppCompatActivity  {
             Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
             Toi = (ImageButton) findViewById(R.id.btn_toi);
             Lui = (ImageButton) findViewById(R.id.btn_lui);
-
-
+            CapNhatGhiChu = (ImageButton) findViewById(R.id.btn_updateghichu);
+            ChuyenLoai =(ImageButton) findViewById(R.id.btn_chuyenloai);
 
             lay_toi =(LinearLayout)findViewById(R.id.layout_toi);
             lay_lui =(LinearLayout)findViewById(R.id.layout_lui);
@@ -1643,386 +1865,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
 
         if(chisomoi_con.getVisibility()==View.VISIBLE){
 
-            //chiso dh chinh
- /*           if(ChiSoMoi.getText().toString().trim().equals("")){
-                Log.e("da ghi nuoc", String.valueOf(KiemTraDaGhi(MaKH.getText().toString().trim())));
-                if(KiemTraDaGhi(MaKH.getText().toString().trim())) {
-                    showDiaLogThongBao("Bạn chưa nhập chỉ số nước.");
-                    kiemtradieukien = false;
-                }
-                else{
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                    // khởi tạo dialog
 
-                    alertDialogBuilder.setMessage("Bạn có muốn hủy ghi nước của khách hàng này không?");
-
-                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                         //   ghinuoc("");
-                            kiemtradieukien = true;
-
-
-                        }
-                    });
-
-                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            kiemtradieukien = false;
-
-
-                        }
-                    });
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    // tạo dialog
-                    alertDialog.setCanceledOnTouchOutside(false);
-                    alertDialog.show();
-                    // hiển thị dialog
-                }
-
-            }
-            else{
-                //Kiem tra chi so moi có nhỏ hơn chỉ số cũ ko
-                int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
-                int chisocu =  Integer.parseInt(ChiSo1.getText().toString().trim());
-                //Kiểm tra âm
-                if(chisomoi<0){
-                    //Show dialog thông báo âm
-                    showDiaLogThongBao(getString(R.string.main_thongbao_soam));
-                    kiemtradieukien = false;
-
-                }
-                else{
-                    if(chisomoi <chisocu){
-                        //Show dialog thông báo nhỏ hơn chỉ số cũ
-                        //showDiaLogThongBao(getString(R.string.main_thongbao_batthuong));
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                        // khởi tạo dialog
-
-                        alertDialogBuilder.setMessage(getString(R.string.main_thongbao_batthuong));
-
-                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                dialog.dismiss();
-                                if(!m3moi.getText().toString().trim().equals("")) {
-                                    //ghinuoc("BT");
-                                    batthuong1 = "BT";
-                                    kiemtradieukien = true;
-                                }
-                                else{
-                                    kiemtradieukien = false;
-                                    showDiaLogThongBao("Sử dụng chỉ số bất thường cần nhập m3 nước.");
-                                }
-
-
-                            }
-                        });
-                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                resetViewGhiNuoc();
-                                dialog.dismiss();
-                                kiemtradieukien = false;
-
-
-                            }
-                        });
-
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        // tạo dialog
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.show();
-                        // hiển thị dialog
-                    }
-                    else{
-                        //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
-                        if(m3moi.getText().toString().trim().equals("")) {
-                            m3moi.setText(String.valueOf(chisomoi - chisocu));
-                        }
-                        int m3cu1 = Integer.parseInt(m31.getText().toString());
-                        int m3cu2 = Integer.parseInt(m32.getText().toString());
-                        int m3cu3 = Integer.parseInt(m33.getText().toString());
-                        int m3NEW = Integer.parseInt(m3moi.getText().toString());
-                        int binhquan3thang  = BinhQuanChiSoNuoc3Thang(m3cu1,m3cu2,m3cu3);
-                        if(kiemtraBatThuongLonHon(m3NEW,binhquan3thang)){
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                            // khởi tạo dialog
-
-                            alertDialogBuilder.setMessage("m3 mới lớn hơn m3 cũ 10%. Bạn có xác định đây là bất thường không?");
-
-                            alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                    // khởi tạo dialog
-
-                                    alertDialogBuilder.setMessage("Đã xác định đây là bất thường. Bạn có muốn ghi nước không?");
-
-                                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                           // ghinuoc("BT");
-                                            batthuong1 = "BT";
-                                            kiemtradieukien = true;
-                                        }
-                                    });
-                                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            resetViewGhiNuoc();
-                                            dialog.dismiss();
-                                            kiemtradieukien = false;
-
-
-
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    // tạo dialog
-                                    alertDialog.setCanceledOnTouchOutside(false);
-                                    alertDialog.show();
-                                    // hiển thị dialog
-
-                                }
-                            });
-                            alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                    // khởi tạo dialog
-
-                                    alertDialogBuilder.setMessage("Đã xác định đây không phải là bất thường. Bạn có muốn ghi nước không?");
-
-                                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                           // ghinuoc("");
-                                            batthuong1 = "";
-                                            kiemtradieukien = true;
-                                        }
-                                    });
-                                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            resetViewGhiNuoc();
-                                            dialog.dismiss();
-                                            kiemtradieukien = false;
-
-
-
-
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    // tạo dialog
-                                    alertDialog.setCanceledOnTouchOutside(false);
-                                    alertDialog.show();
-                                    // hiển thị dialog
-
-
-                                }
-                            });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            // tạo dialog
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.show();
-                            // hiển thị dialog
-                        }else {
-                            //ghinuoc("");
-                            batthuong1 = "";
-                            kiemtradieukien = true;
-                        }
-                    }
-                }
-
-            }
-
-
-
-            //chiso dh con
-
-            if(ChiSoMoiCon.getText().toString().trim().equals("")){
-                Log.e("chua nhap dh con", "vao day");
-                kiemtradieukiencon = false;
-                showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ con.");
-
-
-            }
-            else{
-
-                int chisomoicon = Integer.parseInt(ChiSoMoiCon.getText().toString().trim());
-                int chisocucon =  Integer.parseInt(ChiSoCon1.getText().toString().trim());
-
-                if(chisomoicon<0){
-                    //Show dialog thông báo âm
-                    showDiaLogThongBao(getString(R.string.main_thongbao_soam));
-                    kiemtradieukiencon = false;
-
-                }
-                else{
-                    if(chisomoicon <chisocucon){
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                        // khởi tạo dialog
-
-                        alertDialogBuilder.setMessage(getString(R.string.main_thongbao_batthuong));
-
-                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                Log.e("m3 rong","co - vo day");
-                                if(!m3conmoi.getText().toString().trim().equals("")) {
-                                   // ghinuoc("BT");
-                                    batthuong2 ="BT";
-                                    kiemtradieukiencon = true;
-                                }
-                                else{
-                                    Log.e("m3 rong","vo day");
-                                    showDiaLogThongBao("Sử dụng chỉ số bất thường cần nhập m3 nước.");
-                                    kiemtradieukiencon = false;
-                                }
-
-                            }
-                        });
-                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                resetViewGhiNuoc();
-                                dialog.dismiss();
-                                kiemtradieukiencon = false;
-
-
-
-
-                            }
-                        });
-
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        // tạo dialog
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.show();
-                        // hiển thị dialog
-                    }
-                    else{
-
-                        //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
-                        if(m3conmoi.getText().toString().trim().equals("")) {
-                            m3conmoi.setText(String.valueOf(chisomoicon - chisocucon));
-                        }
-                        int m3cu1con = Integer.parseInt(m3con1.getText().toString());
-                        int m3cu2con = Integer.parseInt(m3con2.getText().toString());
-                        int m3cu3con = Integer.parseInt(m3con3.getText().toString());
-                        int m3NEWccon = Integer.parseInt(m3conmoi.getText().toString());
-                        int binhquan3thangcon  = BinhQuanChiSoNuoc3Thang(m3cu1con,m3cu2con,m3cu3con);
-                        if(kiemtraBatThuongLonHon(m3NEWccon,binhquan3thangcon)){
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                            // khởi tạo dialog
-
-                            alertDialogBuilder.setMessage("ĐH con có m3 mới lớn hơn m3 cũ 10%. Bạn có xác định đây là bất thường không?");
-
-                            alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                    // khởi tạo dialog
-
-                                    alertDialogBuilder.setMessage("Đã xác định đây là bất thường. Bạn có muốn ghi nước không?");
-
-                                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                           // ghinuoc("BT");
-                                            batthuong2 ="BT";
-                                            kiemtradieukiencon = true;
-                                        }
-                                    });
-                                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            resetViewGhiNuoc();
-                                            dialog.dismiss();
-                                            kiemtradieukiencon = false;
-
-
-
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    // tạo dialog
-                                    alertDialog.setCanceledOnTouchOutside(false);
-                                    alertDialog.show();
-                                    // hiển thị dialog
-
-                                }
-                            });
-                            alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                    // khởi tạo dialog
-
-                                    alertDialogBuilder.setMessage("Đã xác định đây không phải là bất thường. Bạn có muốn ghi nước không?");
-
-                                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            //ghinuoc("");
-                                            batthuong2 ="";
-                                            kiemtradieukiencon = true;
-                                        }
-                                    });
-                                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            kiemtradieukiencon = false;
-                                            resetViewGhiNuoc();
-
-
-
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    // tạo dialog
-                                    alertDialog.setCanceledOnTouchOutside(false);
-                                    alertDialog.show();
-                                    // hiển thị dialog
-
-
-                                }
-                            });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            // tạo dialog
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.show();
-                            // hiển thị dialog
-                        }else {
-                           // ghinuoc("");
-                            batthuong2 ="";
-                            kiemtradieukiencon = true;
-                        }
-
-                    }
-                }
-            }
-            */
          Log.e("kiemtradieukien & kiemtradieukiencon", String.valueOf(kiemtradieukien) + kiemtradieukiencon);
             Log.e("batthuong1 & batthuong2", String.valueOf(batthuong1) + batthuong2);
          if(KiemTraDaGhi(MaKH.getText().toString().trim())){
@@ -2049,7 +1892,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                     // khởi tạo dialog
 
-                    alertDialogBuilder.setMessage("Bạn có muốn hủy ghi nước của khách hàng này không?");
+                    alertDialogBuilder.setMessage("Bạn có muốn cập nhật lại thông tin ghi nước của khách hàng này không?");
 
                     alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                         @Override
@@ -2359,17 +2202,18 @@ public boolean KiemTraDaGhi(String maKH){
 
                 tenTT = arrTT.get(position);
                 if(position==0){
-                    if(m3moi.getText().toString().trim().equals("")){
-                        Log.e("asdasdasd","ok");
+
                         if(!ChiSoMoi.getText().toString().trim().equals("")) {
                             int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
                             int chisocu = Integer.parseInt(ChiSo1.getText().toString().trim());
-                            m3moi.setText(String.valueOf(chisomoi - chisocu));
+                            if(chisomoi >chisocu) {
+                                m3moi.setText(String.valueOf(chisomoi - chisocu));
+                            }
                         }
                         else{
                             m3moi.setText("");
                         }
-                    }
+
                     m3moi.setEnabled(false);
 
                 }
@@ -2379,7 +2223,9 @@ public boolean KiemTraDaGhi(String maKH){
                         if(!ChiSoMoi.getText().toString().trim().equals("")) {
                             int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
                             int chisocu = Integer.parseInt(ChiSo1.getText().toString().trim());
-                            m3moi.setText(String.valueOf(chisomoi - chisocu));
+                            if(chisomoi >chisocu) {
+                                m3moi.setText(String.valueOf(chisomoi - chisocu));
+                            }
                         }
                         else{
                             m3moi.setText("");
@@ -2426,8 +2272,12 @@ public boolean KiemTraDaGhi(String maKH){
         return Math.round(ketqua);
     }
     public boolean kiemtraBatThuongLonHon(int x,int binhquan3thang){
-        if( x  >= binhquan3thang * 2 && Math.abs(x - binhquan3thang) > 20 ){
-            return true;
+        if(binhquan3thang !=0) {
+            if (x >= binhquan3thang * 2 && Math.abs(x - binhquan3thang) > 20) {
+                return true;
+            } else {
+                return false;
+            }
         }
         else{
             return false;

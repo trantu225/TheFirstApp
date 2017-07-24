@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ public class StartActivity extends AppCompatActivity  {
 
     ImageButton btnGhinuoc, btnDanhSachKH, btnLoadDl, btnBackup,btnSearch, btnLogout,btnHistory;
     LinearLayout layout2, layout3;
+    TextView txtuser;
     Context con;
     SPData spdata;
     DuongDAO duongDAO;
@@ -65,9 +67,10 @@ public class StartActivity extends AppCompatActivity  {
         btnHistory = (ImageButton) findViewById(R.id.btn_lichsu);
         layout2 = (LinearLayout) findViewById(R.id.layout_2);
         layout3 = (LinearLayout) findViewById(R.id.layout_3);
+        txtuser = (TextView) findViewById(R.id.txt_user);
 
 
-
+        txtuser.setText("Người dùng: "+ spdata.getDataNhanVienTrongSP());
         ViewGroup.LayoutParams params = layout3.getLayoutParams();
 
         params.height = getViewHeight(layout2);
@@ -302,6 +305,7 @@ public class StartActivity extends AppCompatActivity  {
 
                     myIntent = new Intent(StartActivity.this, SearchActivity.class);
                     startActivity(myIntent);
+                    Bien.bienManHinhChuyenTimKiem ="start";
 
                     break;
                 case R.id.btn_lichsu:

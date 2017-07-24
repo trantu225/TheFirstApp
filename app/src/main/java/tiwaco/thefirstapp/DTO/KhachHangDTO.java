@@ -312,4 +312,6 @@ public class KhachHangDTO {
     public void setChiSo3(String chiSo3) {
         ChiSo3 = chiSo3;
     }
+
+
 }

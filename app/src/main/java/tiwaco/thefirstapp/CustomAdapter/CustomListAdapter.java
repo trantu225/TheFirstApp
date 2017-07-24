@@ -38,6 +38,7 @@ public class CustomListAdapter extends BaseAdapter {
     SPData spdata;
     DuongDAO duongdao  ;
     KhachHangDAO khachhangdao ;
+    String strghichu = "";
     public CustomListAdapter(Context con, List<KhachHangDTO> listcus,int vitriduong){
         customerList = listcus ;
         context = con ;
@@ -77,6 +78,7 @@ public class CustomListAdapter extends BaseAdapter {
             holder.STT = (TextView)convertView.findViewById(R.id.tv_stt);
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
             holder.DanhBo  = (TextView) convertView.findViewById(R.id.tv_danhbo);
+            holder.GhiChu  = (TextView) convertView.findViewById(R.id.tv_ghichu);
             //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
         }
@@ -102,17 +104,43 @@ public class CustomListAdapter extends BaseAdapter {
         holder.DiaChi.setSelected(true);
         holder.DanhBo.setText(cus.getDanhBo());
 
+        if(!cus.getGhiChu().toString().equals("")){
+            strghichu= "Ghi chú: "+ cus.getGhiChu();
+            holder.GhiChu.setVisibility(View.VISIBLE);
+            holder.GhiChu.setText(strghichu);
+
+        }
+        else{
+            strghichu = "";
+            holder.GhiChu.setVisibility(View.GONE);
+
+        }
+
+
+        holder.GhiChu.setSelected(true);
+
 
         if(cus.getChiSo().equalsIgnoreCase("")){
             holder.STT.setBackgroundResource(R.drawable.remove_bg);
 
         }
         else{
-            if(khachhangdao.checkTrangThaiBatThuongKH(cus.getMaKhachHang()).equals("BT")){
-                holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong);
+            if(khachhangdao.checkTrangThaiBatThuongKH(cus.getMaKhachHang()).equals("BT") ){
+                if(!cus.getTrangThaiTLK().toString().trim().equals("Bình Thường") || !cus.getGhiChu().toString().trim().equals("")) {
+
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong_tinhtrangtlk);
+                }
+                else{
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong);
+                }
             }
             else {
-                holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+                if(!cus.getGhiChu().toString().trim().equals("")) {
+
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong_tinhtrangtlk);
+                }else {
+                    holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+                }
             }
         }
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -203,6 +231,7 @@ public class CustomListAdapter extends BaseAdapter {
         //  ImageView TrangThai;
         TextView DiaChi;
         TextView DanhBo;
+        TextView GhiChu;
     }
 
 }

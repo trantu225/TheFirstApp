@@ -1,6 +1,7 @@
 package tiwaco.thefirstapp;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -45,9 +47,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import circleprogress.DonutProgress;
@@ -68,20 +72,21 @@ public class Backup_Activity extends AppCompatActivity  {
     private static final String THUMUCBACKUP = "BACKUPTIWAREAD";
     private static final String THUMUCTATCA = "TATCA";
     private static final String THUMUCDAGHI = "DAGHI";
-    private static final String THUMUCDAGHIHOMNAY = "DAGHIHOMNAY";
+    private static final String THUMUCDAGHIHOMNAY = "DAGHITHEONGAY";
     private static final String THUMUCDAGHITHEODUONG = "DAGHITHEODUONG";
     private static final String THUMUCCHUAGHI = "CHUAGHI";
     private static final String THUMUCLAST = "LAST";
     private static final String TENFILETATCA_LAST = "customers_last.txt";
     private static final String TENFILEDAGHI_LAST = "customers_daghi_last.txt";
-    private static final String TENFILEDAGHIHOMNAY_LAST = "customers_daghihomnay_last.txt";
+    private static final String TENFILEDAGHIHOMNAY_LAST = "customers_daghitheongay_last.txt";
     private static final String TENFILECHUAGHI_LAST = "customers_chuaghi_last.txt";
     RadioButton radioTatca, radioDaghi, radioChuaghi,radioDaghihomnay,radioDaghiTheoDuong;
     Spinner spinDuong;
     RadioGroup group;
-    TextView mstatus;
-    EditText tenfile;
-    Button luu, trove;
+    DatePicker datepicker;
+    TextView mstatus,txttitle;
+    EditText tenfile,txtngay;
+    Button luu, trove,chonngay;
     DuongDAO duongdao;
     KhachHangDAO khachangdao;
     Context con;
@@ -90,9 +95,12 @@ public class Backup_Activity extends AppCompatActivity  {
     ArrayList<String> arrDuong;
     LichSuDAO lichsudao;
     DonutProgress prgTime;
+    String tenfileluu = "";
     TableLayout table;
     String thumucchuafile="";
+    Date dateFinish;
     String maduong="";
+    Calendar cal ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +110,7 @@ public class Backup_Activity extends AppCompatActivity  {
         duongdao = new DuongDAO(con);
         khachangdao = new KhachHangDAO(con);
         lichsudao = new LichSuDAO(con);
-
+        cal = Calendar.getInstance();
         getView();
         loadDataDuong();
         askPermissionAndReadFile();
@@ -113,8 +121,11 @@ public class Backup_Activity extends AppCompatActivity  {
     private void getView() {
         group = (RadioGroup) findViewById(R.id.group);
         tenfile = (EditText) findViewById(R.id.edit_tenfile);
+        txttitle = (TextView) findViewById(R.id.txt_title);
+        txtngay = (EditText) findViewById(R.id.txt_ngay);
         luu = (Button) findViewById(R.id.btn_Luu);
         trove = (Button) findViewById(R.id.btn_trove);
+        chonngay = (Button) findViewById(R.id.btn_chongay);
         radioTatca = (RadioButton) findViewById(R.id.radio_tatca);
         radioDaghi = (RadioButton) findViewById(R.id.radio_daghi);
         radioChuaghi = (RadioButton) findViewById(R.id.radio_chuaghi);
@@ -124,6 +135,7 @@ public class Backup_Activity extends AppCompatActivity  {
         spinDuong = (Spinner) findViewById(R.id.spinduong);
         table = (TableLayout) findViewById(R.id.TableLayout1);
         mstatus = (TextView) findViewById(R.id.tv_status);
+        chonngay.setVisibility(View.GONE);
         mstatus.setVisibility(View.GONE);
         prgTime.setProgress(0);
         prgTime.setText("0 %");
@@ -139,7 +151,12 @@ public class Backup_Activity extends AppCompatActivity  {
                 xuLyChon(groupradio, checkedId);
             }
         });
-
+        chonngay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
 
     }
     private void askPermissionAndReadFile() {
@@ -164,37 +181,99 @@ public class Backup_Activity extends AppCompatActivity  {
 
     private void xuLyChon(RadioGroup groupradio, int checkedId) {
         int checkedRadioId = groupradio.getCheckedRadioButtonId();
-        String tenfileluu = "";
+
         if (checkedRadioId == R.id.radio_tatca) {
-            if(spinDuong.getVisibility() == View.VISIBLE) {
-                spinDuong.setVisibility(View.GONE);
-            }
+            spinDuong.setVisibility(View.GONE);
+            txttitle.setVisibility(View.GONE);
+            txtngay.setVisibility(View.GONE);
+            chonngay.setVisibility(View.GONE);
             tenfileluu = taoTenFile("customers");
 
         } else if (checkedRadioId == R.id.radio_daghi) {
-            if(spinDuong.getVisibility() == View.VISIBLE) {
-                spinDuong.setVisibility(View.GONE);
-            }
+            spinDuong.setVisibility(View.GONE);
+            txttitle.setVisibility(View.GONE);
+            txtngay.setVisibility(View.GONE);
+            chonngay.setVisibility(View.GONE);
             tenfileluu = taoTenFile("DaGhi");
 
         } else if (checkedRadioId == R.id.radio_chuaghi) {
-            if(spinDuong.getVisibility() == View.VISIBLE) {
+
                 spinDuong.setVisibility(View.GONE);
-            }
+                txttitle.setVisibility(View.GONE);
+                txtngay.setVisibility(View.GONE);
+            chonngay.setVisibility(View.GONE);
+
             tenfileluu = taoTenFile("ChuaGhi");
 
         }
         else if(checkedRadioId == R.id.radio_daghihomnay){
-            if(spinDuong.getVisibility() == View.VISIBLE) {
+
                 spinDuong.setVisibility(View.GONE);
-            }
-            tenfileluu = taoTenFile("DaGhiHomNay");
+                txttitle.setVisibility(View.VISIBLE);
+                txttitle.setText("Ngày: ");
+                txtngay.setVisibility(View.VISIBLE);
+            chonngay.setVisibility(View.VISIBLE);
+            tenfileluu = taoTenFile("DaGhiTheoNgay");
+
+            showDatePickerDialog();
+
         }
         else if(checkedRadioId == R.id.radio_daghitheoduong){
             spinDuong.setVisibility(View.VISIBLE);
+            txttitle.setVisibility(View.VISIBLE);
+            chonngay.setVisibility(View.GONE);
+            txttitle.setText("Đường: ");
+            txtngay.setVisibility(View.GONE);
             tenfileluu = taoTenFile("DaGhiTheoDuong_"+maduong);
         }
         tenfile.setText(tenfileluu);
+    }
+    public void showDatePickerDialog()
+    {
+
+        DatePickerDialog.OnDateSetListener callback=new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year,
+                                  int monthOfYear,
+                                  int dayOfMonth) {
+                //Mỗi lần thay đổi ngày tháng năm thì cập nhật lại TextView Date
+                String ngay ="";
+                String thang ="";
+                if(dayOfMonth < 10) {
+                    ngay = "0"+dayOfMonth;
+                }
+                else{
+                    ngay = String.valueOf(dayOfMonth);
+                }
+                if(monthOfYear+1 <10 ){
+                    thang  = "0"+(monthOfYear+1);
+                }
+                else{
+                    thang = String.valueOf(monthOfYear+1);
+                }
+                txtngay.setText(ngay +"-"+thang+"-"+year);
+                //Lưu vết lại biến ngày hoàn thành
+                cal.set(year, monthOfYear, dayOfMonth);
+                dateFinish=cal.getTime();
+                tenfileluu = taoTenFile("DaGhiTheoNgay_"+ngay+thang+year);
+                tenfile.setText(tenfileluu);
+                String thoigian2 = new SimpleDateFormat("yyyy-MM-dd").format(dateFinish);
+                Log.e("thoigian2",thoigian2);
+            }
+        };
+        //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
+        //sẽ giống với trên TextView khi mở nó lên
+        String thoigian1 = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+        txtngay.setText(thoigian1);
+        String s=txtngay.getText()+"";
+        String strArrtmp[]=s.split("-");
+        int ngay=Integer.parseInt(strArrtmp[0]);
+        int thang=Integer.parseInt(strArrtmp[1])-1;
+        int nam=Integer.parseInt(strArrtmp[2]);
+        DatePickerDialog pic=new DatePickerDialog(
+                Backup_Activity.this,
+                callback, nam, thang, ngay);
+        pic.setTitle("Chọn ngày ghi nước");
+        pic.show();
     }
 
     public void trove(View view) {
@@ -231,7 +310,6 @@ public class Backup_Activity extends AppCompatActivity  {
         File rootfile = new File(thumucchuafile);
         if(rootfile.exists()==false){
             spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0,0);
-            Log.e("asdasd","asdasdasdasd");
             taoThuMuc(thumucchuafile);
         }
 
@@ -274,15 +352,15 @@ public class Backup_Activity extends AppCompatActivity  {
             }
         }
         else if(radioDaghihomnay.isChecked() == true){
-            if(Bien.bienbkdghn  == Bien.bienghi) {
+             /* if(Bien.bienbkdghn  == Bien.bienghi) {
                 taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
             }
-            else {
+            else { */
                 mstatus.setVisibility(View.VISIBLE);
                 table.setVisibility(View.GONE);
                 MyBackUpTask task = new MyBackUpTask();
                 task.execute();
-            }
+          //  }
         }
         else if(radioDaghiTheoDuong.isChecked() == true){
 
@@ -719,15 +797,19 @@ public class Backup_Activity extends AppCompatActivity  {
         //Lấy danh sách tất cả các đường
         List<DuongDTO> listduong = new ArrayList<DuongDTO>();
         List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
-        String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        String soluongKH = String.valueOf(khachangdao.countKhachHangDaGhiHomNay(thoigian1));
+    //    String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+
+        String thoigian2 = new SimpleDateFormat("yyyy-MM-dd").format(dateFinish);
+        Log.e("thoigian2",thoigian2);
+        String soluongKH = String.valueOf(khachangdao.countKhachHangDaGhiHomNay(thoigian2));
+        Log.e("soluongtheongay",soluongKH);
         listduong = duongdao.getAllDuong();
         for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
             String maduong = listduong.get(thutuduong).getMaDuong();
             String tenduong = listduong.get(thutuduong).getTenDuong();
             List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
 
-            listkh = khachangdao.getAllKHDaGhiHomNay(maduong,thoigian1);
+            listkh = khachangdao.getAllKHDaGhiHomNay(maduong,thoigian2);
             ListTiwareadDTO tiwaread = new ListTiwareadDTO();
             tiwaread.setMaDuong(maduong);
             tiwaread.setTenDuong(tenduong);
@@ -1064,17 +1146,17 @@ public class Backup_Activity extends AppCompatActivity  {
 
             else if (radioDaghihomnay.isChecked() == true)
             {
-                if(Bien.bienbkdghn  == Bien.bienghi) {
-                    //   taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-                }
-                else {
+               // if(Bien.bienbkdghn  == Bien.bienghi) {
+              //      //   taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+              //  }
+              //  else {
                     Log.e("back up", "Vao da ghi");
                     status = "Đang tập hợp dữ liệu...";
                     //     String.valueOf(status)
                     publishProgress(String.valueOf(status));
 
-                    String result_daghi_string = taoJSONData_KH_DaGhiHomNay(tenfile.getText().toString());
-                    result =result_daghi_string;
+                    String result_daghitheongay_string = taoJSONData_KH_DaGhiHomNay(tenfile.getText().toString());
+                    result =result_daghitheongay_string;
 
 
                     /*
@@ -1090,7 +1172,7 @@ public class Backup_Activity extends AppCompatActivity  {
                         spdata.luuDataFlagBKDaghiHomNayTrongSP(Bien.bienghi);
                     }
                     */
-                }
+              //  }
             }
 
             else if(radioChuaghi.isChecked() == true){
@@ -1287,9 +1369,9 @@ public class Backup_Activity extends AppCompatActivity  {
                         }
                     }
                 } else if (radioDaghihomnay.isChecked() == true) {
-                    if (Bien.bienbkdghn == Bien.bienghi) {
+                   // if (Bien.bienbkdghn == Bien.bienghi) {
                         //   taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-                    } else {
+                   // } else {
                         Log.e("back up", "Vao da ghi");
 
 
@@ -1306,7 +1388,7 @@ public class Backup_Activity extends AppCompatActivity  {
                             ktlast = writeFile(filenameLAST, TENFILEDAGHIHOMNAY_LAST, result_daghi_string);
                             spdata.luuDataFlagBKDaghiHomNayTrongSP(Bien.bienghi);
                         }
-                    }
+                  //  }
                 } else if (radioChuaghi.isChecked() == true) {
                     if (Bien.bienbkcg == Bien.bienghi) {
                         //    taoDialogThongBao(getString(R.string.backup_dialog_moinhat));

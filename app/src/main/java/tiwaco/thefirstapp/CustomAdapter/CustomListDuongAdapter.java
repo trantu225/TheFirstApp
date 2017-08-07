@@ -145,7 +145,7 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                     liskhdao = khachhangDAO.getAllKHDaGhiBatThuong(duong.getMaDuong());
                 }
                 else  if(Bien.bientrangthaighi ==5 ){
-                    liskhdao = khachhangDAO.getAllKHGhiChu(duong.getMaDuong());
+                    liskhdao = khachhangDAO.getAllKHKhongGhiDuoc(duong.getMaDuong());
                 }
                 else  if(Bien.bientrangthaighi ==6 ){
                     liskhdao = khachhangDAO.getAllKHChuyenLoai(duong.getMaDuong());

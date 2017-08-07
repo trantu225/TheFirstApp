@@ -39,6 +39,7 @@ public class KhachHangDTO {
     String dinhmuc;
     String hieutlk;
     String loaikh;
+    String loaikhmoi;
     String masotlk;
 
     public String getSTT() {
@@ -175,6 +176,14 @@ public class KhachHangDTO {
 
     public void setLoaikh(String loaikh) {
         this.loaikh = loaikh;
+    }
+
+    public String getLoaikhmoi() {
+        return loaikhmoi;
+    }
+
+    public void setLoaikhmoi(String loaikh) {
+        this.loaikhmoi = loaikh;
     }
 
     public String getLon() {

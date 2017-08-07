@@ -7,8 +7,8 @@ import java.util.List;
  */
 
 public class ListTiwareadDTO {
-    String MaDuong;
-    String TenDuong;
+    String Maduong;
+    String Tenduong;
     List<KhachHangDTO> TiwareadList;
 
     public List<KhachHangDTO> getTiwareadList() {
@@ -16,11 +16,11 @@ public class ListTiwareadDTO {
     }
 
     public String getMaDuong() {
-        return MaDuong;
+        return Maduong;
     }
 
     public String getTenDuong() {
-        return TenDuong;
+        return Tenduong;
     }
 
     public void setTiwareadList(List<KhachHangDTO> tiwareadList) {
@@ -28,10 +28,10 @@ public class ListTiwareadDTO {
     }
 
     public void setMaDuong(String maDuong) {
-        MaDuong = maDuong;
+        Maduong = maDuong;
     }
 
     public void setTenDuong(String tenDuong) {
-        TenDuong = tenDuong;
+        Tenduong = tenDuong;
     }
 }

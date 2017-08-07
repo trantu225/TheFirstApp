@@ -261,7 +261,15 @@ public class MainActivity extends AppCompatActivity  {
         lay_ghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                kiemTraDieuKienDeGhiNuoc();
+                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    kiemTraDieuKienDeGhiNuoc();
+
+                }else{
+                    showGPSDisabledAlertToUser();
+                }
+
 
             }
         });
@@ -1391,13 +1399,13 @@ public class MainActivity extends AppCompatActivity  {
         }else {
             m33.setText(khachhang.getSLTieuThu3().trim());
         }
-        if(khachhang.getLoaikh().toString().trim().equals(khachhangDAO.getLoaiKHCu(khachhang.getMaKhachHang().trim()))) {
+        if(khachhang.getLoaikh().toString().trim().equals(khachhangDAO.getLoaiKHMoi(khachhang.getMaKhachHang().trim()))) {
             LoaiKH.setText(khachhang.getLoaikh().trim());
             LoaiKH.setTextColor(R.color.default_active_item_color);
         }
         else{
             LoaiKH.setTextColor(R.color.badge_background_color);
-            LoaiKH.setText(khachhang.getLoaikh().trim() + "(Loại KH cũ: "+ khachhangDAO.getLoaiKHCu(khachhang.getMaKhachHang().trim())+" )");
+            LoaiKH.setText(khachhangDAO.getLoaiKHMoi(khachhang.getMaKhachHang().trim()) + "(Loại KH cũ: "+  khachhang.getLoaikh().trim()+" )");
         }
         DinhMuc.setText(khachhang.getDinhmuc().trim());
         ChiSoMoi.setText(khachhang.getChiSo().trim());
@@ -2158,7 +2166,7 @@ public boolean KiemTraDaGhi(String maKH){
         if(kh.getDienThoai().equalsIgnoreCase(DienThoai.getText().toString().trim())  &&
                 // kh.getTrangThaiTLK().equals(TinhTrangTLK.getText().toString().trim()) &&
 
-                kh.getTrangThaiTLK().trim().equalsIgnoreCase(tenTT.trim()) &&
+            //    kh.getTrangThaiTLK().trim().equalsIgnoreCase(tenTT.trim()) &&
                 kh.getChiSo().trim().equalsIgnoreCase(ChiSoMoi.getText().toString().trim()) &&
           //      kh.getSLTieuThu().trim().equalsIgnoreCase(m3moi.getText().toString().trim()) &&
                 kh.getChiSocon().trim().equalsIgnoreCase(ChiSoMoiCon.getText().toString().trim()) &&
@@ -2302,5 +2310,26 @@ public boolean KiemTraDaGhi(String maKH){
         }
     }
 
+    private void showGPSDisabledAlertToUser(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("GPS đã bị tắt.Hãy bật GPS để có thể ghi nước.")
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
 }
 

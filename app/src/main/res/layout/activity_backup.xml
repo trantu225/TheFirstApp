@@ -294,6 +294,8 @@
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:layout_height="wrap_content" />
     <circleprogress.DonutProgress
         android:id="@+id/prgTime"
@@ -304,6 +306,7 @@
         app:donut_finished_stroke_width="5dp"
         app:donut_progress="10"
         app:donut_suffix_text=""
+        android:layout_gravity="center"
         app:donut_text="10"
         app:donut_text_color="#12941F"
         app:donut_text_size="10sp"

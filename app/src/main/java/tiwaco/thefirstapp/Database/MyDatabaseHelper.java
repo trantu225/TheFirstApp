@@ -83,7 +83,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_MASOTLK= "masotlk";
     public static final String KEY_DANHSACHKH_BATTHUONG= "batthuong";
     public static final String KEY_DANHSACHKH_MADUONG= "maduong";
-    public static final String KEY_DANHSACHKH_LOAIKH_CU = "loaikhcu";
+    public static final String KEY_DANHSACHKH_LOAIKH_MOI = "loaikhmoi";
 
 
     // Duong Table Columns names
@@ -141,7 +141,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_NHANVIEN + " TEXT,"
                 + KEY_DANHSACHKH_BATTHUONG + " TEXT,"
                 + KEY_DANHSACHKH_MADUONG + " TEXT,"
-                + KEY_DANHSACHKH_LOAIKH_CU + " TEXT "+ ")";
+                + KEY_DANHSACHKH_LOAIKH_MOI + " TEXT "+ ")";
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
                 + KEY_LISHSU_MALS + " INTEGER PRIMARY KEY AUTOINCREMENT,"

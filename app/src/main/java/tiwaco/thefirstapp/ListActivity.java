@@ -291,7 +291,7 @@ public class ListActivity extends AppCompatActivity {
                     break;
                 case 5: //ghi chu
 
-                    liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon);
+                    liskhdao = khachhangDAO.getAllKHKhongGhiDuoc(Bien.ma_duong_dang_chon);
                     title =  String.valueOf(liskhdao.size()) +" KH";
                     txtTiltle.setText(title);
                     Bien.adapterKH.setData(liskhdao);
@@ -364,7 +364,7 @@ public class ListActivity extends AppCompatActivity {
         listTTGhi.add("Chưa ghi");
         listTTGhi.add("Đã ghi hôm nay");
         listTTGhi.add("Bất thường");
-        listTTGhi.add("Ghi chú");
+        listTTGhi.add("Không ghi được");
         listTTGhi.add("Chuyển loại");
         ArrayAdapter<String> adapter=new ArrayAdapter<String>
                 (
@@ -436,7 +436,7 @@ public class ListActivity extends AppCompatActivity {
                         break;
                     case 5: //ghi chu
 
-                        liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon);
+                        liskhdao = khachhangDAO.getAllKHKhongGhiDuoc(Bien.ma_duong_dang_chon);
                         title =  String.valueOf(liskhdao.size()) +" KH";
                         txtTiltle.setText(title);
                         Bien.adapterKH.setData(liskhdao);

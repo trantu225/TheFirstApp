@@ -311,7 +311,17 @@ public class ListActivity extends AppCompatActivity {
                     listviewKH.setSelection( Bien.bien_index_khachhang);
                     Bien.listKH = liskhdao;
                     break;
+                case 7: //ghi chu
 
+                    liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon);
+                    title =  String.valueOf(liskhdao.size()) +" KH";
+                    txtTiltle.setText(title);
+                    Bien.adapterKH.setData(liskhdao);
+                    Bien.adapterKH.notifyDataSetChanged();
+                    Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+                    listviewKH.setSelection( Bien.bien_index_khachhang);
+                    Bien.listKH = liskhdao;
+                    break;
             }
         }
 
@@ -366,6 +376,7 @@ public class ListActivity extends AppCompatActivity {
         listTTGhi.add("Bất thường");
         listTTGhi.add("Không ghi được");
         listTTGhi.add("Chuyển loại");
+        listTTGhi.add("Ghi chú");
         ArrayAdapter<String> adapter=new ArrayAdapter<String>
                 (
                         this,
@@ -448,6 +459,17 @@ public class ListActivity extends AppCompatActivity {
                     case 6:
 
                         liskhdao = khachhangDAO.getAllKHChuyenLoai(Bien.ma_duong_dang_chon);
+                        title =  String.valueOf(liskhdao.size()) +" KH";
+                        txtTiltle.setText(title);
+                        Bien.adapterKH.setData(liskhdao);
+                        Bien.adapterKH.notifyDataSetChanged();
+                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
+                        listviewKH.setSelection( Bien.bien_index_khachhang);
+                        Bien.listKH = liskhdao;
+                        break;
+                    case 7: //ghi chu
+
+                        liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon);
                         title =  String.valueOf(liskhdao.size()) +" KH";
                         txtTiltle.setText(title);
                         Bien.adapterKH.setData(liskhdao);

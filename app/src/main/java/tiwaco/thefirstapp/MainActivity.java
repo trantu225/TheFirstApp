@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity  {
     SPData spdata;
     String tenduong="";
     String soKHconlai ="",tongsoKHTheoDuong="", soKHHomNay ="";
-    static double  longitude,latitude;
+    //double  longitude,latitude;
     String vido ="" ;
     String kinhdo="";
     GPSTracker gps;
@@ -1664,8 +1664,8 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 // Check if GPS enabled
                 if (gps.canGetLocation()) {
 
-                     latitude = gps.getLatitude();
-                     longitude = gps.getLongitude();
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
                     vido = String.valueOf(latitude);
                     kinhdo = String.valueOf(longitude);
 
@@ -1711,8 +1711,8 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 String m3con = m3conmoi.getText().toString().trim();
                 String Dienthoai = DienThoai.getText().toString().trim();
                 String ghichu = GhiChu.getText().toString().trim();
-                 latitude = gps.getLatitude();
-                 longitude = gps.getLongitude();
+                double latitude = gps.getLatitude();
+                double longitude = gps.getLongitude();
                  vido = String.valueOf(latitude);
                  kinhdo = String.valueOf(longitude);
                 // \n is for new line

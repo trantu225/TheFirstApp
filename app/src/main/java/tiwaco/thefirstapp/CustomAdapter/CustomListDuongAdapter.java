@@ -150,6 +150,9 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
                 else  if(Bien.bientrangthaighi ==6 ){
                     liskhdao = khachhangDAO.getAllKHChuyenLoai(duong.getMaDuong());
                 }
+                else  if(Bien.bientrangthaighi == 7){
+                    liskhdao = khachhangDAO.getAllKHGhiChu(duong.getMaDuong());
+                }
                 Bien.listKH = liskhdao;
                 Bien.adapterKH = new CustomListAdapter(con,liskhdao,pos);
                 title += String.valueOf(liskhdao.size()) +" KH";

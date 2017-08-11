@@ -43,6 +43,8 @@ public class Bien {
     public static final String SPBKALL = "spbackupall";
     public static final String SPBKDG= "spbackupdaghi";
     public static final String SPBKDGHN= "spbackupdaghihomnay";
+
+    public static final String SPKYHD = "spkyhd";
     public static final String SPBKCG = "spbackupchuaghi";
     public static final String SPFLAGGHI = "spghi";
     public static final String SPSTTDANGGHI = "spstt";

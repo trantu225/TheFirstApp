@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
@@ -119,23 +120,55 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        if( (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==Bien.bienghi && Bien.bienbkdghn ==Bien.bienghi)
-                || Bien.bienbkall == -1
-                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdghn ==Bien.bienghi && Bien.bienbkdg ==-1 )
-                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi && Bien.bienbkdg ==Bien.bienghi && Bien.bienbkdghn ==-1 )
-                || (Bien.bienbkall == Bien.bienghi  && Bien.bienbkdg ==Bien.bienghi && Bien.bienbkdghn ==Bien.bienghi && Bien.bienbkcg == -1 ))
-        {
-            btnBackup.setEnabled(false);
-            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
-            //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+        //KIểm tra thời gian có cùng kì hd ko
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat format = new SimpleDateFormat("MMyyyy");
+        String formattedDate = format.format(date);
+        SPData sp = new SPData(StartActivity.this);
+        String kihd = sp.getDataKyHoaDonTrongSP();// "08/2017";
+        if(formattedDate.equals(kihd)) {
+
+            if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
+                    || Bien.bienbkall == -1
+                    || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkdg == -1)
+                    || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == -1)
+                    || (Bien.bienbkall == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkcg == -1)) {
+                btnBackup.setEnabled(false);
+                btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
+                //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+            } else {
+
+                btnBackup.setEnabled(true);
+                btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
+            }
+            //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
         }
         else{
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage("Thời gian của máy không trùng với kỳ hóa đơn. Hãy điều chỉnh lại.");
+            // thiết lập nội dung cho dialog
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), 0);
+                }
+            });
+            alertDialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    StartActivity.this.finish();
 
-            btnBackup.setEnabled(true);
-            btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
+                }
+            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
         }
-     //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
-
     }
     public static int getViewHeight(View view) {
         WindowManager wm =

@@ -156,4 +156,18 @@ public class SPData  {
         editor.commit();
         luuDataNhanVienTrongSP(nv);
     }
+
+    public void luuDataKyHoaDonTrongSP(String kyhd){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putString(Bien.SPKYHD, kyhd);
+        editor.commit();
+    }
+    public String getDataKyHoaDonTrongSP(){
+
+
+        String kyhd=pre.getString(Bien.SPKYHD, "");
+        return kyhd;
+    }
 }

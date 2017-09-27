@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity  {
 
             if(kt){
                 //Bien.nhanvien = edt_ten.getText().toString().trim();
-                spdata.luuDataKyHoaDonTrongSP("082017");
+                //spdata.luuDataKyHoaDonTrongSP("092017");
                 spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
                 LichSuDTO ls = new LichSuDTO();
                 ls.setNoiDungLS(edt_ten.getText().toString().trim() +" đăng nhập.");

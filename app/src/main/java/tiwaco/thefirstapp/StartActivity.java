@@ -120,12 +120,29 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
+                || Bien.bienbkall == -1
+                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkdg == -1)
+                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == -1)
+                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkcg == -1)) {
+            btnBackup.setEnabled(false);
+            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
+            //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+        } else {
+
+            btnBackup.setEnabled(true);
+            btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
+        }
+
+        /*
         //KIểm tra thời gian có cùng kì hd ko
         Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat format = new SimpleDateFormat("MMyyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
         String formattedDate = format.format(date);
         SPData sp = new SPData(StartActivity.this);
         String kihd = sp.getDataKyHoaDonTrongSP();// "08/2017";
+
         if(formattedDate.equals(kihd)) {
 
             if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
@@ -169,6 +186,7 @@ public class StartActivity extends AppCompatActivity  {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
+        */
     }
     public static int getViewHeight(View view) {
         WindowManager wm =

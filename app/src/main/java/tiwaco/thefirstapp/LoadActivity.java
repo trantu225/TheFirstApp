@@ -287,14 +287,15 @@ public class LoadActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             if (jsonobj.has("tenDS")){
 
 
                 try {
                     String tenDS = jsonobj.getString("tenDS");
-                    String kyhd = "082017"; //cắt chuỗi từ tên DS
+                   // String kyhd = "082017"; //cắt chuỗi từ tên DS
                     //Luu ky hd vao SP
-                    spdata.luuDataKyHoaDonTrongSP(kyhd);
+                   spdata.luuDataKyHoaDonTrongSP(tenDS);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

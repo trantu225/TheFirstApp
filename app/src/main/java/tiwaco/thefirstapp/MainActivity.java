@@ -58,6 +58,7 @@ import com.luseen.spacenavigation.SpaceNavigationView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -1740,121 +1741,164 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 if(spinTT.getSelectedItemPosition()!=0){
                     BT ="BT";
                 }
-                if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,m3,m3con,thoigian,trangthaiTLK,BT))
-                {
-                    Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
-                    //Cập nhật biến ghi
-                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                    Bien.bienghi = Bien.bienghi +1;
-                    spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
-                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                    flagDangGhi = false;
-                    LichSuDTO ls = new LichSuDTO();
-                    ls.setNoiDungLS("Ghi nước đường "+ tenduong +", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
-                    ls.setMaLenh("GN");
-                    String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                //Kiem tra khach hang da ghi chua
+                //if(KiemTraDaGhiChiSo(maKH)){
 
-                    ls.setThoiGianLS(thoigian1);
-                    lichsudao.addTable_History(ls);
-                    //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
-                    if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
+                //}
+                Date date = Calendar.getInstance().getTime();
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
+                String formattedDate = format.format(date);
+                SPData sp = new SPData(MainActivity.this);
+                String kihd = sp.getDataKyHoaDonTrongSP();// "08/2017";
+                Log.e("formattedDate",formattedDate);
+                Log.e("kihd",kihd);
+                if(formattedDate.equals(kihd)) {
 
-                        //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
+                    if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,m3,m3con,thoigian,trangthaiTLK,BT))
+                    {
+                        Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
+                        //Cập nhật biến ghi
+                        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                        Bien.bienghi = Bien.bienghi +1;
+                        spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
+                        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                        flagDangGhi = false;
+                        LichSuDTO ls = new LichSuDTO();
+                        ls.setNoiDungLS("Ghi nước đường "+ tenduong +", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
+                        ls.setMaLenh("GN");
+                        String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
 
-                        //xu ly ghi truoc hay ghi lui tai day
-                        String sothutu = "";
-                        if (bienkieughi == 1){ //lui{
-                            sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
-                        }
-                        else{//truoc
-                            sothutu = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
-                        }
-                        Log.e("Ghi nuoc, stt",sothutu);
-                        if(!sothutu.equals("0")) {
+                        ls.setThoiGianLS(thoigian1);
+                        lichsudao.addTable_History(ls);
+                        //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
+                        if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
 
-                            STT_HienTai = sothutu;
-                            KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi(STT_HienTai, maduong_nhan, MaKH.getText().toString().trim());
-                            if(khghike == null) {
-                                setDataForView(sothutu, maduong_nhan, "");
+                            //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
+
+                            //xu ly ghi truoc hay ghi lui tai day
+                            String sothutu = "";
+                            if (bienkieughi == 1){ //lui{
+                                sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
+                            }
+                            else{//truoc
+                                sothutu = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
+                            }
+                            Log.e("Ghi nuoc, stt",sothutu);
+                            if(!sothutu.equals("0")) {
+
+                                STT_HienTai = sothutu;
+                                KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi(STT_HienTai, maduong_nhan, MaKH.getText().toString().trim());
+                                if(khghike == null) {
+                                    setDataForView(sothutu, maduong_nhan, "");
+                                }
+                                else{
+                                    setDataForView(sothutu, maduong_nhan, khghike.getMaKhachHang());
+                                }
+                                spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
                             }
                             else{
-                                setDataForView(sothutu, maduong_nhan, khghike.getMaKhachHang());
-                            }
-                            spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
-                        }
-                        else{
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                            alertDialogBuilder.setMessage("Vẫn còn khách hàng bạn chưa ghi nước, bạn có muốn ghi nước khách hàng này không");
-                            alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    String sothutukhConLai = khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
-                                    if(!sothutukhConLai.equals("")) {
-                                        STT_HienTai = sothutukhConLai;
-                                        bienkieughi = 1;
-                                        MenuItem itemkieughi = menumain.findItem(R.id.action_kieughi);
-                                        itemkieughi.setIcon(android.R.drawable.ic_media_ff);
-                                        setDataForView(sothutukhConLai, maduong_nhan,"");
-                                        spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutukhConLai);
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                alertDialogBuilder.setMessage("Vẫn còn khách hàng bạn chưa ghi nước, bạn có muốn ghi nước khách hàng này không");
+                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        String sothutukhConLai = khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
+                                        if(!sothutukhConLai.equals("")) {
+                                            STT_HienTai = sothutukhConLai;
+                                            bienkieughi = 1;
+                                            MenuItem itemkieughi = menumain.findItem(R.id.action_kieughi);
+                                            itemkieughi.setIcon(android.R.drawable.ic_media_ff);
+                                            setDataForView(sothutukhConLai, maduong_nhan,"");
+                                            spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutukhConLai);
+                                        }
+
                                     }
+                                });
+                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        MainActivity.this.finish();
 
-                                }
-                            });
-                            alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    MainActivity.this.finish();
-
-                                }
-                            });
+                                    }
+                                });
 
 
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            // tạo dialog
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.show();
-                            // hiển thị dialog
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                // tạo dialog
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+                                // hiển thị dialog
+                            }
                         }
+                        //KH đã ghi nước xong => cập nhật đường va show dialog
+                        else {
+                            //cập nhật trạng thái đường đã ghi
+                            if(duongDAO.updateDuongDaGhi(maduong_nhan)) {
+                                //show dialog đã ghi xong..trở về listactivity
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                // khởi tạo dialog
+                                if(duongDAO.countDuongChuaGhi()>0) {
+                                    alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixong);
+                                    // thiết lập nội dung cho dialog
+                                }
+                                else{
+                                    alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixongtatca);
+                                }
+                                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        MainActivity.this.finish();
+                                    }
+                                });
+
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                // tạo dialog
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+                                // hiển thị dialog
+                            }
+                        }
+
+                        hideKeyboard(MainActivity.this);
+
                     }
-                    //KH đã ghi nước xong => cập nhật đường va show dialog
-                    else {
-                        //cập nhật trạng thái đường đã ghi
-                       if(duongDAO.updateDuongDaGhi(maduong_nhan)) {
-                           //show dialog đã ghi xong..trở về listactivity
-                           AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                           // khởi tạo dialog
-                           if(duongDAO.countDuongChuaGhi()>0) {
-                               alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixong);
-                               // thiết lập nội dung cho dialog
-                           }
-                           else{
-                               alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixongtatca);
-                           }
-                           alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                               @Override
-                               public void onClick(DialogInterface dialog, int which) {
-                                   dialog.dismiss();
-                                   MainActivity.this.finish();
-                               }
-                           });
-
-
-                           AlertDialog alertDialog = alertDialogBuilder.create();
-                           // tạo dialog
-                           alertDialog.setCanceledOnTouchOutside(false);
-                           alertDialog.show();
-                           // hiển thị dialog
-                       }
+                    else{
+                        Toast.makeText(con,"Ghi nước thất bại",Toast.LENGTH_SHORT).show();
                     }
-
-                    hideKeyboard(MainActivity.this);
-
+                    //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
                 }
                 else{
-                    Toast.makeText(con,"Ghi nước thất bại",Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    // khởi tạo dialog
+                    alertDialogBuilder.setMessage("Thời gian của máy không trùng với kỳ hóa đơn. Hãy điều chỉnh lại.");
+                    // thiết lập nội dung cho dialog
+                    alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), 0);
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            MainActivity.this.finish();
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
                 }
+
+
             } else {
                 // Can't get location.
                 // GPS or network is not enabled.
@@ -2183,6 +2227,17 @@ public boolean KiemTraDaGhi(String maKH){
 
 }
 
+    public boolean KiemTraDaGhiChiSo(String maKH) {
+        KhachHangDTO kh = khachhangDAO.getKHTheoMaKH(maKH);
+        if(kh.getChiSo().equals("") || kh.getSLTieuThu().equals("")){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+
     private void loadDataTinhTrangTLK(){
         List<TinhTrangTLKDTO> listtt = tinhtrangtlkdao.getAllTinhTrang();
         Log.e("list tinh trang", String.valueOf(listtt.size()));
@@ -2280,16 +2335,13 @@ public boolean KiemTraDaGhi(String maKH){
         return Math.round(ketqua);
     }
     public boolean kiemtraBatThuongLonHon(int x,int binhquan3thang){
-        if(binhquan3thang !=0) {
+
             if (x >= binhquan3thang * 2 && Math.abs(x - binhquan3thang) > 20) {
                 return true;
             } else {
                 return false;
             }
-        }
-        else{
-            return false;
-        }
+
 
     }
     public boolean KiemTraPhanTuCoTrongList(String makh,List<String> listmakh){

@@ -634,6 +634,7 @@ public class MainActivity extends AppCompatActivity  {
                     Bien.bienghi = Bien.bienghi +1;
                     spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
                     Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                    khachhangDAO.updateTrangThaiCapNhat(makh,"0");
                     Toast.makeText(con, R.string.main_capnhatsdt_thanhcong,Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -691,6 +692,7 @@ public class MainActivity extends AppCompatActivity  {
                             Bien.bienghi = Bien.bienghi +1;
                             spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
                             Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                            khachhangDAO.updateTrangThaiCapNhat(makh,"0");
                             Toast.makeText(con, R.string.main_capnhatloaikh_thanhcong,Toast.LENGTH_SHORT).show();
                         }
                         else{
@@ -737,6 +739,7 @@ public class MainActivity extends AppCompatActivity  {
                     Bien.bienghi = Bien.bienghi +1;
                     spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
                     Bien.bienghi = spdata.getDataFlagGhiTrongSP();
+                    khachhangDAO.updateTrangThaiCapNhat(makh,"0");
                     Toast.makeText(con, R.string.main_capnhatghichu_thanhcong,Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -1770,6 +1773,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                         ls.setThoiGianLS(thoigian1);
                         lichsudao.addTable_History(ls);
+                        khachhangDAO.updateTrangThaiCapNhat(maKH,"0");
                         //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
                         if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
 

@@ -35,18 +35,26 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.Cap;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,10 +67,16 @@ import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
+import tiwaco.thefirstapp.DTO.JSONListTiwaread;
+import tiwaco.thefirstapp.DTO.JSONRequestObject;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.DTO.ListJsonData;
+import tiwaco.thefirstapp.DTO.ListKHTheoDuong;
+import tiwaco.thefirstapp.DTO.ListRequestObject;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
+import tiwaco.thefirstapp.DTO.RequestObject;
+import tiwaco.thefirstapp.DTO.User;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.File.XuLyFile;
 
@@ -86,7 +100,7 @@ public class Backup_Activity extends AppCompatActivity  {
     DatePicker datepicker;
     TextView mstatus,txttitle;
     EditText tenfile,txtngay;
-    Button luu, trove,chonngay;
+    Button luu, trove,chonngay, CapNhatServer;
     DuongDAO duongdao;
     KhachHangDAO khachangdao;
     Context con;
@@ -115,7 +129,13 @@ public class Backup_Activity extends AppCompatActivity  {
         loadDataDuong();
         askPermissionAndReadFile();
         askPermissionAndWriteFile();
-
+        CapNhatServer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url =  getString(R.string.API_UpdateKhachHangDaGhi2);
+                new UpdateThongTinGhiNuoc().execute(url);
+            }
+        });
     }
 
     private void getView() {
@@ -125,6 +145,7 @@ public class Backup_Activity extends AppCompatActivity  {
         txtngay = (EditText) findViewById(R.id.txt_ngay);
         luu = (Button) findViewById(R.id.btn_Luu);
         trove = (Button) findViewById(R.id.btn_trove);
+        CapNhatServer =(Button) findViewById(R.id.btn_CapNhatServer);
         chonngay = (Button) findViewById(R.id.btn_chongay);
         radioTatca = (RadioButton) findViewById(R.id.radio_tatca);
         radioDaghi = (RadioButton) findViewById(R.id.radio_daghi);
@@ -791,6 +812,105 @@ public class Backup_Activity extends AppCompatActivity  {
         return json;
     }
 
+    private ListJsonData taoJSONData_KH_DaGhi_CapNhatServer(String tendanhsach) {
+        ListJsonData jsondata = new ListJsonData();
+        //Lấy danh sách tất cả các đường
+        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
+        List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
+        String soluongKH = String.valueOf(khachangdao.countKhachHangDaGhi());
+        listduong = duongdao.getAllDuong();
+        for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
+            String maduong = listduong.get(thutuduong).getMaDuong();
+            String tenduong = listduong.get(thutuduong).getTenDuong();
+            List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
+            listkh = khachangdao.getAllKHDaGhiTheoDuongChuaCapNhat(maduong);
+            ListTiwareadDTO tiwaread = new ListTiwareadDTO();
+            tiwaread.setMaDuong(maduong);
+            tiwaread.setTenDuong(tenduong);
+            tiwaread.setTiwareadList(listkh);
+            if(listkh.size() >0) {
+                listtiwaread.add(tiwaread);
+            }
+        }
+        String json="";
+        Log.e("list tiwaread", String.valueOf(listtiwaread.size()));
+        if(listtiwaread.size()>0) {
+            jsondata.setListTiwaread(listtiwaread);
+            jsondata.setTenDS(tendanhsach);
+            jsondata.setTongSLkh(soluongKH);
+            Log.e("tong sokh", String.valueOf(soluongKH));
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+            Log.e("json data", json);
+        }
+        else{
+            spdata.luuDataFlagBKDaghiTrongSP(-1);
+            Bien.bienbkdg = -1;
+            //Hiển thị dialog
+            /*
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage(R.string.backup_listrong_daghi);
+            // thiết lập nội dung cho dialog
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+            */
+            // hiển thị dialog
+        }
+        return jsondata;
+    }
+
+    private ListRequestObject taoJSONData_KH_DaGhi_CapNhatServer2(String tendanhsach) {
+        ListRequestObject jsondata = new ListRequestObject();
+        //Lấy danh sách tất cả các đường
+        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
+        List<ListKHTheoDuong> listtiwaread = new ArrayList<ListKHTheoDuong>();
+        String soluongKH = String.valueOf(khachangdao.countKhachHangDaGhi());
+        listduong = duongdao.getAllDuong();
+        for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
+            String maduong = listduong.get(thutuduong).getMaDuong();
+            String tenduong = listduong.get(thutuduong).getTenDuong();
+            List<RequestObject> listkh = new ArrayList<RequestObject>();
+            listkh = khachangdao.getAllKHDaGhiTheoDuongChuaCapNhat1(maduong);
+            ListKHTheoDuong tiwaread = new ListKHTheoDuong();
+            tiwaread.setMaDuong(maduong);
+            tiwaread.setTenDuong(tenduong);
+            tiwaread.setTiwareadList(listkh);
+            if(listkh.size() >0) {
+                listtiwaread.add(tiwaread);
+            }
+        }
+        String json="";
+        Log.e("list tiwaread", String.valueOf(listtiwaread.size()));
+        if(listtiwaread.size()>0) {
+            jsondata.setListTiwaread(listtiwaread);
+            jsondata.setTenDS(tendanhsach);
+            jsondata.setTongSLkh(soluongKH);
+            Log.e("tong sokh", String.valueOf(soluongKH));
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+            Log.e("json data", json);
+        }
+        else{
+            spdata.luuDataFlagBKDaghiTrongSP(-1);
+            Bien.bienbkdg = -1;
+
+        }
+        return jsondata;
+    }
 
     private String taoJSONData_KH_DaGhiHomNay(String tendanhsach) {
         ListJsonData jsondata = new ListJsonData();
@@ -824,8 +944,10 @@ public class Backup_Activity extends AppCompatActivity  {
             jsondata.setTenDS(tendanhsach);
             jsondata.setTongSLkh(soluongKH);
 
+            JSONListTiwaread jsonupload = new JSONListTiwaread();
+            jsonupload.setJsontiwaread(jsondata);
             Gson gson = new Gson();
-            json = gson.toJson(jsondata);
+            json = gson.toJson(jsonupload);
         }
         else{
             spdata.luuDataFlagBKDaghiHomNayTrongSP(-1);
@@ -1551,6 +1673,121 @@ public class Backup_Activity extends AppCompatActivity  {
 
 
     }
+
+    public class UpdateThongTinGhiNuoc extends AsyncTask<String, Void, String>
+    {
+        String status ="";
+        String kyhd = spdata.getDataKyHoaDonTrongSP();// "201710";
+      //  Log.e("tendanhsach kyhd",kyhd);
+        String json = "";//taoJSONData_KH_DaGhi_CapNhatServer(kyhdsau);
+        String result ="";
+        //ListJsonData jsondata = new ListJsonData();
+       ListRequestObject jsondata = new ListRequestObject();
+        @Override
+        protected String doInBackground(String... connUrl) {
+            HttpURLConnection conn=null;
+            BufferedReader reader;
+
+            try{
+                final URL url=new URL(connUrl[0]);
+                conn=(HttpURLConnection) url.openConnection();
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setChunkedStreamingMode(0);
+                conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+                conn.setRequestMethod("PUT");
+
+               // jsondata = taoJSONData_KH_DaGhi_CapNhatServer(kyhd);
+                jsondata = taoJSONData_KH_DaGhi_CapNhatServer2(kyhd);
+
+               // JSONListTiwaread requestjson  = new JSONListTiwaread();
+              //  requestjson.setJsontiwaread(jsondata);
+
+
+                JSONRequestObject requestjson  = new JSONRequestObject();
+                requestjson.setJsontiwaread(jsondata);
+
+                Gson gson = new Gson();
+                json = gson.toJson(requestjson);
+                Log.e("json gui",json);
+              //  json = taoJSONData_KH_DaGhi_CapNhatServer(kyhdsau);
+                OutputStream out = new BufferedOutputStream(conn.getOutputStream());
+                out.write(json.getBytes());
+                out.flush();
+                out.close();
+
+                int result = conn.getResponseCode();
+                if(result==200){
+
+                    InputStream in=new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb=new StringBuilder();
+                    String line = null;
+
+                    while((line=reader.readLine())!=null){
+                        status=line;
+                    }
+                }
+
+            }catch(Exception ex){
+                ex.printStackTrace();
+                Log.e("loi ne ",ex.toString());
+                result="0";
+            }
+            try {
+                JSONObject objstt = new JSONObject(status);
+                if (objstt.has("CapNhatChiSoTLKResult")){
+
+                    result = String.valueOf(objstt.getInt("CapNhatChiSoTLKResult"));
+
+
+
+                }
+
+                if (objstt.has("CapNhatChiSoDongHoNuocResult")){
+
+                    result = String.valueOf(objstt.getInt("CapNhatChiSoDongHoNuocResult"));
+
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                result="0";
+            }
+            return result;
+        }
+
+
+        protected void onPostExecute(String result){
+            super.onPostExecute(result);
+            Log.e("result update", result);
+            int capnhattrangthai = 0;
+            if(result.equals("1")){
+                Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thành công",Toast.LENGTH_LONG).show();
+
+                for(ListKHTheoDuong lista : jsondata.getListTiwaread()) {
+                    for(RequestObject kh : lista.getTiwareadList())
+                    {
+                        if(khachangdao.updateTrangThaiCapNhat(kh.getMaKhachHang().toString().trim(),"1")){
+                            capnhattrangthai++;
+                        }
+                    }
+                }
+                if(capnhattrangthai == Integer.parseInt(jsondata.getTongSLkh())){
+                    Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thành công",Toast.LENGTH_LONG).show();
+                     }
+
+
+
+
+
+            }else{
+                Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thất bại",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
 
 }

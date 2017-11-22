@@ -8,17 +8,13 @@ import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.os.EnvironmentCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,17 +22,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import circleprogress.DonutProgress;
 import tiwaco.thefirstapp.DAO.DuongDAO;
@@ -48,12 +44,11 @@ import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 
-public class LoadActivity extends AppCompatActivity {
+public class LoadFromServerActivity extends AppCompatActivity {
     private String filename = "";
     DonutProgress prgTime;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
-    String duongdanfile ="";
     DuongDAO duongDAO ;
     Context con;
     KhachHangDAO khachhangDAO;
@@ -64,166 +59,19 @@ public class LoadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loaddata);
         getSupportActionBar().hide();
-        con = LoadActivity.this;
-        duongDAO = new DuongDAO(LoadActivity.this);
-        khachhangDAO = new KhachHangDAO(LoadActivity.this);
+        con = LoadFromServerActivity.this;
+        duongDAO = new DuongDAO(LoadFromServerActivity.this);
+        khachhangDAO = new KhachHangDAO(LoadFromServerActivity.this);
         tinhtrangtlkdao = new TinhTrangTLKDAO(con);
         spdata = new SPData(con);
-        File extStore = Environment.getExternalStorageDirectory();
-        filename = getString(R.string.data_file_name);
-        duongdanfile = extStore.getAbsolutePath() + "/" + filename;
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
         prgTime.setProgress(0);
         prgTime.setText("0 %");
 
-        if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(LoadActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
-        }
-        else{
-            askPermissionAndReadFile();
-        }
 
     }
 
-    private String readFile(String path) {
 
-        String s = "";
-        String fileContent = "";
-        try {
-            File myFile = new File(path);
-            if(myFile.exists()){
-                Log.e("file ton tai","true");
-            }
-            else{
-                Log.e("file ton tai","false");
-            }
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-
-            while ((s = myReader.readLine()) != null) {
-                fileContent += s + "\n";
-            }
-            //          this.viewjson.setText(fileContent);
-            myReader.close();
-            // Log.e("file json",fileContent);
-           // String finalFileContent = fileContent;
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-
-        return fileContent;
-    }
-
-    public  String getSdCardPath() {
-
-        String[] deviceID = getExternalStorageDirectories();
-        if(deviceID == null) {
-            return "";
-        }
-        else {
-            return deviceID[0];
-        }
-
-    }
-
-    public String[] getExternalStorageDirectories() {
-
-        List<String> results = new ArrayList<>();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { //Method 1 for KitKat & above
-            File[] externalDirs = getExternalFilesDirs(null);
-
-            for (File file : externalDirs) {
-                String path = file.getPath().split("/Android")[0];
-
-                boolean addPath = false;
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    addPath = Environment.isExternalStorageRemovable(file);
-                }
-                else{
-                    addPath = Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(file));
-                }
-
-                if(addPath){
-                    results.add(path);
-                }
-            }
-        }
-
-        if(results.isEmpty()) { //Method 2 for all versions
-            // better variation of: http://stackoverflow.com/a/40123073/5002496
-            String output = "";
-            try {
-                final Process process = new ProcessBuilder().command("mount | grep /dev/block/vold")
-                        .redirectErrorStream(true).start();
-                process.waitFor();
-                final InputStream is = process.getInputStream();
-                final byte[] buffer = new byte[1024];
-                while (is.read(buffer) != -1) {
-                    output = output + new String(buffer);
-                }
-                is.close();
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
-            if(!output.trim().isEmpty()) {
-                String devicePoints[] = output.split("\n");
-                for(String voldPoint: devicePoints) {
-                    results.add(voldPoint.split(" ")[2]);
-                }
-            }
-        }
-
-        //Below few lines is to remove paths which may not be external memory card, like OTG (feel free to comment them out)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (int i = 0; i < results.size(); i++) {
-                if (!results.get(i).toLowerCase().matches(".*[0-9a-f]{4}[-][0-9a-f]{4}")) {
-                    Log.d("sdcard", results.get(i) + " might not be extSDcard");
-                    results.remove(i--);
-                }
-            }
-        } else {
-            for (int i = 0; i < results.size(); i++) {
-                if (!results.get(i).toLowerCase().contains("ext") && !results.get(i).toLowerCase().contains("sdcard")) {
-                    Log.d("sdcard", results.get(i)+" might not be extSDcard");
-                    results.remove(i--);
-                }
-            }
-        }
-
-        String[] storageDirectories = new String[results.size()];
-        for(int i=0; i<results.size(); ++i) storageDirectories[i] = results.get(i);
-
-        return storageDirectories;
-    }
-    private boolean checkExternalMedia() {
-        boolean mExternalStorageAvailable = false;
-        boolean mExternalStorageWriteable = false;
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            // Can read and write the media
-            mExternalStorageAvailable = mExternalStorageWriteable = true;
-        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            // Can only read the media
-            mExternalStorageAvailable = true;
-            mExternalStorageWriteable = false;
-        } else {
-            // Can't read or write
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
-        }
-        if(mExternalStorageAvailable==true  && mExternalStorageWriteable == true ){
-            return true;
-        }
-        else
-            return false;
-
-    }
     public class MyJsonTaskDatabasefromFile extends AsyncTask<String, String , Boolean > {
         @Override
         protected void onPreExecute() {
@@ -233,49 +81,38 @@ public class LoadActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            //Lấy URL truyền vào
+
+            HttpURLConnection conn=null;
+            BufferedReader reader;
             Boolean FlagupdateDB = true;
             //Duong dan file
             String duongdan = params[0];
             String fileContent ="";
-            fileContent = readFile(duongdan);
+            int sokhdacapnhat = 0;
+            int sokhco =0;
 
 
-/*
-            FileInputStream inputStream = null;
-            Scanner sc = null;
-            try {
-                inputStream = new FileInputStream(duongdan);
-                sc = new Scanner(inputStream, "UTF-8");
-                while (sc.hasNextLine()) {
-                    String line = sc.nextLine();
-                    fileContent += line + "\n";
-                    // System.out.println(line);
-                }
-                // note that Scanner suppresses exceptions
-                if (sc.ioException() != null) {
-                    throw sc.ioException();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            try{
+                final URL url=new URL(params[0]);
+                conn=(HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+                if(result==200){
+
+                    InputStream in=new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb=new StringBuilder();
+                    String line = null;
+
+                    while((line=reader.readLine())!=null){
+                        fileContent=line;
                     }
                 }
-                if (sc != null) {
-                    sc.close();
-                }
+            }catch(Exception ex){
+                ex.printStackTrace();
             }
-
-            //String jsontext = readFile(params[0]);
-*/
-            //THêm database loại tinh trang tlk
+          //THêm database loại tinh trang tlk
             List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
             for(int tt = 0 ; tt<listt.size();tt++){
                 tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
@@ -298,6 +135,21 @@ public class LoadActivity extends AppCompatActivity {
                    spdata.luuDataKyHoaDonTrongSP(tenDS);
                     Log.e("kyhddaluu",tenDS);
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+            if (jsonobj.has("tongSLkh")){
+
+
+                try {
+                    String tong = jsonobj.getString("tongSLkh");
+                    // String kyhd = "082017"; //cắt chuỗi từ tên DS
+                    //Luu ky hd vao SP
+                    sokhco = Integer.parseInt(tong);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -553,6 +405,7 @@ public class LoadActivity extends AppCompatActivity {
                                 boolean kt = khachhangDAO.addTable_KH(kh,maduong);
 
                                 if (kt) {
+                                    sokhdacapnhat ++;
                                     Log.e("Them database_KH: "+MaKhachHang+" " + TenKhachHang, "Thanh cong");
                                 } else {
                                     Log.e("Them database_KH: "+MaKhachHang+" " + TenKhachHang, "ko Thanh cong");
@@ -560,7 +413,7 @@ public class LoadActivity extends AppCompatActivity {
                                 }
 
 
-                                FlagupdateDB = kt;
+                               // FlagupdateDB = kt;
 
                                 long status = (j+1) *100/listKH.length();
                            //     String.valueOf(status)
@@ -570,8 +423,16 @@ public class LoadActivity extends AppCompatActivity {
 
                         }
                     }
+
+                    if(sokhco == sokhdacapnhat){
+                        FlagupdateDB =true;
+                    }
+                    else{
+                        FlagupdateDB = false;
+                    }
                     //     loadDataDuongfromDB();
                 } catch (JSONException e) {
+                    FlagupdateDB = false;
                     e.printStackTrace();
                 }
             }
@@ -596,12 +457,12 @@ public class LoadActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
             if(result){
-                Intent myIntent=new Intent(LoadActivity.this, StartActivity.class);
+                Intent myIntent=new Intent(LoadFromServerActivity.this, StartActivity.class);
                 startActivity(myIntent);
-                LoadActivity.this.finish();
+                LoadFromServerActivity.this.finish();
             }
             else{
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.error_load);
                 // thiết lập nội dung cho dialog
@@ -640,10 +501,62 @@ public class LoadActivity extends AppCompatActivity {
         }
         return true;
     }
+    public boolean kiemtramang(){
+        return true;
+    }
+
+    public class GetUserList extends AsyncTask<String, Void, String> {
+        String status= null;
+        protected void onPreExecute(){
+        }
+        protected String doInBackground(String... connUrl){
+            HttpURLConnection conn=null;
+            BufferedReader reader;
+
+            try{
+                final URL url=new URL(connUrl[0]);
+                conn=(HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+                if(result==200){
+
+                    InputStream in=new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb=new StringBuilder();
+                    String line = null;
+
+                    while((line=reader.readLine())!=null){
+                        status=line;
+                    }
+                }
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+            return status;
+        }
+        protected void onPostExecute(String result){
+            super.onPostExecute(result);
+
+            if(result!=null){
+                try{
+
+                    Log.e("result",result);
+
+
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }else{
+                Toast.makeText(LoadFromServerActivity.this,"Could not get any data.",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     private void loadData(){
 //        getSdCardPath();
-        File file = new File(duongdanfile);
-        if(file.exists()) {
+
+        if(kiemtramang()) {
             if(KiemTraTonTaiDuLieu()) {
 
                 //xóa sqlite
@@ -653,8 +566,8 @@ public class LoadActivity extends AppCompatActivity {
 
 
                 //Thêm data vào sqlite
-                MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
-                task.execute(duongdanfile);
+              //  MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
+               // task.execute(duongdanfile);
 
                 Bien.selected_item =0;
                 Bien.bien_index_duong = 0;
@@ -669,60 +582,11 @@ public class LoadActivity extends AppCompatActivity {
                 spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg,Bien.bienbkdghn);
 
 
-                /*
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
-                // khởi tạo dialog
-                alertDialogBuilder.setMessage(R.string.delete_file_load_file);
-                // thiết lập nội dung cho dialog
 
-
-                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Luu lai file chua sqlite cũ
-
-
-                        //xóa sqlite
-                        MyDatabaseHelper mydata = new MyDatabaseHelper(con);
-                        SQLiteDatabase db = mydata.openDB();
-                        mydata.resetDatabase(db);
-
-
-                        //Thêm data vào sqlite
-                        MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
-                        task.execute(duongdanfile);
-
-                        Bien.selected_item =0;
-                        Bien.bien_index_duong = 0;
-                        Bien.bien_index_khachhang = 0;
-                        Bien.pre_item = 0;
-                        Bien.bienghi = 1;
-                        Bien.bienbkall = 0;
-                        Bien.bienbkcg = 0;
-                        Bien.bienbkdg = 0;
-                        spdata.KhoiTaoLaiSPDATA();
-                        spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg);
-
-
-
-                    }
-                });
-
-                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                        // button "no" ẩn dialog đi
-                    }
-                });
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                // tạo dialog
-                alertDialog.show();*/
             }
             else{
-                MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
-                task.execute(duongdanfile);
+             //   MyJsonTaskDatabasefromFile task = new MyJsonTaskDatabasefromFile();
+            //    task.execute(duongdanfile);
                 spdata = new SPData(con);
 
                 Bien.selected_item =0;
@@ -741,7 +605,7 @@ public class LoadActivity extends AppCompatActivity {
             }
         }
         else{
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
             // khởi tạo dialog
             alertDialogBuilder.setMessage(R.string.error_load_file);
             // thiết lập nội dung cho dialog
@@ -760,140 +624,11 @@ public class LoadActivity extends AppCompatActivity {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
-    }
-    private void askPermissionLocation() {
-        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
 
-        if (canRead) {
-
-            // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-            //  task.execute(duongdanfile);
-            //   readFileandSaveDatabase();
-            loadData();
-
-        }
-
-        if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(LoadActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
-        }
     }
 
 
-    private void askPermissionAndReadFile() {
-        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
 
-        if (canRead) {
-
-            // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
-            //  task.execute(duongdanfile);
-         //   readFileandSaveDatabase();
-            loadData();
-
-        }
-    }
-    private void askPermissionAndWriteFile(String path, String data) {
-        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        //
-        if (canWrite) {
-        //Backup file json
-        //    this.writeFile(path,data);
-        }
-    }
-
-    private boolean askPermission(int requestId, String permissionName) {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-
-            // Kiểm tra quyền
-            int permission = ActivityCompat.checkSelfPermission(this, permissionName);
-
-
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-
-                // Nếu không có quyền, cần nhắc người dùng cho phép.
-                this.requestPermissions(
-                        new String[]{permissionName},
-                        requestId
-                );
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Khi yêu cầu hỏi người dùng được trả về (Chấp nhận hoặc không chấp nhận).
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
-
-        // Chú ý: Nếu yêu cầu bị hủy, mảng kết quả trả về là rỗng.
-        if (grantResults.length > 0) {
-            switch (requestCode) {
-                case REQUEST_ID_READ_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    loadData();
-
-                    }
-                }
-                case REQUEST_ID_WRITE_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        // writeFile(duongdanfile,dataGhi);
-                        //backup file json
-                    }
-                }
-                case 1: {
-                    // If request is cancelled, the result arrays are empty.
-                    if (grantResults.length > 0
-                            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                        // permission was granted, yay! Do the
-
-                        // contacts-related task you need to do.
-
-                        GPSTracker gps = new GPSTracker(con, LoadActivity.this);
-
-                        // Check if GPS enabled
-                        if (gps.canGetLocation()) {
-
-                            double latitude = gps.getLatitude();
-                            double longitude = gps.getLongitude();
-                            String vido = String.valueOf(latitude);
-                            String kinhdo = String.valueOf(longitude);
-
-                            Log.e("Toa do", vido +"-"+kinhdo );
-                            // \n is for new line
-                        //    Toast.makeText(getApplicationContext(), "REQUEST: Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                            askPermissionAndReadFile();
-                        } else {
-                            // Can't get location.
-                            // GPS or network is not enabled.
-                            // Ask user to enable GPS/network in settings.
-                            gps.showSettingsAlert();
-                        }
-
-                    } else {
-
-                        // permission denied, boo! Disable the
-                        // functionality that depends on this permission.
-
-                        Toast.makeText(con, "REQUEST: You need to grant permission....", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 

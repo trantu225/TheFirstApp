@@ -236,7 +236,12 @@ public class MainActivity extends AppCompatActivity  {
             if(makh_nhan == null){
                 makh_nhan ="";
             }
-            STT_HienTai =stt_nhan;
+            if(maduong_nhan.equals("99")){
+                STT_HienTai = "0";
+            }
+            else {
+                STT_HienTai = stt_nhan;
+            }
             spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan,STT_HienTai);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
             setDataForView(STT_HienTai,maduong_nhan,makh_nhan);
@@ -1348,17 +1353,21 @@ public class MainActivity extends AppCompatActivity  {
 
     private void setDataForView(String tt, String maduong,String Makhach) {
         //Lấy khách hàng có stt hiện tại...mặc đình là 1
+        Log.e("thu tu , ma duong, ma khach",tt +","+ maduong+ ","+ Makhach);
         tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
-       soKHconlai = String.valueOf(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong)) ;
+        soKHconlai = String.valueOf(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong)) ;
         String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         soKHHomNay  = String.valueOf(khachhangDAO.countKhachHangGhiTrongNgay(maduong,thoigian1));
         ConLai.setText("Hôm nay: "+ soKHHomNay+"   " +getString(R.string.string_con)+" "+soKHconlai+"/"+ tongsoKHTheoDuong);
         ConLai.setSelected(true);
         if(Makhach==null || Makhach.equals("")) {
-            khachhang = khachhangDAO.getKHTheoSTT_Duong(tt, maduong);
+            khachhang = khachhangDAO.getKHTheoSTT_Duong(tt.trim(), maduong.trim());
         }
         else{
-            khachhang = khachhangDAO.getKHTheoSTT_Duong_maKH(tt, maduong,Makhach);
+            khachhang = khachhangDAO.getKHTheoSTT_Duong_maKH(tt.trim(), maduong.trim(),Makhach.trim());
+        }
+        if(khachhang == null) {
+            Log.e("khach hang null","OK");
         }
         STT.setText(khachhang.getSTT().trim());
         MaKH.setText(khachhang.getMaKhachHang().trim());

@@ -881,8 +881,8 @@ public class Backup_Activity extends AppCompatActivity  {
         String soluongKH = String.valueOf(khachangdao.countKhachHangDaGhi());
         listduong = duongdao.getAllDuong();
         for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
-            String maduong = listduong.get(thutuduong).getMaDuong();
-            String tenduong = listduong.get(thutuduong).getTenDuong();
+            String maduong = listduong.get(thutuduong).getMaDuong().trim();
+            String tenduong = listduong.get(thutuduong).getTenDuong().trim();
             List<RequestObject> listkh = new ArrayList<RequestObject>();
             listkh = khachangdao.getAllKHDaGhiTheoDuongChuaCapNhat1(maduong);
             ListKHTheoDuong tiwaread = new ListKHTheoDuong();

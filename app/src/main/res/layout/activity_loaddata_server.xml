@@ -23,14 +23,18 @@
                 android:textSize="@dimen/sp14"
                 android:layout_margin="@dimen/dp3"
                 android:textStyle="bold"/>
-            <EditText
-                android:id="@+id/edt_kyhd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp3"
-                android:background="@android:drawable/edit_text"
-                android:textSize="@dimen/sp14"
-                android:layout_margin="@dimen/dp3"/>
+
+        <EditText
+            android:id="@+id/edt_kyhd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp3"
+            android:background="@android:drawable/edit_text"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:inputType="numberDecimal"
+            android:padding="@dimen/dp3"
+            android:textSize="@dimen/sp14" />
 
         <TextView
             android:layout_width="match_parent"

@@ -86,6 +86,8 @@ public class ListActivity extends AppCompatActivity {
         khachhangDAO = new KhachHangDAO(con);
         listduong = duongDAO.getAllDuong();
 
+        Log.e("soluongkh", String.valueOf(khachhangDAO.countKhachHangAll()));
+
 
         adapter = new CustomListDuongAdapter(con,listduong,listviewKH,txtduongchon,recyclerView,txtTiltle);
 
@@ -99,17 +101,22 @@ public class ListActivity extends AppCompatActivity {
 
 
         String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP();
+
         if(!SPduongdangghi.equals("")){
-            Bien.ma_duong_dang_chon = SPduongdangghi;
+            Bien.ma_duong_dang_chon = SPduongdangghi.trim();
         }else {
-            Bien.ma_duong_dang_chon = listduong.get(spdata.getDataIndexDuongDangGhiTrongSP()).getMaDuong();
+            Bien.ma_duong_dang_chon = listduong.get(spdata.getDataIndexDuongDangGhiTrongSP()).getMaDuong().trim();
         }
 
 
-        liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon);
+
+        liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon.trim());
 
         title =  String.valueOf(liskhdao.size()) +" khách hàng";
         txtTiltle.setText(title);
+
+
+
         Bien.adapterKH = new CustomListAdapter(con, liskhdao, spdata.getDataIndexDuongDangGhiTrongSP());
         listviewKH.setAdapter(Bien.adapterKH);
         Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon)) -1;
@@ -324,6 +331,7 @@ public class ListActivity extends AppCompatActivity {
                     break;
             }
         }
+
 
         super.onResume();
     }

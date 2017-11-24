@@ -330,7 +330,8 @@ public class StartActivity extends AppCompatActivity  {
                                 //Luu lai file chua sqlite cũ
 
 
-                                Intent myIntent = new Intent(StartActivity.this, LoadActivity.class);
+                                //Intent myIntent = new Intent(StartActivity.this, LoadActivity.class);
+                                Intent myIntent = new Intent(StartActivity.this, LoadFromServerActivity.class);
                                 startActivity(myIntent);
 
                             }

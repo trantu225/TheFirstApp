@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity  {
         nhanviendao = new NhanVienDAO();
         lichsudao = new LichSuDAO(con);
         Bien.listNV = nhanviendao.TaoDSNhanVien();
-
+        btn_test.setVisibility(View.GONE);
         btn_dangnhap.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity  {
                 }
                 else {
                     Intent myIntent = new Intent(this, LoadActivity.class);
+                    //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
                     startActivity(myIntent);
                 }
                 this.finish();

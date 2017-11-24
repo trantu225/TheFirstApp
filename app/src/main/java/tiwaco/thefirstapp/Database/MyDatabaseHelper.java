@@ -106,44 +106,45 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DUONG_TRANGTHAI + " INTEGER" + ")";
 
         String CREATE_KHACHHANG_TABLE = "CREATE TABLE  " + TABLE_DANHSACHKH + "("
-                + KEY_DANHSACHKH_MAKH + " TEXT PRIMARY KEY,"
-                + KEY_DANHSACHKH_TENKH + " TEXT,"
-                + KEY_DANHSACHKH_DANHBO + " TEXT,"
-                + KEY_DANHSACHKH_DIACHI + " TEXT,"
-                + KEY_DANHSACHKH_DIENTHOAI + " TEXT,"
-                + KEY_DANHSACHKH_STT + " INTEGER,"
-                + KEY_DANHSACHKH_TRANGTHAITLK + " TEXT,"
-                + KEY_DANHSACHKH_CHITIETLOAI + " TEXT,"
-                + KEY_DANHSACHKH_COTLK + " TEXT,"
-                + KEY_DANHSACHKH_DINHMUC + " TEXT,"
-                + KEY_DANHSACHKH_HIEUTLK + " TEXT,"
-                + KEY_DANHSACHKH_LOAIKH + " TEXT,"
-                + KEY_DANHSACHKH_MASOTLK + " TEXT,"
-                + KEY_DANHSACHKH_GHICHU + " TEXT,"
-                + KEY_DANHSACHKH_CHISO + " TEXT,"
-                + KEY_DANHSACHKH_CHISOCON + " TEXT,"
-                + KEY_DANHSACHKH_CHISO1 + " TEXT,"
-                + KEY_DANHSACHKH_CHISO1CON + " TEXT,"
-                + KEY_DANHSACHKH_CHISO2 + " TEXT,"
-                + KEY_DANHSACHKH_CHISO2CON + " TEXT,"
-                + KEY_DANHSACHKH_CHISO3 + " TEXT,"
-                + KEY_DANHSACHKH_CHISO3CON + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHU + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHU1 + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHU1CON + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHU2 + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHU2CON + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHU3 + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHU3CON + " TEXT,"
-                + KEY_DANHSACHKH_SLTIEUTHUCON + " TEXT,"
-                + KEY_DANHSACHKH_VIDO + " TEXT,"
-                + KEY_DANHSACHKH_KINHDO + " TEXT,"
-                + KEY_DANHSACHKH_THOIGIAN + " TEXT,"
-                + KEY_DANHSACHKH_NHANVIEN + " TEXT,"
-                + KEY_DANHSACHKH_BATTHUONG + " TEXT,"
-                + KEY_DANHSACHKH_MADUONG + " TEXT,"
-                + KEY_DANHSACHKH_CAPNHAT + " TEXT,"
-                + KEY_DANHSACHKH_LOAIKH_MOI + " TEXT "+ ")";
+                + KEY_DANHSACHKH_MAKH + " TEXT PRIMARY KEY," //0
+                + KEY_DANHSACHKH_TENKH + " TEXT,"            //1
+                + KEY_DANHSACHKH_DANHBO + " TEXT,"           //2
+                + KEY_DANHSACHKH_DIACHI + " TEXT,"           //3
+                + KEY_DANHSACHKH_DIENTHOAI + " TEXT,"        //4
+                + KEY_DANHSACHKH_STT + " INTEGER,"           //5
+                + KEY_DANHSACHKH_TRANGTHAITLK + " TEXT,"     //6
+                + KEY_DANHSACHKH_CHITIETLOAI + " TEXT,"      //7
+                + KEY_DANHSACHKH_COTLK + " TEXT,"            //8
+                + KEY_DANHSACHKH_DINHMUC + " TEXT,"          //9
+                + KEY_DANHSACHKH_HIEUTLK + " TEXT,"          //10
+                + KEY_DANHSACHKH_LOAIKH + " TEXT,"           //11
+                + KEY_DANHSACHKH_MASOTLK + " TEXT,"          //12
+                + KEY_DANHSACHKH_GHICHU + " TEXT,"           //13
+                + KEY_DANHSACHKH_CHISO + " TEXT,"            //14
+                + KEY_DANHSACHKH_CHISOCON + " TEXT,"         //15
+                + KEY_DANHSACHKH_CHISO1 + " TEXT,"           //16
+                + KEY_DANHSACHKH_CHISO1CON + " TEXT,"        //17
+                + KEY_DANHSACHKH_CHISO2 + " TEXT,"           //18
+                + KEY_DANHSACHKH_CHISO2CON + " TEXT,"        //19
+                + KEY_DANHSACHKH_CHISO3 + " TEXT,"           //20
+                + KEY_DANHSACHKH_CHISO3CON + " TEXT,"        //21
+                + KEY_DANHSACHKH_SLTIEUTHU + " TEXT,"        //22
+                + KEY_DANHSACHKH_SLTIEUTHU1 + " TEXT,"       //23
+                + KEY_DANHSACHKH_SLTIEUTHU1CON + " TEXT,"    //24
+                + KEY_DANHSACHKH_SLTIEUTHU2 + " TEXT,"       //25
+                + KEY_DANHSACHKH_SLTIEUTHU2CON + " TEXT,"    //26
+                + KEY_DANHSACHKH_SLTIEUTHU3 + " TEXT,"       //27
+                + KEY_DANHSACHKH_SLTIEUTHU3CON + " TEXT,"    //28
+                + KEY_DANHSACHKH_SLTIEUTHUCON + " TEXT,"     //29
+                + KEY_DANHSACHKH_VIDO + " TEXT,"             //30
+                + KEY_DANHSACHKH_KINHDO + " TEXT,"           //31
+                + KEY_DANHSACHKH_THOIGIAN + " TEXT,"         //32
+                + KEY_DANHSACHKH_NHANVIEN + " TEXT,"         //33
+                + KEY_DANHSACHKH_BATTHUONG + " TEXT,"        //34
+                + KEY_DANHSACHKH_MADUONG + " TEXT,"          //35
+                + KEY_DANHSACHKH_LOAIKH_MOI + " TEXT, "      //36
+                + KEY_DANHSACHKH_CAPNHAT + " TEXT "  + ")";  //37
+
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
                 + KEY_LISHSU_MALS + " INTEGER PRIMARY KEY AUTOINCREMENT,"

@@ -241,40 +241,7 @@ public class LoadActivity extends AppCompatActivity {
             fileContent = readFile(duongdan);
 
 
-/*
-            FileInputStream inputStream = null;
-            Scanner sc = null;
-            try {
-                inputStream = new FileInputStream(duongdan);
-                sc = new Scanner(inputStream, "UTF-8");
-                while (sc.hasNextLine()) {
-                    String line = sc.nextLine();
-                    fileContent += line + "\n";
-                    // System.out.println(line);
-                }
-                // note that Scanner suppresses exceptions
-                if (sc.ioException() != null) {
-                    throw sc.ioException();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (sc != null) {
-                    sc.close();
-                }
-            }
 
-            //String jsontext = readFile(params[0]);
-*/
             //THêm database loại tinh trang tlk
             List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
             for(int tt = 0 ; tt<listt.size();tt++){

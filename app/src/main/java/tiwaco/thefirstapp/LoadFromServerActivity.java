@@ -243,9 +243,13 @@ public class LoadFromServerActivity extends AppCompatActivity {
                     reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder sb=new StringBuilder();
                     String line = null;
-
+                    int i  =0;
                     while((line=reader.readLine())!=null){
+                        long status = (i+1) *100/line.length();
+                        //     String.valueOf(status)
+                        publishProgress(String.valueOf(status),"server");
                         fileContent=line;
+
                     }
                 }
             }catch(Exception ex){
@@ -585,9 +589,8 @@ public class LoadFromServerActivity extends AppCompatActivity {
             String status = values[0];
             String duong = values[1];
             prgTime.setProgress(Integer.parseInt(status));
+            prgTime.setText("Đang lấy data từ server");
 
-            // update giá trị ở TextView
-            prgTime.setText(getString(R.string.load_status));
         }
 
 

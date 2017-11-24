@@ -331,8 +331,11 @@ public class StartActivity extends AppCompatActivity  {
 
 
                                 //Intent myIntent = new Intent(StartActivity.this, LoadActivity.class);
-                                Intent myIntent = new Intent(StartActivity.this, LoadFromServerActivity.class);
-                                startActivity(myIntent);
+                                ViewDialog alert = new ViewDialog();
+                                alert.showDialog(StartActivity.this, "Chọn nguồn để load dữ liệu: ");
+
+                               // Intent myIntent = new Intent(StartActivity.this, LoadFromServerActivity.class);
+                               // startActivity(myIntent);
 
                             }
                         });

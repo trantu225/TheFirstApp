@@ -1007,7 +1007,7 @@ public class KhachHangDAO {
             kh.setLon(cursor.getString(31).trim());
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
-            kh.setLoaikhmoi(cursor.getString(36).trim());
+            kh.setLoaikhmoi(cursor.getString(34).trim());
         }
 
         cursor.close();
@@ -1102,7 +1102,7 @@ public class KhachHangDAO {
             kh.setLon(cursor.getString(31).trim());
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
-            kh.setLoaikhmoi(cursor.getString(36).trim());
+            kh.setLoaikhmoi(cursor.getString(34).trim());
         }
 
         cursor.close();
@@ -1198,7 +1198,7 @@ public class KhachHangDAO {
             kh.setLon(cursor.getString(31).trim());
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
-            kh.setLoaikhmoi(cursor.getString(36).trim());
+            kh.setLoaikhmoi(cursor.getString(34).trim());
         }
 
         cursor.close();
@@ -1294,7 +1294,7 @@ public class KhachHangDAO {
             kh.setLon(cursor.getString(31).trim());
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
-            kh.setLoaikhmoi(cursor.getString(36).trim());
+            kh.setLoaikhmoi(cursor.getString(34).trim());
         }
 
         cursor.close();
@@ -1388,7 +1388,7 @@ public class KhachHangDAO {
             kh.setLon(cursor.getString(31).trim());
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
-            kh.setLoaikhmoi(cursor.getString(36).trim());
+            kh.setLoaikhmoi(cursor.getString(34).trim());
         }
 
         cursor.close();
@@ -1483,7 +1483,7 @@ public class KhachHangDAO {
             kh.setLon(cursor.getString(31).trim());
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
-            kh.setLoaikhmoi(cursor.getString(36).trim());
+            kh.setLoaikhmoi(cursor.getString(34).trim());
         }
 
         cursor.close();
@@ -1579,7 +1579,7 @@ public class KhachHangDAO {
             kh.setLon(cursor.getString(31).trim());
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
-            kh.setLoaikhmoi(cursor.getString(36).trim());
+            kh.setLoaikhmoi(cursor.getString(34).trim());
 
         }
 

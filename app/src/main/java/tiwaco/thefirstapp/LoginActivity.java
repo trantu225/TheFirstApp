@@ -149,9 +149,11 @@ public class LoginActivity extends AppCompatActivity  {
                     startActivity(myIntent);
                 }
                 else {
-                    Intent myIntent = new Intent(this, LoadActivity.class);
-                    //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
-                    startActivity(myIntent);
+//                    Intent myIntent = new Intent(this, LoadActivity.class);
+//                    //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
+//                    startActivity(myIntent);
+                    ViewDialog alert = new ViewDialog();
+                    alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
                 }
                 this.finish();
             }

@@ -568,6 +568,19 @@ public class KhachHangDAO {
         db.close();
         return sokh;
     }
+
+    public int countKhachHangCapNhatServer(){
+        db = myda.openDB();
+        int sokh = 0;
+       // String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO+"<>''";
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_CAPNHAT +"='0' and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"<>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
+        Cursor cursor = db.rawQuery(countQuery, null);
+        sokh =cursor.getCount();
+        cursor.close();
+        db.close();
+        return sokh;
+    }
+
     public int countKhachHangDaGhiHomNay(String thoigian){
         db = myda.openDB();
         int sokh = 0;

@@ -55,7 +55,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
     DonutProgress prgTime;
     LinearLayout layout_noidungload;
     Button btngetData;
-    EditText editKyHD;
+    EditText editKyHD,edtNV;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
 
@@ -81,25 +81,51 @@ public class LoadFromServerActivity extends AppCompatActivity {
         layout_noidungload =(LinearLayout) findViewById(R.id.lay_noidungload) ;
         btngetData =(Button) findViewById(R.id.btn_GetDaTa) ;
         editKyHD = (EditText) findViewById(R.id.edt_kyhd) ;
+        edtNV = (EditText) findViewById(R.id.edt_nhanvien) ;
         prgTime.setProgress(0);
         prgTime.setText("0 %");
-        duongdanfile = "http://192.168.1.101/Service1.svc/GetListTiwareadData";
+        duongdanfile = getString(R.string.API_GetListTiwareadData);
         btngetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // new GetUserList().execute("http://192.168.1.91/Service1.svc/GetListUser");
-                String manv = "R010"; // Lay manv
-                Log.e("nhap",editKyHD.getText().toString());
-                String thang = editKyHD.getText().toString().substring(4,6);
-                Log.e("thang",thang);
-                String nam = editKyHD.getText().toString().substring(0,4);
-                Log.e("nam",nam);
-                duongdanfile += "/"+manv+"/"+thang+"/"+nam;
-                Log.e("duongdan",duongdanfile);
-                layout_noidungload.setVisibility(View.GONE);
-                prgTime.setVisibility(View.VISIBLE);
+                try {
+                    String manv = edtNV.getText().toString().trim(); // Lay manv
+                    Log.e("nhap", editKyHD.getText().toString());
+                    String thang = editKyHD.getText().toString().substring(4, 6);
+                    Log.e("thang", thang);
+                    String nam = editKyHD.getText().toString().substring(0, 4);
+                    Log.e("nam", nam);
+                    duongdanfile += "/" + manv + "/" + thang + "/" + nam;
+                    Log.e("duongdan", duongdanfile);
+                    layout_noidungload.setVisibility(View.GONE);
+                    prgTime.setVisibility(View.VISIBLE);
 
-                askPermissionAndReadFile();
+                    askPermissionAndReadFile();
+                }
+                catch(Exception loi){
+                    //Hiển thị dialog
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
+                    // khởi tạo dialog
+                    alertDialogBuilder.setMessage("Kết nối thất bại.Hãy kiểm tra lại thông tin nhân viên và kỳ hóa đơn!");
+                    // thiết lập nội dung cho dialog
+
+                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                            // button "no" ẩn dialog đi
+                        }
+                    });
+
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+                    // hiển thị dialog
+                }
 
             }
         });

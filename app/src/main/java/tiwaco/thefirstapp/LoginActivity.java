@@ -147,6 +147,7 @@ public class LoginActivity extends AppCompatActivity  {
                 if(khdao.countKhachHangAll() >0){
                     Intent myIntent=new Intent(this, StartActivity.class);
                     startActivity(myIntent);
+                    this.finish();
                 }
                 else {
 //                    Intent myIntent = new Intent(this, LoadActivity.class);
@@ -155,7 +156,7 @@ public class LoginActivity extends AppCompatActivity  {
                     ViewDialog alert = new ViewDialog();
                     alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
                 }
-                this.finish();
+
             }
             else{
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);

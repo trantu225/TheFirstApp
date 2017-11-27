@@ -2,6 +2,8 @@
     <!---Service -->
     <string name="API_UpdateKhachHangDaGhi">http://192.168.1.101/Service1.svc/CapNhatChiSoTLK</string>
     <string name="API_UpdateKhachHangDaGhi2">http://192.168.1.101/Service1.svc/CapNhatChiSoDongHoNuoc</string>
+    <string name="API_GetListTiwareadData">http://192.168.1.101/Service1.svc/GetListTiwareadData</string>
+
 
 
 
@@ -120,6 +122,8 @@
     <string name="btn_kieughi">Kiểu ghi</string>
     <string name="btn_daghi">Đã ghi/Chưa ghi</string>
     <string name="backup_luuy"><![CDATA[*Lưu ý: Nhập kỳ hóa đơn theo format 6 ký tự: <nam><thang>. Ví dụ: 201711]]></string>
+    <string name="backup_capnhatserver_thanhcong">Cập nhật dữ liệu thành công</string>
+    <string name="backup_capnhatserver_thatbai">Cập nhật dữ liệu thất bại</string>
 
 
 </resources>

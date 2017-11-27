@@ -129,9 +129,18 @@ public class Backup_Activity extends AppCompatActivity  {
         loadDataDuong();
         askPermissionAndReadFile();
         askPermissionAndWriteFile();
+        if(khachangdao.countKhachHangCapNhatServer() > 0){
+            CapNhatServer.setEnabled(true);
+        }
+        else{
+            CapNhatServer.setEnabled(false);
+        }
         CapNhatServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mstatus.setText("Đang cập nhật server...");
+                mstatus.setVisibility(View.VISIBLE);
+                table.setVisibility(View.GONE);
                 String url =  getString(R.string.API_UpdateKhachHangDaGhi2);
                 new UpdateThongTinGhiNuoc().execute(url);
             }
@@ -878,7 +887,7 @@ public class Backup_Activity extends AppCompatActivity  {
         //Lấy danh sách tất cả các đường
         List<DuongDTO> listduong = new ArrayList<DuongDTO>();
         List<ListKHTheoDuong> listtiwaread = new ArrayList<ListKHTheoDuong>();
-        String soluongKH = String.valueOf(khachangdao.countKhachHangDaGhi());
+        String soluongKH = String.valueOf(khachangdao.countKhachHangCapNhatServer());
         listduong = duongdao.getAllDuong();
         for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
             String maduong = listduong.get(thutuduong).getMaDuong().trim();
@@ -907,10 +916,13 @@ public class Backup_Activity extends AppCompatActivity  {
         else{
             spdata.luuDataFlagBKDaghiTrongSP(-1);
             Bien.bienbkdg = -1;
+            jsondata = null;
 
         }
         return jsondata;
     }
+
+
 
     private String taoJSONData_KH_DaGhiHomNay(String tendanhsach) {
         ListJsonData jsondata = new ListJsonData();
@@ -1764,7 +1776,7 @@ public class Backup_Activity extends AppCompatActivity  {
             Log.e("result update", result);
             int capnhattrangthai = 0;
             if(result.equals("1")){
-                Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thành công",Toast.LENGTH_LONG).show();
+                //Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thành công",Toast.LENGTH_LONG).show();
 
                 for(ListKHTheoDuong lista : jsondata.getListTiwaread()) {
                     for(RequestObject kh : lista.getTiwareadList())
@@ -1776,7 +1788,29 @@ public class Backup_Activity extends AppCompatActivity  {
                 }
                 if(capnhattrangthai == Integer.parseInt(jsondata.getTongSLkh())){
                     Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thành công",Toast.LENGTH_LONG).show();
-                     }
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+                    // khởi tạo dialog
+                    alertDialogBuilder.setMessage(R.string.backup_capnhatserver_thanhcong);
+                    // thiết lập nội dung cho dialog
+
+                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            mstatus.setVisibility(View.GONE);
+                            table.setVisibility(View.VISIBLE);
+
+                            // button "no" ẩn dialog đi
+                        }
+                    });
+
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+
+                }
 
 
 
@@ -1784,6 +1818,26 @@ public class Backup_Activity extends AppCompatActivity  {
 
             }else{
                 Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thất bại",Toast.LENGTH_LONG).show();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.backup_capnhatserver_thatbai);
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        mstatus.setVisibility(View.GONE);
+                        table.setVisibility(View.VISIBLE);
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
             }
         }
     }

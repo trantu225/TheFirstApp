@@ -8,6 +8,15 @@
     </shape>
 
 </item>
+
+    <item android:state_enabled="false">
+        <shape>
+            <corners android:radius="10dp"></corners>
+            <stroke android:width="2dp" android:color="@android:color/widget_edittext_dark"></stroke>
+            <solid android:color="@android:color/widget_edittext_dark"></solid>
+        </shape>
+
+    </item>
 <item>
     <shape>
         <corners android:radius="10dp"></corners>

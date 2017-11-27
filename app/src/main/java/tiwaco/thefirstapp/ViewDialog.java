@@ -29,9 +29,12 @@ public class ViewDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                activity.finish();
                 Intent myIntent = new Intent(activity, LoadActivity.class);
                 //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
                 activity.startActivity(myIntent);
+               // activity.finish();
+
 
             }
         });
@@ -41,8 +44,11 @@ public class ViewDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                activity.finish();
                 Intent myIntent = new Intent(activity, LoadFromServerActivity.class);
                 activity.startActivity(myIntent);
+               // activity.finish();
+
 
             }
         });

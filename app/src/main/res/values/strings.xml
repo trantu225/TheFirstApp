@@ -1,8 +1,13 @@
 <resources>
-    <!---Service -->
-    <string name="API_UpdateKhachHangDaGhi">http://192.168.1.101/Service1.svc/CapNhatChiSoTLK</string>
-    <string name="API_UpdateKhachHangDaGhi2">http://192.168.1.101/Service1.svc/CapNhatChiSoDongHoNuoc</string>
-    <string name="API_GetListTiwareadData">http://192.168.1.101/Service1.svc/GetListTiwareadData</string>
+    <!---Server -->
+    <string name="API_UpdateKhachHangDaGhi">http://tiwaco.com.vn:8012/Service1.svc/CapNhatChiSoTLK</string>
+    <string name="API_UpdateKhachHangDaGhi2">http://tiwaco.com.vn:8012/Service1.svc/CapNhatChiSoDongHoNuoc</string>
+    <string name="API_GetListTiwareadData">http://tiwaco.com.vn:8012/Service1.svc/GetListTiwareadData</string>
+
+    <!---Test -->
+    <!--<string name="API_UpdateKhachHangDaGhi">http://192.168.1.111/Service1.svc/CapNhatChiSoTLK</string>-->
+    <!--<string name="API_UpdateKhachHangDaGhi2">http://192.168.1.111/Service1.svc/CapNhatChiSoDongHoNuoc</string>-->
+    <!--<string name="API_GetListTiwareadData">http://192.168.1.111/Service1.svc/GetListTiwareadData</string>-->
 
 
 
@@ -31,7 +36,8 @@
     <string name="error_load">Quá trình load dữ liệu thất bại. Chọn OK để load lại. Chọn Thoát để kết thúc.</string>
     <string name="error_backup">Quá trình backup dữ liệu thất bại.</string>
     <string name="error_load_file">Quá trình load dữ liệu thất bại do không tồn tại file dữ liệu.</string>
-    <string name="delete_file_load_file">Bạn có muốn xóa dữ liệu cũ không?</string>
+    <string name="error_load_server">Chưa kết nối được đến server.Hãy kiểm tra lại.</string>
+    <string name="delete_file_load_file">Load dữ liệu có thể làm mất dữ liệu cũ. Bạn có muốn load dữ liệu không?</string>
     <!-- Backup activity -->
     <string name="backup_listrong_daghi">Chưa có khách hàng nào được ghi.Hãy tiến hành ghi nước.</string>
     <string name="backup_listrong_chuaghinuoc">Toàn bộ khách hàng đã được ghi nước </string>
@@ -124,6 +130,7 @@
     <string name="backup_luuy"><![CDATA[*Lưu ý: Nhập kỳ hóa đơn theo format 6 ký tự: <nam><thang>. Ví dụ: 201711]]></string>
     <string name="backup_capnhatserver_thanhcong">Cập nhật dữ liệu thành công</string>
     <string name="backup_capnhatserver_thatbai">Cập nhật dữ liệu thất bại</string>
+    <string name="loadserver_error_kocokh">Chưa có dữ liệu trong kỳ hóa đơn này.</string>
 
 
 </resources>

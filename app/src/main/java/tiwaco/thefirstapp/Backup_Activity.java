@@ -914,8 +914,8 @@ public class Backup_Activity extends AppCompatActivity  {
             Log.e("json data", json);
         }
         else{
-            spdata.luuDataFlagBKDaghiTrongSP(-1);
-            Bien.bienbkdg = -1;
+           // spdata.luuDataFlagBKDaghiTrongSP(-1);
+           // Bien.bienbkdg = -1;
             jsondata = null;
 
         }
@@ -1470,12 +1470,12 @@ public class Backup_Activity extends AppCompatActivity  {
 
 
                         if (!result_tatca_string.equals("")) {
-                            filename = thumucchuafile + "/" + THUMUCTATCA;
-                            filenameLAST = thumucchuafile + "/" + THUMUCLAST;
-                            taoThuMuc(filename);
-                            taoThuMuc(filenameLAST);
+                                filename = thumucchuafile + "/" + THUMUCTATCA;
+                                filenameLAST = thumucchuafile + "/" + THUMUCLAST;
+                                taoThuMuc(filename);
+                                taoThuMuc(filenameLAST);
 
-                            kt = writeFile(filename, tenfile.getText().toString(), result_tatca_string);
+                                kt = writeFile(filename, tenfile.getText().toString(), result_tatca_string);
                             ktlast = writeFile(filenameLAST, TENFILETATCA_LAST, result_tatca_string);
                             spdata.luuDataFlagBKAllTrongSP(Bien.bienghi);
                             //   MediaScannerConnection.scanFile(con, new String[]{filename,filenameLAST}, null, null);
@@ -1727,6 +1727,19 @@ public class Backup_Activity extends AppCompatActivity  {
                 out.write(json.getBytes());
                 out.flush();
                 out.close();
+                /*
+                XuLyFile xl = new XuLyFile(con);
+                String path = xl.getBoNhoTrong();
+                thumucchuafile = path+"/"+THUMUCBACKUP;
+
+                String filename = thumucchuafile + "/TEST" ;
+                Log.e("filename",filename);
+                taoThuMuc(filename);
+
+
+
+                boolean kt = writeFile(filename, "TEST", json);
+                 */
 
                 int result = conn.getResponseCode();
                 if(result==200){

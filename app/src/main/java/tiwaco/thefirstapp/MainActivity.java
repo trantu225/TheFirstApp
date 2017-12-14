@@ -1797,9 +1797,10 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 sothutu = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
                             }
                             Log.e("Ghi nuoc, stt",sothutu);
-                            if(!sothutu.equals("0")) {
+                            if(!sothutu.equals("0")  && !maduong_nhan.equals("99")) {
 
                                 STT_HienTai = sothutu;
+                                Log.e("STT Hien tai",STT_HienTai);
                                 KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi(STT_HienTai, maduong_nhan, MaKH.getText().toString().trim());
                                 if(khghike == null) {
                                     setDataForView(sothutu, maduong_nhan, "");
@@ -1809,6 +1810,18 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 }
                                 spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
                             }
+                            else if(sothutu.equals("0")  && maduong_nhan.equals("99"))
+                            {
+                                STT_HienTai = "0";
+                                KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi("0", maduong_nhan, MaKH.getText().toString().trim());
+                                if(khghike == null) {
+                                    setDataForView(sothutu, maduong_nhan, "");
+                                }
+                                else{
+                                    setDataForView(sothutu, maduong_nhan, khghike.getMaKhachHang());
+                                }
+                                spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, "0");
+                            }
                             else{
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                                 alertDialogBuilder.setMessage("Vẫn còn khách hàng bạn chưa ghi nước, bạn có muốn ghi nước khách hàng này không");
@@ -1817,6 +1830,10 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                         String sothutukhConLai = khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
+
+                                        if(maduong_nhan.equals("99")){
+                                            sothutukhConLai ="0";
+                                        }
                                         if(!sothutukhConLai.equals("")) {
                                             STT_HienTai = sothutukhConLai;
                                             bienkieughi = 1;

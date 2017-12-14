@@ -30,31 +30,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="@dimen/dp10"
         android:layout_below="@+id/text_dialog"
         android:gravity="center_vertical|center_horizontal"
         android:layout_centerHorizontal="true">
-    <Button
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="Load từ file"
-        android:layout_margin="@dimen/dp20"
-        android:id="@+id/btn_dialog_from_file"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/selector_button_signin"
-        android:textColor="#ffffffff" />
 
-    <Button
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="Load từ server"
-        android:layout_margin="@dimen/dp20"
-        android:id="@+id/btn_dialog_from_server"
-        android:background="@drawable/selector_button_signin"
-        android:textColor="#ffffffff" />
+        <Button
+            android:id="@+id/btn_dialog_from_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp20"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/selector_button_signin"
+            android:text="Tập tin"
+            android:textAllCaps="false"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:id="@+id/btn_dialog_from_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp20"
+            android:background="@drawable/selector_button_signin"
+            android:text="Máy chủ"
+            android:textAllCaps="false"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:id="@+id/btn_thoat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp20"
+            android:background="@drawable/selector_button_signin"
+            android:text="Thoát"
+            android:textAllCaps="false"
+            android:textColor="#ffffffff" />
     </LinearLayout>
 
 </RelativeLayout>

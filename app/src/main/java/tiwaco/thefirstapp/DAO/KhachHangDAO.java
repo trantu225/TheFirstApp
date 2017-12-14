@@ -1642,7 +1642,7 @@ public class KhachHangDAO {
             data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
         }
         else{
-            data= "0";
+            data= "";
         }
         Log.e("data chua ghi nho nhat lon hon hien tai",data);
         db.close();
@@ -1661,7 +1661,7 @@ public class KhachHangDAO {
             data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
         }
         else{
-            data= "0";
+            data= "";
         }
         Log.e("data chua ghi nho nhat lon hon hien tai",data);
         db.close();
@@ -1703,7 +1703,7 @@ public class KhachHangDAO {
             data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
         }
         else{
-            data= "0";
+            data= "";
         }
         Log.e("data chua ghi lon nhat nho hon hien tai",data);
         db.close();

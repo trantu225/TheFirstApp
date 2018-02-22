@@ -1353,6 +1353,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private void setDataForView(String tt, String maduong,String Makhach) {
         //Lấy khách hàng có stt hiện tại...mặc đình là 1
+
         Log.e("thu tu , ma duong, ma khach",tt +","+ maduong+ ","+ Makhach);
         tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
         soKHconlai = String.valueOf(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong)) ;
@@ -1369,6 +1370,9 @@ public class MainActivity extends AppCompatActivity  {
         if(khachhang == null) {
             Log.e("khach hang null","OK");
         }
+
+
+
         STT.setText(khachhang.getSTT().trim());
         MaKH.setText(khachhang.getMaKhachHang().trim());
         HoTen.setText(khachhang.getTenKhachHang().trim());
@@ -1531,16 +1535,27 @@ public class MainActivity extends AppCompatActivity  {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.mymenu, menu);
         this.menumain  = menu;
+
+//        if(khachhangDAO.checkKHDaGhi(khachhang.getMaKhachHang()) > 0){
+//
+//            menumain.getItem(2).setVisible(true);
+//            this.invalidateOptionsMenu();
+//        }
+//        else{
+//            menumain.getItem(2).setVisible(false);
+//            this.invalidateOptionsMenu();
+//        }
         return true;
     }
 
     private void selectItem(MenuItem item) {
         Intent intent;
+
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.action_save:
-                intent = new Intent(MainActivity.this, Backup_Activity.class);
-                startActivity(intent);
+                ViewDialog_ChonNguonBackUp alert = new ViewDialog_ChonNguonBackUp();
+                alert.showDialog(MainActivity.this, "Chọn nguồn để lưu dữ liệu: ");
             //    MainActivity.this.finish();
 
                 break;
@@ -1548,6 +1563,39 @@ public class MainActivity extends AppCompatActivity  {
                 intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
                 MainActivity.this.finish();
+                break;
+            case R.id.action_print:
+
+                if(khachhangDAO.checkKHDaGhi(khachhang.getMaKhachHang()) > 0){
+                    intent = new Intent(MainActivity.this, TinhTienInHDActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Bien.MAKH, khachhang.getMaKhachHang());
+
+
+                    intent.putExtra(Bien.GOITIN_GHINUOC, bundle);
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }
+                else{
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    alertDialogBuilder.setMessage("Không thể in vì khách hàng này chưa được ghi nước");
+                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+
+                        }
+                    });
+
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+                    // hiển thị dialog
+                }
+
                 break;
             case android.R.id.home:
 
@@ -1606,11 +1654,17 @@ public class MainActivity extends AppCompatActivity  {
             HieuTLK= (TextView) findViewById(R.id.tv_hieuTLK);
             CoTLK= (TextView) findViewById(R.id.tv_coTLK);
             ChiSo1= (TextView) findViewById(R.id.tv_chisocu1);
+            ChiSo1.setSelected(true);
             ChiSo2= (TextView) findViewById(R.id.tv_chisocu2);
+            ChiSo2.setSelected(true);
             ChiSo3= (TextView) findViewById(R.id.tv_chisocu3);
+            ChiSo3.setSelected(true);
             m31= (TextView) findViewById(R.id.tv_m3cu1);
+            m31.setSelected(true);
             m32= (TextView) findViewById(R.id.tv_m3cu2);
+            m32.setSelected(true);
             m33= (TextView) findViewById(R.id.tv_m3cu3);
+            m33.setSelected(true);
             ChiSoCon1= (TextView) findViewById(R.id.tv_chisocu1con);
             ChiSoCon2= (TextView) findViewById(R.id.tv_chisocu2con);
             ChiSoCon3= (TextView) findViewById(R.id.tv_chisocu3con);
@@ -1764,7 +1818,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 String kihd = sp.getDataKyHoaDonTrongSP();// "08/2017";
                 Log.e("formattedDate",formattedDate);
                 Log.e("kihd",kihd);
-                if(formattedDate.equals(kihd)) {
+//                if(formattedDate.equals(kihd)) {
 
                     if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,m3,m3con,thoigian,trangthaiTLK,BT))
                     {
@@ -1839,6 +1893,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                             bienkieughi = 1;
                                             MenuItem itemkieughi = menumain.findItem(R.id.action_kieughi);
                                             itemkieughi.setIcon(android.R.drawable.ic_media_ff);
+
                                             setDataForView(sothutukhConLai, maduong_nhan,"");
                                             spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutukhConLai);
                                         }
@@ -1900,33 +1955,33 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                         Toast.makeText(con,"Ghi nước thất bại",Toast.LENGTH_SHORT).show();
                     }
                     //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
-                }
-                else{
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                    // khởi tạo dialog
-                    alertDialogBuilder.setMessage("Thời gian của máy không trùng với kỳ hóa đơn. Hãy điều chỉnh lại.");
-                    // thiết lập nội dung cho dialog
-                    alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), 0);
-                        }
-                    });
-                    alertDialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            MainActivity.this.finish();
-
-                        }
-                    });
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    // tạo dialog
-                    alertDialog.setCanceledOnTouchOutside(false);
-                    alertDialog.show();
-                }
+//                }
+//                else{
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+//                    // khởi tạo dialog
+//                    alertDialogBuilder.setMessage("Thời gian của máy không trùng với kỳ hóa đơn. Hãy điều chỉnh lại.");
+//                    // thiết lập nội dung cho dialog
+//                    alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                            startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), 0);
+//                        }
+//                    });
+//                    alertDialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                            MainActivity.this.finish();
+//
+//                        }
+//                    });
+//
+//                    AlertDialog alertDialog = alertDialogBuilder.create();
+//                    // tạo dialog
+//                    alertDialog.setCanceledOnTouchOutside(false);
+//                    alertDialog.show();
+//                }
 
 
             } else {
@@ -2413,5 +2468,7 @@ public boolean KiemTraDaGhi(String maKH){
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+
+
 }
 

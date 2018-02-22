@@ -35,13 +35,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DAO.NhanVienDAO;
+import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
 import tiwaco.thefirstapp.DTO.JSONUser;
 import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.DTO.NhanVienDTO;
+import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
 import tiwaco.thefirstapp.DTO.User;
 import tiwaco.thefirstapp.Database.SPData;
 
@@ -145,6 +148,12 @@ public class LoginActivity extends AppCompatActivity  {
                 lichsudao.addTable_History(ls);
                 KhachHangDAO khdao = new KhachHangDAO(LoginActivity.this);
                 if(khdao.countKhachHangAll() >0){
+//                    TinhTrangTLKDAO tinhtrangtlkdao = new TinhTrangTLKDAO(con);
+//                    List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
+//                    for(int tt = 0 ; tt<listt.size();tt++){
+//                        tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
+//                    }
+
                     Intent myIntent=new Intent(this, StartActivity.class);
                     startActivity(myIntent);
                     this.finish();

@@ -311,8 +311,14 @@ public class StartActivity extends AppCompatActivity  {
                     break;
                 case R.id.btn_backup:
 
-                    myIntent = new Intent(StartActivity.this, Backup_Activity.class);
-                    startActivity(myIntent);
+                    ViewDialog_ChonNguonBackUp alert = new ViewDialog_ChonNguonBackUp();
+                    alert.showDialog(StartActivity.this, "Chọn nguồn để lưu dữ liệu: ");
+
+
+
+
+                 //  myIntent = new Intent(StartActivity.this, Backup_Activity.class);
+                 //   startActivity(myIntent);
                     break;
 
 

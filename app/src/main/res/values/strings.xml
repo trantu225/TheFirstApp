@@ -4,12 +4,10 @@
     <string name="API_UpdateKhachHangDaGhi2">http://tiwaco.com.vn:8012/Service1.svc/CapNhatChiSoDongHoNuoc</string>
     <string name="API_GetListTiwareadData">http://tiwaco.com.vn:8012/Service1.svc/GetListTiwareadData</string>
 
-    <!---Test -->
+    <!--&lt;!&ndash;-Test &ndash;&gt;-->
     <!--<string name="API_UpdateKhachHangDaGhi">http://192.168.1.111/Service1.svc/CapNhatChiSoTLK</string>-->
     <!--<string name="API_UpdateKhachHangDaGhi2">http://192.168.1.111/Service1.svc/CapNhatChiSoDongHoNuoc</string>-->
     <!--<string name="API_GetListTiwareadData">http://192.168.1.111/Service1.svc/GetListTiwareadData</string>-->
-
-
 
 
     <!-- Man Hinh -->

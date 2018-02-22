@@ -399,6 +399,7 @@
                         android:background="@android:drawable/editbox_background_normal"
                         android:inputType="numberDecimal"
                         android:maxLines="1"
+                        android:maxLength="12"
                         android:textSize="@dimen/sp14" />
 
                     <ImageButton
@@ -654,6 +655,13 @@
                         android:text="1129"
                         android:textColor="@color/badge_background_color"
                         android:textSize="@dimen/sp12"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
                         android:textStyle="bold" />
 
                     <TextView
@@ -661,7 +669,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
 
-
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
                         android:gravity="center"
                         android:padding="@dimen/dp10"
                         android:text="23"
@@ -685,7 +699,13 @@
                         android:id="@+id/tv_chisocu2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
 
                         android:gravity="center"
                         android:padding="@dimen/dp10"
@@ -698,7 +718,13 @@
                         android:id="@+id/tv_m3cu2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
 
                         android:gravity="center"
                         android:padding="@dimen/dp10"
@@ -723,7 +749,13 @@
                         android:id="@+id/tv_chisocu3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
 
                         android:gravity="center"
                         android:padding="@dimen/dp10"
@@ -736,7 +768,13 @@
                         android:id="@+id/tv_m3cu3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
 
                         android:gravity="center"
                         android:padding="@dimen/dp10"

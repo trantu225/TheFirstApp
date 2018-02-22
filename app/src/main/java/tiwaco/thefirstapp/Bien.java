@@ -34,6 +34,7 @@ public class Bien {
     public static int bienSoLuongKH = 0;
     public static String bienManHinhChuyenTimKiem = ""; //Start và Main , start thì ko finish, main thi finish
     public static final String GOITIN_MADUONG = "goitinmaduong";
+    public static final String GOITIN_GHINUOC = "goitinghinuoc";
     public static final String MADUONG = "maduong";
     public static final String VITRI = "indexmaduong";
     public static final String MAKH= "danhbo";

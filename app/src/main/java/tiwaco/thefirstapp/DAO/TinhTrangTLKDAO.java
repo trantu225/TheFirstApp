@@ -133,6 +133,8 @@ public class TinhTrangTLKDAO {
         TinhTrangTLKDTO ttV = new TinhTrangTLKDTO("V","Vắng","8");
         TinhTrangTLKDTO ttP = new TinhTrangTLKDTO("P","Không ghi được","9");
         TinhTrangTLKDTO ttO = new TinhTrangTLKDTO("O","Chuyển loại","10");
+        TinhTrangTLKDTO ttQ = new TinhTrangTLKDTO("Q","Bất thường","11");
+
 
         listtt.add(ttA);
         listtt.add(ttB);
@@ -145,6 +147,7 @@ public class TinhTrangTLKDAO {
         listtt.add(ttV);
         listtt.add(ttP);
         listtt.add(ttO);
+        listtt.add(ttQ);
 
 
 

@@ -277,6 +277,7 @@
                     android:layout_weight="1"
                     android:padding="@dimen/dp10"
                     android:text="@string/ThongTinLuuFie_CapNhat"
+                    android:visibility="gone"
                     android:background="@drawable/selector_button_signin"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp14"

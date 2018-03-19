@@ -39,8 +39,13 @@ public class KhachHangDTO {
     String dinhmuc;
     String hieutlk;
     String loaikh;
+    String NTSH;
     String loaikhmoi;
     String masotlk;
+    String tiennuoc;
+    String phi;
+    String tongcong;
+    String vat;
 
     public String getSTT() {
         return STT;
@@ -48,6 +53,44 @@ public class KhachHangDTO {
 
     public void setSTT(String STT) {
         this.STT = STT;
+    }
+
+    public String getvat() {
+        return vat;
+    }
+
+    public void setvat(String vat) {
+        this.vat = vat;
+    }
+
+    public String getTienNuoc() {
+        return tiennuoc;
+    }
+
+    public void setTienNuoc(String tiennuoc) {
+        this.tiennuoc = tiennuoc;
+    }
+    public String getphi() {
+        return phi;
+    }
+
+    public void setphi(String phi) {
+        this.phi = phi;
+    }
+    public String gettongcong() {
+        return tongcong;
+    }
+
+    public void settongcong(String tongcong) {
+        this.tongcong = tongcong;
+    }
+
+    public String getNTSH() {
+        return NTSH;
+    }
+
+    public void setNTSH(String NTSH) {
+        this.NTSH = NTSH;
     }
 
     public String getChiSo() {

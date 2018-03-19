@@ -2085,7 +2085,7 @@ public class Backup_Activity extends AppCompatActivity  {
 
                 }
 
-                if (objstt.has("CapNhatChiSoDongHoNuocResult")){
+               else if (objstt.has("CapNhatChiSoDongHoNuocResult")){
 
                     result = String.valueOf(objstt.getString("CapNhatChiSoDongHoNuocResult"));
 
@@ -2093,11 +2093,11 @@ public class Backup_Activity extends AppCompatActivity  {
 
                 }
 
-                if (objstt.has("CapNhatChiSoDongHoNuocNongThonResult")){
+                else if (objstt.has("CapNhatChiSoDongHoNuocNongThonResult")){
 
                     result = String.valueOf(objstt.getString("CapNhatChiSoDongHoNuocNongThonResult"));
 
-
+                    Log.e("CapNhatChiSoDongHoNuocNongThonResult",result);
 
                 }
             } catch (JSONException e) {
@@ -2105,6 +2105,7 @@ public class Backup_Activity extends AppCompatActivity  {
                 Log.e("loi tra ve ne ",e.toString());
                 result="0";
             }
+
             return result;
         }
 

@@ -23,6 +23,7 @@ import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 public class KhachHangDAO {
     SQLiteDatabase db ;
     MyDatabaseHelper myda;
+
     public KhachHangDAO(Context con){
         myda = new MyDatabaseHelper(con);
    //     db = myda.openDB();
@@ -69,6 +70,11 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_MADUONG , maduong.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_CAPNHAT , "0");
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_BATTHUONG , "");
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_NTSH , kh.getNTSH().trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIENNUOC , "");
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_PHI , "");
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG , "");
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_NOVAT , kh.getvat().trim());
         // Inserting Row
         long kt = db.insert(MyDatabaseHelper.TABLE_DANHSACHKH, null, values);
         db.close();
@@ -84,8 +90,9 @@ public class KhachHangDAO {
         db = myda.openDB();
         ContentValues values = new ContentValues();
        // values.put(MyDatabaseHelper.KEY_DANHSACHKH_MAKH , kh.getMaKhachHang().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISO1 , kh.getChiSo1().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1 , kh.getSLTieuThu1().trim());
+       // values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISO1 , kh.getChiSo1().trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_GHICHU , kh.getGhiChu().trim());
+    //    values.put(MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1 , kh.getSLTieuThu1().trim());
 
         // Inserting Row
 
@@ -145,7 +152,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32));
                 kh.setNhanVien(cursor.getString(33));
                 kh.setLoaikhmoi(cursor.getString(36));
-
+                kh.setNTSH(cursor.getString(38));
+                kh.setTienNuoc(cursor.getString(39));
+                kh.setphi(cursor.getString(40));
+                kh.settongcong(cursor.getString(41));
+                kh.setvat(cursor.getString(42));
 
 
                 // Adding contact to list
@@ -204,7 +215,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32));
                 kh.setNhanVien(cursor.getString(33));
                 kh.setLoaikhmoi(cursor.getString(36));
-
+                kh.setNTSH(cursor.getString(38));
+                kh.setTienNuoc(cursor.getString(39));
+                kh.setphi(cursor.getString(40));
+                kh.settongcong(cursor.getString(41));
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -263,7 +278,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32));
                 kh.setNhanVien(cursor.getString(33));
                 kh.setLoaikhmoi(cursor.getString(36));
-
+                kh.setNTSH(cursor.getString(38));
+                kh.setTienNuoc(cursor.getString(39));
+                kh.setphi(cursor.getString(40));
+                kh.settongcong(cursor.getString(41));
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -320,7 +339,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32));
                 kh.setNhanVien(cursor.getString(33));
                 kh.setLoaikhmoi(cursor.getString(36));
-
+                kh.setNTSH(cursor.getString(38));
+                kh.setTienNuoc(cursor.getString(39));
+                kh.setphi(cursor.getString(40));
+                kh.settongcong(cursor.getString(41));
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -379,6 +402,30 @@ public class KhachHangDAO {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
+                /*
+                 String ChiSo;
+    String DanhBo;
+    String DienThoai;
+    String GhiChu;
+    String Lat;
+    String Lon;
+    String MaKhachHang;
+    String NhanVien;
+    String SLTieuThu;
+    String STT;
+    String ThoiGian;
+    String TrangThaiTLK;
+    String loaikh;
+    String loaikhmoi;
+    String ChiSo1;
+    String SLTieuThu1;
+    String MaDuong;
+
+
+                 */
+
+
+
                 RequestObject kh = new RequestObject();
                 kh.setMaKhachHang(cursor.getString(0).trim());
                 kh.setDanhBo(cursor.getString(2).trim());
@@ -472,7 +519,7 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-                kh.setMaDuong(cursor.getString(35).trim());
+                //kh.setMaDuong(cursor.getString(35).trim());
 
 
                 // Adding contact to list
@@ -531,8 +578,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-
-
+                kh.setNTSH(cursor.getString(38));
+                kh.setTienNuoc(cursor.getString(39));
+                kh.setphi(cursor.getString(40));
+                kh.settongcong(cursor.getString(41));
+                kh.setvat(cursor.getString(42));
                 // Adding contact to list
                 ListKH.add(kh);
             } while (cursor.moveToNext());
@@ -587,7 +637,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-
+                kh.setNTSH(cursor.getString(38));
+                kh.setTienNuoc(cursor.getString(39));
+                kh.setphi(cursor.getString(40));
+                kh.settongcong(cursor.getString(41));
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -628,6 +682,22 @@ public class KhachHangDAO {
         db = myda.openDB();
         ContentValues values = new ContentValues();
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI, loaiKH);
+
+        // updating row
+        boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
+        db.close();
+        return kt ;
+
+    }
+
+
+    public boolean updateGiaNuoc(String  maKH, String tiennuoc, String phi,  String tongcong) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIENNUOC, tiennuoc);
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_PHI, phi);
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG, tongcong);
+
 
         // updating row
         boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
@@ -848,7 +918,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-
+                kh.setNTSH(cursor.getString(38));
+                kh.setTienNuoc(cursor.getString(39));
+                kh.setphi(cursor.getString(40));
+                kh.settongcong(cursor.getString(41));
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -907,8 +981,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-
-
+                kh.setNTSH(cursor.getString(38).trim());
+                kh.setTienNuoc(cursor.getString(39).trim());
+                kh.setphi(cursor.getString(40).trim());
+                kh.settongcong(cursor.getString(41).trim());
+                kh.setvat(cursor.getString(42));
                 // Adding contact to list
                 ListKH.add(kh);
             } while (cursor.moveToNext());
@@ -963,7 +1040,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-
+                kh.setNTSH(cursor.getString(38).trim());
+                kh.setTienNuoc(cursor.getString(39).trim());
+                kh.setphi(cursor.getString(40).trim());
+                kh.settongcong(cursor.getString(41).trim());
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -1020,7 +1101,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-
+                kh.setNTSH(cursor.getString(38).trim());
+                kh.setTienNuoc(cursor.getString(39).trim());
+                kh.setphi(cursor.getString(40).trim());
+                kh.settongcong(cursor.getString(41).trim());
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -1077,7 +1162,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
-
+                kh.setNTSH(cursor.getString(38).trim());
+                kh.setTienNuoc(cursor.getString(39).trim());
+                kh.setphi(cursor.getString(40).trim());
+                kh.settongcong(cursor.getString(41).trim());
+                kh.setvat(cursor.getString(42));
 
                 // Adding contact to list
                 ListKH.add(kh);
@@ -1125,7 +1214,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI
+                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH
                 },
                 MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_MAKH + "=?" ,
                 new String[] { maduong,MaKH },
@@ -1170,6 +1260,7 @@ public class KhachHangDAO {
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
             kh.setLoaikhmoi(cursor.getString(34).trim());
+            kh.setNTSH(cursor.getString(35).trim());
         }
 
         cursor.close();
@@ -1220,7 +1311,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI
+                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH
                 },
                 MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "=?" ,
                 new String[] { maduong,STT },
@@ -1265,6 +1357,7 @@ public class KhachHangDAO {
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
             kh.setLoaikhmoi(cursor.getString(34).trim());
+            kh.setNTSH(cursor.getString(35).trim());
         }
 
         cursor.close();
@@ -1315,7 +1408,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI
+                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH
 
                 },
                 MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_MAKH +"=?" ,
@@ -1361,6 +1455,7 @@ public class KhachHangDAO {
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
             kh.setLoaikhmoi(cursor.getString(34).trim());
+            kh.setNTSH(cursor.getString(35).trim());
         }
 
         cursor.close();
@@ -1412,7 +1507,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI
+                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH
                 },
                 MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + sosanh +" ?" ,
                 new String[] { maduong,STT,maKH },
@@ -1457,6 +1553,7 @@ public class KhachHangDAO {
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
             kh.setLoaikhmoi(cursor.getString(34).trim());
+            kh.setNTSH(cursor.getString(35).trim());
         }
 
         cursor.close();
@@ -1506,7 +1603,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI
+                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH
                 },
                 MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "=? and " + MyDatabaseHelper.KEY_DANHSACHKH_MAKH +"<> ? and "+MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"=''" ,
                 new String[] { maduong,STT,maKH },
@@ -1551,6 +1649,7 @@ public class KhachHangDAO {
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
             kh.setLoaikhmoi(cursor.getString(34).trim());
+            kh.setNTSH(cursor.getString(35).trim());
         }
 
         cursor.close();
@@ -1601,7 +1700,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI
+                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH
                 },
                 MyDatabaseHelper.KEY_DANHSACHKH_MAKH + "=? " ,
                 new String[] { makh },
@@ -1646,6 +1746,7 @@ public class KhachHangDAO {
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
             kh.setLoaikhmoi(cursor.getString(34).trim());
+            kh.setNTSH(cursor.getString(35).trim());
         }
 
         cursor.close();
@@ -1696,7 +1797,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
                         MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI
+                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH
 
                 },
                 MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and ( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "=? or " +MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + "=? )",
@@ -1742,6 +1844,7 @@ public class KhachHangDAO {
             kh.setThoiGian(cursor.getString(32).trim());
             kh.setNhanVien(cursor.getString(33).trim());
             kh.setLoaikhmoi(cursor.getString(34).trim());
+            kh.setNTSH(cursor.getString(35).trim());
 
         }
 
@@ -1965,6 +2068,11 @@ public class KhachHangDAO {
                 kh.setThoiGian(cursor.getString(32).trim());
                 kh.setNhanVien(cursor.getString(33).trim());
                 kh.setLoaikhmoi(cursor.getString(36).trim());
+                kh.setNTSH(cursor.getString(38).trim());
+                kh.setTienNuoc(cursor.getString(39).trim());
+                kh.setphi(cursor.getString(40).trim());
+                kh.settongcong(cursor.getString(41).trim());
+                kh.setvat(cursor.getString(42));
 
 
                 // Adding contact to list
@@ -2076,5 +2184,529 @@ public class KhachHangDAO {
         db.close();
         Log.e("so luong duong thoa dk", String.valueOf(ListDuong.size()));
         return ListDuong;
+    }
+
+    public double tinhTienNuoc(String maKH){
+
+        double tiennuoc  = 0;
+        double tongcong = 0 ;
+        //Loại kh 0:
+	    //Đơn giá: tg01= 6.800, tg02=9.000, tg03=10.500, tg04=11.800
+         final double dg01  =6800 , dg02 = 9000 , dg03 = 10500 , dg04 = 11800;
+        //Đơn giá tiền nước: tg01tn= 6.800/115*100, tg02tn=9.000/115*100, tg03tn=10.500/115*100, tg04tn=11.800/115*100
+         final double dg01tn = 6800/115*100, dg02tn=9000/115*100, dg03tn=10500/115*100, dg04tn=11800/115*100;
+        //Đơn giá tiền nước không phí ntsh: tg01p= 6.800/115*105, tg02p=9.000/115*105, tg03p=10.500/115*105, tg04p=11.800/115*105
+        final double dg01p= 6800/115*105, dg02p=9000/115*105, dg03p=10500/115*105, dg04p=11800/115*105;
+         /*Loại kh1:
+	     Đơn giá: tg1= 4.700
+	     Đơn giá tiền nước: tg1tn= 4.700/105*100 */
+        final double dg1 = 4700, dg1tn = 4700/105*100;
+
+        /*	Loại kh2:
+        Đơn giá: tg2= 6.000
+        Đơn giá tiền nước: tg2tn= 6.000/105*100*/
+        final double dg2 = 6000, dg2tn = 6000/105*100;
+        /* Loại kh3:
+     	Đơn giá: tg3= 6.700
+	    Đơn giá tiền nước: tg3tn= 6.700/105*100 */
+        final double dg3 = 6700, dg3tn = 6700/105*100;
+        /*	Loại kh4:
+    	Đơn giá: tg4= 8.600
+	    Đơn giá tiền nước: tg4tn= 4.700/105*100 */
+        final double dg4 = 8600, dg4tn = 8600/105*100;
+        /*Loại kh5:
+	    Đơn giá: tg01= 6.800, tg02=9.000, tg05=12.000, tg05nt=10.800
+	    Đơn giá tiền nước: tg01tn= 6.800/115*100, tg02tn=9.000/115*100, tg05tn=12.000/115*100, tg05nttn =10.800/105*100
+    	Đơn giá tiền nước không phí ntsh: tg01p= 6.800/115*105, tg02p=9.000/115*105, tg05p=12.000/115*105*/
+        final double  dg5  =12000, dg5nt  =10800;
+        final double  dg5tn=12000/115*100, dg5nttn =10800/105*100;
+        final double  dg5p=12000/115*105;
+        /*Loại kh6:
+        Đơn giá: tg6=10.000, tg05=12.000, tg07=10.500
+	    Đơn giá tiền nước: tg06tn= 10.000/115*100, tg05tn=12.000/115*100, tg07tn =10.500/105*100
+	    Đơn giá tiền nước không phí ntsh: tg06p= 10.000/115*105, tg05p=12.000/115*105, tg07p =10.500/115*105*/
+        final double  dg6  =10000, dg7  =10500,dg6nt = 9000;
+        final double  dg6tn=10000/115*100, dg7tn =10500/115*100,dg6nttn =9000/115*100;
+        final double  dg6p=10000/115*105 ,dg7p = 10500/115*105;
+        /*Loại kh7:
+    Đơn giá: tg01= 6.800, tg02=9.000, tg07=10.500, tg07nt=9.500
+	Đơn giá tiền nước: tg01tn= 6.800/115*100, tg02tn=9.000/115*100, tg07tn=10.500/115*100, tg07nttn =9.500/105*100
+	Đơn giá tiền nước không phí ntsh: tg01p= 6.800/115*105, tg02p=9.000/115*105, tg07p=10.500/115*105 */
+
+
+
+        final double  dg7nt  =9500;
+        final double  dg7nttn =9500/105*100;
+        KhachHangDTO kh = getKHTheoMaKH(maKH);
+        double tieuthu = Double.parseDouble(kh.getSLTieuThu());
+        double dmuc = Double.parseDouble(kh.getDinhmuc());
+        double m3t1= 0, m3t2 = 0 ,m3t3 = 0,m3t4 = 0;
+        double tien1= 0, tien2 = 0 ,tien3 = 0,tien4 = 0;
+        double dm01 = 10, dm02 =20, dm03 =30;
+        double ntsh = Double.parseDouble(kh.getNTSH());
+        double phi  = 0;
+        double tienthue  = 0;
+        String MIENTHUE = kh.getvat();
+        //tinh tien tu gia
+        if (kh.getLoaikh().equals("0") ) // LOAI KHACH HANG TU GIA THANH THI
+        {
+            if (kh.getChitietloai().toUpperCase().equals("T")) // truong hop nha tro hoac to hop (nhieu nguoi su dung chung mot dong ho nuoc )
+            {
+                if ( tieuthu <=  dmuc)//muc 1 gia 6200/dg01
+                {
+                     m3t1 =  tieuthu;
+                }
+                else if ( tieuthu >  dmuc &&  tieuthu <= ( dmuc * 2))//muc 2 gia 8200/dg02
+                {
+                     m3t1 =  dmuc;
+                     m3t2 =  tieuthu -  m3t1;
+                }
+                else if ( tieuthu > ( dmuc * 2) &&  tieuthu <= ( dmuc * 3))//muc 3 gia 9600/dg03
+                {
+                     m3t1 =  dmuc;
+                     m3t2 =  dmuc;
+                     m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                }
+                else if ( tieuthu >  dmuc * 3)//muc 4 gia 10.800/dg04
+                {
+                     m3t1 =  dmuc;
+                     m3t2 =  dmuc;
+                     m3t3 =  dmuc;
+                     m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
+                }
+
+                 tien1 =  lamtron2sothapphan(m3t1 * dg01tn );// tien  nuoc muc 1 theo dinh muc
+                 tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc
+                 tien3 =  lamtron2sothapphan(m3t3 * dg03tn );// tien  nuoc muc 3 theo dinh muc
+                 tien4 =  lamtron2sothapphan(m3t4 * dg04tn );// tien  nuoc muc 4 theo dinh muc
+                 tiennuoc =  tien1+ tien2+ tien3+ tien4;//tong nuoc
+
+                if( ntsh>0)
+                {
+                     tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
+                }
+                else if ( ntsh == 0)
+                {
+                     tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
+                }
+
+            }// ket thuc nha tro hoac to hop
+            else if (kh.getChitietloai().toUpperCase().equals("B")) // tu gia su dung nuoc bi be ong sau dong ho
+            {
+                if ( dmuc == 0)// dinh muc bang 0 tinh gia 8.200
+                {
+                     m3t1 =  tieuthu;//m3 tieu thu
+                     tien1 =  lamtron2sothapphan(m3t1 * dg02tn);// tien nuoc
+
+
+                    if( ntsh==0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg02);//tong cong
+                    }
+                    else if ( ntsh > 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg02p);//tong cong
+                    }
+                }
+                else if ( dmuc > 0)// dinh muc lon hon 0 tinh luy tuyen theo dinh muc
+                {
+                    if ( tieuthu <=  dmuc)//muc 1 gia 6.200/dg01
+                    {
+                         m3t1 =  tieuthu;
+                    }
+                    else if ( tieuthu >  dmuc &&  tieuthu <= ( dmuc + dm01))//muc 2 gia 8.200/dg02
+                    {
+                         m3t1 =  dmuc;
+                         m3t2 =  tieuthu -  m3t1;
+                    }
+                    else if ( tieuthu > ( dmuc + dm01) &&  tieuthu <= ( dmuc + dm02))//muc 3 gia 9.600/dg03
+                    {
+                         m3t1 =  dmuc;
+                         m3t2 = dm01;
+                         m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                    }
+                    else if ( tieuthu >  dmuc + dm02)//muc 4 gia 10.800/dg04
+                    {
+                         m3t1 =  dmuc;
+                         m3t2 = dm01;
+                         m3t3 = dm01;
+                         m3t3 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
+                    }
+                     tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                     tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
+                     tien3 =  lamtron2sothapphan(m3t3 * dg03tn);// tien  nuoc muc 3 theo dinh muc dm01
+                     tien4 =  lamtron2sothapphan(m3t4 * dg04tn);// tien  nuoc muc 4 theo dinh muc
+
+                     tiennuoc =  tien1 +  tien2 +  tien3 +  tien4;//tong nuoc
+                    if ( ntsh > 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
+                    }
+                    else if ( ntsh == 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
+                    }
+
+                    //    tongcong =  m3t1 * dg01 +  m3t2 * dg02 +  m3t3 * dg03 +  m3t4 * dg04;//tong cong
+                }
+
+            }// tu gia bi be ống
+            else// tinh luy tuyen binh thuong theo bon muc
+            {
+                if ( tieuthu <= dm01)//muc 1
+                {
+                     m3t1 =  tieuthu;
+                }
+                else if ( tieuthu > dm01 &&  tieuthu <= dm02)//muc 2
+                {
+                     m3t1 = dm01;
+                     m3t2 =  tieuthu -  m3t1;
+                }
+                else if ( tieuthu > dm02 &&  tieuthu <= dm03)//muc 3
+                {
+                     m3t1 = dm01;
+                     m3t2 = dm01;
+                     m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                }
+                else if ( tieuthu > dm03)//muc 4
+                {
+                     m3t1 = dm01;
+                     m3t2 = dm01;
+                     m3t3 = dm01;
+                     m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
+                }
+                 tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                 tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc
+                 tien3 =  lamtron2sothapphan(m3t3 * dg03tn);// tien  nuoc muc 3 theo dinh muc
+                 tien4 =  lamtron2sothapphan(m3t4 * dg04tn);// tien  nuoc muc 4 theo dinh muc
+
+                 tiennuoc =  tien1 +  tien2 +  tien3 +  tien4;//tong nuoc
+                if ( ntsh > 0)
+                {
+                     tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
+                }
+                else if ( ntsh == 0)
+                {
+                     tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
+                }
+                //  tongcong =  m3t1 * dg01 +  m3t2 * dg02 +  m3t3 * dg03 +  m3t4 * dg04;//tong cong
+            }
+        }// loaikh bang o / tu gia
+        else if ( kh.getLoaikh().equals("1"))// TINH TIEN LOAI KHACH HANG GIA MUC LOAIKH =1
+        {
+             m3t1 =  tieuthu;
+             tien1 =  lamtron2sothapphan(m3t1 * dg1tn);
+
+             tiennuoc =  tien1;
+             tongcong =  lamtron2sothapphan(tieuthu * dg1);
+
+            //  thue =  tongcong -  tiennuoc;
+        }// ket thuc loaikh =1
+        else if ( kh.getLoaikh().equals("2"))
+        {
+             m3t1 =  tieuthu;
+             tien1 =  lamtron2sothapphan(m3t1 * dg2tn);
+
+             tiennuoc =  tien1;
+             tongcong =  lamtron2sothapphan(tieuthu * dg2);
+
+            //  thue =  tongcong -  tiennuoc;
+        }// ket thuc loaikh =2
+        else if ( kh.getLoaikh().equals("3"))
+        {
+             m3t1 =  tieuthu;
+             tien1 =  lamtron2sothapphan(m3t1 * dg3tn);
+
+             tiennuoc =  tien1;
+             tongcong =  lamtron2sothapphan(tieuthu * dg3);
+
+            //  thue =  tongcong -  tiennuoc;
+        }// ket thuc loaikh =3
+        else if ( kh.getLoaikh().equals("4"))
+        {
+             m3t1 =  tieuthu;
+             tien1 =  lamtron2sothapphan(m3t1 * dg4tn);
+            tiennuoc =  tien1;
+             tongcong =  lamtron2sothapphan(tieuthu * dg4);
+
+
+            //   thue =  tongcong -  tiennuoc;
+        }// ket thuc loaikh =4
+        else if ( kh.getLoaikh().equals("5"))
+        {
+            if (kh.getChitietloai().toUpperCase().equals("N"))
+            {
+                 m3t1 =  tieuthu;
+                 tien1 =  lamtron2sothapphan(m3t1 * dg5nttn);
+                tiennuoc =  tien1;
+                 tongcong =  lamtron2sothapphan(tieuthu * dg5nt);
+
+
+            }
+            else
+            {
+                if ( dmuc == 0)//dmuc
+                {
+                     m3t1 =  tieuthu;
+                     tien1 =  lamtron2sothapphan(m3t1 * dg5tn);
+
+                     tiennuoc =  tien1;
+                    if ( ntsh == 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg5);
+                    }
+                    else if ( ntsh > 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg5p);
+                    }
+
+
+                }
+                else if ( dmuc > 0)
+                {
+                    if ( tieuthu <= dm01)//muc 1
+                    {
+                         m3t1 =  tieuthu;
+                    }
+                    else if ( tieuthu > dm01 &&  tieuthu <= dm02)//muc 2
+                    {
+                         m3t1 = dm01;
+                         m3t2 =  tieuthu -  m3t1;
+                    }
+                    else if ( tieuthu > dm02)//muc 3
+                    {
+                         m3t1 = dm01;
+                         m3t2 = dm01;
+                         m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                    }
+                     tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                     tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
+                     tien3 =  lamtron2sothapphan(m3t3 * dg5tn);// tien  nuoc muc 3 theo dinh muc dm01
+
+                    //  tien4 =  m3t4 * dg04tn;// tien  nuoc muc 4 theo dinh muc
+                     tiennuoc =  tien1 +  tien2 +  tien3;
+
+                    if ( ntsh == 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg5);
+                    }
+                    else if ( ntsh > 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg5p);
+                    }
+
+                }
+            }
+
+
+        }// ket thuc loaikh =5
+        else if ( kh.getLoaikh().equals("6"))
+        {
+            if (kh.getChitietloai().toUpperCase().equals("D"))// CO QUAN SAN XUAT
+            {
+                if ( dmuc == 0)// dinh muc bang 0 tinh gia 8.200
+                {
+                    m3t1 =  tieuthu;//m3 tieu thu
+                    tien1 =  lamtron2sothapphan(m3t1 * dg5tn);// tien nuoc
+
+
+                    if( ntsh==0)
+                    {
+                        tongcong =  lamtron2sothapphan(m3t1 * dg5);//tong cong
+                    }
+                    else if ( ntsh > 0)
+                    {
+                        tongcong =  lamtron2sothapphan(m3t1 * dg5p);//tong cong
+                    }
+                }
+                else {
+                    if (tieuthu <= dmuc) {
+                        m3t1 = tieuthu;
+                    } else if (tieuthu > dmuc) {
+                        m3t1 = dmuc;
+                        m3t2 = tieuthu - m3t1;
+                    }
+                    tien1 = lamtron2sothapphan(m3t1 * dg6tn);
+                    tien2 = lamtron2sothapphan(m3t2 * dg5tn);
+
+
+                    tiennuoc = tien1 + tien2;
+
+                    if (ntsh == 0) {
+                        tongcong = lamtron2sothapphan(m3t1 * dg6) + lamtron2sothapphan(m3t2 * dg5);
+                    } else if (ntsh > 0) {
+                        tongcong = lamtron2sothapphan(m3t1 * dg6p) + lamtron2sothapphan(m3t2 * dg5p);
+                    }
+                }
+
+            }
+            else if ( kh.getChitietloai().toUpperCase().equals("S"))// CO QUAN SAN XUAT
+            {
+                if ( dmuc == 0)// dinh muc bang 0 tinh gia 10500
+                {
+                    m3t1 =  tieuthu;//m3 tieu thu
+                    tien1 =  lamtron2sothapphan(m3t1 * dg7tn);// tien nuoc
+
+                    tiennuoc = tien1;
+                    if( ntsh==0)
+                    {
+                        tongcong =  lamtron2sothapphan(m3t1 * dg7);//tong cong
+                    }
+                    else if ( ntsh > 0)
+                    {
+                        tongcong =  lamtron2sothapphan(m3t1 * dg7p);//tong cong
+                    }
+                }
+                else {
+                    if (tieuthu <= dmuc) {
+                        m3t1 = tieuthu;
+                    } else if (tieuthu > dmuc) {
+                        m3t1 = dmuc;
+                        m3t2 = tieuthu - m3t1;
+                    }
+                    tien1 = lamtron2sothapphan(m3t1 * dg6tn);
+                    tien2 = lamtron2sothapphan(m3t2 * dg7tn);
+
+
+                    tiennuoc = tien1 + tien2;
+
+                    if (ntsh == 0) {
+                        tongcong = lamtron2sothapphan(m3t1 * dg6) + lamtron2sothapphan(m3t2 * dg7);
+                    } else if (ntsh > 0) {
+                        tongcong = lamtron2sothapphan(m3t1 * dg6p) + lamtron2sothapphan(m3t2 * dg7p);
+                    }
+                }
+            }
+            else if ( kh.getChitietloai().toUpperCase().equals("N"))//CO QUAN giá 9000
+            {
+                 m3t1 =  tieuthu;
+                 tien1 =  lamtron2sothapphan(m3t1 * dg6nttn);
+
+                 tiennuoc =  tien1;
+                 tongcong =  lamtron2sothapphan(m3t1 * dg6nt);
+            }
+            else //CO QUAN
+            {
+                 m3t1 =  tieuthu;
+                 tien1 =  lamtron2sothapphan(m3t1 * dg6tn);
+
+                 tiennuoc =  tien1;
+
+                if ( ntsh == 0)
+                {
+                     tongcong =  lamtron2sothapphan(m3t1 * dg6);
+                }
+                else if ( ntsh > 0)
+                {
+                     tongcong =  lamtron2sothapphan(m3t1 * dg6p);
+                }
+
+            }
+
+        }// ket thuc loaikh =6
+        else if ( kh.getLoaikh().equals("7"))
+        {
+
+            if (kh.getChitietloai().toUpperCase().equals("N"))
+            {
+                 m3t1 =  tieuthu;
+                 tien1 =  lamtron2sothapphan(m3t1 * dg7nttn);
+                 tiennuoc =  tien1;
+                 tongcong =  lamtron2sothapphan(tieuthu * dg7nt);
+
+            }
+            else
+            {
+                if ( dmuc == 0)//dmuc
+                {
+                     m3t1 =  tieuthu;
+                     tien1 =  lamtron2sothapphan(m3t1 * dg7tn);
+
+                     tiennuoc =  tien1;
+
+                    if ( ntsh == 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg7);
+                    }
+                    else if ( ntsh > 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg7p);
+                    }
+                }
+                else
+                {
+                    if ( tieuthu <= dm01)//muc 1
+                    {
+                         m3t1 =  tieuthu;
+                    }
+                    else if ( tieuthu > dm01 &&  tieuthu <= dm02)//muc 2
+                    {
+                         m3t1 = dm01;
+                         m3t2 =  tieuthu -  m3t1;
+                    }
+                    else if ( tieuthu > dm02)//muc 3
+                    {
+                         m3t1 = dm01;
+                         m3t2 = dm01;
+                         m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                    }
+                     tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                     tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
+                     tien3 =  lamtron2sothapphan(m3t3 * dg7tn);// tien  nuoc muc 3 theo dinh muc dm01
+
+                    //  tien4 =  m3t4 * dg04tn;// tien  nuoc muc 4 theo dinh muc
+                     tiennuoc =  tien1 +  tien2 +  tien3;
+
+                    if ( ntsh == 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg7);
+                    }
+                    else if ( ntsh > 0)
+                    {
+                         tongcong =  lamtron2sothapphan(m3t1 * dg01p) + lamtron2sothapphan( m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg7p);
+                    }
+
+                }
+            }
+
+
+
+        }// ket thuc loaikh =7
+
+        if (kh.getLoaikh().equals("0") || kh.getLoaikh().equals("5") ||kh.getLoaikh().equals("6") ||kh.getLoaikh().equals("7"))
+        {
+            if(ntsh == 0 && !kh.getChitietloai().toUpperCase().equals("N") )
+            {
+                phi    = tiennuoc *10 /100;
+            }
+            else if(ntsh > 0 || (ntsh == 0 && kh.getChitietloai().toUpperCase().equals("N")))
+            {
+                phi = 0;
+            }
+        }
+        else{
+            phi = 0;
+        }
+
+        if(MIENTHUE.equals("0")){
+            tienthue =  tongcong - (tiennuoc + phi);
+        }
+        else{
+            tienthue =  tongcong - (tiennuoc + phi);
+            tongcong = tongcong - tienthue;
+        }
+        // Luu tien nuoc, tong cong, phi
+        updateGiaNuoc(maKH,String.valueOf(tiennuoc),String.valueOf(phi),String.valueOf(tongcong));
+
+
+
+
+
+
+        return tiennuoc;
+    }
+    
+    public double lamtron2sothapphan(double a){
+        return (Math.round(a*100)) /100;
     }
 }

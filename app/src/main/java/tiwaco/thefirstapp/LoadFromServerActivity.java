@@ -436,6 +436,8 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             String loaikh = "";
                                             String masotlk = "";
                                             String loaikhcu = "";
+                                            String ntsh = "";
+                                            String novat = "";
 //                                if(objKH.has("ChiSo")){
 //                                    ChiSo = objKH.getString("ChiSo").toString().trim();
 //                                }
@@ -557,6 +559,15 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                                 masotlk = objKH.getString("masotlk").toString().trim();
                                             }
 
+
+                                            if (objKH.has("NTSH")) {
+                                                ntsh = objKH.getString("NTSH").toString().trim();
+                                            }
+
+                                            if (objKH.has("NOVAT")) {
+                                                novat = objKH.getString("NOVAT").toString().trim();
+                                            }
+
                                             KhachHangDTO kh = new KhachHangDTO();
                                             kh.setMaKhachHang(MaKhachHang);
                                             kh.setTenKhachHang(TenKhachHang);
@@ -592,6 +603,10 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             kh.setLon(Lon);
                                             kh.setThoiGian(ThoiGian);
                                             kh.setNhanVien(NhanVien);
+                                            kh.setNTSH(ntsh);
+                                            kh.setvat(novat);
+
+
 
                                             Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang, maduong));
                                             boolean kt = khachhangDAO.addTable_KH(kh, maduong);

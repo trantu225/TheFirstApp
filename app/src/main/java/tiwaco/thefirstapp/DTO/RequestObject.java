@@ -22,16 +22,16 @@ public class RequestObject {
     String loaikhmoi;
     String ChiSo1;
     String SLTieuThu1;
-    String MaDuong;
-
-    public String getMaDuong() {
-        return MaDuong;
-    }
-
-    public void setMaDuong(String maDuong) {
-        MaDuong = maDuong;
-    }
-
+//    String MaDuong;
+//
+//    public String getMaDuong() {
+//        return MaDuong;
+//    }
+//
+//    public void setMaDuong(String maDuong) {
+//        MaDuong = maDuong;
+//    }
+//
 
 
     public String getSTT() {

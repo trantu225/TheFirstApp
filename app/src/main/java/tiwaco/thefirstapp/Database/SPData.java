@@ -170,4 +170,19 @@ public class SPData  {
         String kyhd=pre.getString(Bien.SPKYHD, "");
         return kyhd;
     }
+
+    public void luuDataUpdateServer(int bienghi){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putInt(Bien.SPCAPNHATSERVER, bienghi);
+        editor.commit();
+    }
+    public int getDataUPdateServer(){
+
+
+        int flagghi=pre.getInt(Bien.SPCAPNHATSERVER, 0);
+        return flagghi;
+    }
+
 }

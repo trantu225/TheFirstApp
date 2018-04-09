@@ -48,13 +48,14 @@ public class StartActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         con =  StartActivity.this;
         spdata = new SPData(con);
-        if(spdata.getDataNhanVienTrongSP().equalsIgnoreCase("Tu") || spdata.getDataNhanVienTrongSP().equalsIgnoreCase("HoaiLinh")){
-
-            setContentView(R.layout.activity_start);
-        }
-        else {
-            setContentView(R.layout.activity_start_hide_loaddata);
-        }
+        setContentView(R.layout.activity_start);
+//        if(spdata.getDataNhanVienTrongSP().equalsIgnoreCase("Tu") || spdata.getDataNhanVienTrongSP().equalsIgnoreCase("HoaiLinh")|| spdata.getDataNhanVienTrongSP().equalsIgnoreCase("Admin")){
+//
+//            setContentView(R.layout.activity_start);
+//        }
+//        else {
+//            setContentView(R.layout.activity_start_hide_loaddata);
+//        }
 
         getSupportActionBar().hide();
         khachhangDAO = new KhachHangDAO(con);
@@ -98,17 +99,20 @@ public class StartActivity extends AppCompatActivity  {
         Log.e("flag flagall", String.valueOf(Bien.bienbkall));
         Log.e("flag flagcg", String.valueOf(Bien.bienbkcg));
         Log.e("flag flagdg", String.valueOf(Bien.bienbkdg));
-        if( Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi  && Bien.bienbkdg ==Bien.bienghi  && Bien.bienbkdghn ==Bien.bienghi  )
-        {
-            btnBackup.setEnabled(false);
-            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
-          //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-        }
-        else{
 
-            btnBackup.setEnabled(true);
-            btnBackup.setBackgroundResource(R.drawable.ic_save);
-        }
+        btnBackup.setEnabled(true);
+        btnBackup.setBackgroundResource(R.drawable.ic_save);
+//        if( Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi  && Bien.bienbkdg ==Bien.bienghi  && Bien.bienbkdghn ==Bien.bienghi  )
+//        {
+//            btnBackup.setEnabled(false);
+//            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
+//          //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+//        }
+//        else{
+//
+//            btnBackup.setEnabled(true);
+//            btnBackup.setBackgroundResource(R.drawable.ic_save);
+//        }
 
     }
 
@@ -120,20 +124,20 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-
-        if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
-                || Bien.bienbkall == -1
-                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkdg == -1)
-                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == -1)
-                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkcg == -1)) {
-            btnBackup.setEnabled(false);
-            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
-            //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-        } else {
-
-            btnBackup.setEnabled(true);
-            btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
-        }
+//
+//        if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
+//                || Bien.bienbkall == -1
+//                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkdg == -1)
+//                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == -1)
+//                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkcg == -1)) {
+//            btnBackup.setEnabled(false);
+//            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
+//            //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
+//        } else {
+//
+//            btnBackup.setEnabled(true);
+//            btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
+//        }
 
         /*
         //KIểm tra thời gian có cùng kì hd ko

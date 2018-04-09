@@ -91,7 +91,7 @@ public class TinhTienInHDActivity  extends Activity {
     String makh_nhan = "";
     KhachHangDAO khdao;
     Context con;
-    TextView  tv_makh, tv_danhbo, tv_hoten, tv_diachi, tv_csocu, tv_csomoi, tv_m3;
+    TextView  tv_makh, tv_danhbo, tv_hoten, tv_diachi, tv_csocu, tv_csomoi, tv_m3,tv_tiennuoc, tv_thue, tv_phi, tv_tongcong;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +108,11 @@ public class TinhTienInHDActivity  extends Activity {
         tv_csocu = (TextView) findViewById(R.id.tv_chisocu);
         tv_csomoi= (TextView) findViewById(R.id.tv_chisomoi);
         tv_m3 = (TextView) findViewById(R.id.tv_m3);
+
+        tv_tiennuoc = (TextView) findViewById(R.id.tv_tiennuoc);
+        tv_thue = (TextView) findViewById(R.id.tv_thue);
+        tv_phi= (TextView) findViewById(R.id.tv_phi);
+        tv_tongcong = (TextView) findViewById(R.id.tv_tongcong);
         con =TinhTienInHDActivity.this;
         khdao = new KhachHangDAO(con);
         mgr=(PrintManager)getSystemService(PRINT_SERVICE);
@@ -142,6 +147,18 @@ public class TinhTienInHDActivity  extends Activity {
         tv_csocu.setText(kh.getChiSo1());
         tv_csomoi.setText(kh.getChiSo());
         tv_m3.setText(kh.getSLTieuThu());
+
+        tv_tiennuoc.setText(kh.getTienNuoc()+ " đ");
+        tv_phi.setText(kh.getphi()+ " đ");
+        if(kh.getvat().equals("0") || kh.getvat().equals("")) {
+            double tienthue = Double.parseDouble(kh.gettongcong())  - (Double.parseDouble(kh.getTienNuoc())+Double.parseDouble(kh.getphi()));
+            tv_thue.setText(String.valueOf(tienthue) + " đ");
+        }
+        else{
+            tv_thue.setText("0 đ");
+        }
+
+        tv_tongcong.setText(kh.gettongcong()+ " đ");
 
     }
     protected void connect() {

@@ -208,6 +208,120 @@
             android:textColor="@android:color/holo_red_dark"
             android:textSize="@dimen/sp14" />
     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:padding="@dimen/dp3"
+             android:text="Tiền nước: "
+             android:textColor="#000000"
+             android:textSize="@dimen/sp14" />
+
+         <TextView
+             android:id="@+id/tv_tiennuoc"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:ellipsize="marquee"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:marqueeRepeatLimit="marquee_forever"
+             android:maxLines="1"
+             android:padding="@dimen/dp3"
+             android:scrollHorizontally="true"
+             android:singleLine="true"
+             android:textColor="@android:color/holo_red_dark"
+             android:textSize="@dimen/sp14" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:padding="@dimen/dp3"
+             android:text="Phí NTSH: "
+             android:textColor="#000000"
+             android:textSize="@dimen/sp14" />
+
+         <TextView
+             android:id="@+id/tv_phi"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:ellipsize="marquee"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:marqueeRepeatLimit="marquee_forever"
+             android:maxLines="1"
+             android:padding="@dimen/dp3"
+             android:scrollHorizontally="true"
+             android:singleLine="true"
+             android:textColor="@android:color/holo_red_dark"
+             android:textSize="@dimen/sp14" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:padding="@dimen/dp3"
+             android:text="Thuế GTGT: "
+             android:textColor="#000000"
+             android:textSize="@dimen/sp14" />
+
+         <TextView
+             android:id="@+id/tv_thue"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:ellipsize="marquee"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:marqueeRepeatLimit="marquee_forever"
+             android:maxLines="1"
+             android:padding="@dimen/dp3"
+             android:scrollHorizontally="true"
+             android:singleLine="true"
+             android:textColor="@android:color/holo_red_dark"
+             android:textSize="@dimen/sp14" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:padding="@dimen/dp3"
+             android:text="Tổng cộng: "
+             android:textColor="#000000"
+             android:textSize="@dimen/sp14" />
+
+         <TextView
+             android:id="@+id/tv_tongcong"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:ellipsize="marquee"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:marqueeRepeatLimit="marquee_forever"
+             android:maxLines="1"
+             android:padding="@dimen/dp3"
+             android:scrollHorizontally="true"
+             android:singleLine="true"
+             android:textStyle="bold"
+             android:textColor="@android:color/holo_red_dark"
+             android:textSize="@dimen/sp14" />
+     </LinearLayout>
+
      </LinearLayout>
         <Button
             android:id="@+id/printButton"

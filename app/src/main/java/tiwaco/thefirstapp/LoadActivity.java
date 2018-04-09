@@ -488,6 +488,10 @@ public class LoadActivity extends AppCompatActivity {
 
                                 if(objKH.has("NOVAT")){
                                     novat = objKH.getString("NOVAT").toString().trim();
+                                    if(novat.equals(""))
+                                    {
+                                        novat = "0";
+                                    }
                                 }
 
                                 KhachHangDTO kh = new KhachHangDTO();
@@ -646,6 +650,7 @@ public class LoadActivity extends AppCompatActivity {
                 Bien.bienbkdg = 0;
                 Bien.bienbkdghn = 0;
                 spdata.KhoiTaoLaiSPDATA();
+                spdata.luuDataUpdateServer(0);
                 spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg,Bien.bienbkdghn);
 
 
@@ -715,6 +720,7 @@ public class LoadActivity extends AppCompatActivity {
                 Bien.bienbkdg = 0;
                 Bien.bienbkdghn = 0;
                 spdata.KhoiTaoLaiSPDATA();
+                spdata.luuDataUpdateServer(0);
                 spdata.luuDataFlagGhivaBackUpTrongSP(Bien.bienghi,Bien.bienbkall, Bien.bienbkcg,Bien.bienbkdg,Bien.bienbkdghn);
 
 

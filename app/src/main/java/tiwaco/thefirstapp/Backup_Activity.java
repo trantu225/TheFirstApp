@@ -346,7 +346,7 @@ public class Backup_Activity extends AppCompatActivity  {
                 connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
                         connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
 
-            Toast.makeText(this, " Not Connected ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, " Chưa có internet hoặc 3G/4G  ", Toast.LENGTH_LONG).show();
             return false;
         }
         return false;
@@ -1996,7 +1996,7 @@ public class Backup_Activity extends AppCompatActivity  {
         @Override
         protected String doInBackground(String... connUrl) {
             HttpURLConnection conn=null;
-            BufferedReader reader;
+
 
             try{
                 final URL url=new URL(connUrl[0]);
@@ -2061,14 +2061,17 @@ public class Backup_Activity extends AppCompatActivity  {
                 if(result==200){
 
                     InputStream in=new BufferedInputStream(conn.getInputStream());
-                    reader = new BufferedReader(new InputStreamReader(in));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder sb=new StringBuilder();
                     String line = null;
 
                     while((line=reader.readLine())!=null){
                         status=line;
                     }
+                    reader.close();
                 }
+
+
 
             }catch(Exception ex){
                 ex.printStackTrace();
@@ -2198,7 +2201,7 @@ public class Backup_Activity extends AppCompatActivity  {
 //                                }
 //                            }
 //                        }
-
+                        spdata.luuDataUpdateServer(0);
                         Toast.makeText(Backup_Activity.this, "Cập nhật dữ liệu thành công", Toast.LENGTH_LONG).show();
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
                         // khởi tạo dialog

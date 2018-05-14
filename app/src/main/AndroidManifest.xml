@@ -17,10 +17,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
-
     <supports-screens android:anyDensity="true" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
@@ -75,9 +74,13 @@
         <activity
             android:name=".HistoryActivity"
             android:configChanges="orientation"
-            android:parentActivityName=".StartActivity"
+            android:parentActivityName=".ThongTinActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".BTDeviceList"></activity>
+        <activity android:name=".BTDeviceList" />
+        <activity android:name=".ThongTinActivity"
+            android:configChanges="orientation"
+            android:parentActivityName=".StartActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

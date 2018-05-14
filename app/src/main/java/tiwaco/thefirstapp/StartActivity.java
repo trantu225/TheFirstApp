@@ -375,7 +375,7 @@ public class StartActivity extends AppCompatActivity  {
                     break;
                 case R.id.btn_lichsu:
 
-                    myIntent = new Intent(StartActivity.this, HistoryActivity.class);
+                    myIntent = new Intent(StartActivity.this, ThongTinActivity.class);
                     startActivity(myIntent);
 
                     break;

@@ -51,6 +51,7 @@ public class Bien {
     public static final String SPFLAGGHI = "spghi";
     public static final String SPSTTDANGGHI = "spstt";
     public static final String SPNHANVIEN = "spnhanvien";
+    public static final String SPMATKHAU = "spmatkhau";
     public static final String SPINDEXDUONG= "spindexduong";
 
 

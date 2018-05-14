@@ -12,6 +12,7 @@ import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 
+import static tiwaco.thefirstapp.Database.MyDatabaseHelper.KEY_DUONG_KHOASO;
 import static tiwaco.thefirstapp.Database.MyDatabaseHelper.KEY_DUONG_MADUONG;
 import static tiwaco.thefirstapp.Database.MyDatabaseHelper.KEY_DUONG_TENDUONG;
 import static tiwaco.thefirstapp.Database.MyDatabaseHelper.KEY_DUONG_TRANGTHAI;
@@ -35,6 +36,7 @@ public class DuongDAO {
         values.put(MyDatabaseHelper.KEY_DUONG_MADUONG, duong.getMaDuong());
         values.put(MyDatabaseHelper.KEY_DUONG_TENDUONG, duong.getTenDuong());
         values.put(MyDatabaseHelper.KEY_DUONG_TRANGTHAI, duong.getTrangThai());
+        values.put(MyDatabaseHelper.KEY_DUONG_KHOASO, duong.getKhoaSo());
         // Inserting Row
         long kt = db.insert(MyDatabaseHelper.TABLE_DUONG, null, values);
         db.close();
@@ -60,6 +62,7 @@ public class DuongDAO {
                 duong.setMaDuong(cursor.getString(0));
                 duong.setTenDuong(cursor.getString(1));
                 duong.setTrangThai(Integer.parseInt(cursor.getString(2)));
+                duong.setKhoaSo(cursor.getString(3));
                 // Adding contact to list
                 ListDuong.add(duong);
             } while (cursor.moveToNext());
@@ -68,6 +71,8 @@ public class DuongDAO {
         db.close();
         return ListDuong;
     }
+
+
 
 
 
@@ -85,6 +90,7 @@ public class DuongDAO {
                 duong.setMaDuong(cursor.getString(0));
                 duong.setTenDuong(cursor.getString(1));
                 duong.setTrangThai(Integer.parseInt(cursor.getString(2)));
+                duong.setKhoaSo(cursor.getString(3));
                 // Adding contact to list
                 ListDuong.add(duong);
             } while (cursor.moveToNext());
@@ -110,6 +116,35 @@ public class DuongDAO {
                 duong.setMaDuong(cursor.getString(0));
                 duong.setTenDuong(cursor.getString(1));
                 duong.setTrangThai(Integer.parseInt(cursor.getString(2)));
+                duong.setKhoaSo(cursor.getString(3));
+                // Adding contact to list
+                ListDuong.add(duong);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        // return contact list
+        return ListDuong;
+    }
+
+
+    public List<DuongDTO> getAllDuongChuaKhoaSo() {
+        db = myda.openDB();
+        List<DuongDTO> ListDuong = new ArrayList<DuongDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DUONG +" WHERE " + MyDatabaseHelper.KEY_DUONG_KHOASO +"='0' ";
+
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                DuongDTO duong = new DuongDTO();
+                duong.setMaDuong(cursor.getString(0));
+                duong.setTenDuong(cursor.getString(1));
+                duong.setTrangThai(Integer.parseInt(cursor.getString(2)));
+                duong.setKhoaSo(cursor.getString(3));
                 // Adding contact to list
                 ListDuong.add(duong);
             } while (cursor.moveToNext());
@@ -140,10 +175,30 @@ public class DuongDAO {
 
 
     }
+
+
+    //0: chua khoa, 1: da khoa
+    public boolean updateDuongKhoaSo(String  maduong,String khoa) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+        values.put(MyDatabaseHelper.KEY_DUONG_KHOASO, khoa);//1:: đã ghi
+
+        // updating row
+        long kt = db.update(MyDatabaseHelper.TABLE_DUONG, values, KEY_DUONG_MADUONG + " = ?", new String[] { maduong });
+        db.close();
+        if(kt != 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+
+    }
     public boolean checkExistDuong(String maduong){
         db = myda.openDB();
         Cursor cursor = db.query(TABLE_DUONG,
-                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI },
+                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI,KEY_DUONG_KHOASO },
                 KEY_DUONG_MADUONG + "=?",
                 new String[] { String.valueOf(maduong) },
                 null, null, null, null);
@@ -151,7 +206,7 @@ public class DuongDAO {
         if (cursor != null &&cursor.moveToFirst()) {
 
 
-          duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2));
+          duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2),cursor.getString(3));
         }
         cursor.close();
         db.close();
@@ -166,7 +221,7 @@ public class DuongDAO {
     public String getTenDuongTheoMa(String maduong){
         db = myda.openDB();
         Cursor cursor = db.query(TABLE_DUONG,
-                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI },
+                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI,KEY_DUONG_KHOASO },
                 KEY_DUONG_MADUONG + "=?",
                 new String[] { String.valueOf(maduong) },
                 null, null, null, null);
@@ -174,7 +229,7 @@ public class DuongDAO {
         if (cursor != null &&cursor.moveToFirst()) {
 
 
-            duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2));
+            duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2),cursor.getString(3));
         }
         cursor.close();
         db.close();
@@ -188,7 +243,7 @@ public class DuongDAO {
     public DuongDTO getDuongTheoMa(String maduong){
         db = myda.openDB();
         Cursor cursor = db.query(TABLE_DUONG,
-                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI },
+                new String[] { KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI,KEY_DUONG_KHOASO },
                 KEY_DUONG_MADUONG + "=?",
                 new String[] { String.valueOf(maduong) },
                 null, null, null, null);
@@ -196,7 +251,7 @@ public class DuongDAO {
         if (cursor != null &&cursor.moveToFirst()) {
 
 
-            duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2));
+            duong = new DuongDTO(cursor.getString(0),cursor.getString(1), cursor.getInt(2),cursor.getString(1));
         }
         cursor.close();
         db.close();

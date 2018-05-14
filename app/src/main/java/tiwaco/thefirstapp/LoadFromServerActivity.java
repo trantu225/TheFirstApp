@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -26,6 +27,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,12 +37,16 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import circleprogress.DonutProgress;
@@ -48,15 +55,18 @@ import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.ListJsonData;
+import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
 import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
+import tiwaco.thefirstapp.File.XuLyFile;
 
 public class LoadFromServerActivity extends AppCompatActivity {
     private String filename = "";
     DonutProgress prgTime;
     LinearLayout layout_noidungload;
-    Button btngetData;
+    Button btngetData, btnthoat;
     EditText editKyHD,edtNV;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
@@ -82,10 +92,22 @@ public class LoadFromServerActivity extends AppCompatActivity {
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
         layout_noidungload =(LinearLayout) findViewById(R.id.lay_noidungload) ;
         btngetData =(Button) findViewById(R.id.btn_GetDaTa) ;
+        btnthoat =  (Button) findViewById(R.id.btn_Thoat) ;
+
         editKyHD = (EditText) findViewById(R.id.edt_kyhd) ;
         edtNV = (EditText) findViewById(R.id.edt_nhanvien) ;
         prgTime.setProgress(0);
         prgTime.setText("0 %");
+        if(spdata.getDataNhanVienTrongSP().trim().equals("admin"))
+        {
+            edtNV.setEnabled(true);
+            edtNV.setTextColor(R.color.default_active_item_color);
+        }
+        else {
+            edtNV.setText(spdata.getDataNhanVienTrongSP().trim());
+            edtNV.setEnabled(false);
+
+        }
         duongdanfile = getString(R.string.API_GetListTiwareadData);
         btngetData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +154,15 @@ public class LoadFromServerActivity extends AppCompatActivity {
             }
         });
 
+        btnthoat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent=new Intent(LoadFromServerActivity.this, StartActivity.class);
+                startActivity(myIntent);
+                LoadFromServerActivity.this.finish();
 
+            }
+        });
 
     }
     private void askPermissionAndReadFile() {
@@ -353,6 +383,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                         if (jsonobj.has("ListTiwaread")) {
                             try {
                                 JSONArray listtiwaread = jsonobj.getJSONArray("ListTiwaread");
+                                List<DuongDTO> listduong = new ArrayList<>();
                                 for (int i = 0; i < listtiwaread.length(); i++) {
                                     JSONObject objTiwaread = listtiwaread.getJSONObject(i);
                                     String maduong = "";
@@ -369,9 +400,12 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
 
                                         Log.e("Them database_duong: ", "chay zo day rui");
-                                        DuongDTO duong = new DuongDTO(maduong, tenduong, 0);
+                                        DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0");
                                         boolean kt = duongDAO.addTable_Duong(duong);
+
+
                                         if (kt) {
+                                            listduong.add(duong);
                                             Log.e("Them database_duong: " + maduong, "Thanh cong");
                                         } else {
                                             Log.e("Them database_duong: " + maduong, "ko Thanh cong");
@@ -383,7 +417,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             //    loadDataDuongfromDB();
                                             Log.e("Them database_duong: ", " Da ton tai duong nay");
                                         } else {
-                                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0);
+                                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0");
                                             boolean kt = duongDAO.addTable_Duong(duong);
                                             if (kt) {
                                                 Log.e("Them database_duong: " + maduong, "Thanh cong");
@@ -438,9 +472,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             String loaikhcu = "";
                                             String ntsh = "";
                                             String novat = "";
-//                                if(objKH.has("ChiSo")){
-//                                    ChiSo = objKH.getString("ChiSo").toString().trim();
-//                                }
+                                            if(objKH.has("ChiSo")){
+                                                ChiSo = objKH.getString("ChiSo").toString().trim();
+                                            }
 
                                             if (objKH.has("ChiSo1")) {
                                                 ChiSo1 = objKH.getString("ChiSo1").toString().trim();
@@ -480,23 +514,23 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             if (objKH.has("GhiChu")) {
                                                 GhiChu = objKH.getString("GhiChu").toString().trim();
                                             }
-//                                if(objKH.has("Lat")){
-//                                    Lat = objKH.getString("Lat").toString().trim();
-//                                }
-//
-//                                if(objKH.has("Lon")){
-//                                    Lon = objKH.getString("Lon").toString().trim();
-//                                }
+                                            if(objKH.has("Lat")){
+                                                Lat = objKH.getString("Lat").toString().trim();
+                                            }
+
+                                            if(objKH.has("Lon")){
+                                                Lon = objKH.getString("Lon").toString().trim();
+                                            }
                                             if (objKH.has("MaKhachHang")) {
                                                 MaKhachHang = objKH.getString("MaKhachHang").toString().trim();
                                             }
 
-//                                if(objKH.has("NhanVien")){
-//                                    NhanVien = objKH.getString("NhanVien").toString().trim();
-//                                }
-//                                if(objKH.has("SLTieuThu")){
-//                                    SLTieuThu = objKH.getString("SLTieuThu").toString().trim();
-//                                }
+                                            if(objKH.has("NhanVien")){
+                                                NhanVien = objKH.getString("NhanVien").toString().trim();
+                                            }
+                                            if(objKH.has("SLTieuThu")){
+                                                SLTieuThu = objKH.getString("SLTieuThu").toString().trim();
+                                            }
 
                                             if (objKH.has("SLTieuThu1")) {
                                                 SLTieuThu1 = objKH.getString("SLTieuThu1").toString().trim();
@@ -529,13 +563,13 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             if (objKH.has("TenKhachHang")) {
                                                 TenKhachHang = objKH.getString("TenKhachHang").toString().trim();
                                             }
-//                                if(objKH.has("ThoiGian")){
-//                                    ThoiGian = objKH.getString("ThoiGian").toString().trim();
-//                                }
+                                            if(objKH.has("ThoiGian")){
+                                                ThoiGian = objKH.getString("ThoiGian").toString().trim();
+                                            }
 
-//                                if(objKH.has("TrangThaiTLK")){
-//                                    TrangThaiTLK = objKH.getString("TrangThaiTLK").toString().trim();
-//                                }
+                                            if(objKH.has("TrangThaiTLK")){
+                                                TrangThaiTLK = objKH.getString("TrangThaiTLK").toString().trim();
+                                            }
                                             if (objKH.has("chitietloai")) {
                                                 chitietloai = objKH.getString("chitietloai").toString().trim();
                                             }
@@ -633,6 +667,14 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                     }
 
 
+                                }
+
+                                for(int i  =0; i<listduong.size();i++)
+                                {
+                                    if( khachhangDAO.countKhachHangChuaGhiTheoDuong(listduong.get(i).getMaDuong())==0)
+                                    {
+                                        duongDAO.updateDuongDaGhi(listduong.get(i).getMaDuong());
+                                    }
                                 }
                                 Log.e("sokhco", String.valueOf(sokhco));
                                 Log.e("sokhdacapnhat", String.valueOf(sokhdacapnhat));
@@ -773,12 +815,40 @@ public class LoadFromServerActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    public final boolean isInternetOn() {
+
+        boolean k =false;
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connec =
+                (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+
+        // Check for network connections
+        if ( connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
+                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING ) {
+
+            // if connected with internet
+
+            // Toast.makeText(this, connec.getActiveNetworkInfo().getTypeName(), Toast.LENGTH_LONG).show();
+            k= true;
+
+        } else if (
+                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
+
+            //Toast.makeText(this, " Chưa có internet hoặc 3G/4G ", Toast.LENGTH_LONG).show();
+            k = false;
+        }
+
+        return k ;
+    }
     public boolean kiemtramang(){
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiCheck = connectionManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo wifiCheck3g = connectionManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
 
-        if (wifiCheck.isConnected()) {
+        if (wifiCheck.isConnected() || wifiCheck3g.isConnected() ) {
             // Do whatever here
             return true;
         } else {
@@ -790,12 +860,60 @@ public class LoadFromServerActivity extends AppCompatActivity {
     private void loadData(String duongdan){
 //        getSdCardPath();
         //String  duongdanfile = "http://192.168.1.101/Service1.svc/GetListTiwareadData/R010/09/2017";
-        if(kiemtramang()) {
+        if(isInternetOn()) {
             if(KiemTraTonTaiDuLieu()) {
                 //xóa sqlite
 //                MyDatabaseHelper mydata = new MyDatabaseHelper(con);
 //                SQLiteDatabase db = mydata.openDB();
 //                mydata.resetDatabase(db);
+
+                //Luu lai file tat ca
+                Bien.bienbkall = spdata.getDataBKALLTrongSP();
+                XuLyFile xl  = new XuLyFile(con);
+                String path = "";
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    path = xl.getBoNhoTrong();
+                } else {
+                    path = getFilesDir().getAbsolutePath();
+                }
+
+                Log.e("path",path);
+                String thumucchuafile="";
+                thumucchuafile = path+"/"+"BACKUPTIWAREAD";
+                File rootfile = new File(thumucchuafile);
+                if(rootfile.exists()==false){
+                    spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0,0);
+                    File f = new File(thumucchuafile);
+                    if(!f.exists()) {
+                        f.mkdirs();
+
+                    }
+
+                }
+                String tenfile = "customers_";
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                tenfile += timeStamp+".txt";
+
+
+                String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());
+                if (!result_tatca_string.equals("")) {
+                    String filename1 = thumucchuafile + "/TATCA" ;
+
+                    File f = new File(filename1);
+                    if(!f.exists()) {
+                        f.mkdirs();
+
+                    }
+
+                    boolean kt = writeFile(filename1, tenfile.trim(), result_tatca_string);
+                    if(kt)
+                    {
+                        Toast.makeText(con, "Tự động cập nhật thành công", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+
 
 
                 //Thêm data vào sqlite
@@ -862,6 +980,89 @@ public class LoadFromServerActivity extends AppCompatActivity {
             alertDialog.show();
         }
 
+    }
+
+    private boolean writeFile(String path,String tenfile, String data) {
+
+
+        try {
+            Log.e("duongdanfile",path);
+            Log.e("file",tenfile);
+            String duongdanfile = path+"/"+tenfile;
+            File myFile = new File(duongdanfile);
+            // myFile.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(myFile);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(data);
+            MediaScannerConnection.scanFile(con, new String[]{duongdanfile}, null, null);
+            myOutWriter.close();
+            fOut.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+//            //Hiển thị dialog
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+//            // khởi tạo dialog
+//            alertDialogBuilder.setMessage(R.string.backup_thatbai);
+//            // thiết lập nội dung cho dialog
+//
+//            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//
+//                    // button "no" ẩn dialog đi
+//                }
+//            });
+//
+//
+//            AlertDialog alertDialog = alertDialogBuilder.create();
+//            // tạo dialog
+//            alertDialog.setCanceledOnTouchOutside(false);
+//            alertDialog.show();
+//            // hiển thị dialog
+            return false;
+        }
+    }
+
+    private String taoJSONData_KH_TatCa(String tendanhsach) {
+        ListJsonData jsondata = new ListJsonData();
+        //Lấy danh sách tất cả các đường
+        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
+        List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
+        String soluongKH = String.valueOf(khachhangDAO.countKhachHangAll());
+        listduong = duongDAO.getAllDuong();
+        for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
+            String maduong = listduong.get(thutuduong).getMaDuong();
+            String tenduong = listduong.get(thutuduong).getTenDuong();
+            List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
+            listkh = khachhangDAO.getAllKHTheoDuong(maduong);
+            ListTiwareadDTO tiwaread = new ListTiwareadDTO();
+            tiwaread.setMaDuong(maduong);
+            tiwaread.setTenDuong(tenduong);
+            tiwaread.setTiwareadList(listkh);
+            if(listkh.size() >0) {
+                listtiwaread.add(tiwaread);
+            }
+        }
+        String json ="";
+        if(listtiwaread.size()>0) {
+            jsondata.setListTiwaread(listtiwaread);
+            String kyhd  = spdata.getDataKyHoaDonTrongSP();
+            jsondata.setTenDS(kyhd);
+
+            jsondata.setTongSLkh(soluongKH);
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+        }
+        else{
+            spdata.luuDataFlagBKAllTrongSP(-1);
+            Bien.bienbkall = -1;
+
+        }
+
+        return json;
     }
 
 

@@ -38,8 +38,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     // Duong Table Columns names
     public static final String KEY_DUONG_MADUONG = "maduong";
     public static final String KEY_DUONG_TENDUONG = "tenduong";
-    public static final String KEY_DUONG_TRANGTHAI = "trangthai";
-
+    public static final String KEY_DUONG_TRANGTHAI = "trangthai"; //0:chua ghi, 1: da ghi
+    public static final String KEY_DUONG_KHOASO = "khoaso"; //0:chua khoa , 1:dakhoa
     // TinhtrangTLK Table Columns names
     public static final String KEY_TINHTRANGTLK_MATT  = "matinhtrang";
     public static final String KEY_TINHTRANGTLK_TENTT  = "tentinhtrang";
@@ -109,7 +109,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         String CREATE_DUONG_TABLE = "CREATE TABLE " + TABLE_DUONG + "("
                 + KEY_DUONG_MADUONG + " TEXT PRIMARY KEY,"
                 + KEY_DUONG_TENDUONG + " TEXT,"
-                + KEY_DUONG_TRANGTHAI + " INTEGER" + ")";
+                + KEY_DUONG_TRANGTHAI + " INTEGER,"
+                + KEY_DUONG_KHOASO + " TEXT" + ")";
 
         String CREATE_KHACHHANG_TABLE = "CREATE TABLE  " + TABLE_DANHSACHKH + "("
                 + KEY_DANHSACHKH_MAKH + " TEXT PRIMARY KEY," //0

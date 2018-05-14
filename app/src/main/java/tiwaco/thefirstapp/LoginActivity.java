@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class LoginActivity extends AppCompatActivity  {
     String UserJson = "";
     boolean ketquakiemtra = false;
     String duongdanfile ="";
+    ViewDialog_login dialoglogin ;
 
 
 
@@ -98,6 +100,7 @@ public class LoginActivity extends AppCompatActivity  {
         nhanviendao = new NhanVienDAO();
         lichsudao = new LichSuDAO(con);
         khdao = new KhachHangDAO(con);
+        dialoglogin = new ViewDialog_login(LoginActivity.this);
 
         if(!spdata.getDataNhanVienTrongSP().equals("")){
             edt_ten.setText(spdata.getDataNhanVienTrongSP().trim());
@@ -118,6 +121,9 @@ public class LoginActivity extends AppCompatActivity  {
             }
         }
         Bien.listNV = nhanviendao.TaoDSNhanVien();
+
+
+
         btn_test.setVisibility(View.GONE);
         btn_dangnhap.setOnClickListener(new OnClickListener() {
             @Override
@@ -388,7 +394,7 @@ public class LoginActivity extends AppCompatActivity  {
              //   new CheckUser().execute(duongdanfile);//
                 if (isInternetOn()) {
                     Log.e("check wifi", "yes");
-
+                    dialoglogin.showDialog(getString(R.string.DialogDangNhap));
                     new CheckUser().execute(duongdanfile);//
                 } else {
                     Log.e("check wifi", "no");
@@ -531,7 +537,7 @@ public class LoginActivity extends AppCompatActivity  {
                 conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
                 conn.setRequestMethod("POST");
                 User u  = new User();
-                u.setUserID(Integer.parseInt(edt_ten.getText().toString()));
+
                 u.setUserName("Nguyen Van Long");
                 u.setPassword("123456789");
                 JSONUser juser = new JSONUser();
@@ -672,18 +678,20 @@ public class LoginActivity extends AppCompatActivity  {
         protected void onPostExecute(String result){
             super.onPostExecute(result);
             Log.e("result update", result);
+            dialoglogin.closeDialog();
             if(result.equals("1")){
                 ketquakiemtra = true;
                 //Bien.nhanvien = edt_ten.getText().toString().trim();
                 //spdata.luuDataKyHoaDonTrongSP("092017");
                 spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
+                spdata.luuDataMatKhauNhanVienTrongSP(edt_pass.getText().toString().trim());
                 LichSuDTO ls = new LichSuDTO();
                 ls.setNoiDungLS(edt_ten.getText().toString().trim() +" đăng nhập.");
                 ls.setMaLenh("DN");
                 String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
                 ls.setThoiGianLS(thoigian1);
                 lichsudao.addTable_History(ls);
-               
+
                 Log.e("nhanvien",spdata.getDataNhanVienTrongSP());
                 if(khdao.countKhachHangAll() >0){
 //                    TinhTrangTLKDAO tinhtrangtlkdao = new TinhTrangTLKDAO(con);

@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -81,7 +82,7 @@ public class TinhTienInHDActivity  extends Activity {
 
 
 
-    EditText message;
+
     Button printbtn;
     LinearLayout relativeLayout;
     private PrintManager mgr=null;
@@ -144,6 +145,8 @@ public class TinhTienInHDActivity  extends Activity {
         tv_danhbo.setText(kh.getDanhBo());
         tv_hoten.setText(kh.getTenKhachHang());
         tv_diachi.setText(kh.getDiaChi());
+
+
         tv_csocu.setText(kh.getChiSo1());
         tv_csomoi.setText(kh.getChiSo());
         tv_m3.setText(kh.getSLTieuThu());
@@ -199,21 +202,31 @@ public class TinhTienInHDActivity  extends Activity {
 
         byte[] printformat = { 0x1B, 0x21, FONT_TYPE };
             //btoutputstream.write(printformat);
-            String msg = message.getText().toString()+"\n";
-            String xuongdong  ="";
+
+            String xuongdong  ="\n";
             String  tencty  = "CTY TNHH MTV CẤP NƯỚC TIỀN GIANG\n\n";
             String Giaybao = "GIẤY BÁO\n";
-            String ngay = "Ngày 18 tháng 12 năm 2017\n";
+            String thoigian = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+            String ngay = "Ngày "+thoigian+"\n";
             String kihd = "Kỳ hóa đơn: 12/2017\n\n";
-            String madb = "Danh bộ: 00050\n";
-            String khachhang = "Tên KH: NGUYEN HOANG TAM\n";
-            String diachi = "Địa chỉ: 16 Hai Ba Trung\n";
-            String chisocu = "Chỉ số cũ: 18\n";
-            String chisomoi = "Chỉ số mới: 28\n";
-            String m3  = "Số m3 tiêu thụ: 10 m3\n";
-            String sotien ="Số tiền phải trả:100.000 đồng\n";
-            String nhacnho  = "\nĐề nghị quý khách vui lòng\nthanh toán tiền nước trong vòng\n5 ngày kể từ ngày nhận giấy báo\nQua thời hạn trên Cty sẽ tiến\nhành tạm ngưng cung cấp nước.\n\n";
-            String lienlac ="Vui lòng liên hệ số điện thoại\n0273.3873425 để được giúp đỡ.\n";
+            String madb = "Danh bộ: "+tv_danhbo.getText()+"\n";
+            String khachhang = "Tên KH: "+tv_hoten.getText();
+            List<String> listhotenmoihang  = catchuxuongdong(khachhang);
+            String diachi = "Địa chỉ: "+tv_diachi.getText();
+            List<String> listdiachimoihang  = catchuxuongdong(diachi);
+
+
+            String chisocu = "\nChỉ số cũ: "+tv_csocu.getText();
+            String chisomoi = "\nChỉ số mới: "+tv_csomoi.getText();
+            String m3  = "\nSố m3 tiêu thụ: "+ tv_m3.getText()+" m3";
+            String sotien ="\nSố tiền phải trả: "+tv_tongcong.getText()+" đ";
+//            String nhacnho  = "\nĐề nghị quý khách vui lòng\nthanh toán tiền nước trong vòng\n5 ngày kể từ ngày nhận giấy báo\nQua thời hạn trên Cty sẽ tiến\nhành tạm ngưng cung cấp nước.\n\n";
+//            String lienlac ="Vui lòng liên hệ số điện thoại\n0273.3873425 để được giúp đỡ.\n";
+
+            String nhacnho  = "Đề nghị quý khách vui lòng thanh toán tiền nước trong vòng 5 ngày kể từ ngày nhận giấy báo. Qua thời hạn trên Cty sẽ tiến hành tạm ngưng cung cấp nước.";
+            List<String> listnhacnhomoihang  = catchuxuongdong(nhacnho);
+            String lienlac ="Vui lòng liên hệ số điện thoại 0273.3873425 để được giúp đỡ.\n";
+            List<String> listlienlacmoihang  = catchuxuongdong(lienlac);
 //            try {
 //                byte[] bytes = tencty.getBytes("windows-1258");
 //                tencty = new String(bytes, "windows-1258");
@@ -231,15 +244,36 @@ public class TinhTienInHDActivity  extends Activity {
 
             writeWithFormat( new Formatter().get(), Formatter.leftAlign());
             btoutputstream.write(madb.getBytes("UTF-16LE"));
-            btoutputstream.write(khachhang.getBytes("UTF-16LE"));
-            btoutputstream.write(diachi.getBytes("UTF-16LE"));
+
+            for  (int i  = 0; i<listhotenmoihang.size();i++ )
+            {
+                btoutputstream.write(listhotenmoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+
+             for  (int i  = 0; i<listdiachimoihang.size();i++ )
+             {
+                 btoutputstream.write(listdiachimoihang.get(i).toString().getBytes("UTF-16LE"));
+                 btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+             }
             btoutputstream.write(chisocu.getBytes("UTF-16LE"));
             btoutputstream.write(chisomoi.getBytes("UTF-16LE"));
             btoutputstream.write(m3.getBytes("UTF-16LE"));
             btoutputstream.write(sotien.getBytes("UTF-16LE"));
-            btoutputstream.write(nhacnho.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            for  (int i  = 0; i<listnhacnhomoihang.size();i++ )
+            {
+                btoutputstream.write(listnhacnhomoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
             writeWithFormat( new Formatter().bold().get(), Formatter.leftAlign());
-            btoutputstream.write(lienlac.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+
+            for  (int i  = 0; i<listlienlacmoihang.size();i++ )
+            {
+                btoutputstream.write(listlienlacmoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
             btoutputstream.write(0x0D);
             btoutputstream.flush();
 
@@ -414,6 +448,61 @@ public class TinhTienInHDActivity  extends Activity {
         } catch (Exception e) {
 
         }
+    }
+
+    public List<String> catchuxuongdong(String s){
+        List<String> listdiachi  = new ArrayList<String>();
+     while (s.length() >0)
+     {
+
+             int  vitricachdautien  =   s.indexOf(' ');
+             if(vitricachdautien != -1) {
+                 String tudau = s.substring(0, vitricachdautien);
+                 listdiachi.add(tudau);
+                 s = s.substring(vitricachdautien).trim();
+             }
+             else{
+                 listdiachi.add(s);
+                 s = "";
+             }
+
+     }
+
+//
+//
+//
+//        for  (int i  = 0; i<listdiachi.size();i++ )
+//        {
+//            Log.e("Tu "+i,listdiachi.get(i).toString() +",dai:"+listdiachi.get(i).toString().length() );
+//        }
+        String chuoimoihang = "";
+        int gioihanchuoi = 32;
+        List<String> listdiachimoihang = new ArrayList<>();
+        for(int  j  =0;j<listdiachi.size();j++)
+        {
+            if((chuoimoihang.length()+(listdiachi.get(j).toString().trim() +" ").length())<=gioihanchuoi){
+                chuoimoihang +=listdiachi.get(j).toString().trim() +" ";
+                Log.e("Chuoi moi hang",chuoimoihang +" dài :"+chuoimoihang.length());
+            }
+            else{
+                listdiachimoihang.add(chuoimoihang.trim());
+                chuoimoihang= listdiachi.get(j).toString().trim() +" ";
+            }
+
+            if(j == listdiachi.size()-1  )
+            {
+
+                listdiachimoihang.add(chuoimoihang);
+                chuoimoihang ="";
+            }
+        }
+
+//        for  (int i  = 0; i<listdiachimoihang.size();i++ )
+//        {
+//            Log.e("Diachi "+i,listdiachimoihang.get(i).toString() +",dai:"+listdiachimoihang.get(i).toString().length() );
+//        }
+
+     return listdiachimoihang ;
     }
 
 

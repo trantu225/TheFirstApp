@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
@@ -22,6 +23,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,11 +33,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,9 +51,12 @@ import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.ListJsonData;
+import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
 import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
+import tiwaco.thefirstapp.File.XuLyFile;
 
 public class LoadActivity extends AppCompatActivity {
     private String filename = "";
@@ -274,6 +284,7 @@ public class LoadActivity extends AppCompatActivity {
             if (jsonobj.has("ListTiwaread")) {
                 try {
                     JSONArray listtiwaread = jsonobj.getJSONArray("ListTiwaread");
+                    List<DuongDTO> listduong = new ArrayList<>();
                     for(int  i  =0 ;i <listtiwaread.length();i++){
                         JSONObject objTiwaread = listtiwaread.getJSONObject(i);
                         String maduong = "";
@@ -286,13 +297,16 @@ public class LoadActivity extends AppCompatActivity {
                             tenduong = objTiwaread.getString("Tenduong");
                         }
                         Log.e("kiem tra da ton tai hay chua", String.valueOf(duongDAO.countDuong()));
+
                         if(duongDAO.countDuong() <=0) {
 
 
                             Log.e("Them database_duong: ", "chay zo day rui");
-                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0);
+                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0");
                             boolean kt = duongDAO.addTable_Duong(duong);
+
                             if (kt) {
+                                listduong.add(duong);
                                 Log.e("Them database_duong: " + maduong, "Thanh cong");
                             } else {
                                 Log.e("Them database_duong: " + maduong, "ko Thanh cong");
@@ -306,7 +320,7 @@ public class LoadActivity extends AppCompatActivity {
                                 Log.e("Them database_duong: ", " Da ton tai duong nay");
                             }
                             else{
-                                DuongDTO duong = new DuongDTO(maduong, tenduong, 0);
+                                DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0");
                                 boolean kt = duongDAO.addTable_Duong(duong);
                                 if (kt) {
                                     Log.e("Them database_duong: " + maduong, "Thanh cong");
@@ -544,6 +558,8 @@ public class LoadActivity extends AppCompatActivity {
                                 }
 
 
+
+
                                 FlagupdateDB = kt;
 
                                 long status = (j+1) *100/listKH.length();
@@ -554,6 +570,15 @@ public class LoadActivity extends AppCompatActivity {
 
                         }
                     }
+
+                    for(int i  =0; i<listduong.size();i++)
+                    {
+                        if( khachhangDAO.countKhachHangChuaGhiTheoDuong(listduong.get(i).getMaDuong())==0)
+                        {
+                            duongDAO.updateDuongDaGhi(listduong.get(i).getMaDuong());
+                        }
+                    }
+
                     //     loadDataDuongfromDB();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -624,11 +649,143 @@ public class LoadActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    private boolean writeFile(String path,String tenfile, String data) {
+
+
+        try {
+            Log.e("duongdanfile",path);
+            Log.e("file",tenfile);
+            String duongdanfile = path+"/"+tenfile;
+            File myFile = new File(duongdanfile);
+            // myFile.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(myFile);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(data);
+            MediaScannerConnection.scanFile(con, new String[]{duongdanfile}, null, null);
+            myOutWriter.close();
+            fOut.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+//            //Hiển thị dialog
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+//            // khởi tạo dialog
+//            alertDialogBuilder.setMessage(R.string.backup_thatbai);
+//            // thiết lập nội dung cho dialog
+//
+//            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//
+//                    // button "no" ẩn dialog đi
+//                }
+//            });
+//
+//
+//            AlertDialog alertDialog = alertDialogBuilder.create();
+//            // tạo dialog
+//            alertDialog.setCanceledOnTouchOutside(false);
+//            alertDialog.show();
+//            // hiển thị dialog
+            return false;
+        }
+    }
+
+    private String taoJSONData_KH_TatCa(String tendanhsach) {
+        ListJsonData jsondata = new ListJsonData();
+        //Lấy danh sách tất cả các đường
+        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
+        List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
+        String soluongKH = String.valueOf(khachhangDAO.countKhachHangAll());
+        listduong = duongDAO.getAllDuong();
+        for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
+            String maduong = listduong.get(thutuduong).getMaDuong();
+            String tenduong = listduong.get(thutuduong).getTenDuong();
+            List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
+            listkh = khachhangDAO.getAllKHTheoDuong(maduong);
+            ListTiwareadDTO tiwaread = new ListTiwareadDTO();
+            tiwaread.setMaDuong(maduong);
+            tiwaread.setTenDuong(tenduong);
+            tiwaread.setTiwareadList(listkh);
+            if(listkh.size() >0) {
+                listtiwaread.add(tiwaread);
+            }
+        }
+        String json ="";
+        if(listtiwaread.size()>0) {
+            jsondata.setListTiwaread(listtiwaread);
+            String kyhd  = spdata.getDataKyHoaDonTrongSP();
+            jsondata.setTenDS(kyhd);
+
+            jsondata.setTongSLkh(soluongKH);
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+        }
+        else{
+            spdata.luuDataFlagBKAllTrongSP(-1);
+            Bien.bienbkall = -1;
+
+        }
+
+        return json;
+    }
     private void loadData(){
 //        getSdCardPath();
         File file = new File(duongdanfile);
         if(file.exists()) {
             if(KiemTraTonTaiDuLieu()) {
+                //Luu lai file tat ca
+                Bien.bienbkall = spdata.getDataBKALLTrongSP();
+                XuLyFile xl  = new XuLyFile(con);
+                String path = "";
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    path = xl.getBoNhoTrong();
+                } else {
+                    path = getFilesDir().getAbsolutePath();
+                }
+
+                Log.e("path",path);
+                String thumucchuafile="";
+                thumucchuafile = path+"/"+"BACKUPTIWAREAD";
+                File rootfile = new File(thumucchuafile);
+                if(rootfile.exists()==false){
+                    spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0,0);
+                    File f = new File(thumucchuafile);
+                    if(!f.exists()) {
+                        f.mkdirs();
+
+                    }
+
+                }
+                String tenfile = "customers_";
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                tenfile += timeStamp+".txt";
+
+
+                String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());
+                if (!result_tatca_string.equals("")) {
+                    String filename1 = thumucchuafile + "/TATCA" ;
+
+                    File f = new File(filename1);
+                    if(!f.exists()) {
+                        f.mkdirs();
+
+                    }
+
+                    boolean kt = writeFile(filename1, tenfile.trim(), result_tatca_string);
+                    if(kt)
+                    {
+                        Toast.makeText(con, "Tự động cập nhật thành công", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+
+
+
 
                 //xóa sqlite
                 MyDatabaseHelper mydata = new MyDatabaseHelper(con);

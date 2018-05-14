@@ -636,6 +636,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/lay_ki1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -647,7 +648,8 @@
 
                     <TextView
                         android:id="@+id/tv_chisocu1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
 
                         android:gravity="center"
@@ -666,7 +668,8 @@
 
                     <TextView
                         android:id="@+id/tv_m3cu1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
 
                         android:ellipsize="marquee"
@@ -686,6 +689,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lay_ki2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -697,7 +701,8 @@
 
                     <TextView
                         android:id="@+id/tv_chisocu2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:ellipsize="marquee"
                         android:focusable="true"
@@ -706,7 +711,6 @@
                         android:maxLines="1"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-
                         android:gravity="center"
                         android:padding="@dimen/dp10"
                         android:text="1106"
@@ -716,7 +720,8 @@
 
                     <TextView
                         android:id="@+id/tv_m3cu2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:ellipsize="marquee"
                         android:focusable="true"
@@ -725,7 +730,6 @@
                         android:maxLines="1"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-
                         android:gravity="center"
                         android:padding="@dimen/dp10"
                         android:text="1129"
@@ -736,6 +740,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lay_ki3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -747,7 +752,8 @@
 
                     <TextView
                         android:id="@+id/tv_chisocu3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:ellipsize="marquee"
                         android:focusable="true"
@@ -766,7 +772,8 @@
 
                     <TextView
                         android:id="@+id/tv_m3cu3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:ellipsize="marquee"
                         android:focusable="true"

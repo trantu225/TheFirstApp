@@ -85,6 +85,20 @@ public class SPData  {
         String nhvien=pre.getString(Bien.SPNHANVIEN, "");
         return nhvien;
     }
+
+    public void luuDataMatKhauNhanVienTrongSP(String nhanvien){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putString(Bien.SPMATKHAU, nhanvien);
+        editor.commit();
+    }
+    public String getDataMatKhauNhanVienTrongSP(){
+
+
+        String nhvien=pre.getString(Bien.SPMATKHAU, "");
+        return nhvien;
+    }
     public int getDataFlagGhiTrongSP(){
 
 
@@ -152,9 +166,11 @@ public class SPData  {
     public void KhoiTaoLaiSPDATA(){
         SharedPreferences.Editor editor = pre.edit();
         String  nv = getDataNhanVienTrongSP();
+        String pass  = getDataMatKhauNhanVienTrongSP();
         editor.clear();
         editor.commit();
         luuDataNhanVienTrongSP(nv);
+        luuDataMatKhauNhanVienTrongSP(pass);
     }
 
     public void luuDataKyHoaDonTrongSP(String kyhd){

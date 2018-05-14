@@ -200,10 +200,10 @@ public class ListActivity extends AppCompatActivity {
                                 bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
                                 bundle.putInt(Bien.VITRI,finalVitriduong);
                                 bundle.putString(Bien.MAKH,"");
-                                Log.e("LISTACTIVITY_vitriduongghi", String.valueOf(finalVitriduong));
+                                //Log.e("LISTACTIVITY_vitriduongghi", String.valueOf(finalVitriduong));
                                 intent.putExtra(Bien.GOITIN_MADUONG, bundle);
-                                Log.e("gui bundle maduong", Bien.ma_duong_dang_chon);
-                                Log.e("gui bundle sott",khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
+                                //Log.e("gui bundle maduong", Bien.ma_duong_dang_chon);
+                               // Log.e("gui bundle sott",khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
                                 bundle.putString(Bien.STT,khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
                                 startActivity(intent);
                             }
@@ -238,7 +238,7 @@ public class ListActivity extends AppCompatActivity {
         //adapter duong
         if(adapter != null &&  Bien.adapterKH !=null ) {
 
-            Log.e("RESUME LIST","OK");
+          //  Log.e("RESUME LIST","OK");
          //   setview();
             listduong = duongDAO.getAllDuong();
             adapter.setData(listduong);

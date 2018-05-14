@@ -9,6 +9,8 @@
     <string name="API_UpdateKhachHangDaGhi2">http://113.176.94.250:8012/Service1.svc/CapNhatChiSoDongHoNuocNongThon</string>
     <string name="API_GetListTiwareadData">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataNongThon</string>
     <string name="API_CheckLogin">http://113.176.94.250:8012/Service1.svc/GetThongTinNhanVien</string>
+    <string name="API_DuongKhoaSo">http://113.176.94.250:8012/Service1.svc/DanhSachDuongChuaKhoaSo</string>
+    <string name="API_DoiMatKhau">http://113.176.94.250:8012/Service1.svc/UpdatePassUser</string>
 
     <!-- Man Hinh -->
     <string name="manhinh_Login">Đăng nhập</string>
@@ -25,6 +27,9 @@
     <!-- Strings related to login -->
     <string name="prompt_ID">ID nhân viên</string>
     <string name="prompt_password">Mật khẩu</string>
+    <string name="prompt_password_moi">Mật khẩu mới</string>
+    <string name="prompt_password_cu">Mật khẩu cũ</string>
+
     <string name="action_sign_in">Đăng nhập</string>
     <string name="action_close">Thoát</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -68,7 +73,8 @@
     <string name="btn_ghinuoc">Ghi nước</string>
     <string name="btn_doisodt">Đổi</string>
     <string name="btn_timkiem">Tìm kiếm</string>
-    <string name="btn_lichsu">Lược sử</string>
+    <string name="btn_lichsu">Thông tin</string>
+    <string name="btn_doimatkhau">Đổi mật khẩu</string>
     <string name="tab_ghinuoc">Ghi nước</string>
     <string name="tab_dsKH">Danh sách KH</string>
     <string name="tab_dsduong">Danh sách đường</string>
@@ -129,6 +135,8 @@
     <string name="backup_capnhatserver_thanhcong">Cập nhật dữ liệu thành công</string>
     <string name="backup_capnhatserver_thatbai">Cập nhật dữ liệu thất bại</string>
     <string name="loadserver_error_kocokh">Chưa có dữ liệu trong kỳ hóa đơn này.</string>
+    <string name="DialogDangNhap">Đang đăng nhập...</string>
+    <string name="nhan_vien">Nhân viên: </string>
 
 
 </resources>

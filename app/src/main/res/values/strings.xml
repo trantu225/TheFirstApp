@@ -11,6 +11,7 @@
     <string name="API_CheckLogin">http://113.176.94.250:8012/Service1.svc/GetThongTinNhanVien</string>
     <string name="API_DuongKhoaSo">http://113.176.94.250:8012/Service1.svc/DanhSachDuongChuaKhoaSo</string>
     <string name="API_DoiMatKhau">http://113.176.94.250:8012/Service1.svc/UpdatePassUser</string>
+    <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
 
     <!-- Man Hinh -->
     <string name="manhinh_Login">Đăng nhập</string>
@@ -32,6 +33,7 @@
 
     <string name="action_sign_in">Đăng nhập</string>
     <string name="action_close">Thoát</string>
+    <string name="action_update">Kiểm tra cập nhật</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_incorrect_password">Tên hoặc mật khẩu không đúng.Hãy thử lại</string>
     <string name="error_field_required">Bạn chưa nhập thông tin</string>
@@ -137,6 +139,7 @@
     <string name="loadserver_error_kocokh">Chưa có dữ liệu trong kỳ hóa đơn này.</string>
     <string name="DialogDangNhap">Đang đăng nhập...</string>
     <string name="nhan_vien">Nhân viên: </string>
+    <string name="note_phienbanmoinhat_true">Đây là phiên bản mới nhất.</string>
 
 
 </resources>

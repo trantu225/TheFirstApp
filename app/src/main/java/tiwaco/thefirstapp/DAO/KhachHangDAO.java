@@ -1936,8 +1936,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG
 
                 },
-                MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and ( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "=? or " +MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + "=? )",
-                new String[] { maduong, tk,tk },
+                MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and ( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "='"+tk+"' or " +MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + "='"+tk+"' )",
+                new String[] { maduong },
                 null, null, null, null);
         KhachHangDTO kh = null;
         if (cursor != null &&  cursor.moveToFirst()) {

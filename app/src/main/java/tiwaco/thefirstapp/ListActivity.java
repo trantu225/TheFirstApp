@@ -138,7 +138,7 @@ public class ListActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!locSTT.getText().toString().equals("")) {
 
-                    KhachHangDTO khchuyen = khachhangDAO.getKHTheoDanhBoSTTDuong(Bien.ma_duong_dang_chon,locSTT.getText().toString());
+                    KhachHangDTO khchuyen = khachhangDAO.getKHTheoDanhBoSTTDuong(Bien.ma_duong_dang_chon,locSTT.getText().toString().trim());
                     if(khchuyen!=null) {
                         Log.e("chuyendenstt",locSTT.getText().toString()+": codulieu");
                         int stt = Integer.parseInt(khchuyen.getSTT().toString()) - 1;

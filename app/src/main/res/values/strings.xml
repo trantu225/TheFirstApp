@@ -8,11 +8,12 @@
     <!--<string name="API_UpdateKhachHangDaGhi">http://tiwaco.com.vn:8012/Service1.svc/CapNhatChiSoTLK</string>-->
     <string name="API_UpdateKhachHangDaGhi2">http://113.176.94.250:8012/Service1.svc/CapNhatChiSoDongHoNuocNongThon</string>
     <string name="API_GetListTiwareadData">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataNongThon</string>
+    <string name="API_GetListTiwareadDataDaGhi">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataDaGhiNongThon</string>
     <string name="API_CheckLogin">http://113.176.94.250:8012/Service1.svc/GetThongTinNhanVien</string>
     <string name="API_DuongKhoaSo">http://113.176.94.250:8012/Service1.svc/DanhSachDuongChuaKhoaSo</string>
     <string name="API_DoiMatKhau">http://113.176.94.250:8012/Service1.svc/UpdatePassUser</string>
     <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
-
+    <string name="link_apk">http://tiwaco.com.vn/uploads/apk/tiwaread.apk</string>
     <!-- Man Hinh -->
     <string name="manhinh_Login">Đăng nhập</string>
     <string name="manhinh_Main">Ghi nước</string>
@@ -140,6 +141,7 @@
     <string name="DialogDangNhap">Đang đăng nhập...</string>
     <string name="nhan_vien">Nhân viên: </string>
     <string name="note_phienbanmoinhat_true">Đây là phiên bản mới nhất.</string>
+
 
 
 </resources>

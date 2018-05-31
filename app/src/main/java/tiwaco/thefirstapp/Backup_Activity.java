@@ -2249,7 +2249,7 @@ public class Backup_Activity extends AppCompatActivity  {
                 alertDialog.setCanceledOnTouchOutside(false);
                 alertDialog.show();
             }
-            if(result.equals("RONG"))
+            else if(result.equals("RONG"))
             {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
                 // khởi tạo dialog

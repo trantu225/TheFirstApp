@@ -53,6 +53,21 @@ public class ViewDialog {
             }
         });
 
+
+        Button dialogButton_from_server_again = (Button) dialog.findViewById(R.id.btn_dialog_from_server_again);
+        dialogButton_from_server_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                activity.finish();
+                Intent myIntent = new Intent(activity, LoadFromServerDaGhiActivity.class);
+                activity.startActivity(myIntent);
+                // activity.finish();
+
+
+            }
+        });
+
         Button dialogButton_thoat = (Button) dialog.findViewById(R.id.btn_thoat);
         dialogButton_thoat.setOnClickListener(new View.OnClickListener() {
             @Override

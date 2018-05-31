@@ -91,6 +91,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_PHI = "phi";
     public static final String KEY_DANHSACHKH_TONGCONG = "tongcong";
     public static final String KEY_DANHSACHKH_NOVAT = "novat";
+    public static final String KEY_DANHSACHKH_THUE = "thue";
+    public static final String KEY_DANHSACHKH_M31 = "m3muc1";
+    public static final String KEY_DANHSACHKH_M32 = "m3muc2";
+    public static final String KEY_DANHSACHKH_M33 = "m3muc3";
+    public static final String KEY_DANHSACHKH_M34 = "m3muc4";
+    public static final String KEY_DANHSACHKH_TIEN1 = "tienmuc1";
+    public static final String KEY_DANHSACHKH_TIEN2 = "tienmuc2";
+    public static final String KEY_DANHSACHKH_TIEN3 = "tienmuc3";
+    public static final String KEY_DANHSACHKH_TIEN4 = "tienmuc4";
 
 
     // Duong Table Columns names
@@ -155,7 +164,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_TIENNUOC + " TEXT, "        //39
                 + KEY_DANHSACHKH_PHI + " TEXT, "             //40
                 + KEY_DANHSACHKH_TONGCONG + " TEXT, "       //41
-                + KEY_DANHSACHKH_NOVAT + " TEXT " + ")";  //42
+                + KEY_DANHSACHKH_NOVAT + " TEXT, "       //42
+                + KEY_DANHSACHKH_THUE+ " TEXT, "          //43
+                + KEY_DANHSACHKH_M31 + " TEXT, "          //44
+                + KEY_DANHSACHKH_M32 + " TEXT, "          //45
+                + KEY_DANHSACHKH_M33 + " TEXT, "          //46
+                + KEY_DANHSACHKH_M34 + " TEXT, "          //47
+                + KEY_DANHSACHKH_TIEN1 + " TEXT, "          //48
+                + KEY_DANHSACHKH_TIEN2 + " TEXT, "          //49
+                + KEY_DANHSACHKH_TIEN3 + " TEXT, "          //50
+                + KEY_DANHSACHKH_TIEN4 + " TEXT "+ ")";  //51
 
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("

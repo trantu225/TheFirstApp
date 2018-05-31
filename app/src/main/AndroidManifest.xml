@@ -47,6 +47,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".LoadActivity" />
         <activity android:name=".LoadFromServerActivity" />
+        <activity android:name=".LoadFromServerDaGhiActivity" />
         <activity
             android:name=".ListActivity"
             android:configChanges="orientation"

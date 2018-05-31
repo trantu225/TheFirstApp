@@ -18,6 +18,7 @@ import android.support.annotation.WorkerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +73,14 @@ import android.widget.EditText;
 
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.Database.SPData;
 
 
 /**
  * Created by TUTRAN on 15/12/2017.
  */
 
-public class TinhTienInHDActivity  extends Activity {
+public class TinhTienInHDActivity  extends AppCompatActivity {
 
 
 
@@ -92,12 +95,18 @@ public class TinhTienInHDActivity  extends Activity {
     String makh_nhan = "";
     KhachHangDAO khdao;
     Context con;
+    SPData spdata;
+    DecimalFormat format ;
+
     TextView  tv_makh, tv_danhbo, tv_hoten, tv_diachi, tv_csocu, tv_csomoi, tv_m3,tv_tiennuoc, tv_thue, tv_phi, tv_tongcong;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_printbill);
        // message = (EditText)findViewById(R.id.message);
+        getSupportActionBar().setTitle("Tiền nước");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         printbtn = (Button)findViewById(R.id.printButton);
         relativeLayout = (LinearLayout) findViewById(R.id.print);
@@ -115,9 +124,11 @@ public class TinhTienInHDActivity  extends Activity {
         tv_phi= (TextView) findViewById(R.id.tv_phi);
         tv_tongcong = (TextView) findViewById(R.id.tv_tongcong);
         con =TinhTienInHDActivity.this;
+        spdata = new SPData(con);
         khdao = new KhachHangDAO(con);
         mgr=(PrintManager)getSystemService(PRINT_SERVICE);
 
+        format = new DecimalFormat("0.#");
         HienThiViewTheoMaDuong();
 
 
@@ -132,7 +143,19 @@ public class TinhTienInHDActivity  extends Activity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // todo: goto back activity from here
 
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     public void HienThiViewTheoMaDuong(){
 
         Intent callerIntent = getIntent();
@@ -151,17 +174,23 @@ public class TinhTienInHDActivity  extends Activity {
         tv_csomoi.setText(kh.getChiSo());
         tv_m3.setText(kh.getSLTieuThu());
 
-        tv_tiennuoc.setText(kh.getTienNuoc()+ " đ");
-        tv_phi.setText(kh.getphi()+ " đ");
+        Log.e("TinhTienNuoc TienNuoc", String.valueOf(kh.getTienNuoc()));
+        Log.e("TinhTienNuoc PhiNTSH", String.valueOf(kh.getphi()));
+        Log.e("TinhTienNuoc TongCong", String.valueOf(kh.gettongcong()));
+
+
+        tv_tiennuoc.setText(format.format(Double.parseDouble(kh.getTienNuoc()))+ " đ");
+        tv_phi.setText(format.format(Double.parseDouble(kh.getphi()))+ " đ");
         if(kh.getvat().equals("0") || kh.getvat().equals("")) {
             double tienthue = Double.parseDouble(kh.gettongcong())  - (Double.parseDouble(kh.getTienNuoc())+Double.parseDouble(kh.getphi()));
-            tv_thue.setText(String.valueOf(tienthue) + " đ");
+
+            tv_thue.setText(format.format(tienthue) + " đ");
         }
         else{
             tv_thue.setText("0 đ");
         }
 
-        tv_tongcong.setText(kh.gettongcong()+ " đ");
+        tv_tongcong.setText(format.format(Double.parseDouble(kh.gettongcong()))+ " đ");
 
     }
     protected void connect() {
@@ -208,7 +237,16 @@ public class TinhTienInHDActivity  extends Activity {
             String Giaybao = "GIẤY BÁO\n";
             String thoigian = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
             String ngay = "Ngày "+thoigian+"\n";
-            String kihd = "Kỳ hóa đơn: 12/2017\n\n";
+            String kyhd = spdata.getDataKyHoaDonTrongSP();
+            Log.e("KYHD",kyhd);
+            String kihd ="";
+            if(!kyhd.equals("")) {
+                String nam = kyhd.substring(0, 4);
+                String thang = kyhd.substring(4);
+                String strkyhd = thang + "/" + nam;
+                kihd = "Kỳ hóa đơn: "+strkyhd+"\n\n";
+            }
+
             String madb = "Danh bộ: "+tv_danhbo.getText()+"\n";
             String khachhang = "Tên KH: "+tv_hoten.getText();
             List<String> listhotenmoihang  = catchuxuongdong(khachhang);

@@ -1666,7 +1666,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     intent.putExtra(Bien.GOITIN_GHINUOC, bundle);
                     startActivity(intent);
-                    MainActivity.this.finish();
+                   // MainActivity.this.finish();
                 }
                 else{
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -1933,6 +1933,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                         lichsudao.addTable_History(ls);
                         khachhangDAO.updateTrangThaiCapNhat(maKH,"0");
 
+                        /*
                         //Tinh tien nuoc
 
                         if(!khachhangDAO.getKHTheoMaKH(maKH).getChiSo().equals("")) {
@@ -1941,7 +1942,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                         else{
                             khachhangDAO.updateGiaNuoc(maKH,"","","");
                         }
-
+                         */
                         //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
                         if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
 

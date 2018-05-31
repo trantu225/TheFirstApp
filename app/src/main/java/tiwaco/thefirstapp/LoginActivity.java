@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity  {
         lichsudao = new LichSuDAO(con);
         khdao = new KhachHangDAO(con);
         dialoglogin = new ViewDialog_login(LoginActivity.this);
-
+        Log.e("matkhaunv",spdata.getDataNhanVienTrongSP());
         if(!spdata.getDataNhanVienTrongSP().equals("")){
             edt_ten.setText(spdata.getDataNhanVienTrongSP().trim());
             if(khdao.countKhachHangAll() >0){

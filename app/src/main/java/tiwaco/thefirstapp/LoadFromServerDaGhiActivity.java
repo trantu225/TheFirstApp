@@ -62,7 +62,7 @@ import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.File.XuLyFile;
 
-public class LoadFromServerActivity extends AppCompatActivity {
+public class LoadFromServerDaGhiActivity extends AppCompatActivity {
     private String filename = "";
     DonutProgress prgTime;
     LinearLayout layout_noidungload;
@@ -84,9 +84,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loaddata_server);
         getSupportActionBar().hide();
-        con = LoadFromServerActivity.this;
-        duongDAO = new DuongDAO(LoadFromServerActivity.this);
-        khachhangDAO = new KhachHangDAO(LoadFromServerActivity.this);
+        con = LoadFromServerDaGhiActivity.this;
+        duongDAO = new DuongDAO(LoadFromServerDaGhiActivity.this);
+        khachhangDAO = new KhachHangDAO(LoadFromServerDaGhiActivity.this);
         tinhtrangtlkdao = new TinhTrangTLKDAO(con);
         spdata = new SPData(con);
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
@@ -108,11 +108,16 @@ public class LoadFromServerActivity extends AppCompatActivity {
             edtNV.setEnabled(false);
 
         }
-        duongdanfile = getString(R.string.API_GetListTiwareadData);
+        if(!spdata.getDataKyHoaDonTrongSP().trim().equals(""))
+        {
+            editKyHD.setText(spdata.getDataKyHoaDonTrongSP().trim());
+        }
+
+        duongdanfile = getString(R.string.API_GetListTiwareadDataDaGhi);
         btngetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // new GetUserList().execute("http://192.168.1.91/Service1.svc/GetListUser");
+                // new GetUserList().execute("http://192.168.1.91/Service1.svc/GetListUser");
                 try {
                     String manv = edtNV.getText().toString().trim(); // Lay manv
                     Log.e("nhap", editKyHD.getText().toString());
@@ -129,7 +134,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                 }
                 catch(Exception loi){
                     //Hiển thị dialog
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerDaGhiActivity.this);
                     // khởi tạo dialog
                     alertDialogBuilder.setMessage("Kết nối thất bại.Hãy kiểm tra lại thông tin nhân viên và kỳ hóa đơn!");
                     // thiết lập nội dung cho dialog
@@ -140,7 +145,6 @@ public class LoadFromServerActivity extends AppCompatActivity {
                             dialog.dismiss();
                             layout_noidungload.setVisibility(View.VISIBLE);
                             prgTime.setVisibility(View.GONE);
-
 
                             // button "no" ẩn dialog đi
                         }
@@ -160,9 +164,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
         btnthoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent=new Intent(LoadFromServerActivity.this, StartActivity.class);
+                Intent myIntent=new Intent(LoadFromServerDaGhiActivity.this, StartActivity.class);
                 startActivity(myIntent);
-                LoadFromServerActivity.this.finish();
+                LoadFromServerDaGhiActivity.this.finish();
 
             }
         });
@@ -233,7 +237,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
                         // contacts-related task you need to do.
 
-                        GPSTracker gps = new GPSTracker(con, LoadFromServerActivity.this);
+                        GPSTracker gps = new GPSTracker(con, LoadFromServerDaGhiActivity.this);
 
                         // Check if GPS enabled
                         if (gps.canGetLocation()) {
@@ -287,9 +291,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
 
 
-                HttpURLConnection conn = null;
-                BufferedReader reader;
-                String FlagupdateDB = "TB"; // TC, TB, EMPTY
+            HttpURLConnection conn = null;
+            BufferedReader reader;
+            String FlagupdateDB = "TB"; // TC, TB, EMPTY
             if(!isCancelled()) {
                 //Duong dan file
                 String duongdan = params[0];
@@ -475,10 +479,6 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             String loaikhcu = "";
                                             String ntsh = "";
                                             String novat = "";
-                                            String tiennuoc = "";
-                                            String tienthue = "";
-                                            String phi ="";
-                                            String tongcong  = "";
                                             String m31 = "";
                                             String m32 = "";
                                             String m33 = "";
@@ -487,7 +487,12 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             String tien2 = "";
                                             String tien3 = "";
                                             String tien4 = "";
+                                            String tiennuoc = "";
+                                            String tienthue = "";
+                                            String phi ="";
+                                            String tongcong  = "";
                                             String ngaythanhtoan ="";
+
                                             if(objKH.has("ChiSo")){
                                                 ChiSo = objKH.getString("ChiSo").toString().trim();
                                             }
@@ -551,27 +556,29 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             if (objKH.has("SLTieuThu1")) {
                                                 SLTieuThu1 = objKH.getString("SLTieuThu1").toString().trim();
                                             }
-//                                if(objKH.has("SLTieuThu1con")){
-//                                    SLTieuThu1con = objKH.getString("SLTieuThu1con").toString().trim();
-//                                }
-
-                                            if (objKH.has("SLTieuThu2")) {
-                                                SLTieuThu2 = objKH.getString("SLTieuThu2").toString().trim();
+                                            if(objKH.has("nhanvien")){
+                                                NhanVien = objKH.getString("nhanvien").toString().trim();
                                             }
-//                                if(objKH.has("SLTieuThu2con")){
-//                                    SLTieuThu2con = objKH.getString("SLTieuThu2con").toString().trim();
-//                                }
+
+                                            if (objKH.has("lat")) {
+                                                Lat = objKH.getString("lat").toString().trim();
+                                            }
+                                            if(objKH.has("lon")){
+                                                Lon = objKH.getString("lon").toString().trim();
+                                            }
+
+                                            if(objKH.has("thoigian")){
+                                                ThoiGian = objKH.getString("thoigian").toString().trim();
+                                            }
 
                                             if (objKH.has("SLTieuThu3")) {
                                                 SLTieuThu3 = objKH.getString("SLTieuThu3").toString().trim();
                                             }
-//                                if(objKH.has("SLTieuThu3con")){
-//                                    SLTieuThu3con = objKH.getString("SLTieuThu3con").toString().trim();
-//                                }
+                                            if(objKH.has("trangthaitlk")){
+                                                TrangThaiTLK = objKH.getString("trangthaitlk").toString().trim();
+                                            }
 
-//                                if(objKH.has("SLTieuThucon")){
-//                                    SLTieuThucon = objKH.getString("SLTieuThucon").toString().trim();
-//                                }
+
                                             if (objKH.has("STT")) {
                                                 STT = objKH.getString("STT").toString().trim();
                                             }
@@ -617,6 +624,21 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             if (objKH.has("NOVAT")) {
                                                 novat = objKH.getString("NOVAT").toString().trim();
                                             }
+
+                                            if (objKH.has("tiennuoc")) {
+                                                tiennuoc = objKH.getString("tiennuoc").toString().trim();
+                                            }
+                                            if (objKH.has("phi")) {
+                                                phi = objKH.getString("phi").toString().trim();
+                                            }
+                                            if (objKH.has("thue")) {
+                                                tienthue = objKH.getString("thue").toString().trim();
+                                            }
+                                            if (objKH.has("tongcong")) {
+                                                tongcong = objKH.getString("tongcong").toString().trim();
+                                            }
+
+
                                             if (objKH.has("m3muc1")) {
                                                 m31 = objKH.getString("m3muc1").toString().trim();
                                             }
@@ -641,17 +663,15 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             if (objKH.has("tienmuc4")) {
                                                 tien4 = objKH.getString("tienmuc4").toString().trim();
                                             }
-                                            if (objKH.has("tiennuoc")) {
-                                                tiennuoc = objKH.getString("tiennuoc").toString().trim();
-                                            }
-                                            if (objKH.has("phi")) {
-                                                phi = objKH.getString("phi").toString().trim();
-                                            }
-                                            if (objKH.has("thue")) {
-                                                tienthue = objKH.getString("thue").toString().trim();
-                                            }
-                                            if (objKH.has("tongcong")) {
-                                                tongcong = objKH.getString("tongcong").toString().trim();
+
+                                            if(NhanVien.equals("")){
+                                                SLTieuThu ="";
+                                                ChiSo ="";
+                                                Lat = "";
+                                                Lon = "";
+                                                TrangThaiTLK ="";
+                                                ThoiGian = "";
+
                                             }
                                             KhachHangDTO kh = new KhachHangDTO();
                                             kh.setMaKhachHang(MaKhachHang);
@@ -676,6 +696,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             kh.setChiSo2con(ChiSo2con);
                                             kh.setChiSo3(ChiSo3);
                                             kh.setChiSo3con(ChiSo3con);
+
                                             kh.setSLTieuThu(SLTieuThu);
                                             kh.setSLTieuThu1(SLTieuThu1);
                                             kh.setSLTieuThu1con(SLTieuThu1con);
@@ -706,12 +727,21 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
 
 
+
+
                                             Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang, maduong));
                                             boolean kt = khachhangDAO.addTable_KH(kh, maduong);
                                             //SUABUG
                                             //boolean kt = khachhangDAO.updateTable_KH(kh);
                                             if (kt) {
                                                 sokhdacapnhat++;
+//                                                if(kh.getChiSo().equals("") && kh.getSLTieuThu().equals(""))
+//                                                {
+//
+//                                                }
+//                                                else{
+//                                                    khachhangDAO.tinhTienNuoc(kh.getMaKhachHang().trim());
+//                                                }
                                                 Log.e("Them database_KH: " + MaKhachHang + " " + TenKhachHang, "Thanh cong");
                                             } else {
                                                 Log.e("Them database_KH: " + MaKhachHang + " " + TenKhachHang, "ko Thanh cong");
@@ -762,7 +792,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                 }
             }
 
-                return FlagupdateDB;
+            return FlagupdateDB;
 
         }
 
@@ -786,7 +816,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
             if(result.equals("TC")){
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerDaGhiActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Load dữ liệu thành công  "+sokhdacapnhat+ " khách hàng");
                 // thiết lập nội dung cho dialog
@@ -797,9 +827,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Intent myIntent=new Intent(LoadFromServerActivity.this, StartActivity.class);
+                        Intent myIntent=new Intent(LoadFromServerDaGhiActivity.this, StartActivity.class);
                         startActivity(myIntent);
-                        LoadFromServerActivity.this.finish();
+                        LoadFromServerDaGhiActivity.this.finish();
                         // button "no" ẩn dialog đi
                     }
                 });
@@ -813,7 +843,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
             }
             else if(result.equals("EMPTY")){
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerDaGhiActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.loadserver_error_kocokh);
                 // thiết lập nội dung cho dialog
@@ -823,9 +853,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent myIntent=new Intent(LoadFromServerActivity.this, StartActivity.class);
+                        Intent myIntent=new Intent(LoadFromServerDaGhiActivity.this, StartActivity.class);
                         startActivity(myIntent);
-                        LoadFromServerActivity.this.finish();
+                        LoadFromServerDaGhiActivity.this.finish();
                         // button "no" ẩn dialog đi
                     }
                 });
@@ -837,7 +867,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                 // hiển thị dialog
             }
             else{
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerDaGhiActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.error_load);
                 // thiết lập nội dung cho dialog
@@ -855,9 +885,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent myIntent=new Intent(LoadFromServerActivity.this, StartActivity.class);
+                        Intent myIntent=new Intent(LoadFromServerDaGhiActivity.this, StartActivity.class);
                         startActivity(myIntent);
-                        LoadFromServerActivity.this.finish();
+                        LoadFromServerDaGhiActivity.this.finish();
                         // button "no" ẩn dialog đi
                     }
                 });
@@ -930,8 +960,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
 //                MyDatabaseHelper mydata = new MyDatabaseHelper(con);
 //                SQLiteDatabase db = mydata.openDB();
 //                mydata.resetDatabase(db);
-                /*
+
                 //Luu lai file tat ca
+                /*
                 Bien.bienbkall = spdata.getDataBKALLTrongSP();
                 XuLyFile xl  = new XuLyFile(con);
                 String path = "";
@@ -979,6 +1010,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                 */
 
 
+
                 //Thêm data vào sqlite
                 //String[] sarray = { duongdanfile, "1" };
                 MyJsonTaskDatabasefromServer task = new MyJsonTaskDatabasefromServer();
@@ -1000,10 +1032,10 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
             }
             else{
-               // String[] sarray = { duongdanfile, "0" };
+                // String[] sarray = { duongdanfile, "0" };
                 MyJsonTaskDatabasefromServer task = new MyJsonTaskDatabasefromServer();
                 task.execute(duongdan,"0");
-               // spdata = new SPData(con);
+                // spdata = new SPData(con);
 
                 Bien.selected_item =0;
                 Bien.bien_index_duong = 0;
@@ -1021,7 +1053,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
             }
         }
         else{
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerDaGhiActivity.this);
             // khởi tạo dialog
             alertDialogBuilder.setMessage(R.string.error_load_server);
             // thiết lập nội dung cho dialog
@@ -1031,7 +1063,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
-                    Intent in = new Intent(LoadFromServerActivity.this, StartActivity.class);
+                    Intent in = new Intent(LoadFromServerDaGhiActivity.this, StartActivity.class);
                     startActivity(in);
                     // button "no" ẩn dialog đi
                 }

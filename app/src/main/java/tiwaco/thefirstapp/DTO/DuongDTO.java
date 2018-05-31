@@ -9,14 +9,27 @@ public class DuongDTO {
     String TenDuong;
     Integer TrangThai;
     String KhoaSo;
+
+
+
+    Integer TrangThaiThu;
     public DuongDTO(){}
 
 
-    public DuongDTO(String maduong, String tenduong, Integer trangthai,String khoaso){
+    public DuongDTO(String maduong, String tenduong, Integer trangthai,String khoaso,Integer thu){
         this.MaDuong = maduong;
         this.TenDuong = tenduong;
         this.TrangThai = trangthai;
         this.KhoaSo  =khoaso;
+        this.TrangThaiThu = thu;
+    }
+
+    public Integer getTrangThaiThu() {
+        return TrangThaiThu;
+    }
+
+    public void setTrangThaiThu(Integer trangThaiThu) {
+        TrangThaiThu = trangThaiThu;
     }
     public String getMaDuong() {
         return MaDuong;

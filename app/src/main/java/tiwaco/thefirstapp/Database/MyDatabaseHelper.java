@@ -39,6 +39,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DUONG_MADUONG = "maduong";
     public static final String KEY_DUONG_TENDUONG = "tenduong";
     public static final String KEY_DUONG_TRANGTHAI = "trangthai"; //0:chua ghi, 1: da ghi
+    public static final String KEY_DUONG_TRANGTHAI_THU = "trangthaithu"; //0:chua ghi, 1: da thu
     public static final String KEY_DUONG_KHOASO = "khoaso"; //0:chua khoa , 1:dakhoa
     // TinhtrangTLK Table Columns names
     public static final String KEY_TINHTRANGTLK_MATT  = "matinhtrang";
@@ -91,6 +92,17 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_PHI = "phi";
     public static final String KEY_DANHSACHKH_TONGCONG = "tongcong";
     public static final String KEY_DANHSACHKH_NOVAT = "novat";
+    public static final String KEY_DANHSACHKH_THUE = "thue";
+    public static final String KEY_DANHSACHKH_M31 = "m3muc1";
+    public static final String KEY_DANHSACHKH_M32 = "m3muc2";
+    public static final String KEY_DANHSACHKH_M33 = "m3muc3";
+    public static final String KEY_DANHSACHKH_M34 = "m3muc4";
+    public static final String KEY_DANHSACHKH_TIEN1 = "tienmuc1";
+    public static final String KEY_DANHSACHKH_TIEN2 = "tienmuc2";
+    public static final String KEY_DANHSACHKH_TIEN3 = "tienmuc3";
+    public static final String KEY_DANHSACHKH_TIEN4 = "tienmuc4";
+    public static final String KEY_DANHSACHKH_NGAYTHANHTOAN = "ngaythanhtoan";
+    public static final String KEY_DANHSACHKH_CAPNHATTHU= "capnhatthu";
 
 
     // Duong Table Columns names
@@ -110,7 +122,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DUONG_MADUONG + " TEXT PRIMARY KEY,"
                 + KEY_DUONG_TENDUONG + " TEXT,"
                 + KEY_DUONG_TRANGTHAI + " INTEGER,"
-                + KEY_DUONG_KHOASO + " TEXT" + ")";
+                + KEY_DUONG_KHOASO + " TEXT,"
+                + KEY_DUONG_TRANGTHAI_THU + " INTEGER"+ ")";
 
         String CREATE_KHACHHANG_TABLE = "CREATE TABLE  " + TABLE_DANHSACHKH + "("
                 + KEY_DANHSACHKH_MAKH + " TEXT PRIMARY KEY," //0
@@ -155,7 +168,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_TIENNUOC + " TEXT, "        //39
                 + KEY_DANHSACHKH_PHI + " TEXT, "             //40
                 + KEY_DANHSACHKH_TONGCONG + " TEXT, "       //41
-                + KEY_DANHSACHKH_NOVAT + " TEXT " + ")";  //42
+                + KEY_DANHSACHKH_NOVAT + " TEXT, "       //42
+                + KEY_DANHSACHKH_THUE+ " TEXT, "          //43
+                + KEY_DANHSACHKH_M31 + " TEXT, "          //44
+                + KEY_DANHSACHKH_M32 + " TEXT, "          //45
+                + KEY_DANHSACHKH_M33 + " TEXT, "          //46
+                + KEY_DANHSACHKH_M34 + " TEXT, "          //47
+                + KEY_DANHSACHKH_TIEN1 + " TEXT, "          //48
+                + KEY_DANHSACHKH_TIEN2 + " TEXT, "          //49
+                + KEY_DANHSACHKH_TIEN3 + " TEXT, "          //50
+                + KEY_DANHSACHKH_TIEN4 + " TEXT, "          //51
+                + KEY_DANHSACHKH_NGAYTHANHTOAN + " TEXT, "          //52
+                + KEY_DANHSACHKH_CAPNHATTHU + " TEXT "+ ")";  //53
 
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("

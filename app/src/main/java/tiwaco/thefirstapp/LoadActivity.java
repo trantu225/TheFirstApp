@@ -302,7 +302,7 @@ public class LoadActivity extends AppCompatActivity {
 
 
                             Log.e("Them database_duong: ", "chay zo day rui");
-                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0");
+                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0",0);
                             boolean kt = duongDAO.addTable_Duong(duong);
 
                             if (kt) {
@@ -320,7 +320,7 @@ public class LoadActivity extends AppCompatActivity {
                                 Log.e("Them database_duong: ", " Da ton tai duong nay");
                             }
                             else{
-                                DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0");
+                                DuongDTO duong = new DuongDTO(maduong, tenduong, 0,"0",0);
                                 boolean kt = duongDAO.addTable_Duong(duong);
                                 if (kt) {
                                     Log.e("Them database_duong: " + maduong, "Thanh cong");
@@ -375,6 +375,43 @@ public class LoadActivity extends AppCompatActivity {
                                 String loaikhcu="";
                                 String ntsh = "";
                                 String novat = "";
+                                String m31 = "";
+                                String m32 = "";
+                                String m33 = "";
+                                String m34 = "";
+                                String tien1 = "";
+                                String tien2 = "";
+                                String tien3 = "";
+                                String tien4 = "";
+                                String tiennuoc = "";
+                                String tienthue = "";
+                                String phi ="";
+                                String tongcong  = "";
+                                String ngaythanhtoan = "";
+                                if (objKH.has("m3muc1")) {
+                                    m31 = objKH.getString("m3muc1").toString().trim();
+                                }
+                                if (objKH.has("m3muc2")) {
+                                    m32 = objKH.getString("m3muc2").toString().trim();
+                                }
+                                if (objKH.has("m3muc3")) {
+                                    m33 = objKH.getString("m3muc3").toString().trim();
+                                }
+                                if (objKH.has("m3muc4")) {
+                                    m34 = objKH.getString("m3muc4").toString().trim();
+                                }
+                                if (objKH.has("tienmuc1")) {
+                                    tien1 = objKH.getString("tienmuc1").toString().trim();
+                                }
+                                if (objKH.has("tienmuc2")) {
+                                    tien2 = objKH.getString("tienmuc2").toString().trim();
+                                }
+                                if (objKH.has("tienmuc3")) {
+                                    tien3 = objKH.getString("tienmuc3").toString().trim();
+                                }
+                                if (objKH.has("tienmuc4")) {
+                                    tien4 = objKH.getString("tienmuc4").toString().trim();
+                                }
                                 if(objKH.has("ChiSo")){
                                     ChiSo = objKH.getString("ChiSo").toString().trim();
                                 }
@@ -507,6 +544,18 @@ public class LoadActivity extends AppCompatActivity {
                                         novat = "0";
                                     }
                                 }
+                                if (objKH.has("tiennuoc")) {
+                                    tiennuoc = objKH.getString("tiennuoc").toString().trim();
+                                }
+                                if (objKH.has("phi")) {
+                                    phi = objKH.getString("phi").toString().trim();
+                                }
+                                if (objKH.has("thue")) {
+                                    tienthue = objKH.getString("thue").toString().trim();
+                                }
+                                if (objKH.has("tongcong")) {
+                                    tongcong = objKH.getString("tongcong").toString().trim();
+                                }
 
                                 KhachHangDTO kh = new KhachHangDTO();
                                 kh.setMaKhachHang(MaKhachHang);
@@ -545,6 +594,19 @@ public class LoadActivity extends AppCompatActivity {
                                 kh.setNhanVien(NhanVien);
                                 kh.setNTSH(ntsh);
                                 kh.setvat(novat);
+                                kh.setM3t1(m31);
+                                kh.setM3t2(m32);
+                                kh.setM3t3(m33);
+                                kh.setM3t4(m34);
+                                kh.setTien1(tien1);
+                                kh.setTien2(tien2);
+                                kh.setTien3(tien3);
+                                kh.setTien4(tien4);
+                                kh.setTienNuoc(tiennuoc);
+                                kh.setphi(phi);
+                                kh.setThue(tienthue);
+                                kh.settongcong(tongcong);
+                                kh.setNgaythanhtoan(ngaythanhtoan);
 
                                 Log.e("Them database_KH: ", "Da ton tai "+j   +":" +MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang,maduong));
                                 boolean kt = khachhangDAO.addTable_KH(kh,maduong);
@@ -737,6 +799,7 @@ public class LoadActivity extends AppCompatActivity {
         File file = new File(duongdanfile);
         if(file.exists()) {
             if(KiemTraTonTaiDuLieu()) {
+               /*
                 //Luu lai file tat ca
                 Bien.bienbkall = spdata.getDataBKALLTrongSP();
                 XuLyFile xl  = new XuLyFile(con);
@@ -782,7 +845,7 @@ public class LoadActivity extends AppCompatActivity {
                     }
 
                 }
-
+                */
 
 
 

@@ -218,11 +218,12 @@ public class StartActivity extends AppCompatActivity  {
             Intent myIntent;
             switch (v.getId()) {
                 case R.id.btn_ghinuoc:
+                    /*
                     String maduong = spdata.getDataDuongDangGhiTrongSP();
 
-                    String tenduong = duongDAO.getTenDuongTheoMa(maduong);
+
                     if (maduong.equals("")) {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
                         // khởi tạo dialog
                         alertDialogBuilder.setMessage(R.string.start_chuacoduongdeghinuoc);
                         // thiết lập nội dung cho dialog
@@ -230,8 +231,9 @@ public class StartActivity extends AppCompatActivity  {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                Intent myIntent2 = new Intent(StartActivity.this, ListActivity.class);
+                                Intent myIntent2 = new Intent(con, ListActivity.class);
                                 startActivity(myIntent2);
+                                finish();
                             }
                         });
 
@@ -248,8 +250,10 @@ public class StartActivity extends AppCompatActivity  {
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
                     } else {
+                        Log.e("maduong", maduong);
+                        String tenduong = duongDAO.getTenDuongTheoMa(maduong);
                         String mess = "Bạn có muốn tiếp tục ghi nước đường " + maduong + "." + tenduong + " không?";
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
                         // khởi tạo dialog
                         alertDialogBuilder.setMessage(mess);
                         // thiết lập nội dung cho dialog
@@ -257,8 +261,13 @@ public class StartActivity extends AppCompatActivity  {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                Intent myIntent1 = new Intent(StartActivity.this, MainActivity.class);
-                                startActivity(myIntent1);
+
+
+                                Intent myIntent = new Intent(con, MainActivity.class);
+                                //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
+                                myIntent.putExtra("MauLoadGhiThu", "1");
+                                startActivity(myIntent);
+
 
                                 //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
                                 //  spdata.luuDataIndexDuongDangGhiTrongSP(Bien.bien_index_duong);
@@ -270,7 +279,7 @@ public class StartActivity extends AppCompatActivity  {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
                                 // khởi tạo dialog
                                 alertDialogBuilder.setMessage("Bạn có muốn ghi nước đường khác không?");
                                 // thiết lập nội dung cho dialog
@@ -278,7 +287,8 @@ public class StartActivity extends AppCompatActivity  {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        Intent myIntent2 = new Intent(StartActivity.this, ListActivity.class);
+
+                                        Intent myIntent2 = new Intent(con, ListActivity.class);
                                         startActivity(myIntent2);
                                     }
                                 });
@@ -287,6 +297,7 @@ public class StartActivity extends AppCompatActivity  {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
+
 
                                     }
                                 });
@@ -303,20 +314,33 @@ public class StartActivity extends AppCompatActivity  {
                         // tạo dialog
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
-
                     }
+                    */
+                    //Chọn màn hình ghi hay thu
+
+                    ViewDialog_GhiThu alert = new ViewDialog_GhiThu();
+                    alert.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",1); //1: chuc nang ghi
+
+
+
                     break;
 
                 case R.id.btn_dskh:
-                    Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
-                    myIntent = new Intent(StartActivity.this, ListActivity.class);
-                    startActivity(myIntent);
+//                    Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+//                    myIntent = new Intent(StartActivity.this, ListActivity.class);
+//                    startActivity(myIntent);
+
+                    //Chọn màn hình ghi hay thu
+
+                    ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
+                    alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",2); //2: chuc nang danh sach
+
 
                     break;
                 case R.id.btn_backup:
 
-                    ViewDialog_ChonNguonBackUp alert = new ViewDialog_ChonNguonBackUp();
-                    alert.showDialog(StartActivity.this, "Chọn nguồn để lưu dữ liệu: ");
+                    ViewDialog_ChonNguonBackUp alert1 = new ViewDialog_ChonNguonBackUp();
+                    alert1.showDialog(StartActivity.this, "Chọn nguồn để lưu dữ liệu: ");
 
 
 

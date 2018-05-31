@@ -158,6 +158,7 @@ public class SearchActivity  extends AppCompatActivity  {
                 dieukien = " WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_DIACHI + " LIKE '%" + stringtim + "%' or " +
+                        MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "' ";
             }
@@ -169,6 +170,7 @@ public class SearchActivity  extends AppCompatActivity  {
                         MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_TENKH + " LIKE '%" + stringtim + "%' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_DIACHI + " LIKE '%" + stringtim + "%' or " +
+                        MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK + " = '" + stringtim + "' or " +
                         MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI + " = '" + stringtim + "' )";
                 List<KhachHangDTO> listkh = khachhangdao.TimKiemTheoSQL(sqlstringselect+dieukien2);

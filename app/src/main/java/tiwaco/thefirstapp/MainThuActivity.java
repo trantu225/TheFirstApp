@@ -1,62 +1,39 @@
 package tiwaco.thefirstapp;
 
 
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-
+import android.os.Bundle;
+import android.print.PrintManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.common.ConnectionResult;
-
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.internal.zzi;
-import com.google.android.gms.location.LocationServices;
 
 import com.google.gson.Gson;
 import com.luseen.spacenavigation.SpaceNavigationView;
@@ -68,19 +45,21 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
@@ -94,35 +73,33 @@ import tiwaco.thefirstapp.DTO.ListKHTheoDuong;
 import tiwaco.thefirstapp.DTO.ListRequestObject;
 import tiwaco.thefirstapp.DTO.RequestObject;
 import tiwaco.thefirstapp.DTO.TinhTrangTLKDTO;
-import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 
 
-
-public class MainActivity extends AppCompatActivity  {
+public class MainThuActivity extends AppCompatActivity  {
 
     TextView danhsachduong;
-    ImageButton btnghi;
+    ImageButton btnThu;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
     private String filename = "";
     String duongdanfile = "";
-    boolean kiemtradieukien = false,kiemtradieukiencon = false; //cho phep ghi , false: ko ghi
+    boolean kiemtradieukien = false,kiemtradieukiencon = false; //cho phep Thu , false: ko Thu
     String batthuong1 = "", batthuong2 ="";
-    private static String dataGhi = "";
+    private static String dataThu = "";
     SpaceNavigationView spaceNavigationView;
     Context con;
     DuongDAO duongDAO;
     KhachHangDAO khachhangDAO;
     LichSuDAO lichsudao;
     KhachHangDTO khachhang;
-    TextView BinhQuanBaThang,LoaiKH, DinhMuc,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3,  DuongDangGhi, ConLai;
+    TextView BinhQuanBaThang,LoaiKH, DinhMuc,LabelDuong,STT,DanhBo, MaKH, HoTen, DiaChi, MaTLK, HieuTLK, CoTLK, ChiSo1, ChiSo2, ChiSo3, m31, m32, m33, ChiSoCon1, ChiSoCon2, ChiSoCon3, m3con1, m3con2, m3con3,  DuongDangThu, ConLai;
     EditText DienThoai, ChiSoMoi, ChiSoMoiCon,TinhTrangTLK,GhiChu,m3moi, m3conmoi;
     TableRow chisocu_con_lb, chisocu_con, chisomoi_con_lb, chisomoi_con;
-    ImageButton DoiSDT,Toi,Lui,Ghi,CapNhatGhiChu;
+    ImageButton DoiSDT,Toi,Lui,Thu,CapNhatGhiChu;
     ImageButton ChuyenLoai;
     Spinner spinTT;
-    LinearLayout lay_toi , lay_lui , lay_ghi,lay_ki1,lay_ki2,lay_ki3;
+    LinearLayout lay_toi , lay_lui , lay_Thu,lay_ki1,lay_ki2,lay_ki3;
     String STT_HienTai ="1";
     int SoLuongKH = 0;
     String maduong_nhan="",stt_nhan ="",makh_nhan="";
@@ -135,25 +112,39 @@ public class MainActivity extends AppCompatActivity  {
     String kinhdo="";
     GPSTracker gps;
     boolean kt = false;
-    private static boolean flagDangGhi = false;
+    private static boolean flagDangThu = false;
     TinhTrangTLKDAO tinhtrangtlkdao;
     ArrayList<String>  arrTT = null ;
     String tenTT ="";
     Menu menumain;
-    int bienkieughi =1;
+    int bienkieuThu =1;
     int sttmax =0;
-    boolean biendaghichuaghi = false;
+    boolean biendaGhiChuaThu = false;
     List<String> listtoi = null, listlui=null;
     String ky1="", ky2="", ky3="";
     String urlstr ;
 
+    LinearLayout relativeLayout;
+    private PrintManager mgr=null;
+    byte FONT_TYPE;
+    private static BluetoothSocket btsocket;
+    private static OutputStream btoutputstream;
+
+    KhachHangDAO khdao;
+
+    DecimalFormat format,format1,format2 ;
+    RadioButton rad_ingiaybao,rad_inhd;
+
+
+    TextView  tv_csocu, tv_csomoi, tv_m3,tv_tiennuoc, tv_thue, tv_phi, tv_tongcong;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        con = MainActivity.this;
+        setContentView(R.layout.activity_main_thu);
+        con = MainThuActivity.this;
 
-        getSupportActionBar().setTitle(R.string.tab_ghinuoc);
+        getSupportActionBar().setTitle(R.string.tab_thunuoc);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         taoView();
@@ -182,34 +173,34 @@ public class MainActivity extends AppCompatActivity  {
         //----- lay toa do
 
         if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(MainThuActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
         }
         //----------------------------------------------------------------------------
         //lấy intent gọi Activity này
-        //Lấy kết quả khi chọn button ghi nước tại listactivity
+        //Lấy kết quả khi chọn button Thu nước tại listactivity
         Intent callerIntent = getIntent();
 
         //có intent rồi thì lấy Bundle dựa vào key
-        Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONG);
+        Bundle packageFromCaller = callerIntent.getBundleExtra(Bien.GOITIN_MADUONGTHU);
         if (packageFromCaller == null) {
             //get sharepreferences
-            final String SPduongdangghi  = spdata.getDataDuongDangGhiTrongSP(); //lấy đường đang ghi
+            final String SPduongdangthu  = spdata.getDataDuongDangThuTrongSP(); //lấy đường đang Thu
 
-             //tìm min(stt) của khách hàng chưa nghi tại đường đang ghi
+             //tìm min(stt) của khách hàng chưa nThu tại đường đang Thu
             //luc bat dau chua co gi
             Log.e("MAIN","luc bat dau chua co gi");
-            if(SPduongdangghi.equalsIgnoreCase("")){
+            if(SPduongdangthu.equalsIgnoreCase("")){
 
                //dialog chọn đường
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.main_chuacothongtinduong);
                 // thiết lập nội dung cho dialog
                 alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent myIntent=new Intent(MainActivity.this, ListActivity.class);
+                        Intent myIntent=new Intent(MainThuActivity.this, ListActivity.class);
                         startActivity(myIntent);
                         finish();
                     }
@@ -233,11 +224,11 @@ public class MainActivity extends AppCompatActivity  {
                 Log.e("MAIN","tu start vao main");
 
 
-                maduong_nhan = SPduongdangghi;
+                maduong_nhan = SPduongdangthu;
                 tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
-                String STT = spdata.getDataSTTDangGhiTrongSP() ;
+                String STT = spdata.getDataSTTDangThuTrongSP() ;
                 if(STT.equals("")) {
-                    STT= khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
+                    STT= khachhangDAO.getSTTChuaThuNhoNhat(maduong_nhan);
                 }
                 STT_HienTai = STT;
                 Log.e("STTMIN SP--------------------------",STT_HienTai);
@@ -245,23 +236,23 @@ public class MainActivity extends AppCompatActivity  {
                 setDataForView(STT_HienTai,maduong_nhan,"");
 
                 //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
-                //  spdata.luuDataIndexDuongDangGhiTrongSP(Bien.bien_index_duong);
-                // Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
-                Toast.makeText(MainActivity.this, maduong_nhan, Toast.LENGTH_SHORT).show();
+                //  spdata.luuDataIndexDuongDangThuTrongSP(Bien.bien_index_duong);
+                // Bien.selected_item = spdata.getDataIndexDuongDangThuTrongSP();
+                Toast.makeText(MainThuActivity.this, maduong_nhan, Toast.LENGTH_SHORT).show();
 
             }
 
 
         } else {
-            //từ listactivity  sang main để ghi nước
-            Log.e("MAIN","từ listactivity  sang main để ghi nước");
+            //từ listactivity  sang main để Thu nước
+            Log.e("MAIN","từ listactivity  sang main để Thu nước");
             //Có Bundle rồi thì lấy các thông số dựa vào key maduong và stt
-            maduong_nhan = packageFromCaller.getString(Bien.MADUONG);
+            maduong_nhan = packageFromCaller.getString(Bien.MADUONGTHU);
             tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
-            stt_nhan =  packageFromCaller.getString(Bien.STT);
-            vitri_nhan =  packageFromCaller.getInt(Bien.VITRI);
+            stt_nhan =  packageFromCaller.getString(Bien.STTTHU);
+            vitri_nhan =  packageFromCaller.getInt(Bien.VITRITHU);
 
-            makh_nhan = packageFromCaller.getString(Bien.MAKH);
+            makh_nhan = packageFromCaller.getString(Bien.MAKHTHU);
             if(makh_nhan == null){
                 makh_nhan ="";
             }
@@ -271,21 +262,21 @@ public class MainActivity extends AppCompatActivity  {
             else {
                 STT_HienTai = stt_nhan;
             }
-            spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan,STT_HienTai);//luu vao sharepreferences
+            spdata.luuDataDuongVaSTTDangThuTrongSP(maduong_nhan,STT_HienTai);//luu vao sharepreferences
             SoLuongKH = khachhangDAO.countKhachHangTheoDuong(maduong_nhan);
             setDataForView(STT_HienTai,maduong_nhan,makh_nhan);
           //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
             if(vitri_nhan !=-1) {
-                spdata.luuDataIndexDuongDangGhiTrongSP(vitri_nhan);
+                spdata.luuDataIndexDuongDangThuTrongSP(vitri_nhan);
                 Log.e("MAINACTIVITY_vitriduong", String.valueOf(vitri_nhan));
-                Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+                Bien.selected_item = spdata.getDataIndexDuongDangThuTrongSP();
 
             }
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
         }
         //---set duong
         tenduong =  duongDAO.getTenDuongTheoMa(maduong_nhan).trim();
-        DuongDangGhi.setText(tenduong);
+        DuongDangThu.setText(tenduong);
         sttmax = Integer.valueOf(khachhangDAO.getSTTLonNhat(maduong_nhan));
 
 
@@ -327,21 +318,21 @@ public class MainActivity extends AppCompatActivity  {
                 @Override
                 public void onClick(View v) {
                     ViewDialog_KyHD alert = new ViewDialog_KyHD();
-                    alert.showDialog(MainActivity.this, ky1, ChiSo1.getText().toString(), m31.getText().toString());
+                    alert.showDialog(MainThuActivity.this, ky1, ChiSo1.getText().toString(), m31.getText().toString());
                 }
             });
             lay_ki2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ViewDialog_KyHD alert = new ViewDialog_KyHD();
-                    alert.showDialog(MainActivity.this, ky2, ChiSo2.getText().toString(), m32.getText().toString());
+                    alert.showDialog(MainThuActivity.this, ky2, ChiSo2.getText().toString(), m32.getText().toString());
                 }
             });
             lay_ki3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ViewDialog_KyHD alert = new ViewDialog_KyHD();
-                    alert.showDialog(MainActivity.this, ky3, ChiSo3.getText().toString(), m33.getText().toString());
+                    alert.showDialog(MainThuActivity.this, ky3, ChiSo3.getText().toString(), m33.getText().toString());
                 }
             });
 
@@ -352,25 +343,25 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
-        lay_ghi.setOnClickListener(new View.OnClickListener() {
+        lay_Thu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                    kiemTraDieuKienDeGhiNuoc();
-
-                }else{
-                    showGPSDisabledAlertToUser();
+                if(rad_ingiaybao.isChecked()) {
+                    rad_inhd.setChecked(false);
                 }
+                else if(rad_inhd.isChecked()){
+                    rad_ingiaybao.setChecked(false);
+                }
+
+                connect();
 
 
             }
         });
-        Ghi.setOnClickListener(new View.OnClickListener() {
+        Thu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lay_ghi.performClick();
+                lay_Thu.performClick();
             }
         });
 
@@ -379,7 +370,7 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
 
-                if(!flagDangGhi) {
+                if(!flagDangThu) {
                     listlui.clear();
                     KhachHangDTO khnext = khachhangDAO.getKHTheoSTT_Duong_khacmaKH(STT_HienTai, maduong_nhan, DanhBo.getText().toString().trim(),"<>");
                     if (khnext != null && !KiemTraPhanTuCoTrongList(khnext.getMaKhachHang(),listtoi)) {
@@ -392,11 +383,11 @@ public class MainActivity extends AppCompatActivity  {
                     } else {
                         Log.e("maduong stt",maduong_nhan + " " +STT_HienTai);
                         String sttketiep = "";
-                        if(!biendaghichuaghi) {
+                        if(!biendaGhiChuaThu) {
                             sttketiep= khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
                         }
                         else{
-                            sttketiep = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai1(maduong_nhan, STT_HienTai);
+                            sttketiep = khachhangDAO.getSTTChuaThuNhoNhatLonHonHienTai1(maduong_nhan, STT_HienTai);
                         }
                         Log.e("sttketiep",sttketiep);
                         int next = Integer.parseInt(sttketiep);// Integer.parseInt(STT_HienTai) + 1;
@@ -450,10 +441,10 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 }
                 else{
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                     // khởi tạo dialog
 
-                    alertDialogBuilder.setMessage("Bạn đang ghi nước.Bạn có muốn hủy ghi nước không?");
+                    alertDialogBuilder.setMessage("Bạn đang Thu nước.Bạn có muốn hủy Thu nước không?");
 
                     alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                         @Override
@@ -461,11 +452,11 @@ public class MainActivity extends AppCompatActivity  {
 
                             dialog.dismiss();
                             String sttketiep = "";
-                            if(!biendaghichuaghi) {
+                            if(!biendaGhiChuaThu) {
                                 sttketiep= khachhangDAO.getSTTNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
                             }
                             else{
-                                sttketiep = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai1(maduong_nhan, STT_HienTai);
+                                sttketiep = khachhangDAO.getSTTChuaThuNhoNhatLonHonHienTai1(maduong_nhan, STT_HienTai);
                             } Log.e("sttketiep",sttketiep);
                             int next = Integer.parseInt(sttketiep);// Integer.parseInt(STT_HienTai) + 1;
                            // int next = Integer.parseInt(STT_HienTai) + 1;
@@ -544,7 +535,7 @@ public class MainActivity extends AppCompatActivity  {
         lay_lui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!flagDangGhi){
+                if(!flagDangThu){
                     listtoi.clear();
                     KhachHangDTO khlui = khachhangDAO.getKHTheoSTT_Duong_khacmaKH(STT_HienTai, maduong_nhan, DanhBo.getText().toString().trim(),"<>");
                     if (khlui != null && !KiemTraPhanTuCoTrongList(khlui.getMaKhachHang(),listlui)) {
@@ -557,11 +548,11 @@ public class MainActivity extends AppCompatActivity  {
                     } else {
                         //String stttruoc = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai);
                         String stttruoc = "";
-                        if(!biendaghichuaghi) {
+                        if(!biendaGhiChuaThu) {
                             stttruoc = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai);
                         }
                         else{
-                            stttruoc = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai1(maduong_nhan, STT_HienTai);
+                            stttruoc = khachhangDAO.getSTTChuaThuLonNhatNhoHonHienTai1(maduong_nhan, STT_HienTai);
                         }
                         Log.e("stttruoc",stttruoc);
                         int pre = Integer.parseInt(stttruoc);// Integer.parseInt(STT_HienTai) + 1;
@@ -620,10 +611,10 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 }
                 else{
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                     // khởi tạo dialog
 
-                    alertDialogBuilder.setMessage("Bạn đang ghi nước.Bạn có muốn hủy ghi nước không?");
+                    alertDialogBuilder.setMessage("Bạn đang Thu nước.Bạn có muốn hủy Thu nước không?");
 
                     alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                         @Override
@@ -631,11 +622,11 @@ public class MainActivity extends AppCompatActivity  {
 
                             dialog.dismiss();
                             String stttruoc = "";
-                            if(!biendaghichuaghi) {
+                            if(!biendaGhiChuaThu) {
                                 stttruoc = khachhangDAO.getSTTLonNhatNhoHonHienTai(maduong_nhan,STT_HienTai);
                             }
                             else{
-                                stttruoc = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai1(maduong_nhan, STT_HienTai);
+                                stttruoc = khachhangDAO.getSTTChuaThuLonNhatNhoHonHienTai1(maduong_nhan, STT_HienTai);
                             }Log.e("stttruoc",stttruoc);
                             int pre = Integer.parseInt(stttruoc);// Integer.parseInt(STT_HienTai) + 1;
                             //int pre = Integer.parseInt(STT_HienTai) - 1;
@@ -716,723 +707,15 @@ public class MainActivity extends AppCompatActivity  {
                 lay_lui.performClick();
             }
         });
-        DoiSDT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String makh = MaKH.getText().toString().trim();
-                String dt = DienThoai.getText().toString().trim();
+        
 
-                if(khachhangDAO.updateDienThoai(makh,dt)){
-                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                    Bien.bienghi = Bien.bienghi +1;
-                    spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
-                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                    khachhangDAO.updateTrangThaiCapNhat(makh,"0");
-                    Toast.makeText(con, R.string.main_capnhatsdt_thanhcong,Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    //dialog chọn đường
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                    // khởi tạo dialog
-                    alertDialogBuilder.setMessage(R.string.main_capnhatsdt_thatbai);
-                    // thiết lập nội dung cho dialog
 
-                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
 
 
-                        }
-                    });
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    // tạo dialog
-                    alertDialog.setCanceledOnTouchOutside(false);
-                    alertDialog.show();
-                }
-            }
-        });
 
-        ChuyenLoai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(con);
-                final EditText edittextLoaiKH = new EditText(con);
-                alert.setMessage("Nhập loại KH:");
-                alert.setTitle("Chuyển loại khách hàng:");
 
-                alert.setView(edittextLoaiKH);
 
-                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        //What ever you want to do with the value
-
-                        //OR
-                        String makh = MaKH.getText().toString().trim();
-                        String loaimoi = edittextLoaiKH.getText().toString();
-                        String loaicu = khachhangDAO.getLoaiKHCu(makh);
-
-                        if(khachhangDAO.updateLoaiKH(makh,loaimoi)){
-                            if(!loaimoi.equals(loaicu)) {
-                                LoaiKH.setText(loaimoi + "(Loại KH cũ: " + loaicu + " )");
-                                LoaiKH.setTextColor(R.color.badge_background_color);
-                            }
-                            else{
-                                LoaiKH.setText(loaimoi);
-                                LoaiKH.setTextColor(R.color.space_default_color);
-                            }
-                            Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                            Bien.bienghi = Bien.bienghi +1;
-                            spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
-                            Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                            khachhangDAO.updateTrangThaiCapNhat(makh,"0");
-                            Toast.makeText(con, R.string.main_capnhatloaikh_thanhcong,Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            //dialog chọn đường
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                            // khởi tạo dialog
-                            alertDialogBuilder.setMessage(R.string.main_capnhatloaikh_thatbai);
-                            // thiết lập nội dung cho dialog
-
-                            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-
-                                }
-                            });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            // tạo dialog
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.show();
-                        }
-                    }
-                });
-
-                alert.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // what ever you want to do with No option.
-                    }
-                });
-
-                alert.show();
-            }
-        });
-
-        CapNhatGhiChu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String makh = MaKH.getText().toString().trim();
-                String ghichu = GhiChu.getText().toString().trim();
-
-                if(khachhangDAO.updateGhiChu(makh,ghichu)){
-                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                    Bien.bienghi = Bien.bienghi +1;
-                    spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
-                    Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                    khachhangDAO.updateTrangThaiCapNhat(makh,"0");
-                    Toast.makeText(con, R.string.main_capnhatghichu_thanhcong,Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    //dialog chọn đường
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                    // khởi tạo dialog
-                    alertDialogBuilder.setMessage(R.string.main_capnhatghichu_thatbai);
-                    // thiết lập nội dung cho dialog
-
-                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-
-                        }
-                    });
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    // tạo dialog
-                    alertDialog.setCanceledOnTouchOutside(false);
-                    alertDialog.show();
-                }
-            }
-        });
-        DienThoai.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if (!DienThoai.getText().toString().trim().equals("")) {
-                        flagDangGhi = true;
-
-                    }
-                    else{
-                        if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                            flagDangGhi = false;
-                        }
-                        else{
-                            flagDangGhi = true;
-                        }
-
-
-                    }
-                }
-            }
-        });
-        DienThoai.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                    flagDangGhi = false;
-                }
-                else{
-                    flagDangGhi = true;
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-        TinhTrangTLK.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-
-                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                        flagDangGhi = false;
-                    }
-                    else{
-                        flagDangGhi = true;
-                    }
-
-
-                }
-            }
-        });
-        TinhTrangTLK.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                    flagDangGhi = false;
-                }
-                else{
-                    flagDangGhi = true;
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        GhiChu.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-
-
-                    if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                        flagDangGhi = false;
-                    }
-                    else{
-                        flagDangGhi = true;
-                    }
-
-                }
-            }
-        });
-        GhiChu.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if(KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                    flagDangGhi = false;
-                }
-                else{
-                    flagDangGhi = true;
-                }
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        ChiSoMoi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if(!KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                        flagDangGhi = true;
-                    if (ChiSoMoi.getText().toString().trim().equals("")) {
-
-                        showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ .");
-
-                        m3moi.setText("");
-                    } else {
-                        if(TextUtils.isDigitsOnly(ChiSoMoi.getText().toString().trim())) {
-                            int chisomoi = Integer.parseInt(ChiSoMoi.getText().toString().trim());
-                            int chisocu = Integer.parseInt(ChiSo1.getText().toString().trim());
-                            //Kiểm tra âm
-                            if (chisomoi < 0) {
-                                //Show dialog thông báo âm
-                                showDiaLogThongBao(getString(R.string.main_thongbao_soam));
-
-                            } else {
-                                if (chisomoi < chisocu) {
-                                    //Show dialog thông báo nhỏ hơn chỉ số cũ
-                                    //showDiaLogThongBao(getString(R.string.main_thongbao_batthuong));
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                    // khởi tạo dialog
-
-                                    alertDialogBuilder.setMessage(getString(R.string.main_thongbao_batthuong));
-
-                                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                            dialog.dismiss();
-                                            m3moi.setEnabled(true);
-                                            m3moi.setText("");
-
-                                            kiemtradieukien= true;
-
-                                        }
-                                    });
-                                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                            resetViewGhiNuoc();
-                                            m3moi.setEnabled(false);
-                                            m3moi.setText("");
-                                            dialog.dismiss();
-                                            kiemtradieukien= true;
-
-
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    // tạo dialog
-                                    alertDialog.setCanceledOnTouchOutside(false);
-                                    alertDialog.show();
-                                    // hiển thị dialog
-                                } else {
-                                    if(spinTT.getSelectedItemPosition() ==0) {
-                                        m3moi.setEnabled(false);
-                                    }
-                                    else{
-                                        m3moi.setEnabled(true);
-                                    }
-                                    m3moi.setText(String.valueOf(chisomoi - chisocu));
-                                //    BatThuong.setVisibility(View.GONE);
-                                    //
-                                    //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
-
-                                    int m3cu1 = Integer.parseInt(m31.getText().toString());
-                                    int m3cu2 = Integer.parseInt(m32.getText().toString());
-                                    int m3cu3 = Integer.parseInt(m33.getText().toString());
-                                    int m3NEW = Integer.parseInt(m3moi.getText().toString());
-                                    int binhquan3thang  = BinhQuanChiSoNuoc3Thang(m3cu1,m3cu2,m3cu3);
-                                    if(kiemtraBatThuongLonHon(m3NEW,binhquan3thang)){
-                                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                        // khởi tạo dialog
-
-                                        alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
-
-                                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                batthuong1 ="BT";
-
-                                                kiemtradieukien=true;
-                                            }
-                                        });
-                                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                                dialog.dismiss();
-                                                batthuong1 ="BT";
-
-                                                kiemtradieukien=true;
-
-
-                                            }
-                                        });
-
-                                        AlertDialog alertDialog = alertDialogBuilder.create();
-                                        // tạo dialog
-                                        alertDialog.setCanceledOnTouchOutside(false);
-                                        alertDialog.show();
-                                        // hiển thị dialog
-                                    }else {
-                                       // ghinuoc("");
-                                        batthuong1 ="";
-
-                                        kiemtradieukien= true;
-                                    }
-
-
-
-                                }
-                            }
-                        }
-                        else{
-                            showDiaLogThongBao("Chỉ số nước là số nguyên, không được chứa ký tự đặc biệt");
-                        }
-                    }
-                    }
-                    else{
-                        flagDangGhi = false;
-                        kiemtradieukien= true;
-                    }
-                }
-            }
-        });
-
-        ChiSoMoi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-               // Log.e("KiemTraDaGhi(MaKH.getText().toString().trim()", String.valueOf(KiemTraDaGhi(MaKH.getText().toString().trim())));
-                if(!KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                    Log.e("Kiem tra ontext chi so moi -  chua ghi","true");
-                    flagDangGhi = true;
-                if (!ChiSoMoi.getText().toString().trim().equals("") ) {
-                    if(TextUtils.isDigitsOnly(ChiSoMoi.getText().toString().trim())) {
-                        if (Integer.parseInt(ChiSoMoi.getText().toString().trim()) >= Integer.parseInt(ChiSo1.getText().toString().trim())) {
-                            if(spinTT.getSelectedItemPosition() ==0) {
-                                m3moi.setEnabled(false);
-                            }
-                            else{
-                                m3moi.setEnabled(true);
-                            }
-                            m3moi.setText(String.valueOf(Integer.parseInt(ChiSoMoi.getText().toString().trim()) - Integer.parseInt(ChiSo1.getText().toString().trim())));
-
-                            //    BatThuong.setVisibility(View.GONE);
-                            //
-                            //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
-
-                            int m3cu1 = Integer.parseInt(m31.getText().toString());
-                            int m3cu2 = Integer.parseInt(m32.getText().toString());
-                            int m3cu3 = Integer.parseInt(m33.getText().toString());
-                            int m3NEW = Integer.parseInt(m3moi.getText().toString());
-                            int binhquan3thang  = BinhQuanChiSoNuoc3Thang(m3cu1,m3cu2,m3cu3);
-                            if(kiemtraBatThuongLonHon(m3NEW,binhquan3thang)){
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                // khởi tạo dialog
-
-                                alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
-
-                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        batthuong1 ="BT";
-
-                                        kiemtradieukien = true;
-
-                                    }
-                                });
-                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        batthuong1 ="";
-
-                                        kiemtradieukien = true;
-
-
-                                    }
-                                });
-
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                // tạo dialog
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-                                // hiển thị dialog
-                            }else {
-                                // ghinuoc("");
-                                batthuong1 ="";
-
-                                kiemtradieukien = true;
-                            }
-
-
-                        } else {
-                            m3moi.setEnabled(true);
-                            m3moi.setText("");
-                        }
-                    }
-                    else{
-                        showDiaLogThongBao("Chỉ số nước là số nguyên, không được chứa ký tự đặc biệt");
-                    }
-                }
-                else{
-                    m3moi.setEnabled(true);
-                    m3moi.setText("");
-                }
-
-
-
-                }
-                else{
-                    flagDangGhi = false;
-
-                    kiemtradieukien = true;
-                }
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-
-
-        ChiSoMoiCon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if(!KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                        flagDangGhi = true;
-                    if (ChiSoMoiCon.getText().toString().trim().equals("")) {
-                        showDiaLogThongBao("Bạn chưa nhập chỉ số nước đồng hồ con.");
-                    } else {
-                        if (TextUtils.isDigitsOnly(ChiSoMoiCon.getText().toString().trim())) {
-                            int chisomoicon = Integer.parseInt(ChiSoMoiCon.getText().toString().trim());
-                            int chisocucon = Integer.parseInt(ChiSoCon1.getText().toString().trim());
-                            //Kiểm tra âm
-                            if (chisomoicon < 0) {
-                                //Show dialog thông báo âm
-                                showDiaLogThongBao(getString(R.string.main_thongbao_soam));
-
-                            } else {
-                                if (chisomoicon < chisocucon) {
-                                    //Show dialog thông báo nhỏ hơn chỉ số cũ
-                                    //showDiaLogThongBao(getString(R.string.main_thongbao_batthuong));
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                    // khởi tạo dialog
-
-                                    alertDialogBuilder.setMessage(getString(R.string.main_thongbao_batthuong));
-
-                                    alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-
-                                            m3conmoi.setEnabled(true);
-                                            m3conmoi.setText("");
-                                            dialog.dismiss();
-
-                                        }
-                                    });
-                                    alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                            resetViewGhiNuoc();
-                                            m3conmoi.setEnabled(false);
-                                            m3conmoi.setText("");
-                                            dialog.dismiss();
-
-
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    alertDialog.setCanceledOnTouchOutside(false);
-                                    // tạo dialog
-                                    alertDialog.show();
-                                    // hiển thị dialog
-                                } else {
-                                    m3conmoi.setEnabled(false);
-                                    m3conmoi.setText(String.valueOf(chisomoicon - chisocucon));
-                                    //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
-
-                                    int m3cu1con = Integer.parseInt(m3con1.getText().toString());
-                                    int m3cu2con = Integer.parseInt(m3con2.getText().toString());
-                                    int m3cu3con = Integer.parseInt(m3con3.getText().toString());
-                                    int m3NEWccon = Integer.parseInt(m3conmoi.getText().toString());
-                                    int binhquan3thangcon  = BinhQuanChiSoNuoc3Thang(m3cu1con,m3cu2con,m3cu3con);
-                                    if(kiemtraBatThuongLonHon(m3NEWccon,binhquan3thangcon)){
-                                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                        // khởi tạo dialog
-
-                                        alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
-
-                                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                batthuong2 ="BT";
-                                                kiemtradieukiencon = true;
-
-                                            }
-                                        });
-                                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                                batthuong2 ="";
-                                                kiemtradieukiencon = true;
-
-
-                                            }
-                                        });
-
-                                        AlertDialog alertDialog = alertDialogBuilder.create();
-                                        // tạo dialog
-                                        alertDialog.setCanceledOnTouchOutside(false);
-                                        alertDialog.show();
-                                        // hiển thị dialog
-                                    }else {
-                                        // ghinuoc("");
-                                        batthuong2 ="";
-                                        kiemtradieukiencon = true;
-                                    }
-
-
-                                }
-                            }
-                        }
-                        else{
-                            showDiaLogThongBao("Chỉ số nước là số nguyên, không được chứa ký tự đặc biệt");
-                        }
-                    }
-
-
-                    }
-                    else{
-                        flagDangGhi = false;
-                        kiemtradieukiencon = true;
-                    }
-
-                }
-            }
-        });
-        ChiSoMoiCon.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!KiemTraDaGhi(MaKH.getText().toString().trim()) ) {
-                    flagDangGhi = true;
-                if (!ChiSoMoiCon.getText().toString().trim().equals("")  ) {
-                    if (TextUtils.isDigitsOnly(ChiSoMoiCon.getText().toString().trim())) {
-                        if (Integer.parseInt(ChiSoMoiCon.getText().toString().trim()) >= Integer.parseInt(ChiSoCon1.getText().toString().trim())) {
-                            m3conmoi.setEnabled(false);
-                            m3conmoi.setText(String.valueOf(Integer.parseInt(ChiSoMoiCon.getText().toString().trim()) - Integer.parseInt(ChiSoCon1.getText().toString().trim())));
-                            //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
-
-                            int m3cu1con = Integer.parseInt(m3con1.getText().toString());
-                            int m3cu2con = Integer.parseInt(m3con2.getText().toString());
-                            int m3cu3con = Integer.parseInt(m3con3.getText().toString());
-                            int m3NEWccon = Integer.parseInt(m3conmoi.getText().toString());
-                            int binhquan3thangcon  = BinhQuanChiSoNuoc3Thang(m3cu1con,m3cu2con,m3cu3con);
-                            if(kiemtraBatThuongLonHon(m3NEWccon,binhquan3thangcon)){
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                // khởi tạo dialog
-
-                                alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
-
-                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        batthuong2 ="BT";
-                                        kiemtradieukiencon = true;
-
-                                    }
-                                });
-                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        // hiển thị dialog
-                                        dialog.dismiss();
-                                        batthuong2 ="";
-                                        kiemtradieukiencon = true;
-
-
-
-                                    }
-                                });
-
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                // tạo dialog
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-                                // hiển thị dialog
-                            }else {
-                                // ghinuoc("");
-                                batthuong2 ="";
-                                kiemtradieukiencon = true;
-                            }
-
-
-                        } else {
-                            m3conmoi.setEnabled(true);
-                            m3conmoi.setText("");
-                        }
-                    }
-                    else{
-                        showDiaLogThongBao("Chỉ số nước là số nguyên, không được chứa ký tự đặc biệt");
-                    }
-                }
-
-
-
-                }
-                else{
-                    flagDangGhi = false;
-                    kiemtradieukiencon = true;
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
 
     }
 
@@ -1448,9 +731,9 @@ public class MainActivity extends AppCompatActivity  {
 
         Log.e("thu tu , ma duong, ma khach",tt +","+ maduong+ ","+ Makhach);
         tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
-        soKHconlai = String.valueOf(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong)) ;
+        soKHconlai = String.valueOf(khachhangDAO.countKhachHangChuaThuTheoDuong(maduong)) ;
         String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        soKHHomNay  = String.valueOf(khachhangDAO.countKhachHangGhiTrongNgay(maduong,thoigian1));
+        soKHHomNay  = String.valueOf(khachhangDAO.countKhachHangThuTrongNgay(maduong,thoigian1));
         ConLai.setText("Hôm nay: "+ soKHHomNay+"   " +getString(R.string.string_con)+" "+soKHconlai+"/"+ tongsoKHTheoDuong);
         ConLai.setSelected(true);
         if(Makhach==null || Makhach.equals("")) {
@@ -1531,41 +814,20 @@ public class MainActivity extends AppCompatActivity  {
 
         int binhquan3thang  = BinhQuanChiSoNuoc3Thang(m3cu1,m3cu2,m3cu3);
         BinhQuanBaThang.setText("Bình quân 3 tháng gần nhất: "+ binhquan3thang +" m3");
-        flagDangGhi = false;
-        if(!khachhang.getChiSo().equals("")){
-            if(khachhangDAO.checkTrangThaiBatThuongKH(khachhang.getMaKhachHang()).equals("")) {
+        flagDangThu = false;
+        if(!khachhang.getNgaythanhtoan().equals("")){
 
 
-                LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
-                DuongDangGhi.setBackgroundResource(android.R.color.holo_red_dark);
-                ConLai.setBackgroundResource(android.R.color.holo_red_dark);
 
-                if( !khachhang.getGhiChu().trim().equals("")) {
+            LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
+            DuongDangThu.setBackgroundResource(android.R.color.holo_red_dark);
+            ConLai.setBackgroundResource(android.R.color.holo_red_dark);
 
-                    LabelDuong.setBackgroundResource(R.color.yellow);
-                    DuongDangGhi.setBackgroundResource(R.color.yellow);
-                    ConLai.setBackgroundResource(R.color.yellow);
-                }
-            }
-            else{
-                if(spinTT.getSelectedItemPosition()!=0 || !khachhang.getGhiChu().trim().equals("")) {
 
-                    LabelDuong.setBackgroundResource(R.color.yellow);
-                    DuongDangGhi.setBackgroundResource(R.color.yellow);
-                    ConLai.setBackgroundResource(R.color.yellow);
-                }
-                else{
-                    LabelDuong.setBackgroundResource(android.R.color.holo_green_light);
-                    DuongDangGhi.setBackgroundResource(android.R.color.holo_green_light);
-                    ConLai.setBackgroundResource(android.R.color.holo_green_light);
-
-                }
-
-            }
         }
         else{
             LabelDuong.setBackgroundResource(R.color.colorPrimaryDark);
-            DuongDangGhi.setBackgroundResource(R.color.colorPrimaryDark);
+            DuongDangThu.setBackgroundResource(R.color.colorPrimaryDark);
             ConLai.setBackgroundResource(R.color.colorPrimaryDark);
 ;
         }
@@ -1619,8 +881,712 @@ public class MainActivity extends AppCompatActivity  {
         }
 
 
+        tv_csocu.setText(khachhang.getChiSo1());
+        tv_csomoi.setText(khachhang.getChiSo());
+        tv_m3.setText(khachhang.getSLTieuThu());
+        rad_ingiaybao.setChecked(true);
+        String tiennuoc = String.valueOf(khachhang.getTienNuoc());
+        if(!tiennuoc.equals("")){
+
+            tv_tiennuoc.setText(format2.format(Double.parseDouble(format1.format(Double.parseDouble((tiennuoc)))))+ " đ");
+        }
+        String phi  = String.valueOf(khachhang.getphi());
+        if(!phi.equals("")){
+
+            tv_phi.setText(format2.format(Double.parseDouble(format1.format(Double.parseDouble(phi))))+ " đ");
+        }
+        String thue  = String.valueOf(khachhang.getThue());
+        if(!thue.equals("")) {
+
+
+            tv_thue.setText(format2.format(Double.parseDouble(format1.format(Double.parseDouble(thue)))) + " đ");
+        }
+        String tongcong = String.valueOf(khachhang.gettongcong());
+        if (!tongcong.equals("")) {
+
+            tv_tongcong.setText(format2.format(Double.parseDouble(format1.format(Double.parseDouble(tongcong)))) + " đ");
+        }
+
+
+    }
+    protected void connect() {
+        if(btsocket == null){
+            Intent BTIntent = new Intent(getApplicationContext(), BTDeviceList.class);
+            this.startActivityForResult(BTIntent, BTDeviceList.REQUEST_CONNECT_BT);
+        }
+        else{
+
+            OutputStream opstream = null;
+            try {
+                opstream = btsocket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            btoutputstream = opstream;
+            if(rad_ingiaybao.isChecked()) {
+                print_bt();
+            }
+            else if(rad_inhd.isChecked()){
+                print_bt_hoadon();
+            }
+
+        }
+
+    }
+    private void print_bt() {
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        layoutToImage();
+//        try {
+//            imageToPDF();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        try {
+            btoutputstream = btsocket.getOutputStream();
+
+
+            byte[] printformat = { 0x1B, 0x21, FONT_TYPE };
+            //btoutputstream.write(printformat);
+
+            String xuongdong  ="\n";
+            String  tencty  = "CTY TNHH MTV CẤP NƯỚC TIỀN GIANG\n\n";
+            String Giaybao = "GIẤY BÁO\n";
+            String thoigian = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+            String ngay = "Ngày "+thoigian+"\n";
+            String kyhd = spdata.getDataKyHoaDonTrongSP();
+            Log.e("KYHD",kyhd);
+            String kihd ="";
+            if(!kyhd.equals("")) {
+                String nam = kyhd.substring(0, 4);
+                String thang = kyhd.substring(4);
+                String strkyhd = thang + "/" + nam;
+                kihd = "Kỳ hóa đơn: "+strkyhd+"\n\n";
+            }
+
+            String madb = "Danh bộ: "+ DanhBo.getText()+"\n";
+            String tenkhachhang = "Tên KH: "+HoTen.getText();
+            List<String> listhotenmoihang  = catchuxuongdong(tenkhachhang);
+            String diachi = "Địa chỉ: "+DiaChi.getText();
+            List<String> listdiachimoihang  = catchuxuongdong(diachi);
+
+
+            String chisocu = "\nChỉ số cũ: "+tv_csocu.getText();
+            String chisomoi = "\nChỉ số mới: "+tv_csomoi.getText();
+            String m3  = "\nSố m3 tiêu thụ: "+ tv_m3.getText()+" m3";
+            String sotien ="\nSố tiền phải trả: "+ format2.format(Double.parseDouble(format1.format(Double.valueOf(khachhang.gettongcong())))) +" đ";
+//            String nhacnho  = "\nĐề nghị quý khách vui lòng\nthanh toán tiền nước trong vòng\n5 ngày kể từ ngày nhận giấy báo\nQua thời hạn trên Cty sẽ tiến\nhành tạm ngưng cung cấp nước.\n\n";
+//            String lienlac ="Vui lòng liên hệ số điện thoại\n0273.3873425 để được giúp đỡ.\n";
+
+            String nhacnho  = "Đề nghị quý khách vui lòng thanh toán tiền nước trong vòng 5 ngày kể từ ngày nhận giấy báo. Qua thời hạn trên Cty sẽ tiến hành tạm ngưng cung cấp nước.";
+            List<String> listnhacnhomoihang  = catchuxuongdong(nhacnho);
+            String lienlac ="Vui lòng liên hệ số điện thoại 0273.3873425 để được giúp đỡ.\n";
+            List<String> listlienlacmoihang  = catchuxuongdong(lienlac);
+//            try {
+//                byte[] bytes = tencty.getBytes("windows-1258");
+//                tencty = new String(bytes, "windows-1258");
+//            } catch ( UnsupportedEncodingException e ) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+            writeWithFormat(new Formatter().get(), Formatter.leftAlign());
+            btoutputstream.write(tencty.getBytes("UTF-16LE"));
+            writeWithFormat( new Formatter().width().get(), Formatter.centerAlign());
+            btoutputstream.write(Giaybao.getBytes("UTF-16LE"));
+            writeWithFormat( new Formatter().get(), Formatter.centerAlign());
+            btoutputstream.write(ngay.getBytes("UTF-16LE"));
+            btoutputstream.write(kihd.getBytes("UTF-16LE"));
+
+            writeWithFormat( new Formatter().get(), Formatter.leftAlign());
+            btoutputstream.write(madb.getBytes("UTF-16LE"));
+
+            for  (int i  = 0; i<listhotenmoihang.size();i++ )
+            {
+                btoutputstream.write(listhotenmoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+
+            for  (int i  = 0; i<listdiachimoihang.size();i++ )
+            {
+                btoutputstream.write(listdiachimoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            btoutputstream.write(chisocu.getBytes("UTF-16LE"));
+            btoutputstream.write(chisomoi.getBytes("UTF-16LE"));
+            btoutputstream.write(m3.getBytes("UTF-16LE"));
+            btoutputstream.write(sotien.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            for  (int i  = 0; i<listnhacnhomoihang.size();i++ )
+            {
+                btoutputstream.write(listnhacnhomoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            writeWithFormat( new Formatter().bold().get(), Formatter.leftAlign());
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+
+            for  (int i  = 0; i<listlienlacmoihang.size();i++ )
+            {
+                btoutputstream.write(listlienlacmoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            btoutputstream.write(0x0D);
+            btoutputstream.flush();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+
+    private void print_bt_hoadon() {
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        layoutToImage();
+//        try {
+//            imageToPDF();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        try {
+            btoutputstream = btsocket.getOutputStream();
+
+
+            byte[] printformat = { 0x1B, 0x21, FONT_TYPE };
+            //btoutputstream.write(printformat);
+
+            String xuongdong  ="\n";
+            String  tencty  = "CTY TNHH MTV CẤP NƯỚC TIỀN GIANG\n\n";
+            String Giaybao = "BIÊN NHẬN THANH TOÁN\n";
+            String thoigian = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+            String ngay = "Ngày "+thoigian+"\n";
+            String kyhd = spdata.getDataKyHoaDonTrongSP();
+            Log.e("KYHD",kyhd);
+            String kihd ="";
+            if(!kyhd.equals("")) {
+                String nam = kyhd.substring(0, 4);
+                String thang = kyhd.substring(4);
+                String strkyhd = thang + "/" + nam;
+                kihd = "Kỳ hóa đơn: "+strkyhd+"\n\n";
+            }
+
+            String madb = "Danh bộ: "+DanhBo.getText()+"\n";
+            String tenkhach = "Tên KH: "+HoTen.getText();
+            List<String> listhotenmoihang  = catchuxuongdong(tenkhach);
+            String diachi = "Địa chỉ: "+DiaChi.getText();
+            List<String> listdiachimoihang  = catchuxuongdong(diachi);
+
+
+            String chisocu = "Chỉ số cũ: "+tv_csocu.getText();
+            String chisomoi = "\nChỉ số mới: "+tv_csomoi.getText();
+            String m3  = "\nSố m3 tiêu thụ: "+ tv_m3.getText()+" m3";
+            String chitiet  ="\nChi tiết: \n";
+            String m3t1 = khachhang.getM3t1();
+            double m3t1d = 0,m3t2d= 0,m3t3d= 0,m3t4d= 0,tien1d= 0,tien2d= 0,tien3d= 0,tien4d= 0;
+
+            if(!m3t1.equals("")) {
+                m3t1d = Double.parseDouble(m3t1);
+            }
+            String m3t2 = khachhang.getM3t2();
+            if(!m3t2.equals("")) {
+                m3t2d = Double.parseDouble(m3t2);
+            }
+            String m3t3 = khachhang.getM3t3();
+            if(!m3t3.equals("")) {
+                m3t3d = Double.parseDouble(m3t3);
+            }
+            String m3t4 = khachhang.getM3t4();
+            if(!m3t4.equals("")) {
+                m3t4d = Double.parseDouble(m3t4);
+            }
+
+            String tien1 = khachhang.getTien1();
+            if(!tien1.equals("")) {
+                tien1d = Double.parseDouble(tien1);
+            }
+            String tien2 = khachhang.getTien2();
+            if(!tien2.equals("")) {
+                tien2d = Double.parseDouble(tien2);
+            }
+            String tien3 = khachhang.getTien3();
+            if(!tien3.equals("")) {
+                tien3d = Double.parseDouble(tien3);
+            }
+            String tien4 = khachhang.getTien4();
+            if(!tien4.equals("")) {
+                tien4d = Double.parseDouble(tien4);
+            }
+
+            String dongia1 ="";
+            if(!m3t1.equals("0") && !m3t1.equals(""))
+            {
+                double dongia1d  = tien1d/m3t1d;
+                dongia1 = m3t1 +" x " +format.format(dongia1d) + " = " +format2.format(Double.parseDouble(format1.format(tien1d))) +" đ";
+            }
+
+            String dongia2 ="";
+            if(!m3t2.equals("0") && !m3t2.equals(""))
+            {
+                double dongia2d  = tien2d/m3t2d;
+                dongia2 = m3t2 +" x " +format.format(dongia2d) + " = " +format2.format(Double.parseDouble(format1.format(tien2d))) +" đ";
+            }
+
+            String dongia3 = "";
+            if(!m3t3.equals("0") && !m3t3.equals(""))
+            {
+                double dongia3d  = tien3d/m3t3d;
+                dongia3 = m3t3 +" x " +format.format(dongia3d) + " = " +format2.format(Double.parseDouble(format1.format(tien3d))) +" đ";
+            }
+
+            String dongia4 = "";
+            if(!m3t4.equals("0") && !m3t4.equals(""))
+            {
+                double dongia4d  = tien4d/m3t4d;
+                dongia4 = m3t4 +" x " +format.format(dongia4d) + " = " +format2.format(Double.parseDouble(format1.format(tien4d))) +" đ";
+            }
+
+            double tiennuocd = 0, thued  =  0,phid =0, tongcongd = 0;
+            if(!khachhang.getTienNuoc().equals(""))
+            {
+                tiennuocd =  Double.valueOf(khachhang.getTienNuoc());
+            }
+
+            if(!khachhang.getThue().equals(""))
+            {
+                thued =  Double.valueOf(khachhang.getThue());
+            }
+
+            if(!khachhang.getphi().equals(""))
+            {
+                phid =  Double.valueOf(khachhang.getphi());
+            }
+
+            if(!khachhang.gettongcong().equals(""))
+            {
+                tongcongd =  Double.valueOf(khachhang.gettongcong());
+            }
+            int lenthue  = format2.format(Double.parseDouble(format1.format(tiennuocd))).length()  - format2.format(Double.parseDouble(format1.format(thued))).length();
+            int lenphi  = format2.format(Double.parseDouble(format1.format(tiennuocd))).length()  - format2.format(Double.parseDouble(format1.format(phid))).length();
+
+            String tiennuoc  = "Tiền nước: "+format2.format(Double.parseDouble(format1.format(tiennuocd))) +" đ";
+            String thue  = "Thuế GTGT: ";
+            if(lenthue>0){
+                for(int i  =0;i<lenthue;i++)
+                {
+                    thue +=" ";
+                }
+            }
+            thue +=  format2.format(Double.parseDouble(format1.format(thued))) +" đ";
+            String phi  = "Phí NTSH: ";
+            if(lenphi>0){
+                for(int i  =0;i<lenphi;i++)
+                {
+                    phi +=" ";
+                }
+            }
+            phi += format2.format(Double.parseDouble(format1.format(phid)))  +" đ";
+
+            String tongcong ="Tổng cộng: "+format2.format(Double.parseDouble(format1.format(tongcongd)))  +" đ";
+            String gach = "--------------------------------";
+//            String nhacnho  = "\nĐề nghị quý khách vui lòng\nthanh toán tiền nước trong vòng\n5 ngày kể từ ngày nhận giấy báo\nQua thời hạn trên Cty sẽ tiến\nhành tạm ngưng cung cấp nước.\n\n";
+//            String lienlac ="Vui lòng liên hệ số điện thoại\n0273.3873425 để được giúp đỡ.\n";
+
+            String nhacnho  = "Khi có nhu cầu in HĐĐT xin vui lòng truy cập vào website http://www.cskh.tiwaco.com.vn .";
+            List<String> listnhacnhomoihang  = catchuxuongdong(nhacnho);
+            String lienlac ="Vui lòng liên hệ số điện thoại 0273.3873425 để được giúp đỡ.\n";
+            List<String> listlienlacmoihang  = catchuxuongdong(lienlac);
+//            try {
+//                byte[] bytes = tencty.getBytes("windows-1258");
+//                tencty = new String(bytes, "windows-1258");
+//            } catch ( UnsupportedEncodingException e ) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+            writeWithFormat(new Formatter().get(), Formatter.leftAlign());
+            btoutputstream.write(tencty.getBytes("UTF-16LE"));
+            writeWithFormat( new Formatter().bold().get(), Formatter.centerAlign());
+            btoutputstream.write(Giaybao.getBytes("UTF-16LE"));
+            writeWithFormat( new Formatter().get(), Formatter.centerAlign());
+            btoutputstream.write(ngay.getBytes("UTF-16LE"));
+            btoutputstream.write(kihd.getBytes("UTF-16LE"));
+
+            writeWithFormat( new Formatter().get(), Formatter.leftAlign());
+            btoutputstream.write(madb.getBytes("UTF-16LE"));
+
+            for  (int i  = 0; i<listhotenmoihang.size();i++ )
+            {
+                btoutputstream.write(listhotenmoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+
+            for  (int i  = 0; i<listdiachimoihang.size();i++ )
+            {
+                btoutputstream.write(listdiachimoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            btoutputstream.write(gach.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(chisocu.getBytes("UTF-16LE"));
+            btoutputstream.write(chisomoi.getBytes("UTF-16LE"));
+            btoutputstream.write(m3.getBytes("UTF-16LE"));
+            btoutputstream.write(chitiet.getBytes("UTF-16LE"));
+            writeWithFormat(new Formatter().get(), Formatter.rightAlign());
+            if(!dongia1.equals(""))
+            {
+                btoutputstream.write(dongia1.getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            if(!dongia2.equals(""))
+            {
+                btoutputstream.write(dongia2.getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            if(!dongia3.equals(""))
+            {
+                btoutputstream.write(dongia3.getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            if(!dongia4.equals(""))
+            {
+                btoutputstream.write(dongia4.getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+
+            btoutputstream.write(gach.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(tiennuoc.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(phi.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(thue.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(gach.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            writeWithFormat( new Formatter().bold().get(), Formatter.rightAlign());
+            btoutputstream.write(tongcong.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            writeWithFormat(new Formatter().get(), Formatter.leftAlign());
+            for  (int i  = 0; i<listnhacnhomoihang.size();i++ )
+            {
+                btoutputstream.write(listnhacnhomoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            writeWithFormat( new Formatter().bold().get(), Formatter.leftAlign());
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+
+            for  (int i  = 0; i<listlienlacmoihang.size();i++ )
+            {
+                btoutputstream.write(listlienlacmoihang.get(i).toString().getBytes("UTF-16LE"));
+                btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            }
+            btoutputstream.write(0x0D);
+            btoutputstream.flush();
+            String thoigian1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            if(khachhangDAO.updateKhachHangThanhToan(khachhang.getMaKhachHang(),thoigian1))
+            {
+                Toast.makeText(con,"Thu tiền nước thành công",Toast.LENGTH_SHORT).show();
+                //Cập nhật biến Thu
+
+                flagDangThu = false;
+                LichSuDTO ls = new LichSuDTO();
+                ls.setNoiDungLS("Thu tiền nước đường "+ tenduong +", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
+                ls.setMaLenh("TN");
+                ls.setThoiGianLS(thoigian1);
+                lichsudao.addTable_History(ls);
+                khachhangDAO.updateTrangThaiThuCapNhat(khachhang.getMaKhachHang(),"2");
+
+                        /*
+                        //Tinh tien nuoc
+
+                        if(!khachhangDAO.getKHTheoMaKH(maKH).getChiSo().equals("")) {
+                            khachhangDAO.tinhTienNuoc(maKH);
+                        }
+                        else{
+                            khachhangDAO.updateGiaNuoc(maKH,"","","");
+                        }
+                         */
+                //Nếu còn khách hàng chưa Thu -> tiếp tục Thu
+                if(khachhangDAO.countKhachHangChuaThuTheoDuong(maduong_nhan)>0) {
+
+                    //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
+
+                    //xu ly Thu truoc hay Thu lui tai day
+                    String sothutu = "";
+                    if (bienkieuThu == 1){ //lui{
+                        sothutu = khachhangDAO.getSTTChuaThuNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
+                    }
+                    else{//truoc
+                        sothutu = khachhangDAO.getSTTChuaThuLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
+                    }
+                    Log.e("Thu nuoc, stt",sothutu);
+                    if(!sothutu.equals("0")  && !maduong_nhan.equals("99")) {
+
+                        STT_HienTai = sothutu;
+                        Log.e("STT Hien tai",STT_HienTai);
+                        KhachHangDTO khThuke = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaThu(STT_HienTai, maduong_nhan, MaKH.getText().toString().trim());
+                        if(khThuke == null) {
+                            setDataForView(sothutu, maduong_nhan, "");
+                        }
+                        else{
+                            setDataForView(sothutu, maduong_nhan, khThuke.getMaKhachHang());
+                        }
+                        spdata.luuDataDuongVaSTTDangThuTrongSP(maduong_nhan, sothutu);
+                    }
+                    else if(sothutu.equals("0")  && maduong_nhan.equals("99"))
+                    {
+                        STT_HienTai = "0";
+                        KhachHangDTO khThuke = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaThu("0", maduong_nhan, MaKH.getText().toString().trim());
+                        if(khThuke == null) {
+                            setDataForView(sothutu, maduong_nhan, "");
+                        }
+                        else{
+                            setDataForView(sothutu, maduong_nhan, khThuke.getMaKhachHang());
+                        }
+                        spdata.luuDataDuongVaSTTDangThuTrongSP(maduong_nhan, "0");
+                    }
+                    else{
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
+                        alertDialogBuilder.setMessage("Vẫn còn khách hàng bạn chưa Thu nước, bạn có muốn Thu nước khách hàng này không");
+                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                String sothutukhConLai = khachhangDAO.getSTTChuaThuNhoNhat(maduong_nhan);
+
+                                if(maduong_nhan.equals("99")){
+                                    sothutukhConLai ="0";
+                                }
+                                if(!sothutukhConLai.equals("")) {
+                                    STT_HienTai = sothutukhConLai;
+                                    bienkieuThu = 1;
+                                    MenuItem itemkieuThu = menumain.findItem(R.id.action_kieughi);
+                                    itemkieuThu.setIcon(android.R.drawable.ic_media_ff);
+
+                                    setDataForView(sothutukhConLai, maduong_nhan,"");
+                                    spdata.luuDataDuongVaSTTDangThuTrongSP(maduong_nhan, sothutukhConLai);
+                                }
+
+                            }
+                        });
+                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                MainThuActivity.this.finish();
+
+                            }
+                        });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                        // hiển thị dialog
+                    }
+                }
+                //KH đã Thu nước xong => cập nhật đường va show dialog
+                else {
+                    //cập nhật trạng thái đường đã Thu
+                    if(duongDAO.updateDuongDaThu(maduong_nhan)) {
+                        //show dialog đã Thu xong..trở về listactivity
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
+                        // khởi tạo dialog
+                        if(duongDAO.countDuongChuaThu()>0) {
+                            alertDialogBuilder.setMessage(R.string.main_thunuoc_duongdathuxong);
+
+                            // thiết lập nội dung cho dialog
+                        }
+                        else{
+                            alertDialogBuilder.setMessage(R.string.main_thunuoc_duongdathuxongtatca);
+
+
+                        }
+                        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //  new UpdateThongTinThuNuoc().execute(urlstr);
+                                dialog.dismiss();
+                                MainThuActivity.this.finish();
+                            }
+                        });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                        // hiển thị dialog
+                    }
+                }
+
+                hideKeyboard(MainThuActivity.this);
+                //Tu dong luu 50ngươi / lan
+                        /*
+                        int flagupdate =  spdata.getDataThuUPdateServer();
+                        Log.e("flagupdate", String.valueOf(spdata.getDataThuUPdateServer()));
+                        if(flagupdate <50 && flagupdate>=0) {
+                            int capnhat = flagupdate + 1;
+                            spdata.luuDataThuUpdateServer(capnhat);
+                            Log.e("flagupdate < 50 sau khi +", String.valueOf(spdata.getDataThuUPdateServer()));
+                        }
+                        else if(flagupdate==50){
+                            Log.e("tu dong luu","OK");
+
+                            //Tự động lưu dữ liệu vào server
+                            String urlstr =   getString(R.string.API_UpdateKhachHangDaThu2);
+                            new UpdateThongTinThuNuoc().execute(urlstr);
+                        }
+                        */
+
+            }
+            else{
+                Toast.makeText(con,"Thu nước thất bại",Toast.LENGTH_SHORT).show();
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //print byte[]
+    private void printText(byte[] msg) {
+        try {
+            // Print normal text
+            btoutputstream.write(msg);
+            printNewLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean writeWithFormat( final byte[] pFormat, final byte[] pAlignment) {
+        try {
+            // Notify printer it should be printed with given alignment:
+            //   btoutputstream.write(buffer, 0, buffer.length);
+
+            btoutputstream.write(pAlignment);
+            // Notify printer it should be printed in the given format:
+            btoutputstream.write(pFormat);
+
+
+
+            return true;
+        } catch (IOException e) {
+            //Log.e(TAG, "Exception during write", e);
+            return false;
+        }
+    }
+
+    private void printNewLine() {
+        try {
+            btoutputstream.write(PrinterCommands.FEED_LINE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+
+    public List<String> catchuxuongdong(String s){
+        List<String> listdiachi  = new ArrayList<String>();
+        while (s.length() >0)
+        {
+
+            int  vitricachdautien  =   s.indexOf(' ');
+            if(vitricachdautien != -1) {
+                String tudau = s.substring(0, vitricachdautien);
+                listdiachi.add(tudau);
+                s = s.substring(vitricachdautien).trim();
+            }
+            else{
+                listdiachi.add(s);
+                s = "";
+            }
+
+        }
+
+//
+//
+//
+//        for  (int i  = 0; i<listdiachi.size();i++ )
+//        {
+//            Log.e("Tu "+i,listdiachi.get(i).toString() +",dai:"+listdiachi.get(i).toString().length() );
+//        }
+        String chuoimoihang = "";
+        int gioihanchuoi = 32;
+        List<String> listdiachimoihang = new ArrayList<>();
+        for(int  j  =0;j<listdiachi.size();j++)
+        {
+            if((chuoimoihang.length()+(listdiachi.get(j).toString().trim() +" ").length())<=gioihanchuoi){
+                chuoimoihang +=listdiachi.get(j).toString().trim() +" ";
+                Log.e("Chuoi moi hang",chuoimoihang +" dài :"+chuoimoihang.length());
+            }
+            else{
+                listdiachimoihang.add(chuoimoihang.trim());
+                chuoimoihang= listdiachi.get(j).toString().trim() +" ";
+            }
+
+            if(j == listdiachi.size()-1  )
+            {
+
+                listdiachimoihang.add(chuoimoihang);
+                chuoimoihang ="";
+            }
+        }
+
+//        for  (int i  = 0; i<listdiachimoihang.size();i++ )
+//        {
+//            Log.e("Diachi "+i,listdiachimoihang.get(i).toString() +",dai:"+listdiachimoihang.get(i).toString().length() );
+//        }
+
+        return listdiachimoihang ;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if(btsocket!= null){
+                btoutputstream.close();
+                btsocket.close();
+                btsocket = null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            btsocket = BTDeviceList.getSocket();
+            if(btsocket != null){
+                if(rad_ingiaybao.isChecked()) {
+                    print_bt();
+                }
+                else if(rad_inhd.isChecked()){
+                    print_bt_hoadon();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1628,7 +1594,7 @@ public class MainActivity extends AppCompatActivity  {
         getMenuInflater().inflate(R.menu.mymenu, menu);
         this.menumain  = menu;
 
-//        if(khachhangDAO.checkKHDaGhi(khachhang.getMaKhachHang()) > 0){
+//        if(khachhangDAO.checkKHDaThu(khachhang.getMaKhachHang()) > 0){
 //
 //            menumain.getItem(2).setVisible(true);
 //            this.invalidateOptionsMenu();
@@ -1647,31 +1613,31 @@ public class MainActivity extends AppCompatActivity  {
         switch (item.getItemId()) {
             case R.id.action_save:
                 ViewDialog_ChonNguonBackUp alert = new ViewDialog_ChonNguonBackUp();
-                alert.showDialog(MainActivity.this, "Chọn nguồn để lưu dữ liệu: ");
+                alert.showDialog(MainThuActivity.this, "Chọn nguồn để lưu dữ liệu: ");
             //    MainActivity.this.finish();
 
                 break;
             case R.id.action_search:
-                intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent = new Intent(MainThuActivity.this, SearchActivity.class);
                 startActivity(intent);
-                MainActivity.this.finish();
+                MainThuActivity.this.finish();
                 break;
             case R.id.action_print:
                 Log.e("makh_nhan",MaKH.getText().toString());
                 KhachHangDTO kh = khachhangDAO.getKHTheoMaKH(MaKH.getText().toString());
                 if(!kh.getChiSo().equals("")){
-                    intent = new Intent(MainActivity.this, TinhTienInHDActivity.class);
+                    intent = new Intent(MainThuActivity.this, TinhTienInHDActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString(Bien.MAKH, khachhang.getMaKhachHang());
+                    bundle.putString(Bien.MAKHTHU, khachhang.getMaKhachHang());
 
 
-                    intent.putExtra(Bien.GOITIN_GHINUOC, bundle);
+                    intent.putExtra(Bien.GOITIN_THU, bundle);
                     startActivity(intent);
                    // MainActivity.this.finish();
                 }
                 else{
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                    alertDialogBuilder.setMessage("Không thể in vì khách hàng này chưa được ghi nước");
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
+                    alertDialogBuilder.setMessage("Không thể in vì khách hàng này chưa được Thu nước");
                     alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -1692,17 +1658,17 @@ public class MainActivity extends AppCompatActivity  {
                 break;
             case android.R.id.home:
 
-                MainActivity.this.finish();
+                MainThuActivity.this.finish();
                 break;
             case R.id.action_kieughi:
 
-                if(bienkieughi == 1){ // lui -> toi
-                    bienkieughi = 0;
+                if(bienkieuThu == 1){ // lui -> toi
+                    bienkieuThu = 0;
 
                     item.setIcon(android.R.drawable.ic_media_rew); //toi
                 }
                 else{ //toi -> lui
-                    bienkieughi = 1;
+                    bienkieuThu = 1;
                     item.setIcon(android.R.drawable.ic_media_ff); //toi
                 }
 
@@ -1710,13 +1676,13 @@ public class MainActivity extends AppCompatActivity  {
 
             case R.id.action_daghi:
 
-                if(biendaghichuaghi == false){
-                    biendaghichuaghi = true;
+                if(biendaGhiChuaThu == false){
+                    biendaGhiChuaThu = true;
 
                     item.setIcon(android.R.drawable.presence_online); //toi
                 }
                 else{ //toi -> lui
-                    biendaghichuaghi = false;
+                    biendaGhiChuaThu = false;
                     item.setIcon(android.R.drawable.presence_invisible); //toi
                 }
 
@@ -1766,31 +1732,31 @@ public class MainActivity extends AppCompatActivity  {
             m3con3= (TextView) findViewById(R.id.tv_m3cu3con);
 
             LabelDuong = (TextView) findViewById(R.id.tv_label_duong);
-            DuongDangGhi= (TextView) findViewById(R.id.tv_duongdangghi);
+            DuongDangThu= (TextView) findViewById(R.id.tv_duongdangThu);
             ConLai= (TextView) findViewById(R.id.tv_conlai);
             ConLai.setSelected(true);
-            DuongDangGhi.setSelected(true);
+            DuongDangThu.setSelected(true);
             DienThoai = (EditText) findViewById(R.id.edit_DienThoaiKH);
             ChiSoMoi = (EditText) findViewById(R.id.edit_chisomoi);
             m3moi= (EditText) findViewById(R.id.edit_m3moi);
             ChiSoMoiCon = (EditText) findViewById(R.id.edit_chisomoicon);
             m3conmoi= (EditText) findViewById(R.id.edit_m3moicon);
             TinhTrangTLK = (EditText) findViewById(R.id.edit_tinhtrangTLK);
-            GhiChu = (EditText) findViewById(R.id.edit_ghichu);
+            GhiChu = (EditText) findViewById(R.id.edit_Thuchu);
 
             LoaiKH= (TextView) findViewById(R.id.tv_loaiKH);
             DinhMuc= (TextView) findViewById(R.id.tv_DinhMuc);
             BinhQuanBaThang = (TextView) findViewById(R.id.tv_binhquan3thang);
             DoiSDT  = (ImageButton) findViewById(R.id.imgbtn_doi);
-            Ghi = (ImageButton) findViewById(R.id.btn_ghinuoc);
+            Thu = (ImageButton) findViewById(R.id.btn_Thunuoc);
             Toi = (ImageButton) findViewById(R.id.btn_toi);
             Lui = (ImageButton) findViewById(R.id.btn_lui);
-            CapNhatGhiChu = (ImageButton) findViewById(R.id.btn_updateghichu);
+            CapNhatGhiChu = (ImageButton) findViewById(R.id.btn_updateThuchu);
             ChuyenLoai =(ImageButton) findViewById(R.id.btn_chuyenloai);
 
             lay_toi =(LinearLayout)findViewById(R.id.layout_toi);
             lay_lui =(LinearLayout)findViewById(R.id.layout_lui);
-            lay_ghi =(LinearLayout)findViewById(R.id.layout_ghi);
+            lay_Thu =(LinearLayout)findViewById(R.id.layout_Thu);
             lay_ki1 = (LinearLayout)findViewById(R.id.lay_ki1);
             lay_ki2 = (LinearLayout)findViewById(R.id.lay_ki2);
             lay_ki3 = (LinearLayout)findViewById(R.id.lay_ki3);
@@ -1802,12 +1768,32 @@ public class MainActivity extends AppCompatActivity  {
             chisomoi_con =(TableRow) findViewById(R.id.tableRow_chisomoicon);
             spinTT  = (Spinner) findViewById(R.id.spin_tinhtrangtlk);
 
+        tv_csocu = (TextView) findViewById(R.id.tv_chisocu);
+        tv_csomoi= (TextView) findViewById(R.id.tv_chisomoi);
+        tv_m3 = (TextView) findViewById(R.id.tv_m3);
+
+        tv_tiennuoc = (TextView) findViewById(R.id.tv_tiennuoc);
+        tv_thue = (TextView) findViewById(R.id.tv_thue);
+        tv_phi= (TextView) findViewById(R.id.tv_phi);
+        tv_tongcong = (TextView) findViewById(R.id.tv_tongcong);
+        rad_ingiaybao = (RadioButton) findViewById(R.id.rad_ingiaybao);
+        rad_inhd = (RadioButton) findViewById(R.id.rad_inhd);
+        mgr=(PrintManager)getSystemService(PRINT_SERVICE);
+
+
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(',');
+        format = new DecimalFormat("#,##0.00", decimalFormatSymbols);
+        format1 = new DecimalFormat("0.#");
+        format2 = new DecimalFormat("#,##0.#", decimalFormatSymbols);
+
     }
 
 
 
 
-//hàm ghi nước
+//hàm Thu nước
 @Override
 public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -1822,7 +1808,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                 // contacts-related task you need to do.
 
-                gps = new GPSTracker(con, MainActivity.this);
+                gps = new GPSTracker(con, MainThuActivity.this);
 
                 // Check if GPS enabled
                 if (gps.canGetLocation()) {
@@ -1854,16 +1840,16 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
         }
     }
 }
-    private void ghinuoc(String BT){
+    private void Thunuoc(String BT){
 
 
         if (ContextCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(con, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(con,"GHI NUOC:You need have granted permission.......",Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            Toast.makeText(con,"Thu NUOC:You need have granted permission.......",Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(MainThuActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
         } else {
 
-            gps = new GPSTracker(con, MainActivity.this);
+            gps = new GPSTracker(con, MainThuActivity.this);
 
             // Check if GPS enabled
             if (gps.canGetLocation()) {
@@ -1879,7 +1865,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                  vido = String.valueOf(latitude);
                  kinhdo = String.valueOf(longitude);
                 // \n is for new line
-              //  Toast.makeText(getApplicationContext(), "GHI NUOC:Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getApplicationContext(), "Thu NUOC:Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 Log.e("Toa do", vido +"-"+kinhdo );
                 String nhanvien = spdata.getDataNhanVienTrongSP();
                /*
@@ -1903,14 +1889,14 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 if(spinTT.getSelectedItemPosition()!=0){
                     BT ="BT";
                 }
-                //Kiem tra khach hang da ghi chua
-                //if(KiemTraDaGhiChiSo(maKH)){
+                //Kiem tra khach hang da Thu chua
+                //if(KiemTraDaThuChiSo(maKH)){
 
                 //}
                 Date date = Calendar.getInstance().getTime();
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
                 String formattedDate = format.format(date);
-                SPData sp = new SPData(MainActivity.this);
+                SPData sp = new SPData(MainThuActivity.this);
                 String kihd = sp.getDataKyHoaDonTrongSP();// "08/2017";
                 Log.e("formattedDate",formattedDate);
                 Log.e("kihd",kihd);
@@ -1918,21 +1904,18 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                     if(khachhangDAO.updateKhachHang(maKH,Chiso,Chisocon,Dienthoai,ghichu,vido,kinhdo,nhanvien,m3,m3con,thoigian,trangthaiTLK,BT))
                     {
-                        Toast.makeText(con,"Ghi nước thành công",Toast.LENGTH_SHORT).show();
-                        //Cập nhật biến ghi
-                        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                        Bien.bienghi = Bien.bienghi +1;
-                        spdata.luuDataFlagGhiTrongSP(Bien.bienghi);
-                        Bien.bienghi = spdata.getDataFlagGhiTrongSP();
-                        flagDangGhi = false;
+                        Toast.makeText(con,"Thu tiền nước thành công",Toast.LENGTH_SHORT).show();
+                        //Cập nhật biến Thu
+
+                        flagDangThu = false;
                         LichSuDTO ls = new LichSuDTO();
-                        ls.setNoiDungLS("Ghi nước đường "+ tenduong +", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
+                        ls.setNoiDungLS("Thu tiền nước đường "+ tenduong +", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
                         ls.setMaLenh("GN");
                         String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
 
                         ls.setThoiGianLS(thoigian1);
                         lichsudao.addTable_History(ls);
-                        khachhangDAO.updateTrangThaiCapNhat(maKH,"0");
+                        khachhangDAO.updateTrangThaiThuCapNhat(maKH,"0");
 
                         /*
                         //Tinh tien nuoc
@@ -1944,65 +1927,65 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                             khachhangDAO.updateGiaNuoc(maKH,"","","");
                         }
                          */
-                        //Nếu còn khách hàng chưa ghi -> tiếp tục ghi
-                        if(khachhangDAO.countKhachHangChuaGhiTheoDuong(maduong_nhan)>0) {
+                        //Nếu còn khách hàng chưa Thu -> tiếp tục Thu
+                        if(khachhangDAO.countKhachHangChuaThuTheoDuong(maduong_nhan)>0) {
 
                             //Cập nhật Vị trí hiện tại , load lại (xử lý next.performclick)
 
-                            //xu ly ghi truoc hay ghi lui tai day
+                            //xu ly Thu truoc hay Thu lui tai day
                             String sothutu = "";
-                            if (bienkieughi == 1){ //lui{
-                                sothutu = khachhangDAO.getSTTChuaGhiNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
+                            if (bienkieuThu == 1){ //lui{
+                                sothutu = khachhangDAO.getSTTChuaThuNhoNhatLonHonHienTai(maduong_nhan, STT_HienTai);
                             }
                             else{//truoc
-                                sothutu = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
+                                sothutu = khachhangDAO.getSTTChuaThuLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
                             }
-                            Log.e("Ghi nuoc, stt",sothutu);
+                            Log.e("Thu nuoc, stt",sothutu);
                             if(!sothutu.equals("0")  && !maduong_nhan.equals("99")) {
 
                                 STT_HienTai = sothutu;
                                 Log.e("STT Hien tai",STT_HienTai);
-                                KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi(STT_HienTai, maduong_nhan, MaKH.getText().toString().trim());
-                                if(khghike == null) {
+                                KhachHangDTO khThuke = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaThu(STT_HienTai, maduong_nhan, MaKH.getText().toString().trim());
+                                if(khThuke == null) {
                                     setDataForView(sothutu, maduong_nhan, "");
                                 }
                                 else{
-                                    setDataForView(sothutu, maduong_nhan, khghike.getMaKhachHang());
+                                    setDataForView(sothutu, maduong_nhan, khThuke.getMaKhachHang());
                                 }
-                                spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
+                                spdata.luuDataDuongVaSTTDangThuTrongSP(maduong_nhan, sothutu);
                             }
                             else if(sothutu.equals("0")  && maduong_nhan.equals("99"))
                             {
                                 STT_HienTai = "0";
-                                KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi("0", maduong_nhan, MaKH.getText().toString().trim());
-                                if(khghike == null) {
+                                KhachHangDTO khThuke = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaThu("0", maduong_nhan, MaKH.getText().toString().trim());
+                                if(khThuke == null) {
                                     setDataForView(sothutu, maduong_nhan, "");
                                 }
                                 else{
-                                    setDataForView(sothutu, maduong_nhan, khghike.getMaKhachHang());
+                                    setDataForView(sothutu, maduong_nhan, khThuke.getMaKhachHang());
                                 }
-                                spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, "0");
+                                spdata.luuDataDuongVaSTTDangThuTrongSP(maduong_nhan, "0");
                             }
                             else{
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                alertDialogBuilder.setMessage("Vẫn còn khách hàng bạn chưa ghi nước, bạn có muốn ghi nước khách hàng này không");
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
+                                alertDialogBuilder.setMessage("Vẫn còn khách hàng bạn chưa Thu nước, bạn có muốn Thu nước khách hàng này không");
                                 alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        String sothutukhConLai = khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
+                                        String sothutukhConLai = khachhangDAO.getSTTChuaThuNhoNhat(maduong_nhan);
 
                                         if(maduong_nhan.equals("99")){
                                             sothutukhConLai ="0";
                                         }
                                         if(!sothutukhConLai.equals("")) {
                                             STT_HienTai = sothutukhConLai;
-                                            bienkieughi = 1;
-                                            MenuItem itemkieughi = menumain.findItem(R.id.action_kieughi);
-                                            itemkieughi.setIcon(android.R.drawable.ic_media_ff);
+                                            bienkieuThu = 1;
+                                            MenuItem itemkieuThu = menumain.findItem(R.id.action_kieughi);
+                                            itemkieuThu.setIcon(android.R.drawable.ic_media_ff);
 
                                             setDataForView(sothutukhConLai, maduong_nhan,"");
-                                            spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutukhConLai);
+                                            spdata.luuDataDuongVaSTTDangThuTrongSP(maduong_nhan, sothutukhConLai);
                                         }
 
                                     }
@@ -2011,7 +1994,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        MainActivity.this.finish();
+                                        MainThuActivity.this.finish();
 
                                     }
                                 });
@@ -2024,29 +2007,29 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 // hiển thị dialog
                             }
                         }
-                        //KH đã ghi nước xong => cập nhật đường va show dialog
+                        //KH đã Thu nước xong => cập nhật đường va show dialog
                         else {
-                            //cập nhật trạng thái đường đã ghi
-                            if(duongDAO.updateDuongDaGhi(maduong_nhan)) {
-                                //show dialog đã ghi xong..trở về listactivity
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                            //cập nhật trạng thái đường đã Thu
+                            if(duongDAO.updateDuongDaThu(maduong_nhan)) {
+                                //show dialog đã Thu xong..trở về listactivity
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                                 // khởi tạo dialog
-                                if(duongDAO.countDuongChuaGhi()>0) {
-                                    alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixong);
+                                if(duongDAO.countDuongChuaThu()>0) {
+                                    alertDialogBuilder.setMessage(R.string.main_thunuoc_duongdathuxong);
 
                                     // thiết lập nội dung cho dialog
                                 }
                                 else{
-                                    alertDialogBuilder.setMessage(R.string.main_ghinuoc_duongdaghixongtatca);
+                                    alertDialogBuilder.setMessage(R.string.main_thunuoc_duongdathuxongtatca);
 
 
                                 }
                                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                      //  new UpdateThongTinGhiNuoc().execute(urlstr);
+                                      //  new UpdateThongTinThuNuoc().execute(urlstr);
                                         dialog.dismiss();
-                                        MainActivity.this.finish();
+                                        MainThuActivity.this.finish();
                                     }
                                 });
 
@@ -2059,75 +2042,28 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                             }
                         }
 
-                        hideKeyboard(MainActivity.this);
+                        hideKeyboard(MainThuActivity.this);
                        //Tu dong luu 50ngươi / lan
-
-                        int flagupdate =  spdata.getDataUPdateServer();
-                        Log.e("flagupdate", String.valueOf(spdata.getDataUPdateServer()));
-                        if(flagupdate <30 && flagupdate>=0) {
+                        /*
+                        int flagupdate =  spdata.getDataThuUPdateServer();
+                        Log.e("flagupdate", String.valueOf(spdata.getDataThuUPdateServer()));
+                        if(flagupdate <50 && flagupdate>=0) {
                             int capnhat = flagupdate + 1;
-                            spdata.luuDataUpdateServer(capnhat);
-                            Log.e("flagupdate < 30 sau khi +", String.valueOf(spdata.getDataUPdateServer()));
+                            spdata.luuDataThuUpdateServer(capnhat);
+                            Log.e("flagupdate < 50 sau khi +", String.valueOf(spdata.getDataThuUPdateServer()));
                         }
-                        else if(flagupdate==30){
+                        else if(flagupdate==50){
                             Log.e("tu dong luu","OK");
 
                             //Tự động lưu dữ liệu vào server
-                            String urlstr =   getString(R.string.API_UpdateKhachHangDaGhi2);
-                            try {
-                                if (isInternetOn()) {
-                                    new UpdateThongTinGhiNuoc().execute(urlstr);
-                                } else {
-                                    spdata.luuDataUpdateServer(0);
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                    // khởi tạo dialog
-                                    alertDialogBuilder.setMessage("Kết nối máy chủ không thành công. Cập nhật dữ liệu tự động thất bại");
-                                    // thiết lập nội dung cho dialog
-
-                                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-
-                                            // button "no" ẩn dialog đi
-                                        }
-                                    });
-
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    // tạo dialog
-                                    alertDialog.setCanceledOnTouchOutside(false);
-                                    alertDialog.show();
-                                }
-                            }
-                            catch(Exception a)
-                            {
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                // khởi tạo dialog
-                                alertDialogBuilder.setMessage("Chưa mở Wifi hoặc 3G/4G. Thử lại");
-                                // thiết lập nội dung cho dialog
-
-                                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-
-                                        // button "no" ẩn dialog đi
-                                    }
-                                });
-
-
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                // tạo dialog
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-                            }
+                            String urlstr =   getString(R.string.API_UpdateKhachHangDaThu2);
+                            new UpdateThongTinThuNuoc().execute(urlstr);
                         }
-
+                        */
 
                     }
                     else{
-                        Toast.makeText(con,"Ghi nước thất bại",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(con,"Thu nước thất bại",Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -2143,42 +2079,19 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
     }
-    public final boolean isInternetOn() {
 
-        // get Connectivity Manager object to check connection
-        ConnectivityManager connec =
-                (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
-
-        // Check for network connections
-        if ( connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING ) {
-
-            // if connected with internet
-
-            Toast.makeText(this, connec.getActiveNetworkInfo().getTypeName(), Toast.LENGTH_LONG).show();
-            return true;
-
-        } else if (
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
-                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
-
-            Toast.makeText(this, " Chưa có internet hoặc 3G/4G  ", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return false;
-    }
-    private ListRequestObject taoJSONData_KH_DaGhi_CapNhatServer2(String tendanhsach) {
+    private ListRequestObject taoJSONData_KH_DaThu_CapNhatServer2(String tendanhsach) {
         ListRequestObject jsondata = new ListRequestObject();
         //Lấy danh sách tất cả các đường
         List<DuongDTO> listduong = new ArrayList<DuongDTO>();
         List<ListKHTheoDuong> listtiwaread = new ArrayList<ListKHTheoDuong>();
         String soluongKH = String.valueOf(khachhangDAO.countKhachHangCapNhatServer());
-        listduong = duongDAO.getAllDuongChuaKhoaSo();
+        listduong = duongDAO.getAllDuong();
         for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
             String maduong = listduong.get(thutuduong).getMaDuong().trim();
             String tenduong = listduong.get(thutuduong).getTenDuong().trim();
             List<RequestObject> listkh = new ArrayList<RequestObject>();
-            listkh = khachhangDAO.getAllKHDaGhiTheoDuongChuaCapNhat1(maduong);
+            listkh = khachhangDAO.getAllKHDaThuTheoDuongChuaCapNhat1(maduong);
             ListKHTheoDuong tiwaread = new ListKHTheoDuong();
             tiwaread.setMaDuong(maduong);
             tiwaread.setTenDuong(tenduong);
@@ -2199,19 +2112,19 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             Log.e("json data", json);
         }
         else{
-            // spdata.luuDataFlagBKDaghiTrongSP(-1);
+            // spdata.luuDataFlagBKDaThuTrongSP(-1);
             // Bien.bienbkdg = -1;
             jsondata = null;
 
         }
         return jsondata;
     }
-    public class UpdateThongTinGhiNuoc extends AsyncTask<String, String, String>
+    public class UpdateThongTinThuNuoc extends AsyncTask<String, String, String>
     {
         String status ="";
         String kyhd = spdata.getDataKyHoaDonTrongSP();// "201710";
         //  Log.e("tendanhsach kyhd",kyhd);
-        String json = "";//taoJSONData_KH_DaGhi_CapNhatServer(kyhdsau);
+        String json = "";//taoJSONData_KH_DaThu_CapNhatServer(kyhdsau);
         String result ="";
         //ListJsonData jsondata = new ListJsonData();
         ListRequestObject jsondata = new ListRequestObject();
@@ -2301,16 +2214,16 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
                     conn.setRequestMethod("PUT");
                     publishProgress("Lấy thông tin khách hàng...");
-                    //jsondata = taoJSONData_KH_DaGhi_CapNhatServer(kyhd);
+                    //jsondata = taoJSONData_KH_DaThu_CapNhatServer(kyhd);
 
-                        jsondata = taoJSONData_KH_DaGhi_CapNhatServer2(kyhd);
+                        jsondata = taoJSONData_KH_DaThu_CapNhatServer2(kyhd);
 
 
 
                     //Cập nhật tất cả tạm là đã update
                     for (ListKHTheoDuong lista : jsondata.getListTiwaread()) {
                         for (RequestObject kh : lista.getTiwareadList()) {
-                            if (khachhangDAO.updateTrangThaiCapNhat(kh.getMaKhachHang().toString().trim(), "1")) {
+                            if (khachhangDAO.updateTrangThaiThuCapNhat(kh.getMaKhachHang().toString().trim(), "1")) {
                                 //capnhattrangthai++;
                             }
                         }
@@ -2325,7 +2238,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     Gson gson = new Gson();
                     json = gson.toJson(requestjson);
                     Log.e("json gui", json);
-                    //  json = taoJSONData_KH_DaGhi_CapNhatServer(kyhdsau);
+                    //  json = taoJSONData_KH_DaThu_CapNhatServer(kyhdsau);
                     publishProgress("Đang cập nhật server...");
                     OutputStream out = new BufferedOutputStream(conn.getOutputStream());
                     out.write(json.getBytes());
@@ -2419,7 +2332,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
             if(result.equals("DAKHOASOHET"))
             {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Tất cả các đường đã khóa sổ. Không thể cập nhật.");
                 // thiết lập nội dung cho dialog
@@ -2441,20 +2354,20 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
             else if (result.equals("0")) {
                 //Bị lỗi cập nhật lại là chưa có cập nhật
-                spdata.luuDataUpdateServer(0);
+                spdata.luuDataThuUpdateServer(0);
                 if(jsondata.getListTiwaread().size() >0) {
                     for (ListKHTheoDuong lista : jsondata.getListTiwaread()) {
                         for (RequestObject kh : lista.getTiwareadList()) {
-                            if (khachhangDAO.updateTrangThaiCapNhat(kh.getMaKhachHang().toString().trim(), "0")) {
+                            if (khachhangDAO.updateTrangThaiThuCapNhat(kh.getMaKhachHang().toString().trim(), "0")) {
                                 //capnhattrangthai++;
                             }
                         }
                     }
                 }
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                 // khởi tạo dialog
-                alertDialogBuilder.setMessage("Kết nối máy chủ không thành công. Cập nhật dữ liệu tự động thất bại");
+                alertDialogBuilder.setMessage("Đã xảy ra lỗi trong quá trình cập nhật dữ liệu");
                 // thiết lập nội dung cho dialog
 
                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -2492,31 +2405,10 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
                     if (soluongkhachhangdacapnhat.equals(jsondata.getTongSLkh())) {
-                        //Toast.makeText(Backup_Activity.this,"Cập nhật dữ liệu thành công",Toast.LENGTH_LONG).show();
-
-//                for(ListKHTheoDuong lista : jsondata.getListTiwaread()) {
-//                    for(RequestObject kh : lista.getTiwareadList())
-//                    {
-//                        if(khachangdao.updateTrangThaiCapNhat(kh.getMaKhachHang().toString().trim(),"1")){
-//                            capnhattrangthai++;
-//                        }
-//                    }
-//                }
-//                if(capnhattrangthai == Integer.parseInt(jsondata.getTongSLkh())){
-//
-//                        if(radioTatca.isChecked()){
-//                            for(ListKHTheoDuong lista : jsondata.getListTiwaread()) {
-//                                for(RequestObject kh : lista.getTiwareadList())
-//                                {
-//                                    if(khachangdao.updateTrangThaiCapNhat(kh.getMaKhachHang().toString().trim(),"1")){
-//                                        //capnhattrangthai++;
-//                                    }
-//                                }
-//                            }
-//                        }
-                        spdata.luuDataUpdateServer(0);
-                        Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thành công", Toast.LENGTH_LONG).show();
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+ 
+                        spdata.luuDataThuUpdateServer(0);
+                        Toast.makeText(MainThuActivity.this, "Cập nhật dữ liệu thành công", Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                         // khởi tạo dialog
                         alertDialogBuilder.setMessage("Cật nhật dữ liệu thành công "+ String.valueOf(soluongkhachhangdacapnhat) +"/"+ String.valueOf(jsondata.getTongSLkh()));
                         // thiết lập nội dung cho dialog
@@ -2559,7 +2451,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                         String chuoihienthi = "Đường:" + maduong+"- Danh bộ:" + kherror.getDanhBo() +" - Tên:" + kherror.getTenKhachHang();
                                         myListerror.add(chuoihienthi);
                                         DanhSachLoi.add(maKH);
-//                                        if (khachangdao.updateTrangThaiCapNhat(maKH, "0")) {
+//                                        if (khachangdao.updateTrangThaiThuCapNhat(maKH, "0")) {
 //                                            capnhatlaichuaupdate++;
 //                                        }
                                     }
@@ -2567,7 +2459,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 }
                                 if(DanhSachLoi.size() >0){
                                     for(String ma : DanhSachLoi){
-                                        if (khachhangDAO.updateTrangThaiCapNhat(ma, "0")) {
+                                        if (khachhangDAO.updateTrangThaiThuCapNhat(ma, "0")) {
                                             capnhatlaichuaupdate++;
                                         }
                                     }
@@ -2575,7 +2467,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 //                                if(jsondata.getListTiwaread().size()>0) {
 //                                    for (ListKHTheoDuong lista : jsondata.getListTiwaread()) {
 //                                        for (RequestObject kh : lista.getTiwareadList()) {
-//                                            if (khachangdao.updateTrangThaiCapNhat(kh.getMaKhachHang().toString().trim(), "0")) {
+//                                            if (khachangdao.updateTrangThaiThuCapNhat(kh.getMaKhachHang().toString().trim(), "0")) {
 //                                                capnhatlaichuaupdate++;
 //                                            }
 //                                        }
@@ -2583,10 +2475,10 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 //                                }
                                 // intent.putExtra("mylist", myList);
                                 if (capnhatlaichuaupdate == DanhSachLoi.size()) {
-                                    spdata.luuDataUpdateServer(0);
+                                    spdata.luuDataThuUpdateServer(0);
                                     //if (capnhatlaichuaupdate == Integer.parseInt(jsondata.getTongSLkh())) {
-                                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thất bại", Toast.LENGTH_LONG).show();
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    Toast.makeText(MainThuActivity.this, "Cập nhật dữ liệu thất bại", Toast.LENGTH_LONG).show();
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                                     // khởi tạo dialog
                                     alertDialogBuilder.setMessage("Đã cập nhật thành công: " + soluongkhachhangdacapnhat + "/" + jsondata.getTongSLkh() + ".Kiểm tra lại khách hàng cập nhật thất bại");
                                     // thiết lập nội dung cho dialog
@@ -2605,13 +2497,13 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                             dialog.dismiss();
 
 
-                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainThuActivity.this);
                                             LayoutInflater inflater = getLayoutInflater();
                                             View convertView = (View) inflater.inflate(R.layout.lishkh_error, null);
                                             alertDialog.setView(convertView);
                                             alertDialog.setTitle("Danh sách lỗi");
                                             ListView lv = (ListView) convertView.findViewById(R.id.lv);
-                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,myListerror);
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainThuActivity.this,android.R.layout.simple_list_item_1,myListerror);
                                             lv.setAdapter(adapter);
                                             alertDialog.show();
                                             // button "no" ẩn dialog đi
@@ -2627,11 +2519,11 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 int capnhatlaidanhsachjson =0;
-                                spdata.luuDataUpdateServer(0);
+                                spdata.luuDataThuUpdateServer(0);
                                 if(jsondata.getListTiwaread().size()>0) {
                                     for (ListKHTheoDuong lista : jsondata.getListTiwaread()) {
                                         for (RequestObject kh : lista.getTiwareadList()) {
-                                            if (khachhangDAO.updateTrangThaiCapNhat(kh.getMaKhachHang().toString().trim(), "0")) {
+                                            if (khachhangDAO.updateTrangThaiThuCapNhat(kh.getMaKhachHang().toString().trim(), "0")) {
                                                 capnhatlaidanhsachjson++;
                                             }
                                         }
@@ -2639,7 +2531,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 }
 
                                 if (capnhatlaidanhsachjson == Integer.parseInt(jsondata.getTongSLkh())) {
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                                     // khởi tạo dialog
                                     alertDialogBuilder.setMessage("Đã cập nhật thành công: " + soluongkhachhangdacapnhat + "/" + jsondata.getTongSLkh() + ".Kiểm tra lại khách hàng cập nhật thất bại");
                                     // thiết lập nội dung cho dialog
@@ -2661,7 +2553,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     }
                 }
                 catch(Exception e){
-                    spdata.luuDataUpdateServer(0);
+                    spdata.luuDataThuUpdateServer(0);
                 }
             }
 
@@ -2676,7 +2568,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
 
-private void kiemTraDieuKienDeGhiNuoc(){
+private void kiemTraDieuKienDeThuNuoc(){
 
 
 
@@ -2686,37 +2578,37 @@ private void kiemTraDieuKienDeGhiNuoc(){
 
          Log.e("kiemtradieukien & kiemtradieukiencon", String.valueOf(kiemtradieukien) + kiemtradieukiencon);
             Log.e("batthuong1 & batthuong2", String.valueOf(batthuong1) + batthuong2);
-         if(KiemTraDaGhi(MaKH.getText().toString().trim())){
+         if(KiemTraDaThu(MaKH.getText().toString().trim())){
                 kiemtradieukien =true;
                 kiemtradieukiencon = true;
             }
             if(kiemtradieukien && kiemtradieukiencon){
                 if(batthuong2.equals("") && batthuong1.equals("")&& spinTT.getSelectedItemPosition()==0){
-                    ghinuoc("");
+                    Thunuoc("");
                 }
                 else{
-                    ghinuoc("BT");
+                    Thunuoc("BT");
                 }
             }
 
         }
         else{
             if(ChiSoMoi.getText().toString().trim().equals("")){
-                Log.e("da ghi nuoc", String.valueOf(KiemTraDaGhi(MaKH.getText().toString().trim())));
-                if(KiemTraDaGhi(MaKH.getText().toString().trim())) {
+                Log.e("da Thu nuoc", String.valueOf(KiemTraDaThu(MaKH.getText().toString().trim())));
+                if(KiemTraDaThu(MaKH.getText().toString().trim())) {
                     showDiaLogThongBao("Bạn chưa nhập chỉ số nước.");
                 }
                 else{
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                     // khởi tạo dialog
 
-                    alertDialogBuilder.setMessage("Bạn có muốn cập nhật lại thông tin ghi nước của khách hàng này không?");
+                    alertDialogBuilder.setMessage("Bạn có muốn cập nhật lại thông tin Thu nước của khách hàng này không?");
 
                     alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            ghinuoc("");
+                            Thunuoc("");
 
 
                         }
@@ -2753,7 +2645,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                     if(chisomoi <chisocu){
                         //Show dialog thông báo nhỏ hơn chỉ số cũ
                         //showDiaLogThongBao(getString(R.string.main_thongbao_batthuong));
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                         // khởi tạo dialog
 
                         alertDialogBuilder.setMessage(getString(R.string.main_thongbao_batthuong));
@@ -2764,7 +2656,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
 
 
                                 if(!m3moi.getText().toString().trim().equals("")) {
-                                    ghinuoc("BT");
+                                    Thunuoc("BT");
                                 }
                                 else{
                                     showDiaLogThongBao("Sử dụng chỉ số bất thường cần nhập m3 nước.");
@@ -2777,7 +2669,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                resetViewGhiNuoc();
+                                resetViewThuNuoc();
                                 dialog.dismiss();
 
 
@@ -2791,7 +2683,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                         // hiển thị dialog
                     }
                     else{
-                        //Kiem tra bat thuong...tạo dialog hỏi muốn ghi ko...nếu có thì kt= true, ko thì kt = false
+                        //Kiem tra bat thuong...tạo dialog hỏi muốn Thu ko...nếu có thì kt= true, ko thì kt = false
                         if(m3moi.getText().toString().trim().equals("")) {
                             m3moi.setText(String.valueOf(chisomoi - chisocu));
                         }
@@ -2801,7 +2693,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                         int m3NEW = Integer.parseInt(m3moi.getText().toString());
                         int binhquan3thang  = BinhQuanChiSoNuoc3Thang(m3cu1,m3cu2,m3cu3);
                         if(kiemtraBatThuongLonHon(m3NEW,binhquan3thang)){
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                             // khởi tạo dialog
 
                             alertDialogBuilder.setMessage("Số m3 quá lớn so với bình thường. Bạn có xác định đây là bất thường không?");
@@ -2810,15 +2702,15 @@ private void kiemTraDieuKienDeGhiNuoc(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                                     // khởi tạo dialog
 
-                                    alertDialogBuilder.setMessage("Đã xác định đây là bất thường. Bạn có muốn ghi nước không?");
+                                    alertDialogBuilder.setMessage("Đã xác định đây là bất thường. Bạn có muốn Thu nước không?");
 
                                     alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            ghinuoc("BT");
+                                            Thunuoc("BT");
 
                                         }
                                     });
@@ -2826,7 +2718,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            resetViewGhiNuoc();
+                                            resetViewThuNuoc();
                                             dialog.dismiss();
 
 
@@ -2845,15 +2737,15 @@ private void kiemTraDieuKienDeGhiNuoc(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                                     // khởi tạo dialog
 
-                                    alertDialogBuilder.setMessage("Đã xác định đây không phải là bất thường. Bạn có muốn ghi nước không?");
+                                    alertDialogBuilder.setMessage("Đã xác định đây không phải là bất thường. Bạn có muốn Thu nước không?");
 
                                     alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            ghinuoc("");
+                                            Thunuoc("");
 
                                         }
                                     });
@@ -2861,7 +2753,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            resetViewGhiNuoc();
+                                            resetViewThuNuoc();
                                             dialog.dismiss();
 
 
@@ -2884,7 +2776,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
                             alertDialog.show();
                             // hiển thị dialog
                         }else {
-                            ghinuoc("");
+                            Thunuoc("");
                         }
                     }
                 }
@@ -2896,7 +2788,7 @@ private void kiemTraDieuKienDeGhiNuoc(){
     }
 
 private void showDiaLogThongBao(String mess){
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
     // khởi tạo dialog
 
     alertDialogBuilder.setMessage(mess);
@@ -2904,7 +2796,7 @@ private void showDiaLogThongBao(String mess){
     alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            resetViewGhiNuoc();
+            resetViewThuNuoc();
             dialog.dismiss();
 
         }
@@ -2928,7 +2820,7 @@ private void showDiaLogThongBao(String mess){
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-private void  resetViewGhiNuoc(){
+private void  resetViewThuNuoc(){
   //  DienThoai.setText("");
    // TinhTrangTLK.setText("");
    // spinTT.setSelection(0);
@@ -2939,7 +2831,7 @@ private void  resetViewGhiNuoc(){
   //  GhiChu.setText("");
 }
 
-public boolean KiemTraDaGhi(String maKH){
+public boolean KiemTraDaThu(String maKH){
     KhachHangDTO kh = khachhangDAO.getKHTheoMaKH(maKH);
  //   Log.e("thong tin chi so", "Chi so db:" + kh.getChiSo() +  "  Chi so man hinh: "+ChiSoMoi.getText().toString().trim() );
   //  Log.e("Ten tt",tenTT);
@@ -2950,7 +2842,7 @@ public boolean KiemTraDaGhi(String maKH){
         Log.e("KT getChiSo", kh.getChiSo()+      kh.getChiSo().trim().equalsIgnoreCase(ChiSoMoi.getText().toString().trim() ));
         Log.e("KT sltieuthu",kh.getSLTieuThu() +   kh.getSLTieuThu().trim().equalsIgnoreCase(m3moi.getText().toString().trim()));
         Log.e("KT chisocon", kh.getChiSocon()+  kh.getChiSocon().trim().equalsIgnoreCase(ChiSoMoiCon.getText().toString().trim()));
-        Log.e("KT ghichu",kh.getGhiChu()+    kh.getGhiChu().trim().equalsIgnoreCase(GhiChu.getText().toString().trim()));
+        Log.e("KT GhiChu",kh.getGhiChu()+    kh.getGhiChu().trim().equalsIgnoreCase(GhiChu.getText().toString().trim()));
         if(kh.getDienThoai().equals(DienThoai.getText().toString().trim())  &&
                 // kh.getTrangThaiTLK().equals(TinhTrangTLK.getText().toString().trim()) &&
                 kh.getChiSo().trim().equalsIgnoreCase(ChiSoMoi.getText().toString().trim()) &&
@@ -2958,11 +2850,11 @@ public boolean KiemTraDaGhi(String maKH){
                 kh.getChiSocon().trim().equalsIgnoreCase(ChiSoMoiCon.getText().toString().trim()) &&
                 kh.getGhiChu().trim().equalsIgnoreCase(GhiChu.getText().toString().trim()))
         {
-            Log.e("Da ghi ko co bat thuong", "true");
+            Log.e("Da Thu ko co bat thuong", "true");
             return true;
         }
         else {
-            Log.e("Chua ghi ko co bat thuong", "true");
+            Log.e("Chua Thu ko co bat thuong", "true");
             return false;
         }
     }
@@ -2972,7 +2864,7 @@ public boolean KiemTraDaGhi(String maKH){
         Log.e("KT getChiSo", kh.getChiSo()+      kh.getChiSo().trim().equalsIgnoreCase(ChiSoMoi.getText().toString().trim() ));
         Log.e("KT sltieuthu",kh.getSLTieuThu() + ".san luong :"+ m3moi.getText().toString().trim() +" "+  kh.getSLTieuThu().trim().equalsIgnoreCase(m3moi.getText().toString().trim()));
         Log.e("KT chisocon", kh.getChiSocon()+  kh.getChiSocon().trim().equalsIgnoreCase(ChiSoMoiCon.getText().toString().trim()));
-        Log.e("KT ghichu",kh.getGhiChu()+    kh.getGhiChu().trim().equalsIgnoreCase(GhiChu.getText().toString().trim()));
+        Log.e("KT GhiChu",kh.getGhiChu()+    kh.getGhiChu().trim().equalsIgnoreCase(GhiChu.getText().toString().trim()));
         if(kh.getDienThoai().equalsIgnoreCase(DienThoai.getText().toString().trim())  &&
                 // kh.getTrangThaiTLK().equals(TinhTrangTLK.getText().toString().trim()) &&
 
@@ -2982,18 +2874,18 @@ public boolean KiemTraDaGhi(String maKH){
                 kh.getChiSocon().trim().equalsIgnoreCase(ChiSoMoiCon.getText().toString().trim()) &&
                 kh.getGhiChu().trim().equalsIgnoreCase(GhiChu.getText().toString().trim()))
         {
-            Log.e("Da ghi co bat thuong", "true");
+            Log.e("Da Thu co bat thuong", "true");
             return true;
         }
         else {
-            Log.e("Chua ghi co bat thuong", "true");
+            Log.e("Chua Thu co bat thuong", "true");
             return false;
         }
     }
 
 }
 
-    public boolean KiemTraDaGhiChiSo(String maKH) {
+    public boolean KiemTraDaThuChiSo(String maKH) {
         KhachHangDTO kh = khachhangDAO.getKHTheoMaKH(maKH);
         if(kh.getChiSo().equals("") || kh.getSLTieuThu().equals("")){
             return false;
@@ -3131,7 +3023,7 @@ public boolean KiemTraDaGhi(String maKH){
 
     private void showGPSDisabledAlertToUser(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS đã bị tắt.Hãy bật GPS để có thể ghi nước.")
+        alertDialogBuilder.setMessage("GPS đã bị tắt.Hãy bật GPS để có thể Thu nước.")
                 .setCancelable(false)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener(){

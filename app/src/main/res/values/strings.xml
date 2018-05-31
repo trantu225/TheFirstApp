@@ -8,11 +8,12 @@
     <!--<string name="API_UpdateKhachHangDaGhi">http://tiwaco.com.vn:8012/Service1.svc/CapNhatChiSoTLK</string>-->
     <string name="API_UpdateKhachHangDaGhi2">http://113.176.94.250:8012/Service1.svc/CapNhatChiSoDongHoNuocNongThon</string>
     <string name="API_GetListTiwareadData">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataNongThon</string>
+    <string name="API_GetListTiwareadDataDaGhi">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataDaGhiNongThon</string>
     <string name="API_CheckLogin">http://113.176.94.250:8012/Service1.svc/GetThongTinNhanVien</string>
     <string name="API_DuongKhoaSo">http://113.176.94.250:8012/Service1.svc/DanhSachDuongChuaKhoaSo</string>
     <string name="API_DoiMatKhau">http://113.176.94.250:8012/Service1.svc/UpdatePassUser</string>
     <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
-
+    <string name="link_apk">http://tiwaco.com.vn/uploads/apk/tiwaread.apk</string>
     <!-- Man Hinh -->
     <string name="manhinh_Login">Đăng nhập</string>
     <string name="manhinh_Main">Ghi nước</string>
@@ -54,6 +55,11 @@
     <string name="list_chuyendulieu_hoighinuoc1">Bạn có muốn ghi nước đường: </string>
     <string name="list_chuyendulieu_hoighinuoc_khachhang">Bạn có muốn ghi nước khách hàng: </string>
     <string name="list_chuyendulieu_hoighinuoc_capnhatkhachhang">Bạn có muốn cập nhật lại thông tin ghi nước của khách hàng: </string>
+    <string name="list_chuyendulieu_hoithunuoc1">Bạn có muốn thu tiền nước đường: </string>
+    <string name="list_chuyendulieu_hoithunuoc_khachhang">Bạn có muốn thu tiền nước khách hàng: </string>
+    <string name="list_chuyendulieu_hoithunuoc_capnhatkhachhang">Bạn có muốn cập nhật lại thông tin thu tiền nước của khách hàng: </string>
+
+
     <string name="list_chuyendulieu_hoighinuoc2"> không? </string>
     <!-- Mainactivity -->
     <string name="main_chuacothongtinduong"> Chưa chọn đường để ghi nước. Bạn có muốn chọn đường để ghi nước không? </string>
@@ -67,6 +73,8 @@
     <string name="main_capnhatghichu_thatbai">Cập nhật ghi chú thất bại</string>
     <string name="main_ghinuoc_duongdaghixong">Đường này đã được ghi nước xong.</string>
     <string name="main_ghinuoc_duongdaghixongtatca">Tất cả các đường đã được ghi nước xong.</string>
+    <string name="main_thunuoc_duongdathuxong">Đường này đã được thu tiền nước xong.</string>
+    <string name="main_thunuoc_duongdathuxongtatca">Tất cả các đường đã được thu tiền nước xong.</string>
     <string name="main_thongbao_soam">Chỉ số nước không thể là số âm</string>
     <string name="main_thongbao_batthuong">Chỉ số nước bất thường. Bạn có muốn tiếp tục sử dụng chỉ số này không?</string>
     <string name="main_thongbao_csmoinhohoncscu">Chỉ số nước mới không thể nhỏ hơn chỉ số cũ</string>
@@ -78,7 +86,9 @@
     <string name="btn_lichsu">Thông tin</string>
     <string name="btn_doimatkhau">Đổi mật khẩu</string>
     <string name="tab_ghinuoc">Ghi nước</string>
-    <string name="tab_dsKH">Danh sách KH</string>
+    <string name="tab_thunuoc">Thu tiền nước</string>
+    <string name="tab_dsKH">Danh sách ghi</string>
+    <string name="tab_dsKHThu">Danh sách thu</string>
     <string name="tab_dsduong">Danh sách đường</string>
 
     <!-- các trường -->
@@ -118,7 +128,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ghi_nuoc">Ghi nước</string>
+    <string name="ghi_nuoc">Ghi nước </string>
     <string name="DSKH">Danh sách</string>
     <string name="nhap_du_lieu">Nhập dữ liệu</string>
     <string name="load_status">Đang xử lý...</string>
@@ -128,6 +138,7 @@
     <string name="string_con">Còn lại:</string>
 
     <string name="start_chuacoduongdeghinuoc">Bạn chưa ghi nước đường nào.Bạn có muốn chọn đường để ghi nước không?</string>
+    <string name="start_chuacoduongdethunuoc">Bạn chưa thu tiền nước đường nào.Bạn có muốn chọn đường để ghi nước không?</string>
     <string name="search_label">Tìm kiếm</string>
     <string name="search_label_chitieu">Chỉ tiêu tìm kiếm</string>
     <string name="search_label_khongtimthay">Không tìm được kết quả nào</string>
@@ -140,6 +151,7 @@
     <string name="DialogDangNhap">Đang đăng nhập...</string>
     <string name="nhan_vien">Nhân viên: </string>
     <string name="note_phienbanmoinhat_true">Đây là phiên bản mới nhất.</string>
+
 
 
 </resources>

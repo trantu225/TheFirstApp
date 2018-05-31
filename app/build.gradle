@@ -7,8 +7,8 @@ android {
         applicationId "tiwaco.thefirstapp"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 13
-        versionName "13.16.05.2018"
+        versionCode 16
+        versionName "16.20.06.2018"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

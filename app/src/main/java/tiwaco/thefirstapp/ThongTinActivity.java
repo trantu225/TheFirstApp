@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -67,6 +68,7 @@ public class ThongTinActivity extends AppCompatActivity {
         khachhangdao = new KhachHangDAO(con);
         getSupportActionBar().setTitle("Thông tin");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         urldoimatkhau  =   getString(R.string.API_DoiMatKhau);
         urlcapnhat = getString(R.string.API_CapNhat)+"/"+String.valueOf(getVersionCode());
         Log.e("urlcapnhat",urlcapnhat);
@@ -216,6 +218,7 @@ public class ThongTinActivity extends AppCompatActivity {
 
 
     }
+
     public final boolean isInternetOn() {
 
         boolean k =false;
@@ -370,7 +373,8 @@ public class ThongTinActivity extends AppCompatActivity {
             super.onPostExecute(result);
             Log.e("result update", result);
             if(result.equals("1")){
-                spdata.luuDataMatKhauNhanVienTrongSP(matkhaumoi.getText().toString().trim());
+                spdata.luuDataMatKhauNhanVienTrongSP("");
+                spdata.luuDataNhanVienTrongSP("");
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ThongTinActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Đổi mật khẩu thành công. Hãy đăng nhập lại!");
@@ -514,7 +518,7 @@ public class ThongTinActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent updateIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("http://tiwaco.com.vn/uploads/tiwaread.apk"));
+                                Uri.parse(getString(R.string.link_apk)));
                         startActivity(updateIntent);
 
                     }

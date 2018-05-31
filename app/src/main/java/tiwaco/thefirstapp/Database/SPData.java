@@ -24,16 +24,39 @@ public class SPData  {
         String maduong=pre.getString(Bien.SPMADUONG, "");
         return maduong;
     }
+
+    public String getDataDuongDangThuTrongSP(){
+
+        String maduong=pre.getString(Bien.SPMADUONGTHU, "");
+        return maduong;
+    }
     public String getDataSTTDangGhiTrongSP(){
 
         String stt=pre.getString(Bien.SPSTTDANGGHI, "");
         return stt;
     }
+    public String getDataSTTDangThuTrongSP(){
 
+        String stt=pre.getString(Bien.SPSTTDANGTHU, "");
+        return stt;
+    }
     public int getDataIndexDuongDangGhiTrongSP(){
 
         int stt=pre.getInt(Bien.SPINDEXDUONG, 0);
         return stt;
+    }
+    public int getDataIndexDuongDangThuTrongSP(){
+
+        int stt=pre.getInt(Bien.SPINDEXDUONGTHU, 0);
+        return stt;
+    }
+
+    public void luuDataIndexDuongDangThuTrongSP(int index){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putInt(Bien.SPINDEXDUONGTHU, index);
+        editor.commit();
     }
     public void luuDataIndexDuongDangGhiTrongSP(int index){
 
@@ -49,6 +72,15 @@ public class SPData  {
         SharedPreferences.Editor editor=pre.edit();
         editor.putString(Bien.SPMADUONG, maduong);
         editor.putString(Bien.SPSTTDANGGHI, stt);
+        editor.commit();
+    }
+
+    public void luuDataDuongVaSTTDangThuTrongSP(String maduong,String stt){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putString(Bien.SPMADUONGTHU, maduong);
+        editor.putString(Bien.SPSTTDANGTHU, stt);
         editor.commit();
     }
 
@@ -195,6 +227,20 @@ public class SPData  {
         editor.commit();
     }
     public int getDataUPdateServer(){
+
+
+        int flagghi=pre.getInt(Bien.SPCAPNHATSERVER, 0);
+        return flagghi;
+    }
+
+    public void luuDataThuUpdateServer(int bienghi){
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+        editor.putInt(Bien.SPCAPNHATSERVER, bienghi);
+        editor.commit();
+    }
+    public int getDataThuUPdateServer(){
 
 
         int flagghi=pre.getInt(Bien.SPCAPNHATSERVER, 0);

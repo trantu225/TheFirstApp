@@ -10,7 +10,7 @@
         android:id="@+id/a"
         android:gravity="center"
         android:background="#000"
-        android:src="@drawable/ic_loaddata_disable"
+        android:src="@drawable/ic_save_disable"
         android:scaleType="fitCenter" />
 
     <TextView
@@ -37,40 +37,23 @@
         android:layout_centerHorizontal="true">
 
         <Button
-            android:id="@+id/btn_dialog_from_file"
+            android:id="@+id/btn_dialog_ghi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp20"
-            android:layout_marginRight="@dimen/dp20"
-            android:layout_marginTop="@dimen/dp10"
-
+            android:layout_margin="@dimen/dp20"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/selector_button_signin"
-            android:text="Tập tin"
+            android:text="Ghi"
             android:textAllCaps="false"
             android:textColor="#ffffffff" />
 
         <Button
-            android:id="@+id/btn_dialog_from_server"
+            android:id="@+id/btn_dialog_thu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp20"
-            android:layout_marginRight="@dimen/dp20"
-            android:layout_marginTop="@dimen/dp10"
+            android:layout_margin="@dimen/dp20"
             android:background="@drawable/selector_button_signin"
-            android:text="Dữ liệu mới "
-            android:textAllCaps="false"
-            android:textColor="#ffffffff" />
-
-        <Button
-            android:id="@+id/btn_dialog_from_server_again"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp20"
-            android:layout_marginTop="@dimen/dp10"
-            android:layout_marginRight="@dimen/dp20"
-            android:padding="@dimen/dp10"
-            android:background="@drawable/selector_button_signin"
-            android:text="Dữ liệu đã cập nhật  "
+            android:text="Thu"
             android:textAllCaps="false"
             android:textColor="#ffffffff" />
 
@@ -78,9 +61,7 @@
             android:id="@+id/btn_thoat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp20"
-            android:layout_marginTop="@dimen/dp10"
-            android:layout_marginRight="@dimen/dp20"
+            android:layout_margin="@dimen/dp20"
             android:background="@drawable/selector_button_signin"
             android:text="Thoát"
             android:textAllCaps="false"

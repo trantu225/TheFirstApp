@@ -1184,47 +1184,7 @@ public class Backup_Activity extends AppCompatActivity  {
         return jsondata;
     }
 
-    private ListRequestObject taoJSON1000Data_KH_DaGhi_CapNhatServer2(String tendanhsach) {
-        ListRequestObject jsondata = new ListRequestObject();
-        //Lấy danh sách tất cả các đường
-        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
-        List<ListKHTheoDuong> listtiwaread = new ArrayList<ListKHTheoDuong>();
-        //String soluongKH = String.valueOf(khachangdao.countKhachHangCapNhatServer());
-        //listduong = duongdao.getAllDuong();
-        //for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
-        //String maduong = listduong.get(thutuduong).getMaDuong().trim();
-        //String tenduong = listduong.get(thutuduong).getTenDuong().trim();
-        List<RequestObject> listkh = new ArrayList<RequestObject>();
-        listkh = khachangdao.get1000lKHDaGhiChuaCapNhat1();
-        String soluongKH = String.valueOf(listkh.size());
-        ListKHTheoDuong tiwaread = new ListKHTheoDuong();
-        // tiwaread.setMaDuong(maduong);
-        // tiwaread.setTenDuong(tenduong);
-        tiwaread.setTiwareadList(listkh);
-        if(listkh.size() >0) {
-            listtiwaread.add(tiwaread);
-        }
-        //}
-        String json="";
-        Log.e("list tiwaread", String.valueOf(listtiwaread.size()));
-        if(listtiwaread.size()>0) {
-            jsondata.setListTiwaread(listtiwaread);
-            String kyhd  = spdata.getDataKyHoaDonTrongSP();
-            jsondata.setTenDS(kyhd);
-            jsondata.setTongSLkh(String.valueOf(listtiwaread.size()));
-            Log.e("tong sokh", String.valueOf(String.valueOf(listtiwaread.size())));
-            Gson gson = new Gson();
-            json = gson.toJson(jsondata);
-            Log.e("json data", json);
-        }
-        else{
-            // spdata.luuDataFlagBKDaghiTrongSP(-1);
-            // Bien.bienbkdg = -1;
-            jsondata = null;
 
-        }
-        return jsondata;
-    }
 
 
     private String taoJSONData_KH_DaGhiHomNay(String tendanhsach) {
@@ -2249,7 +2209,7 @@ public class Backup_Activity extends AppCompatActivity  {
                 alertDialog.setCanceledOnTouchOutside(false);
                 alertDialog.show();
             }
-            if(result.equals("RONG"))
+            else if(result.equals("RONG"))
             {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
                 // khởi tạo dialog

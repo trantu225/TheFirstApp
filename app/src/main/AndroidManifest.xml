@@ -45,10 +45,20 @@
             android:name=".MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainThuActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity android:name=".LoadActivity" />
         <activity android:name=".LoadFromServerActivity" />
+        <activity android:name=".LoadFromServerDaGhiActivity" />
         <activity
             android:name=".ListActivity"
+            android:configChanges="orientation"
+            android:parentActivityName=".StartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListThuActivity"
             android:configChanges="orientation"
             android:parentActivityName=".StartActivity"
             android:screenOrientation="portrait" />

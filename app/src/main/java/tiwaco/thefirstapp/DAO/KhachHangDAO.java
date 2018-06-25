@@ -26,8 +26,8 @@ public class KhachHangDAO {
 
     public KhachHangDAO(Context con){
         myda = new MyDatabaseHelper(con);
-   //     db = myda.openDB();
-    //    myda.resetDatabase(db);
+        //     db = myda.openDB();
+        //    myda.resetDatabase(db);
     }
     public boolean addTable_KH(KhachHangDTO kh, String maduong) {
         db = myda.openDB();
@@ -100,10 +100,10 @@ public class KhachHangDAO {
     public boolean updateTable_KH(KhachHangDTO kh) {
         db = myda.openDB();
         ContentValues values = new ContentValues();
-       // values.put(MyDatabaseHelper.KEY_DANHSACHKH_MAKH , kh.getMaKhachHang().trim());
-       // values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISO1 , kh.getChiSo1().trim());
+        // values.put(MyDatabaseHelper.KEY_DANHSACHKH_MAKH , kh.getMaKhachHang().trim());
+        // values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISO1 , kh.getChiSo1().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_GHICHU , kh.getGhiChu().trim());
-    //    values.put(MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1 , kh.getSLTieuThu1().trim());
+        //    values.put(MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1 , kh.getSLTieuThu1().trim());
 
         // Inserting Row
 
@@ -266,7 +266,7 @@ public class KhachHangDAO {
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"<>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
-       //SUABUG:Ghi chu sai du lieu (SQL sua)
+        //SUABUG:Ghi chu sai du lieu (SQL sua)
         //String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"<>'' and ("+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO  +"-"+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO1   +")<>"+ MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU +" ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -735,7 +735,7 @@ public class KhachHangDAO {
         db = myda.openDB();
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
-       // String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"='' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
+        // String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"='' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"='' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -951,7 +951,7 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI, sdt);
 
         // updating row
-      boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
+        boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
         db.close();
         return kt ;
 
@@ -1001,7 +1001,7 @@ public class KhachHangDAO {
 
     }
 
-     //UPDATE trạng thái cập nhật lên server , 0: chưa cập nhật, 1: đã cập nhật
+    //UPDATE trạng thái cập nhật lên server , 0: chưa cập nhật, 1: đã cập nhật
     public boolean updateTrangThaiCapNhat(String  maKH, String trangthai) {
         db = myda.openDB();
         ContentValues values = new ContentValues();
@@ -1041,7 +1041,7 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN, thoigian.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TRANGTHAITLK, trangthaiTLK.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_BATTHUONG, bt.trim());
-      // updating row
+        // updating row
         boolean kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[] { maKH }) >0;
         db.close();
         return  kt ;
@@ -1125,7 +1125,7 @@ public class KhachHangDAO {
     public int countKhachHangCapNhatServer(){
         db = myda.openDB();
         int sokh = 0;
-       // String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO+"<>''";
+        // String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_CHISO+"<>''";
         String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +", "+ MyDatabaseHelper.TABLE_DUONG + " WHERE " +MyDatabaseHelper.TABLE_DANHSACHKH+"."+MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"="+MyDatabaseHelper.TABLE_DUONG+"."+MyDatabaseHelper.KEY_DUONG_MADUONG +" and " +MyDatabaseHelper.KEY_DUONG_KHOASO +"='0' and  "+ MyDatabaseHelper.KEY_DANHSACHKH_CAPNHAT +"='0' and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO +"<>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
         Log.e("SQL maduong",countQuery);
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -1722,7 +1722,7 @@ public class KhachHangDAO {
                 null, null, null, null);
         KhachHangDTO kh = null;
         if (cursor != null &&  cursor.moveToFirst()) {
-          //  cursor.moveToFirst();
+            //  cursor.moveToFirst();
 
             kh = new KhachHangDTO();
             kh.setMaKhachHang(cursor.getString(0).trim());
@@ -2673,23 +2673,23 @@ public class KhachHangDAO {
 
 
     public String getSTTChuaGhiNhoNhat(String maduong){
-            String data= "1";
-            db = myda.openDB();
-            Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
-                    new String[]{"MIN(" +MyDatabaseHelper.KEY_DANHSACHKH_STT + ") AS MINSTT"},
-                    MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO + "='' ",
-                    new String[] { maduong },
-                    null, null, null, null);
-           if(cursor!=null &&  cursor.moveToFirst()) {
-               Log.e("lay so thu tu chua ghi nho nhat","ok");
-               data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
-               if(data.equals("0")){
-                   data ="1";
-               }
-           }
+        String data= "1";
+        db = myda.openDB();
+        Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
+                new String[]{"MIN(" +MyDatabaseHelper.KEY_DANHSACHKH_STT + ") AS MINSTT"},
+                MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and "+ MyDatabaseHelper.KEY_DANHSACHKH_CHISO + "='' ",
+                new String[] { maduong },
+                null, null, null, null);
+        if(cursor!=null &&  cursor.moveToFirst()) {
+            Log.e("lay so thu tu chua ghi nho nhat","ok");
+            data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
+            if(data.equals("0")){
+                data ="1";
+            }
+        }
 
-            db.close();
-            return data;
+        db.close();
+        return data;
 
     }
 
@@ -2729,7 +2729,7 @@ public class KhachHangDAO {
             data= "";
         }
         Log.e("data chua ghi nho nhat lon hon hien tai",data);
-       // db.close();
+        // db.close();
         return data;
 
     }
@@ -2938,7 +2938,7 @@ public class KhachHangDAO {
         db = myda.openDB();
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
-    //    String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH ;
+        //    String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH ;
         Cursor cursor = db.rawQuery(sqlstring, null);
 
         // looping through all rows and adding to list
@@ -3113,10 +3113,10 @@ public class KhachHangDAO {
         double tiennuoc  = 0;
         double tongcong = 0 ;
         //Loại kh 0:
-	    //Đơn giá: tg01= 6.800, tg02=9.000, tg03=10.500, tg04=11.800
-         final double dg01  =6800 , dg02 = 9000 , dg03 = 10500 , dg04 = 11800;
+        //Đơn giá: tg01= 6.800, tg02=9.000, tg03=10.500, tg04=11.800
+        final double dg01  =6800 , dg02 = 9000 , dg03 = 10500 , dg04 = 11800;
         //Đơn giá tiền nước: tg01tn= 6.800/115*100, tg02tn=9.000/115*100, tg03tn=10.500/115*100, tg04tn=11.800/115*100
-         final double dg01tn = 6800/115*100, dg02tn=9000/115*100, dg03tn=10500/115*100, dg04tn=11800/115*100;
+        final double dg01tn = 6800/115*100, dg02tn=9000/115*100, dg03tn=10500/115*100, dg04tn=11800/115*100;
         //Đơn giá tiền nước không phí ntsh: tg01p= 6.800/115*105, tg02p=9.000/115*105, tg03p=10.500/115*105, tg04p=11.800/115*105
         final double dg01p= 6800/115*105, dg02p=9000/115*105, dg03p=10500/115*105, dg04p=11800/115*105;
          /*Loại kh1:
@@ -3178,40 +3178,40 @@ public class KhachHangDAO {
             {
                 if ( tieuthu <=  dmuc)//muc 1 gia 6200/dg01
                 {
-                     m3t1 =  tieuthu;
+                    m3t1 =  tieuthu;
                 }
                 else if ( tieuthu >  dmuc &&  tieuthu <= ( dmuc * 2))//muc 2 gia 8200/dg02
                 {
-                     m3t1 =  dmuc;
-                     m3t2 =  tieuthu -  m3t1;
+                    m3t1 =  dmuc;
+                    m3t2 =  tieuthu -  m3t1;
                 }
                 else if ( tieuthu > ( dmuc * 2) &&  tieuthu <= ( dmuc * 3))//muc 3 gia 9600/dg03
                 {
-                     m3t1 =  dmuc;
-                     m3t2 =  dmuc;
-                     m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                    m3t1 =  dmuc;
+                    m3t2 =  dmuc;
+                    m3t3 =  tieuthu - ( m3t1 +  m3t2);
                 }
                 else if ( tieuthu >  dmuc * 3)//muc 4 gia 10.800/dg04
                 {
-                     m3t1 =  dmuc;
-                     m3t2 =  dmuc;
-                     m3t3 =  dmuc;
-                     m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
+                    m3t1 =  dmuc;
+                    m3t2 =  dmuc;
+                    m3t3 =  dmuc;
+                    m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
                 }
 
-                 tien1 =  lamtron2sothapphan(m3t1 * dg01tn );// tien  nuoc muc 1 theo dinh muc
-                 tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc
-                 tien3 =  lamtron2sothapphan(m3t3 * dg03tn );// tien  nuoc muc 3 theo dinh muc
-                 tien4 =  lamtron2sothapphan(m3t4 * dg04tn );// tien  nuoc muc 4 theo dinh muc
-                 tiennuoc =  tien1+ tien2+ tien3+ tien4;//tong nuoc
+                tien1 =  lamtron2sothapphan(m3t1 * dg01tn );// tien  nuoc muc 1 theo dinh muc
+                tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc
+                tien3 =  lamtron2sothapphan(m3t3 * dg03tn );// tien  nuoc muc 3 theo dinh muc
+                tien4 =  lamtron2sothapphan(m3t4 * dg04tn );// tien  nuoc muc 4 theo dinh muc
+                tiennuoc =  tien1+ tien2+ tien3+ tien4;//tong nuoc
 
                 if( ntsh>0)
                 {
-                     tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
+                    tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
                 }
                 else if ( ntsh == 0)
                 {
-                     tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
+                    tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
                 }
 
             }// ket thuc nha tro hoac to hop
@@ -3219,56 +3219,56 @@ public class KhachHangDAO {
             {
                 if ( dmuc == 0)// dinh muc bang 0 tinh gia 8.200
                 {
-                     m3t1 =  tieuthu;//m3 tieu thu
-                     tien1 =  lamtron2sothapphan(m3t1 * dg02tn);// tien nuoc
+                    m3t1 =  tieuthu;//m3 tieu thu
+                    tien1 =  lamtron2sothapphan(m3t1 * dg02tn);// tien nuoc
 
 
                     if( ntsh==0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg02);//tong cong
+                        tongcong =  lamtron2sothapphan(m3t1 * dg02);//tong cong
                     }
                     else if ( ntsh > 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg02p);//tong cong
+                        tongcong =  lamtron2sothapphan(m3t1 * dg02p);//tong cong
                     }
                 }
                 else if ( dmuc > 0)// dinh muc lon hon 0 tinh luy tuyen theo dinh muc
                 {
                     if ( tieuthu <=  dmuc)//muc 1 gia 6.200/dg01
                     {
-                         m3t1 =  tieuthu;
+                        m3t1 =  tieuthu;
                     }
                     else if ( tieuthu >  dmuc &&  tieuthu <= ( dmuc + dm01))//muc 2 gia 8.200/dg02
                     {
-                         m3t1 =  dmuc;
-                         m3t2 =  tieuthu -  m3t1;
+                        m3t1 =  dmuc;
+                        m3t2 =  tieuthu -  m3t1;
                     }
                     else if ( tieuthu > ( dmuc + dm01) &&  tieuthu <= ( dmuc + dm02))//muc 3 gia 9.600/dg03
                     {
-                         m3t1 =  dmuc;
-                         m3t2 = dm01;
-                         m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                        m3t1 =  dmuc;
+                        m3t2 = dm01;
+                        m3t3 =  tieuthu - ( m3t1 +  m3t2);
                     }
                     else if ( tieuthu >  dmuc + dm02)//muc 4 gia 10.800/dg04
                     {
-                         m3t1 =  dmuc;
-                         m3t2 = dm01;
-                         m3t3 = dm01;
-                         m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
+                        m3t1 =  dmuc;
+                        m3t2 = dm01;
+                        m3t3 = dm01;
+                        m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
                     }
-                     tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
-                     tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
-                     tien3 =  lamtron2sothapphan(m3t3 * dg03tn);// tien  nuoc muc 3 theo dinh muc dm01
-                     tien4 =  lamtron2sothapphan(m3t4 * dg04tn);// tien  nuoc muc 4 theo dinh muc
+                    tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                    tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
+                    tien3 =  lamtron2sothapphan(m3t3 * dg03tn);// tien  nuoc muc 3 theo dinh muc dm01
+                    tien4 =  lamtron2sothapphan(m3t4 * dg04tn);// tien  nuoc muc 4 theo dinh muc
 
-                     tiennuoc =  tien1 +  tien2 +  tien3 +  tien4;//tong nuoc
+                    tiennuoc =  tien1 +  tien2 +  tien3 +  tien4;//tong nuoc
                     if ( ntsh > 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
+                        tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
                     }
                     else if ( ntsh == 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
+                        tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
                     }
 
                     //    tongcong =  m3t1 * dg01 +  m3t2 * dg02 +  m3t3 * dg03 +  m3t4 * dg04;//tong cong
@@ -3279,79 +3279,79 @@ public class KhachHangDAO {
             {
                 if ( tieuthu <= dm01)//muc 1
                 {
-                     m3t1 =  tieuthu;
+                    m3t1 =  tieuthu;
                 }
                 else if ( tieuthu > dm01 &&  tieuthu <= dm02)//muc 2
                 {
-                     m3t1 = dm01;
-                     m3t2 =  tieuthu -  m3t1;
+                    m3t1 = dm01;
+                    m3t2 =  tieuthu -  m3t1;
                 }
                 else if ( tieuthu > dm02 &&  tieuthu <= dm03)//muc 3
                 {
-                     m3t1 = dm01;
-                     m3t2 = dm01;
-                     m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                    m3t1 = dm01;
+                    m3t2 = dm01;
+                    m3t3 =  tieuthu - ( m3t1 +  m3t2);
                 }
                 else if ( tieuthu > dm03)//muc 4
                 {
-                     m3t1 = dm01;
-                     m3t2 = dm01;
-                     m3t3 = dm01;
-                     m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
+                    m3t1 = dm01;
+                    m3t2 = dm01;
+                    m3t3 = dm01;
+                    m3t4 =  tieuthu - ( m3t1 +  m3t2 +  m3t3);
                 }
-                 tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
-                 tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc
-                 tien3 =  lamtron2sothapphan(m3t3 * dg03tn);// tien  nuoc muc 3 theo dinh muc
-                 tien4 =  lamtron2sothapphan(m3t4 * dg04tn);// tien  nuoc muc 4 theo dinh muc
+                tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc
+                tien3 =  lamtron2sothapphan(m3t3 * dg03tn);// tien  nuoc muc 3 theo dinh muc
+                tien4 =  lamtron2sothapphan(m3t4 * dg04tn);// tien  nuoc muc 4 theo dinh muc
 
-                 tiennuoc =  tien1 +  tien2 +  tien3 +  tien4;//tong nuoc
+                tiennuoc =  tien1 +  tien2 +  tien3 +  tien4;//tong nuoc
                 if ( ntsh > 0)
                 {
-                     tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
+                    tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg03p) +  lamtron2sothapphan(m3t4 * dg04p);// tien nuoc tog cong
                 }
                 else if ( ntsh == 0)
                 {
-                     tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
+                    tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg03) +  lamtron2sothapphan(m3t4 * dg04);// tien nuoc tog cong
                 }
                 //  tongcong =  m3t1 * dg01 +  m3t2 * dg02 +  m3t3 * dg03 +  m3t4 * dg04;//tong cong
             }
         }// loaikh bang o / tu gia
         else if ( kh.getLoaikh().equals("1"))// TINH TIEN LOAI KHACH HANG GIA MUC LOAIKH =1
         {
-             m3t1 =  tieuthu;
-             tien1 =  lamtron2sothapphan(m3t1 * dg1tn);
+            m3t1 =  tieuthu;
+            tien1 =  lamtron2sothapphan(m3t1 * dg1tn);
 
-             tiennuoc =  tien1;
-             tongcong =  lamtron2sothapphan(tieuthu * dg1);
+            tiennuoc =  tien1;
+            tongcong =  lamtron2sothapphan(tieuthu * dg1);
 
             //  thue =  tongcong -  tiennuoc;
         }// ket thuc loaikh =1
         else if ( kh.getLoaikh().equals("2"))
         {
-             m3t1 =  tieuthu;
-             tien1 =  lamtron2sothapphan(m3t1 * dg2tn);
+            m3t1 =  tieuthu;
+            tien1 =  lamtron2sothapphan(m3t1 * dg2tn);
 
-             tiennuoc =  tien1;
-             tongcong =  lamtron2sothapphan(tieuthu * dg2);
+            tiennuoc =  tien1;
+            tongcong =  lamtron2sothapphan(tieuthu * dg2);
 
             //  thue =  tongcong -  tiennuoc;
         }// ket thuc loaikh =2
         else if ( kh.getLoaikh().equals("3"))
         {
-             m3t1 =  tieuthu;
-             tien1 =  lamtron2sothapphan(m3t1 * dg3tn);
+            m3t1 =  tieuthu;
+            tien1 =  lamtron2sothapphan(m3t1 * dg3tn);
 
-             tiennuoc =  tien1;
-             tongcong =  lamtron2sothapphan(tieuthu * dg3);
+            tiennuoc =  tien1;
+            tongcong =  lamtron2sothapphan(tieuthu * dg3);
 
             //  thue =  tongcong -  tiennuoc;
         }// ket thuc loaikh =3
         else if ( kh.getLoaikh().equals("4"))
         {
-             m3t1 =  tieuthu;
-             tien1 =  lamtron2sothapphan(m3t1 * dg4tn);
+            m3t1 =  tieuthu;
+            tien1 =  lamtron2sothapphan(m3t1 * dg4tn);
             tiennuoc =  tien1;
-             tongcong =  lamtron2sothapphan(tieuthu * dg4);
+            tongcong =  lamtron2sothapphan(tieuthu * dg4);
 
 
             //   thue =  tongcong -  tiennuoc;
@@ -3360,10 +3360,10 @@ public class KhachHangDAO {
         {
             if (kh.getChitietloai().toUpperCase().equals("N"))
             {
-                 m3t1 =  tieuthu;
-                 tien1 =  lamtron2sothapphan(m3t1 * dg5nttn);
+                m3t1 =  tieuthu;
+                tien1 =  lamtron2sothapphan(m3t1 * dg5nttn);
                 tiennuoc =  tien1;
-                 tongcong =  lamtron2sothapphan(tieuthu * dg5nt);
+                tongcong =  lamtron2sothapphan(tieuthu * dg5nt);
 
 
             }
@@ -3371,17 +3371,17 @@ public class KhachHangDAO {
             {
                 if ( dmuc == 0)//dmuc
                 {
-                     m3t1 =  tieuthu;
-                     tien1 =  lamtron2sothapphan(m3t1 * dg5tn);
+                    m3t1 =  tieuthu;
+                    tien1 =  lamtron2sothapphan(m3t1 * dg5tn);
 
-                     tiennuoc =  tien1;
+                    tiennuoc =  tien1;
                     if ( ntsh == 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg5);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg5);
                     }
                     else if ( ntsh > 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg5p);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg5p);
                     }
 
 
@@ -3390,33 +3390,33 @@ public class KhachHangDAO {
                 {
                     if ( tieuthu <= dm01)//muc 1
                     {
-                         m3t1 =  tieuthu;
+                        m3t1 =  tieuthu;
                     }
                     else if ( tieuthu > dm01 &&  tieuthu <= dm02)//muc 2
                     {
-                         m3t1 = dm01;
-                         m3t2 =  tieuthu -  m3t1;
+                        m3t1 = dm01;
+                        m3t2 =  tieuthu -  m3t1;
                     }
                     else if ( tieuthu > dm02)//muc 3
                     {
-                         m3t1 = dm01;
-                         m3t2 = dm01;
-                         m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                        m3t1 = dm01;
+                        m3t2 = dm01;
+                        m3t3 =  tieuthu - ( m3t1 +  m3t2);
                     }
-                     tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
-                     tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
-                     tien3 =  lamtron2sothapphan(m3t3 * dg5tn);// tien  nuoc muc 3 theo dinh muc dm01
+                    tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                    tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
+                    tien3 =  lamtron2sothapphan(m3t3 * dg5tn);// tien  nuoc muc 3 theo dinh muc dm01
 
                     //  tien4 =  m3t4 * dg04tn;// tien  nuoc muc 4 theo dinh muc
-                     tiennuoc =  tien1 +  tien2 +  tien3;
+                    tiennuoc =  tien1 +  tien2 +  tien3;
 
                     if ( ntsh == 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg5);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg5);
                     }
                     else if ( ntsh > 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg5p);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg01p) +  lamtron2sothapphan(m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg5p);
                     }
 
                 }
@@ -3503,26 +3503,26 @@ public class KhachHangDAO {
             }
             else if ( kh.getChitietloai().toUpperCase().equals("N"))//CO QUAN giá 9000
             {
-                 m3t1 =  tieuthu;
-                 tien1 =  lamtron2sothapphan(m3t1 * dg6nttn);
+                m3t1 =  tieuthu;
+                tien1 =  lamtron2sothapphan(m3t1 * dg6nttn);
 
-                 tiennuoc =  tien1;
-                 tongcong =  lamtron2sothapphan(m3t1 * dg6nt);
+                tiennuoc =  tien1;
+                tongcong =  lamtron2sothapphan(m3t1 * dg6nt);
             }
             else //CO QUAN
             {
-                 m3t1 =  tieuthu;
-                 tien1 =  lamtron2sothapphan(m3t1 * dg6tn);
+                m3t1 =  tieuthu;
+                tien1 =  lamtron2sothapphan(m3t1 * dg6tn);
 
-                 tiennuoc =  tien1;
+                tiennuoc =  tien1;
 
                 if ( ntsh == 0)
                 {
-                     tongcong =  lamtron2sothapphan(m3t1 * dg6);
+                    tongcong =  lamtron2sothapphan(m3t1 * dg6);
                 }
                 else if ( ntsh > 0)
                 {
-                     tongcong =  lamtron2sothapphan(m3t1 * dg6p);
+                    tongcong =  lamtron2sothapphan(m3t1 * dg6p);
                 }
 
             }
@@ -3533,61 +3533,61 @@ public class KhachHangDAO {
 
             if (kh.getChitietloai().toUpperCase().equals("N"))
             {
-                 m3t1 =  tieuthu;
-                 tien1 =  lamtron2sothapphan(m3t1 * dg7nttn);
-                 tiennuoc =  tien1;
-                 tongcong =  lamtron2sothapphan(tieuthu * dg7nt);
+                m3t1 =  tieuthu;
+                tien1 =  lamtron2sothapphan(m3t1 * dg7nttn);
+                tiennuoc =  tien1;
+                tongcong =  lamtron2sothapphan(tieuthu * dg7nt);
 
             }
             else
             {
                 if ( dmuc == 0)//dmuc
                 {
-                     m3t1 =  tieuthu;
-                     tien1 =  lamtron2sothapphan(m3t1 * dg7tn);
+                    m3t1 =  tieuthu;
+                    tien1 =  lamtron2sothapphan(m3t1 * dg7tn);
 
-                     tiennuoc =  tien1;
+                    tiennuoc =  tien1;
 
                     if ( ntsh == 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg7);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg7);
                     }
                     else if ( ntsh > 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg7p);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg7p);
                     }
                 }
                 else
                 {
                     if ( tieuthu <= dm01)//muc 1
                     {
-                         m3t1 =  tieuthu;
+                        m3t1 =  tieuthu;
                     }
                     else if ( tieuthu > dm01 &&  tieuthu <= dm02)//muc 2
                     {
-                         m3t1 = dm01;
-                         m3t2 =  tieuthu -  m3t1;
+                        m3t1 = dm01;
+                        m3t2 =  tieuthu -  m3t1;
                     }
                     else if ( tieuthu > dm02)//muc 3
                     {
-                         m3t1 = dm01;
-                         m3t2 = dm01;
-                         m3t3 =  tieuthu - ( m3t1 +  m3t2);
+                        m3t1 = dm01;
+                        m3t2 = dm01;
+                        m3t3 =  tieuthu - ( m3t1 +  m3t2);
                     }
-                     tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
-                     tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
-                     tien3 =  lamtron2sothapphan(m3t3 * dg7tn);// tien  nuoc muc 3 theo dinh muc dm01
+                    tien1 =  lamtron2sothapphan(m3t1 * dg01tn);// tien  nuoc muc 1 theo dinh muc
+                    tien2 =  lamtron2sothapphan(m3t2 * dg02tn);// tien  nuoc muc 2 theo dinh muc dm01
+                    tien3 =  lamtron2sothapphan(m3t3 * dg7tn);// tien  nuoc muc 3 theo dinh muc dm01
 
                     //  tien4 =  m3t4 * dg04tn;// tien  nuoc muc 4 theo dinh muc
-                     tiennuoc =  tien1 +  tien2 +  tien3;
+                    tiennuoc =  tien1 +  tien2 +  tien3;
 
                     if ( ntsh == 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg7);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg01) +  lamtron2sothapphan(m3t2 * dg02) +  lamtron2sothapphan(m3t3 * dg7);
                     }
                     else if ( ntsh > 0)
                     {
-                         tongcong =  lamtron2sothapphan(m3t1 * dg01p) + lamtron2sothapphan( m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg7p);
+                        tongcong =  lamtron2sothapphan(m3t1 * dg01p) + lamtron2sothapphan( m3t2 * dg02p) +  lamtron2sothapphan(m3t3 * dg7p);
                     }
 
                 }
@@ -3627,7 +3627,7 @@ public class KhachHangDAO {
         updateGiaNuoc(maKH,String.valueOf(tiennuoc),String.valueOf(phi),String.valueOf(tongcong));
 
     }
-    
+
     public double lamtron2sothapphan(double a){
         return (Math.round(a*100)) /100;
     }

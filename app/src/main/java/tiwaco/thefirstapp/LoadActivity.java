@@ -118,7 +118,7 @@ public class LoadActivity extends AppCompatActivity {
             //          this.viewjson.setText(fileContent);
             myReader.close();
             // Log.e("file json",fileContent);
-           // String finalFileContent = fileContent;
+            // String finalFileContent = fileContent;
 
 
         } catch (IOException e) {
@@ -270,9 +270,9 @@ public class LoadActivity extends AppCompatActivity {
 
                 try {
                     String tenDS = jsonobj.getString("tenDS");
-                   // String kyhd = "082017"; //cắt chuỗi từ tên DS
+                    // String kyhd = "082017"; //cắt chuỗi từ tên DS
                     //Luu ky hd vao SP
-                   spdata.luuDataKyHoaDonTrongSP(tenDS);
+                    spdata.luuDataKyHoaDonTrongSP(tenDS);
                     Log.e("kyhddaluu",tenDS);
 
                 } catch (JSONException e) {
@@ -610,7 +610,7 @@ public class LoadActivity extends AppCompatActivity {
 
                                 Log.e("Them database_KH: ", "Da ton tai "+j   +":" +MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang,maduong));
                                 boolean kt = khachhangDAO.addTable_KH(kh,maduong);
-                              //  boolean kt = khachhangDAO.updateTable_KH(kh);
+                                //  boolean kt = khachhangDAO.updateTable_KH(kh);
 
                                 if (kt) {
                                     Log.e("Them database_KH: "+MaKhachHang+" " + TenKhachHang, "Thanh cong");
@@ -625,7 +625,7 @@ public class LoadActivity extends AppCompatActivity {
                                 FlagupdateDB = kt;
 
                                 long status = (j+1) *100/listKH.length();
-                           //     String.valueOf(status)
+                                //     String.valueOf(status)
                                 publishProgress(String.valueOf(status),tenduong);
 
                             }
@@ -995,7 +995,7 @@ public class LoadActivity extends AppCompatActivity {
 
             // MyJsonTaskDatabase task = new MyJsonTaskDatabase();
             //  task.execute(duongdanfile);
-         //   readFileandSaveDatabase();
+            //   readFileandSaveDatabase();
             loadData();
 
         }
@@ -1005,8 +1005,8 @@ public class LoadActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         //
         if (canWrite) {
-        //Backup file json
-        //    this.writeFile(path,data);
+            //Backup file json
+            //    this.writeFile(path,data);
         }
     }
 
@@ -1044,7 +1044,7 @@ public class LoadActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_ID_READ_PERMISSION: {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    loadData();
+                        loadData();
 
                     }
                 }
@@ -1075,7 +1075,7 @@ public class LoadActivity extends AppCompatActivity {
 
                             Log.e("Toa do", vido +"-"+kinhdo );
                             // \n is for new line
-                        //    Toast.makeText(getApplicationContext(), "REQUEST: Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                            //    Toast.makeText(getApplicationContext(), "REQUEST: Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                             askPermissionAndReadFile();
                         } else {
                             // Can't get location.

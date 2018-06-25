@@ -112,7 +112,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
         btngetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // new GetUserList().execute("http://192.168.1.91/Service1.svc/GetListUser");
+                // new GetUserList().execute("http://192.168.1.91/Service1.svc/GetListUser");
                 try {
                     String manv = edtNV.getText().toString().trim(); // Lay manv
                     Log.e("nhap", editKyHD.getText().toString());
@@ -287,9 +287,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
 
 
-                HttpURLConnection conn = null;
-                BufferedReader reader;
-                String FlagupdateDB = "TB"; // TC, TB, EMPTY
+            HttpURLConnection conn = null;
+            BufferedReader reader;
+            String FlagupdateDB = "TB"; // TC, TB, EMPTY
             if(!isCancelled()) {
                 //Duong dan file
                 String duongdan = params[0];
@@ -762,7 +762,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                 }
             }
 
-                return FlagupdateDB;
+            return FlagupdateDB;
 
         }
 
@@ -1000,10 +1000,10 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
             }
             else{
-               // String[] sarray = { duongdanfile, "0" };
+                // String[] sarray = { duongdanfile, "0" };
                 MyJsonTaskDatabasefromServer task = new MyJsonTaskDatabasefromServer();
                 task.execute(duongdan,"0");
-               // spdata = new SPData(con);
+                // spdata = new SPData(con);
 
                 Bien.selected_item =0;
                 Bien.bien_index_duong = 0;

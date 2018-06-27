@@ -17,10 +17,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,8 +55,9 @@ public class ThongTinActivity extends AppCompatActivity {
 
     Context con;
     TextView txt_tongsokh , txt_sokhdaghi, txt_dokhghihomnay, txt_som3daghi,txt_phienban,txt_kyhd;
-    EditText matkhaucu, matkhaumoi;
-    Button doimatkhau, truyvanluocsu, thoat,capnhat;
+    EditText matkhaucu, matkhaumoi, luutudong;
+    Switch SwitchLuuTuDong;
+    Button doimatkhau, truyvanluocsu, thoat, capnhat, doiluucapnhat;
     SPData spdata;
     KhachHangDAO khachhangdao ;
     String urldoimatkhau = "";
@@ -74,6 +78,8 @@ public class ThongTinActivity extends AppCompatActivity {
         Log.e("urlcapnhat",urlcapnhat);
         taoview();
         hienThiView();
+
+
         truyvanluocsu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,8 +221,60 @@ public class ThongTinActivity extends AppCompatActivity {
                 }
             }
         });
+        doiluucapnhat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(ThongTinActivity.this);
+                if (luutudong.getText().toString().trim().equals("")) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ThongTinActivity.this);
+                    // khởi tạo dialog
+                    alertDialogBuilder.setMessage("Chưa nhập chỉ số cấu hình lưu dữ liệu tự động.");
+                    // thiết lập nội dung cho dialog
+
+                    alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                            // button "no" ẩn dialog đi
+                        }
+                    });
 
 
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // tạo dialog
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+                } else {
+
+                    Toast.makeText(ThongTinActivity.this, "Cập nhật thành công ", Toast.LENGTH_LONG).show();
+                    spdata.luuDataChiSoLuuCapNhat(Integer.parseInt(luutudong.getText().toString()));
+                    luutudong.setText(String.valueOf(spdata.getDataChiSoLuuCapNhat()));
+                }
+            }
+        });
+        SwitchLuuTuDong.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (SwitchLuuTuDong.isChecked()) {
+                    spdata.luuDataOnOffLuu(1);
+                } else {
+                    spdata.luuDataOnOffLuu(0);
+                }
+            }
+        });
+
+    }
+
+    public static void hideKeyboard(AppCompatActivity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public final boolean isInternetOn() {
@@ -254,10 +312,13 @@ public class ThongTinActivity extends AppCompatActivity {
         txt_som3daghi = (TextView) findViewById(R.id.tv_som3daghi);
         matkhaucu = (EditText) findViewById(R.id.password_cu);
         matkhaumoi = (EditText) findViewById(R.id.password_moi);
+        luutudong = (EditText) findViewById(R.id.edit_luutudong);
+        doiluucapnhat = (Button) findViewById(R.id.btn_luutudong);
         doimatkhau = (Button) findViewById(R.id.doimatkhau_button);
         truyvanluocsu = (Button) findViewById(R.id.luocsu_button);
         capnhat  = (Button) findViewById(R.id.kiemtracapnhat_button);
         thoat = (Button) findViewById(R.id.close_button);
+        SwitchLuuTuDong = (Switch) findViewById(R.id.SwitchLuuTuDong);
 
 
     }
@@ -297,6 +358,13 @@ public class ThongTinActivity extends AppCompatActivity {
             String thang = kyhd.substring(4);
             String strkyhd = thang + "/" + nam;
             txt_kyhd .setText(strkyhd);
+        }
+
+        luutudong.setText(String.valueOf(spdata.getDataChiSoLuuCapNhat()));
+        if (spdata.getDataOnOffLuu() == 0) {
+            SwitchLuuTuDong.setChecked(false);
+        } else {
+            SwitchLuuTuDong.setChecked(true);
         }
 
     }
@@ -375,6 +443,7 @@ public class ThongTinActivity extends AppCompatActivity {
             if(result.equals("1")){
                 spdata.luuDataMatKhauNhanVienTrongSP("");
                 spdata.luuDataNhanVienTrongSP("");
+                spdata.luuThongTinNhanVien("", "");
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ThongTinActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Đổi mật khẩu thành công. Hãy đăng nhập lại!");

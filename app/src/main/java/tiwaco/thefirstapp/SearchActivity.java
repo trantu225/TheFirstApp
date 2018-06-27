@@ -89,6 +89,7 @@ public class SearchActivity  extends AppCompatActivity  {
                 finish();
             }
         });
+        btnEye.setVisibility(View.GONE);
         btnEye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

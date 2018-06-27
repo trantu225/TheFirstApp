@@ -71,8 +71,8 @@ public class StartActivity extends AppCompatActivity  {
         layout3 = (LinearLayout) findViewById(R.id.layout_3);
         txtuser = (TextView) findViewById(R.id.txt_user);
 
-
-        txtuser.setText("Người dùng: "+ spdata.getDataNhanVienTrongSP());
+        Log.e("ten nhanvien ", spdata.getDataTenNhanVien());
+        txtuser.setText("Người dùng: " + spdata.getDataTenNhanVien());
         ViewGroup.LayoutParams params = layout3.getLayoutParams();
 
         params.height = getViewHeight(layout2);
@@ -218,7 +218,7 @@ public class StartActivity extends AppCompatActivity  {
             Intent myIntent;
             switch (v.getId()) {
                 case R.id.btn_ghinuoc:
-                    /*
+
                     String maduong = spdata.getDataDuongDangGhiTrongSP();
 
 
@@ -315,25 +315,25 @@ public class StartActivity extends AppCompatActivity  {
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
                     }
-                    */
+
                     //Chọn màn hình ghi hay thu
 
-                    ViewDialog_GhiThu alert = new ViewDialog_GhiThu();
-                    alert.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",1); //1: chuc nang ghi
+//                    ViewDialog_GhiThu alert = new ViewDialog_GhiThu();
+//                    alert.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",1); //1: chuc nang ghi
 
 
 
                     break;
 
                 case R.id.btn_dskh:
-//                    Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
-//                    myIntent = new Intent(StartActivity.this, ListActivity.class);
-//                    startActivity(myIntent);
+                    Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+                    myIntent = new Intent(StartActivity.this, ListActivity.class);
+                    startActivity(myIntent);
 
                     //Chọn màn hình ghi hay thu
 
-                    ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
-                    alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",2); //2: chuc nang danh sach
+//                    ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
+//                    alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",2); //2: chuc nang danh sach
 
 
                     break;

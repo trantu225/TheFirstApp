@@ -2061,27 +2061,48 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                         hideKeyboard(MainActivity.this);
                        //Tu dong luu 50ngươi / lan
+                        if (spdata.getDataOnOffLuu() == 1) {
+                            int flagupdate = spdata.getDataUPdateServer();
+                            int chisoluutudong = spdata.getDataChiSoLuuCapNhat();
+                            Log.e("flagupdate", String.valueOf(spdata.getDataUPdateServer()));
+                            if (flagupdate < chisoluutudong && flagupdate >= 0) {
+                                int capnhat = flagupdate + 1;
+                                spdata.luuDataUpdateServer(capnhat);
+                                Log.e("flagupdate < 30 sau khi +", String.valueOf(spdata.getDataUPdateServer()));
+                            } else if (flagupdate == chisoluutudong) {
+                                Log.e("tu dong luu", "OK");
 
-                        int flagupdate =  spdata.getDataUPdateServer();
-                        Log.e("flagupdate", String.valueOf(spdata.getDataUPdateServer()));
-                        if(flagupdate <30 && flagupdate>=0) {
-                            int capnhat = flagupdate + 1;
-                            spdata.luuDataUpdateServer(capnhat);
-                            Log.e("flagupdate < 30 sau khi +", String.valueOf(spdata.getDataUPdateServer()));
-                        }
-                        else if(flagupdate==30){
-                            Log.e("tu dong luu","OK");
+                                //Tự động lưu dữ liệu vào server
+                                String urlstr = getString(R.string.API_UpdateKhachHangDaGhi2);
+                                try {
+                                    if (isInternetOn()) {
+                                        new UpdateThongTinGhiNuoc().execute(urlstr);
+                                    } else {
+                                        spdata.luuDataUpdateServer(0);
+                                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                        // khởi tạo dialog
+                                        alertDialogBuilder.setMessage("Kết nối máy chủ không thành công. Cập nhật dữ liệu tự động thất bại");
+                                        // thiết lập nội dung cho dialog
 
-                            //Tự động lưu dữ liệu vào server
-                            String urlstr =   getString(R.string.API_UpdateKhachHangDaGhi2);
-                            try {
-                                if (isInternetOn()) {
-                                    new UpdateThongTinGhiNuoc().execute(urlstr);
-                                } else {
-                                    spdata.luuDataUpdateServer(0);
+                                        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+
+                                                // button "no" ẩn dialog đi
+                                            }
+                                        });
+
+
+                                        AlertDialog alertDialog = alertDialogBuilder.create();
+                                        // tạo dialog
+                                        alertDialog.setCanceledOnTouchOutside(false);
+                                        alertDialog.show();
+                                    }
+                                } catch (Exception a) {
                                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                                     // khởi tạo dialog
-                                    alertDialogBuilder.setMessage("Kết nối máy chủ không thành công. Cập nhật dữ liệu tự động thất bại");
+                                    alertDialogBuilder.setMessage("Chưa mở Wifi hoặc 3G/4G. Thử lại");
                                     // thiết lập nội dung cho dialog
 
                                     alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -2100,30 +2121,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                     alertDialog.show();
                                 }
                             }
-                            catch(Exception a)
-                            {
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                // khởi tạo dialog
-                                alertDialogBuilder.setMessage("Chưa mở Wifi hoặc 3G/4G. Thử lại");
-                                // thiết lập nội dung cho dialog
-
-                                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-
-                                        // button "no" ẩn dialog đi
-                                    }
-                                });
-
-
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                // tạo dialog
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-                            }
                         }
-
 
                     }
                     else{

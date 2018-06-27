@@ -665,7 +665,62 @@ public class LoginActivity extends AppCompatActivity  {
                 if (fileContent.equals("")) {
                     Log.e("filetuserver", "Rong");
                 } else {
-                    Log.e("filetuserver", fileContent);
+                    if (fileContent.equals("1")) {
+                        Log.e("Lay thong tin nhan vien", "OK");
+                        String resultnv = "";
+                        try {
+                            String duongdankhoaso = getString(R.string.API_GetNhanVien) + "/" + edt_ten.getText().toString().trim() + "/" + edt_pass.getText().toString().trim();
+                            final URL url = new URL(duongdankhoaso);
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+                            conn.setRequestMethod("GET");
+
+                            int result = conn.getResponseCode();
+
+                            if (result == 200) {
+
+                                InputStream in = new BufferedInputStream(conn.getInputStream());
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                                StringBuilder sb = new StringBuilder();
+                                String line = null;
+                                int i = 0;
+                                while ((line = reader.readLine()) != null) {
+                                    // long status = (i+1) *100/line.length();
+                                    //     String.valueOf(status)
+
+                                    resultnv = line;
+
+                                }
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            Log.e("loi load du lieu", ex.toString());
+                        }
+                        try {
+                            JSONObject objTiwaread = new JSONObject(resultnv);
+
+
+                            String dienthoai = "";
+                            String hoten = "";
+                            if (objTiwaread.has("dienthoai")) {
+                                dienthoai = objTiwaread.getString("dienthoai").trim();
+                                Log.e("dienthoai", dienthoai);
+
+                            }
+
+                            if (objTiwaread.has("hoten")) {
+                                hoten = objTiwaread.getString("hoten").trim();
+                                Log.e("hoten", hoten);
+                            }
+
+                            spdata.luuThongTinNhanVien(hoten, dienthoai);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                 }
 
 

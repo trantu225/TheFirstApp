@@ -237,14 +237,69 @@ public class SPData  {
 
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor=pre.edit();
-        editor.putInt(Bien.SPCAPNHATSERVER, bienghi);
+        editor.putInt(Bien.SPCAPNHATSERVERTHU, bienghi);
         editor.commit();
     }
     public int getDataThuUPdateServer(){
 
 
-        int flagghi=pre.getInt(Bien.SPCAPNHATSERVER, 0);
+        int flagghi = pre.getInt(Bien.SPCAPNHATSERVERTHU, 0);
         return flagghi;
     }
+
+    public void luuDataChiSoLuuCapNhat(int bienghi) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putInt(Bien.SPCHISOLUUTUDONG, bienghi);
+        editor.commit();
+    }
+
+    public int getDataChiSoLuuCapNhat() {
+
+
+        int flagghi = pre.getInt(Bien.SPCHISOLUUTUDONG, 20);
+        return flagghi;
+    }
+
+    //On:1 off:0
+    public void luuDataOnOffLuu(int bienghi) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putInt(Bien.SPONOFFLUU, bienghi);
+        editor.commit();
+    }
+
+    public int getDataOnOffLuu() {
+
+
+        int flagghi = pre.getInt(Bien.SPONOFFLUU, 0); //mac dinh la off
+        return flagghi;
+    }
+
+    public void luuThongTinNhanVien(String ten, String dienthoai) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putString(Bien.SPTENNHANVIEN, ten);
+        editor.putString(Bien.SPDIENTHOAI, dienthoai);
+        editor.commit();
+    }
+
+    public String getDataTenNhanVien() {
+
+
+        String flagghi = pre.getString(Bien.SPTENNHANVIEN, ""); //mac dinh la off
+        return flagghi;
+    }
+
+    public String getDataDienThoai() {
+
+
+        String flagghi = pre.getString(Bien.SPDIENTHOAI, "0273.3873425"); //mac dinh la off
+        return flagghi;
+    }
+
 
 }

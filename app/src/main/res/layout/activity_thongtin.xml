@@ -9,6 +9,15 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <TableLayout
         android:id="@+id/TableLayout1"
         android:layout_width="match_parent"
@@ -223,6 +232,73 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/tb_DoiLuu"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/soluucapnhat"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="Cập nhật tự động"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp14"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/SwitchLuuTuDong"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </TableRow>
+
+        <TableRow
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left">
+
+
+        </TableRow>
+
+        <TableRow
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left">
+
+
+            <EditText
+                android:id="@+id/edit_luutudong"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:hint="Mức độ (Hộ/lần)"
+                android:maxLines="1"
+                android:textSize="@dimen/sp14" />
+
+            <Button
+                android:id="@+id/btn_luutudong"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="Đổi"
+                android:layout_height="match_parent">
+
+            </Button>
+
+
+        </TableRow>
+
+
+        <TableRow
             android:id="@+id/tb_DoiMK"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -418,9 +494,9 @@
         app:space_item_icon_only_size="@dimen/space_item_icon_only_size"
         app:space_item_icon_size="@dimen/space_item_icon_default_size"
         app:space_item_text_size="@dimen/space_item_text_default_size" /> -->
+        </LinearLayout>
 
-
-
+    </ScrollView>
 
 </LinearLayout>
 

@@ -1198,7 +1198,8 @@ public class MainThuActivity extends AppCompatActivity  {
             String gach = "--------------------------------";
 //            String nhacnho  = "\nĐề nghị quý khách vui lòng\nthanh toán tiền nước trong vòng\n5 ngày kể từ ngày nhận giấy báo\nQua thời hạn trên Cty sẽ tiến\nhành tạm ngưng cung cấp nước.\n\n";
 //            String lienlac ="Vui lòng liên hệ số điện thoại\n0273.3873425 để được giúp đỡ.\n";
-
+            String nhanvien = "Nhân viên: " + spdata.getDataTenNhanVien();
+            String dienthoai = "Điện thoại: " + spdata.getDataDienThoai();
             String nhacnho  = "Khi có nhu cầu in HĐĐT xin vui lòng truy cập vào website http://www.cskh.tiwaco.com.vn .";
             List<String> listnhacnhomoihang  = catchuxuongdong(nhacnho);
             String lienlac ="Vui lòng liên hệ số điện thoại 0273.3873425 để được giúp đỡ.\n";
@@ -1274,6 +1275,9 @@ public class MainThuActivity extends AppCompatActivity  {
             btoutputstream.write(tongcong.getBytes("UTF-16LE"));
             btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
             btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(nhanvien.getBytes("UTF-16LE"));
+            btoutputstream.write(xuongdong.getBytes("UTF-16LE"));
+            btoutputstream.write(dienthoai.getBytes("UTF-16LE"));
             writeWithFormat(new Formatter().get(), Formatter.leftAlign());
             for  (int i  = 0; i<listnhacnhomoihang.size();i++ )
             {

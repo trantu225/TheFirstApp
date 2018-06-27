@@ -132,7 +132,7 @@ public class CustomListThuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if(cus.getNgaythanhtoan().equalsIgnoreCase("")){
-                    //chua ghi
+                    //chua thu
                     Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon_thu);
                     new AlertDialog.Builder(context)
                             .setTitle(context.getString(R.string.tab_thunuoc))
@@ -165,8 +165,7 @@ public class CustomListThuAdapter extends BaseAdapter {
                             .setCancelable(false)
                             .show();
 
-                }
-                else{ // da ghi
+                } else { // da thu
                     Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon_thu);
                     new AlertDialog.Builder(context)
                             .setTitle(context.getString(R.string.tab_thunuoc))

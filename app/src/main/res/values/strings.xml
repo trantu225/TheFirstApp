@@ -13,6 +13,7 @@
     <string name="API_DuongKhoaSo">http://113.176.94.250:8012/Service1.svc/DanhSachDuongChuaKhoaSo</string>
     <string name="API_DoiMatKhau">http://113.176.94.250:8012/Service1.svc/UpdatePassUser</string>
     <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
+    <string name="API_GetNhanVien">http://113.176.94.250:8012/Service1.svc/GetNhanVien</string>
     <string name="link_apk">http://tiwaco.com.vn/uploads/apk/tiwaread.apk</string>
     <!-- Man Hinh -->
     <string name="manhinh_Login">Đăng nhập</string>

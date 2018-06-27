@@ -72,6 +72,8 @@ public class LoginActivity extends AppCompatActivity  {
     boolean ketquakiemtra = false;
     String duongdanfile ="";
     ViewDialog_login dialoglogin ;
+    String dienthoai = "";
+    String hoten = "";
 
 
 
@@ -101,7 +103,7 @@ public class LoginActivity extends AppCompatActivity  {
         lichsudao = new LichSuDAO(con);
         khdao = new KhachHangDAO(con);
         dialoglogin = new ViewDialog_login(LoginActivity.this);
-        Log.e("matkhaunv",spdata.getDataNhanVienTrongSP());
+
         if(!spdata.getDataNhanVienTrongSP().equals("")){
             edt_ten.setText(spdata.getDataNhanVienTrongSP().trim());
             if(khdao.countKhachHangAll() >0){
@@ -700,8 +702,6 @@ public class LoginActivity extends AppCompatActivity  {
                             JSONObject objTiwaread = new JSONObject(resultnv);
 
 
-                            String dienthoai = "";
-                            String hoten = "";
                             if (objTiwaread.has("dienthoai")) {
                                 dienthoai = objTiwaread.getString("dienthoai").trim();
                                 Log.e("dienthoai", dienthoai);
@@ -712,8 +712,6 @@ public class LoginActivity extends AppCompatActivity  {
                                 hoten = objTiwaread.getString("hoten").trim();
                                 Log.e("hoten", hoten);
                             }
-
-                            spdata.luuThongTinNhanVien(hoten, dienthoai);
 
 
                         } catch (JSONException e) {
@@ -740,6 +738,8 @@ public class LoginActivity extends AppCompatActivity  {
                 //spdata.luuDataKyHoaDonTrongSP("092017");
                 spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
                 spdata.luuDataMatKhauNhanVienTrongSP(edt_pass.getText().toString().trim());
+                spdata.luuThongTinNhanVien(hoten, dienthoai);
+                Log.e("tennv,dienthoai", spdata.getDataTenNhanVien() + " + " + spdata.getDataDienThoai());
                 LichSuDTO ls = new LichSuDTO();
                 ls.setNoiDungLS(edt_ten.getText().toString().trim() +" đăng nhập.");
                 ls.setMaLenh("DN");

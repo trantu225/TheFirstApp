@@ -786,6 +786,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
             if(result.equals("TC")){
+
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Load dữ liệu thành công  "+sokhdacapnhat+ " khách hàng");

@@ -47,12 +47,11 @@ public class StartActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         con =  StartActivity.this;
-        spdata = new SPData(con);
+
         setContentView(R.layout.activity_start);
 //        if(spdata.getDataNhanVienTrongSP().equalsIgnoreCase("Tu") || spdata.getDataNhanVienTrongSP().equalsIgnoreCase("HoaiLinh")|| spdata.getDataNhanVienTrongSP().equalsIgnoreCase("Admin")){
 //
-//            setContentView(R.layout.activity_start);
-//        }
+//      chieu cao 2   }
 //        else {
 //            setContentView(R.layout.activity_start_hide_loaddata);
 //        }
@@ -60,6 +59,8 @@ public class StartActivity extends AppCompatActivity  {
         getSupportActionBar().hide();
         khachhangDAO = new KhachHangDAO(con);
         lichsudao = new LichSuDAO(con);
+        duongDAO = new DuongDAO(con);
+        spdata = new SPData(con);
         btnGhinuoc = (ImageButton) findViewById(R.id.btn_ghinuoc);
         btnDanhSachKH = (ImageButton) findViewById(R.id.btn_dskh);
         btnLoadDl = (ImageButton) findViewById(R.id.btn_loaddata);
@@ -71,8 +72,7 @@ public class StartActivity extends AppCompatActivity  {
         layout3 = (LinearLayout) findViewById(R.id.layout_3);
         txtuser = (TextView) findViewById(R.id.txt_user);
 
-        Log.e("ten nhanvien ", spdata.getDataTenNhanVien());
-        txtuser.setText("Người dùng: " + spdata.getDataTenNhanVien());
+
         ViewGroup.LayoutParams params = layout3.getLayoutParams();
 
         params.height = getViewHeight(layout2);
@@ -88,13 +88,15 @@ public class StartActivity extends AppCompatActivity  {
         btnHistory.setOnClickListener(myclick);
 
        // pre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        duongDAO = new DuongDAO(con);
-        spdata = new SPData(con);
+
         Bien.bienghi = spdata.getDataFlagGhiTrongSP();
         Bien.bienbkall = spdata.getDataBKALLTrongSP();
         Bien.bienbkcg = spdata.getDataBKCGTrongSP();
         Bien.bienbkdg = spdata.getDataBKDGTrongSP();
         Bien.bienbkdghn = spdata.getDataBKDGHomNayTrongSP();
+
+        Log.e("ten nhanvien ", spdata.getDataTenNhanVien());
+        txtuser.setText("Người dùng: " + spdata.getDataTenNhanVien());
         Log.e("flag flagghi", String.valueOf(Bien.bienghi));
         Log.e("flag flagall", String.valueOf(Bien.bienbkall));
         Log.e("flag flagcg", String.valueOf(Bien.bienbkcg));
@@ -124,6 +126,7 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
+
 //
 //        if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
 //                || Bien.bienbkall == -1
@@ -411,6 +414,8 @@ public class StartActivity extends AppCompatActivity  {
                     ls.setThoiGianLS(thoigian1);
                     lichsudao.addTable_History(ls);
                     spdata.luuDataNhanVienTrongSP("");
+                    spdata.luuDataMatKhauNhanVienTrongSP("");
+                    spdata.luuThongTinNhanVien("", "");
                     finish();
                     myIntent = new Intent(StartActivity.this, LoginActivity.class);
                     startActivity(myIntent);

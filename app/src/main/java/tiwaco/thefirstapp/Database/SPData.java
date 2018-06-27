@@ -199,10 +199,13 @@ public class SPData  {
         SharedPreferences.Editor editor = pre.edit();
         String  nv = getDataNhanVienTrongSP();
         String pass  = getDataMatKhauNhanVienTrongSP();
+        String hoten = getDataTenNhanVien();
+        String dienthoai = getDataDienThoai();
         editor.clear();
         editor.commit();
         luuDataNhanVienTrongSP(nv);
         luuDataMatKhauNhanVienTrongSP(pass);
+        luuThongTinNhanVien(hoten, dienthoai);
     }
 
     public void luuDataKyHoaDonTrongSP(String kyhd){

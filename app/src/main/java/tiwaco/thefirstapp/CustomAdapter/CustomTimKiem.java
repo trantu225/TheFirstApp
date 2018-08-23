@@ -172,7 +172,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
 
-                /*
+/*
                 final AlertDialog alertDialog =  new AlertDialog.Builder(mContext).create();
 
                 alertDialog.setTitle("Tìm kiếm");

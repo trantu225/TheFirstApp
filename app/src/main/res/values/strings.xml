@@ -9,11 +9,14 @@
     <string name="API_UpdateKhachHangDaGhi2">http://113.176.94.250:8012/Service1.svc/CapNhatChiSoDongHoNuocNongThon</string>
     <string name="API_GetListTiwareadData">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataNongThon</string>
     <string name="API_GetListTiwareadDataDaGhi">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataDaGhiNongThon</string>
+    <string name="API_GetListTiwareadDataThu">http://113.176.94.250:8012/Service1.svc/GetListTiwareadDataThuTatCaNongThon</string>
     <string name="API_CheckLogin">http://113.176.94.250:8012/Service1.svc/GetThongTinNhanVien</string>
     <string name="API_DuongKhoaSo">http://113.176.94.250:8012/Service1.svc/DanhSachDuongChuaKhoaSo</string>
     <string name="API_DoiMatKhau">http://113.176.94.250:8012/Service1.svc/UpdatePassUser</string>
     <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
     <string name="API_GetNhanVien">http://113.176.94.250:8012/Service1.svc/GetNhanVien</string>
+    <string name="API_UpdateThuTienNuoc">http://113.176.94.250:8012/Service1.svc/CapNhatThuTienNuocNongThon</string>
+
     <string name="link_apk">http://tiwaco.com.vn/uploads/apk/tiwaread.apk</string>
     <!-- Man Hinh -->
     <string name="manhinh_Login">Đăng nhập</string>
@@ -77,6 +80,7 @@
     <string name="main_thunuoc_duongdathuxong">Đường này đã được thu tiền nước xong.</string>
     <string name="main_thunuoc_duongdathuxongtatca">Tất cả các đường đã được thu tiền nước xong.</string>
     <string name="main_thongbao_soam">Chỉ số nước không thể là số âm</string>
+    <string name="main_thongbao_m3sai">m3 phải là số nguyên</string>
     <string name="main_thongbao_batthuong">Chỉ số nước bất thường. Bạn có muốn tiếp tục sử dụng chỉ số này không?</string>
     <string name="main_thongbao_csmoinhohoncscu">Chỉ số nước mới không thể nhỏ hơn chỉ số cũ</string>
     <!-- button -->
@@ -115,7 +119,7 @@
     <string name="KH_danhbo">DBộ: </string>
     <string name="KH_loaiKH">Loại KH: </string>
     <string name="KH_DuongDangGhi">Đường: </string>
-    <string name="ThongTinKH">Thông tin KH </string>
+    <string name="ThongTinKH">Thông tin khách hàng: </string>
     <string name="ThongTinTenFile">Tên file </string>
     <string name="ThongTinLuuFie">Thông tin lưu </string>
     <string name="ThongTinLuuFie_Tatca">Tất cả </string>

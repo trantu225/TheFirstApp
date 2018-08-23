@@ -334,7 +334,7 @@ public class StartActivity extends AppCompatActivity  {
                     startActivity(myIntent);
 
                     //Chọn màn hình ghi hay thu
-
+//
 //                    ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
 //                    alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",2); //2: chuc nang danh sach
 
@@ -415,7 +415,7 @@ public class StartActivity extends AppCompatActivity  {
                     lichsudao.addTable_History(ls);
                     spdata.luuDataNhanVienTrongSP("");
                     spdata.luuDataMatKhauNhanVienTrongSP("");
-                    spdata.luuThongTinNhanVien("", "");
+                    spdata.luuThongTinNhanVien("", "", "");
                     finish();
                     myIntent = new Intent(StartActivity.this, LoginActivity.class);
                     startActivity(myIntent);

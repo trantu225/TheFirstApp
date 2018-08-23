@@ -239,14 +239,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:visibility="gone"
-                            android:text="Lưu theo đường"/>
+                            android:text="Tất cả khách hàng đã thu" />
 
                         <RadioButton
                             android:id="@+id/radio_daghihomnay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:visibility="gone"
-                            android:text="Lưu theo ngày"/>
+                            android:text="Đã thu nhưng chưa cập nhật server" />
                         <RadioButton
                             android:id="@+id/radio_chuaghi"
                             android:layout_width="match_parent"

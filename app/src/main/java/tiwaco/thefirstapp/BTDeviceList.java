@@ -98,7 +98,7 @@ public class BTDeviceList extends ListActivity {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(),
-                    "Bluetooth not supported!!", Toast.LENGTH_LONG).show();
+                    "Không hổ trợ bluetooth!!", Toast.LENGTH_LONG).show();
             return -1;
         }
 
@@ -120,7 +120,7 @@ public class BTDeviceList extends ListActivity {
         }
 
         Toast.makeText(getApplicationContext(),
-                "Getting all available Bluetooth Devices", Toast.LENGTH_SHORT)
+                "Đang tiến hành lấy tất cả các thiết bị Bluetooth ", Toast.LENGTH_SHORT)
                 .show();
 
         return 0;
@@ -205,7 +205,7 @@ public class BTDeviceList extends ListActivity {
 
         Toast.makeText(
                 getApplicationContext(),
-                "Connecting to " + btDevices.getItem(position).getName() + ","
+                "Đang kết nối với máy in " + btDevices.getItem(position).getName() + ","
         + btDevices.getItem(position).getAddress(),
                 Toast.LENGTH_SHORT).show();
 
@@ -252,7 +252,7 @@ public class BTDeviceList extends ListActivity {
         @Override
         public void run() {
             Toast.makeText(getApplicationContext(),
-                    "Cannot establish connection", Toast.LENGTH_SHORT).show();
+                    "Không thể tạo kết nối với thiết bị", Toast.LENGTH_SHORT).show();
             mBluetoothAdapter.startDiscovery();
 
         }

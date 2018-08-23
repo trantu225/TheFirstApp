@@ -1,0 +1,182 @@
+package tiwaco.thefirstapp.CustomAdapter;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.List;
+
+import tiwaco.thefirstapp.Bien;
+import tiwaco.thefirstapp.DAO.DuongDAO;
+import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.ThanhToanDAO;
+import tiwaco.thefirstapp.DTO.DuongDTO;
+import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.ThanhToanDTO;
+import tiwaco.thefirstapp.Database.SPData;
+import tiwaco.thefirstapp.MainActivity;
+import tiwaco.thefirstapp.MainThuActivity;
+import tiwaco.thefirstapp.R;
+
+/**
+ * Created by TUTRAN on 18/05/2017.
+ */
+
+public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
+    private static final String TAG = "CustomAdapter";
+    Context mContext;
+    private List<String> mHeaderGroup;
+    private HashMap<String, List<ThanhToanDTO>> mDataChild;
+    private List<ThanhToanDTO> customerList;
+    private LayoutInflater layoutInflater;
+    int index_duong;
+    SPData spdata;
+    DuongDAO duongdao;
+    KhachHangDAO khachhangdao;
+    ThanhToanDAO thanhtoandao;
+    String strghichu = "";
+
+    public CustomListThanhToanAdapter(Context context, List<String> headerGroup, HashMap<String, List<ThanhToanDTO>> datas, String MaKH) {
+        mContext = context;
+        mHeaderGroup = headerGroup;
+        mDataChild = datas;
+
+        spdata = new SPData(context);
+        duongdao = new DuongDAO(context);
+        khachhangdao = new KhachHangDAO(context);
+        thanhtoandao = new ThanhToanDAO(context);
+    }
+
+    @Override
+    public int getGroupCount() {
+        return mHeaderGroup.size();
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return mDataChild.get(mHeaderGroup.get(groupPosition)).size();
+    }
+
+    @Override
+    public String getGroup(int groupPosition) {
+        return mHeaderGroup.get(groupPosition);
+    }
+
+    @Override
+    public ThanhToanDTO getChild(int groupPosition, int childPosition) {
+        return mDataChild.get(mHeaderGroup.get(groupPosition)).get(childPosition);
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
+        if (convertView == null) {
+            LayoutInflater li = LayoutInflater.from(mContext);
+            convertView = li.inflate(R.layout.listkyhd_item, parent, false);
+        }
+        //TextView soketqua = (TextView) convertView.findViewById(R.id.tv_conlaiTK);
+        final TextView tvHeader = (TextView) convertView.findViewById(R.id.tv_kyhd);
+        final TextView tvthongbao = (TextView) convertView.findViewById(R.id.tv_thongbao);
+        final Button btnthanhtoan = (Button) convertView.findViewById(R.id.btn_thanhtoan);
+        tvthongbao.setVisibility(View.GONE);
+        String kihd = "";
+        if (!mHeaderGroup.get(groupPosition).toString().equals("")) {
+            String nam = mHeaderGroup.get(groupPosition).toString().substring(0, 4);
+            String thang = mHeaderGroup.get(groupPosition).toString().substring(4);
+            String strkyhd = thang + "/" + nam;
+            kihd = "Kỳ hóa đơn: " + strkyhd + " ";
+        }
+
+
+        tvHeader.setText(kihd);
+        Log.e("KyhD: ", mHeaderGroup.get(groupPosition).toString());
+        //Kiem tra thanh toan chua. neu da thanh toan hiển thị đã thanh toán
+        btnthanhtoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        return convertView;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
+        if (convertView == null) {
+            LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            convertView = layoutInflater.inflate(R.layout.listthanhtoan_item, null);
+
+            holder = new CustomListThanhToanAdapter.ViewHolder();
+            holder.BienLai = (TextView) convertView.findViewById(R.id.tv_bienlai);
+            holder.ChiSoCu = (TextView) convertView.findViewById(R.id.tv_label_cscu);
+            holder.ChiSoMoi = (TextView) convertView.findViewById(R.id.tv_label_csmoi);
+            holder.M3 = (TextView) convertView.findViewById(R.id.tv_label_m3);
+            holder.SoTienThanhToan = (TextView) convertView.findViewById(R.id.tv_tongcong);
+            convertView.setTag(holder);
+
+        } else {
+            holder = (CustomListThanhToanAdapter.ViewHolder) convertView.getTag();
+        }
+        final ThanhToanDTO cus = getChild(groupPosition, childPosition);
+        // final KhachHangDTO cus = customerList.get(childPosition);
+        holder.BienLai.setText("Biên lai: " + cus.getBienLai());
+        holder.BienLai.setSelected(true);
+        holder.ChiSoCu.setText("CS cũ: " + cus.getChiSoCu());
+        holder.ChiSoMoi.setText("CS mới: " + cus.getChiSoMoi());
+        holder.M3.setText("M3: " + cus.getSLTieuThu());
+        holder.ChiSoCu.setSelected(true);
+        holder.ChiSoMoi.setSelected(true);
+        holder.M3.setSelected(true);
+        holder.BienLai.setSelected(true);
+        holder.SoTienThanhToan.setText("Số tiền thanh toán: " + cus.gettongcong());
+
+
+        return convertView;
+    }
+
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
+
+    private static class ViewHolder {
+
+        TextView BienLai;
+        TextView ChiSoCu;
+        TextView ChiSoMoi;
+        //  ImageView TrangThai;
+        TextView M3;
+        TextView SoTienThanhToan;
+
+    }
+}

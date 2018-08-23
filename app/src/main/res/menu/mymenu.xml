@@ -15,11 +15,11 @@
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/btn_backup"
         app:showAsAction="collapseActionView"/>
-    <item
-        android:id="@+id/action_print"
-        android:icon="@android:drawable/ic_menu_send"
-        android:title="Tính tiền nước"
-        app:showAsAction="collapseActionView"/>
+    <!--<item-->
+    <!--android:id="@+id/action_print"-->
+    <!--android:icon="@android:drawable/ic_menu_send"-->
+    <!--android:title="Tính tiền nước"-->
+    <!--app:showAsAction="collapseActionView"/>-->
     <item
         android:id="@+id/action_kieughi"
         android:icon="@android:drawable/ic_media_ff"

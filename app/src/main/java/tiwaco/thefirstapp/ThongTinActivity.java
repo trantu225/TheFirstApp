@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -263,7 +264,55 @@ public class ThongTinActivity extends AppCompatActivity {
                 }
             }
         });
+        luutudong.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (luutudong.getText().toString().trim().equals("")) {
 
+                        showDiaLogThongBao("Bạn chưa nhập chỉ số mức độ cập nhật tự động.");
+
+
+                    } else {
+                        if (TextUtils.isDigitsOnly(luutudong.getText().toString().trim())) {
+                            if (spdata.getDataHuyen() != "01") {
+                                doiluucapnhat.setEnabled(true);
+                            } else {
+                                doiluucapnhat.setEnabled(false);
+                            }
+                        } else {
+                            luutudong.setText("");
+                            showDiaLogThongBao("Chỉ được nhập số nguyên, không được chứa ký tự đặc biệt");
+                        }
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    private void showDiaLogThongBao(String mess) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ThongTinActivity.this);
+        // khởi tạo dialog
+
+        alertDialogBuilder.setMessage(mess);
+
+        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // tạo dialog
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+        // hiển thị dialog
     }
 
     public static void hideKeyboard(AppCompatActivity activity) {
@@ -361,11 +410,19 @@ public class ThongTinActivity extends AppCompatActivity {
         }
 
         luutudong.setText(String.valueOf(spdata.getDataChiSoLuuCapNhat()));
+        if (spdata.getDataHuyen() != "01") {
+            SwitchLuuTuDong.setVisibility(View.VISIBLE);
+            doiluucapnhat.setEnabled(true);
+        } else {
+            SwitchLuuTuDong.setVisibility(View.GONE);
+            doiluucapnhat.setEnabled(false);
+        }
         if (spdata.getDataOnOffLuu() == 0) {
             SwitchLuuTuDong.setChecked(false);
         } else {
             SwitchLuuTuDong.setChecked(true);
         }
+
 
     }
     public class UpdatePassword extends AsyncTask<String, Void, String> {
@@ -443,7 +500,7 @@ public class ThongTinActivity extends AppCompatActivity {
             if(result.equals("1")){
                 spdata.luuDataMatKhauNhanVienTrongSP("");
                 spdata.luuDataNhanVienTrongSP("");
-                spdata.luuThongTinNhanVien("", "");
+                spdata.luuThongTinNhanVien("", "", "");
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ThongTinActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Đổi mật khẩu thành công. Hãy đăng nhập lại!");
@@ -588,6 +645,9 @@ public class ThongTinActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent updateIntent = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse(getString(R.string.link_apk)));
+
+
+                        updateIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(updateIntent);
 
                     }

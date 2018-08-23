@@ -33,6 +33,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DANHSACHKH = "danhsachkh";
     public static final String TABLE_LICHSU = "lichsu";
     public static final String TABLE_TINHTRANGTLK = "tinhtrangtlk";
+    public static final String TABLE_THANHTOAN = "thanhtoan";
 
 
     // Duong Table Columns names
@@ -103,6 +104,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_TIEN4 = "tienmuc4";
     public static final String KEY_DANHSACHKH_NGAYTHANHTOAN = "ngaythanhtoan";
     public static final String KEY_DANHSACHKH_CAPNHATTHU= "capnhatthu";
+    public static final String KEY_DANHSACHKH_NHANVIENTHU = "nhanvienthu";
 
 
     // Duong Table Columns names
@@ -110,6 +112,34 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_LICHSU_NDLS = "noidunglichsu";
     public static final String KEY_LICHSU_THOIGIAN = "thoigianlichsu";
     public static final String KEY_LICHSU_MALENH = "malenh";
+
+    //Thanhtoan Table Columns names
+
+    public static final String KEY_THANHTOAN_BIENLAI = "BIENLAI";
+    public static final String KEY_THANHTOAN_CHISOCU = "ChiSoCu";
+    public static final String KEY_THANHTOAN_CHISOMOI = "ChiSoMoi";
+    public static final String KEY_THANHTOAN_GHICHU = "GhiChu";
+    public static final String KEY_THANHTOAN_VIDO = "Lat";
+    public static final String KEY_THANHTOAN_KINHDO = "Lon";
+    public static final String KEY_THANHTOAN_MAKH = "MaKhachHang";
+    public static final String KEY_THANHTOAN_SLTIEUTHU = "SLTieuThu";
+    public static final String KEY_THANHTOAN_MADUONG = "maduong";
+    public static final String KEY_THANHTOAN_TIENNUOC = "tiennuoc";
+    public static final String KEY_THANHTOAN_PHI = "phi";
+    public static final String KEY_THANHTOAN_TONGCONG = "tongcong";
+    public static final String KEY_THANHTOAN_KYHD = "kyhd";
+    public static final String KEY_THANHTOAN_THUE = "thue";
+    public static final String KEY_THANHTOAN_M31 = "m3muc1";
+    public static final String KEY_THANHTOAN_M32 = "m3muc2";
+    public static final String KEY_THANHTOAN_M33 = "m3muc3";
+    public static final String KEY_THANHTOAN_M34 = "m3muc4";
+    public static final String KEY_THANHTOAN_TIEN1 = "tienmuc1";
+    public static final String KEY_THANHTOAN_TIEN2 = "tienmuc2";
+    public static final String KEY_THANHTOAN_TIEN3 = "tienmuc3";
+    public static final String KEY_THANHTOAN_TIEN4 = "tienmuc4";
+    public static final String KEY_THANHTOAN_NGAYTHANHTOAN = "ngaythanhtoan";
+    public static final String KEY_THANHTOAN_CAPNHATTHU = "capnhatthu";
+    public static final String KEY_THANHTOAN_NHANVIENTHU = "nhanvienthu";
 
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -179,7 +209,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_TIEN3 + " TEXT, "          //50
                 + KEY_DANHSACHKH_TIEN4 + " TEXT, "          //51
                 + KEY_DANHSACHKH_NGAYTHANHTOAN + " TEXT, "          //52
-                + KEY_DANHSACHKH_CAPNHATTHU + " TEXT "+ ")";  //53
+                + KEY_DANHSACHKH_CAPNHATTHU + " TEXT, "          //53
+                + KEY_DANHSACHKH_NHANVIENTHU + " TEXT " + ")";  //54
 
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
@@ -193,10 +224,39 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_TINHTRANGTLK_ThuTuTT + " INTEGER,"
                 + KEY_TINHTRANGTLK_TENTT + " TEXT" + ")";
 
+        String CREATE_THANHTOAN_TABLE = "CREATE TABLE  " + TABLE_THANHTOAN + "("
+                + KEY_THANHTOAN_BIENLAI + " TEXT PRIMARY KEY," //0
+                + KEY_THANHTOAN_MAKH + " TEXT ," //1
+                + KEY_THANHTOAN_GHICHU + " TEXT,"           //2
+                + KEY_THANHTOAN_CHISOCU + " TEXT,"        //3
+                + KEY_THANHTOAN_CHISOMOI + " TEXT,"        //4
+                + KEY_THANHTOAN_SLTIEUTHU + " TEXT,"        //5
+                + KEY_THANHTOAN_MADUONG + " TEXT,"          //6
+                + KEY_THANHTOAN_TIENNUOC + " TEXT, "        //7
+                + KEY_THANHTOAN_PHI + " TEXT, "             //8
+                + KEY_THANHTOAN_TONGCONG + " TEXT, "       //9
+                + KEY_THANHTOAN_THUE + " TEXT, "          //10
+                + KEY_THANHTOAN_M31 + " TEXT, "          //11
+                + KEY_THANHTOAN_M32 + " TEXT, "          //12
+                + KEY_THANHTOAN_M33 + " TEXT, "          //13
+                + KEY_THANHTOAN_M34 + " TEXT, "          //14
+                + KEY_THANHTOAN_TIEN1 + " TEXT, "          //15
+                + KEY_THANHTOAN_TIEN2 + " TEXT, "          //16
+                + KEY_THANHTOAN_TIEN3 + " TEXT, "          //17
+                + KEY_THANHTOAN_TIEN4 + " TEXT, "          //18
+                + KEY_THANHTOAN_NGAYTHANHTOAN + " TEXT, "          //19
+                + KEY_THANHTOAN_CAPNHATTHU + " TEXT, "          //20
+                + KEY_THANHTOAN_VIDO + " TEXT,"             //21
+                + KEY_THANHTOAN_KINHDO + " TEXT,"           //22
+                + KEY_THANHTOAN_KYHD + " TEXT,"           //23
+                + KEY_THANHTOAN_NHANVIENTHU + " TEXT " + ")";  //24
+
+
         db.execSQL(CREATE_DUONG_TABLE);
         db.execSQL(CREATE_KHACHHANG_TABLE);
         db.execSQL(CREATE_LISHSU_TABLE);
         db.execSQL(CREATE_TINHTRANGTLK_TABLE);
+        db.execSQL(CREATE_THANHTOAN_TABLE);
     }
 
     @Override
@@ -209,6 +269,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_THANHTOAN);
             // Create tables again
             onCreate(db);
         }
@@ -219,6 +280,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_THANHTOAN);
         // Create tables again
         onCreate(db);
     }

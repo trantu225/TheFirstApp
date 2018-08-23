@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity  {
     ViewDialog_login dialoglogin ;
     String dienthoai = "";
     String hoten = "";
+    String idhuyen = "";
 
 
 
@@ -713,6 +714,11 @@ public class LoginActivity extends AppCompatActivity  {
                                 Log.e("hoten", hoten);
                             }
 
+                            if (objTiwaread.has("idhuyen")) {
+                                idhuyen = objTiwaread.getString("idhuyen").trim();
+                                Log.e("hoten", idhuyen);
+                            }
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -738,7 +744,7 @@ public class LoginActivity extends AppCompatActivity  {
                 //spdata.luuDataKyHoaDonTrongSP("092017");
                 spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
                 spdata.luuDataMatKhauNhanVienTrongSP(edt_pass.getText().toString().trim());
-                spdata.luuThongTinNhanVien(hoten, dienthoai);
+                spdata.luuThongTinNhanVien(hoten, dienthoai, idhuyen);
                 Log.e("tennv,dienthoai", spdata.getDataTenNhanVien() + " + " + spdata.getDataDienThoai());
                 LichSuDTO ls = new LichSuDTO();
                 ls.setNoiDungLS(edt_ten.getText().toString().trim() +" đăng nhập.");
@@ -748,23 +754,27 @@ public class LoginActivity extends AppCompatActivity  {
                 lichsudao.addTable_History(ls);
 
                 Log.e("nhanvien",spdata.getDataNhanVienTrongSP());
-                if(khdao.countKhachHangAll() >0){
+                if (spdata.getDataTuDongLuuTapTin() == 0) {
+                    ViewDialog alert = new ViewDialog();
+                    alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
+                } else {
+                    if (khdao.countKhachHangAll() > 0) {
 //                    TinhTrangTLKDAO tinhtrangtlkdao = new TinhTrangTLKDAO(con);
 //                    List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
 //                    for(int tt = 0 ; tt<listt.size();tt++){
 //                        tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
 //                    }
-                    finish();
-                    Intent myIntent=new Intent(LoginActivity.this, StartActivity.class);
-                    startActivity(myIntent);
+                        finish();
+                        Intent myIntent = new Intent(LoginActivity.this, StartActivity.class);
+                        startActivity(myIntent);
 
-                }
-                else {
+                    } else {
 //                    Intent myIntent = new Intent(this, LoadActivity.class);
 //                    //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
 //                    startActivity(myIntent);
-                    ViewDialog alert = new ViewDialog();
-                    alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
+                        ViewDialog alert = new ViewDialog();
+                        alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
+                    }
                 }
 
             }else if(result.equals("0")){

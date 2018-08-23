@@ -64,6 +64,9 @@ public class Bien {
     public static final String SPCAPNHATSERVER= "spcapnhatserver";
     public static final String SPCAPNHATSERVERTHU= "spcapnhatserverthu";
     public static final String SPCHISOLUUTUDONG = "spchisoluutudong";
+    public static final String SPTAPTINLUUTUDONG = "sptaptinluutudong";
+
+
     public static final String SPONOFFLUU = "sponoffluu";
     public static final String SPKYHD = "spkyhd";
     public static final String SPBKCG = "spbackupchuaghi";
@@ -72,7 +75,9 @@ public class Bien {
     public static final String SPSTTDANGTHU = "spsttthu";
     public static final String SPNHANVIEN = "spnhanvien";
     public static final String SPDIENTHOAI = "spdienthoai";
+    public static final String SPHUYEN = "sphuyen";
     public static final String SPTENNHANVIEN = "sptennhanvien";
+    public static final String SPCHOPHEPGHI = "spchophepghi";
     public static final String SPMATKHAU = "spmatkhau";
     public static final String SPINDEXDUONG= "spindexduong";
     public static final String SPINDEXDUONGTHU= "spindexduongthu";

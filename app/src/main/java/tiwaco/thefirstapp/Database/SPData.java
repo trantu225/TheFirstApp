@@ -201,11 +201,12 @@ public class SPData  {
         String pass  = getDataMatKhauNhanVienTrongSP();
         String hoten = getDataTenNhanVien();
         String dienthoai = getDataDienThoai();
+        String huyen = getDataHuyen();
         editor.clear();
         editor.commit();
         luuDataNhanVienTrongSP(nv);
         luuDataMatKhauNhanVienTrongSP(pass);
-        luuThongTinNhanVien(hoten, dienthoai);
+        luuThongTinNhanVien(hoten, dienthoai, huyen);
     }
 
     public void luuDataKyHoaDonTrongSP(String kyhd){
@@ -265,6 +266,21 @@ public class SPData  {
         return flagghi;
     }
 
+    public void luuDataTuDongLuuTapTin(int bienghi) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putInt(Bien.SPTAPTINLUUTUDONG, bienghi);
+        editor.commit();
+    }
+
+    public int getDataTuDongLuuTapTin() {
+
+
+        int flagghi = pre.getInt(Bien.SPTAPTINLUUTUDONG, 0);
+        return flagghi;
+    }
+
     //On:1 off:0
     public void luuDataOnOffLuu(int bienghi) {
 
@@ -277,16 +293,35 @@ public class SPData  {
     public int getDataOnOffLuu() {
 
 
-        int flagghi = pre.getInt(Bien.SPONOFFLUU, 0); //mac dinh la off
+        int flagghi = pre.getInt(Bien.SPONOFFLUU, 1); //mac dinh la on
         return flagghi;
     }
 
-    public void luuThongTinNhanVien(String ten, String dienthoai) {
+    public void luuDataChoPhepGhi(int bienghi) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putInt(Bien.SPCHOPHEPGHI, bienghi);
+        editor.commit();
+    }
+
+    public int getDataChoPhepGhi() {
+
+
+        int flagghi = pre.getInt(Bien.SPCHOPHEPGHI, 1); //mac dinh la on
+        return flagghi;
+    }
+
+    public void luuThongTinNhanVien(String ten, String dienthoai, String idhuyen) {
 
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor = pre.edit();
         editor.putString(Bien.SPTENNHANVIEN, ten);
+        if (dienthoai.trim().equals("")) {
+            dienthoai = "0273.3873425";
+        }
         editor.putString(Bien.SPDIENTHOAI, dienthoai);
+        editor.putString(Bien.SPHUYEN, idhuyen);
         editor.commit();
     }
 
@@ -301,6 +336,13 @@ public class SPData  {
 
 
         String flagghi = pre.getString(Bien.SPDIENTHOAI, "0273.3873425"); //mac dinh la off
+        return flagghi;
+    }
+
+    public String getDataHuyen() {
+
+
+        String flagghi = pre.getString(Bien.SPHUYEN, "01"); //mac dinh la off
         return flagghi;
     }
 

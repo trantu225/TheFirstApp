@@ -22,6 +22,7 @@ public class RequestObject {
     String loaikhmoi;
     String ChiSo1;
     String SLTieuThu1;
+
 //    String MaDuong;
 //
 //    public String getMaDuong() {

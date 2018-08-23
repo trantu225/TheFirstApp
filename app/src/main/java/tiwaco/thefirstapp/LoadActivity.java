@@ -609,7 +609,7 @@ public class LoadActivity extends AppCompatActivity {
                                 kh.setNgaythanhtoan(ngaythanhtoan);
 
                                 Log.e("Them database_KH: ", "Da ton tai "+j   +":" +MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang,maduong));
-                                boolean kt = khachhangDAO.addTable_KH(kh,maduong);
+                                boolean kt = khachhangDAO.addTable_KH(kh, maduong, "0");
                                 //  boolean kt = khachhangDAO.updateTable_KH(kh);
 
                                 if (kt) {
@@ -667,9 +667,31 @@ public class LoadActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
             if(result){
-                Intent myIntent=new Intent(LoadActivity.this, StartActivity.class);
-                startActivity(myIntent);
-                LoadActivity.this.finish();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage("Lấy dữ liệu từ tập tin thành công");
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        spdata.luuDataTuDongLuuTapTin(1);
+                        Intent myIntent = new Intent(LoadActivity.this, StartActivity.class);
+                        startActivity(myIntent);
+                        LoadActivity.this.finish();
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+
+
             }
             else{
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadActivity.this);
@@ -799,53 +821,52 @@ public class LoadActivity extends AppCompatActivity {
         File file = new File(duongdanfile);
         if(file.exists()) {
             if(KiemTraTonTaiDuLieu()) {
-               /*
-                //Luu lai file tat ca
-                Bien.bienbkall = spdata.getDataBKALLTrongSP();
-                XuLyFile xl  = new XuLyFile(con);
-                String path = "";
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                    path = xl.getBoNhoTrong();
-                } else {
-                    path = getFilesDir().getAbsolutePath();
-                }
-
-                Log.e("path",path);
-                String thumucchuafile="";
-                thumucchuafile = path+"/"+"BACKUPTIWAREAD";
-                File rootfile = new File(thumucchuafile);
-                if(rootfile.exists()==false){
-                    spdata.luuDataFlagGhivaBackUpTrongSP(1,0,0,0,0);
-                    File f = new File(thumucchuafile);
-                    if(!f.exists()) {
-                        f.mkdirs();
-
+                if (spdata.getDataTuDongLuuTapTin() == 1) {
+                    //Luu lai file tat ca
+                    Bien.bienbkall = spdata.getDataBKALLTrongSP();
+                    XuLyFile xl = new XuLyFile(con);
+                    String path = "";
+                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        path = xl.getBoNhoTrong();
+                    } else {
+                        path = getFilesDir().getAbsolutePath();
                     }
 
-                }
-                String tenfile = "customers_";
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-                tenfile += timeStamp+".txt";
+                    Log.e("path", path);
+                    String thumucchuafile = "";
+                    thumucchuafile = path + "/" + "BACKUPTIWAREAD";
+                    File rootfile = new File(thumucchuafile);
+                    if (rootfile.exists() == false) {
+                        spdata.luuDataFlagGhivaBackUpTrongSP(1, 0, 0, 0, 0);
+                        File f = new File(thumucchuafile);
+                        if (!f.exists()) {
+                            f.mkdirs();
 
-
-                String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());
-                if (!result_tatca_string.equals("")) {
-                    String filename1 = thumucchuafile + "/TATCA" ;
-
-                    File f = new File(filename1);
-                    if(!f.exists()) {
-                        f.mkdirs();
+                        }
 
                     }
+                    String tenfile = "customers.txt";
+                    // String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                    // tenfile += timeStamp + ".txt";
 
-                    boolean kt = writeFile(filename1, tenfile.trim(), result_tatca_string);
-                    if(kt)
-                    {
-                        Toast.makeText(con, "Tự động cập nhật thành công", Toast.LENGTH_SHORT).show();
+
+                    String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());
+                    if (!result_tatca_string.equals("")) {
+                        String filename1 = thumucchuafile + "/TUDONGCAPNHAT";
+
+                        File f = new File(filename1);
+                        if (!f.exists()) {
+                            f.mkdirs();
+
+                        }
+
+                        boolean kt = writeFile(filename1, tenfile.trim(), result_tatca_string);
+                        if (kt) {
+                            Toast.makeText(con, "Tự động cập nhật thành công", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
-
                 }
-                */
 
 
 

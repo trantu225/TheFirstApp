@@ -39,10 +39,10 @@ public class GPSTracker extends Service {
     double longitude; // Longitude
 
     // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 500; // 300 cm, 10 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 300; // 300 cm, 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 30 * 1; // 1 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;

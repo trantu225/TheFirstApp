@@ -31,6 +31,54 @@ public class ThanhToanDTO {
     String ngaythanhtoan;
     String NhanVienThu;
     String CapNhatThu;
+    String NgayThanhToanRequest;
+    String LanINBN;
+    String LanINTBTruoc;
+    String LanINTBSau;
+
+    public String getTransactionID() {
+        return TransactionID;
+    }
+
+    public void setTransactionID(String transactionID) {
+        TransactionID = transactionID;
+    }
+
+    String TransactionID;
+
+    public String getNgayThanhToanRequest() {
+        return NgayThanhToanRequest;
+    }
+
+    public void setNgayThanhToanRequest(String ngayThanhToanRequest) {
+        NgayThanhToanRequest = ngayThanhToanRequest;
+    }
+
+    public String getLanINBN() {
+        return LanINBN;
+    }
+
+    public void setLanINBN(String lanINBN) {
+        LanINBN = lanINBN;
+    }
+
+    public String getLanINTBTruoc() {
+        return LanINTBTruoc;
+    }
+
+    public void setLanINTBTruoc(String lanINTBTruoc) {
+        LanINTBTruoc = lanINTBTruoc;
+    }
+
+    public String getLanINTBSau() {
+        return LanINTBSau;
+    }
+
+    public void setLanINTBSau(String lanINTBSau) {
+        LanINTBSau = lanINTBSau;
+    }
+
+
 
     public String getBienLai() {
         return BienLai;

@@ -280,7 +280,7 @@ public class ListThuActivity extends AppCompatActivity {
                     Bien.listKH_thu = liskhdao;
                     break;
                 case 3:
-                    String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                    String thoigian1 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
                     liskhdao = khachhangDAO.getAllKHDaThuHomNay(Bien.ma_duong_dang_chon_thu,thoigian1);
                     title =  String.valueOf(liskhdao.size()) +" KH";
                     txtTiltle.setText(title);
@@ -403,7 +403,7 @@ public class ListThuActivity extends AppCompatActivity {
                         Bien.listKH_thu = liskhdao;
                         break;
                     case 3:
-                        String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                        String thoigian1 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
                         liskhdao = khachhangDAO.getAllKHDaThuHomNay(Bien.ma_duong_dang_chon_thu,thoigian1);
                         title =  String.valueOf(liskhdao.size()) +" KH";
                         txtTiltle.setText(title);
@@ -413,19 +413,9 @@ public class ListThuActivity extends AppCompatActivity {
                         listviewKH.setSelection( Bien.bien_index_khachhang);
                         Bien.listKH_thu = liskhdao;
                         break;
-                    case 4:
 
-                        liskhdao = khachhangDAO.getAllKHDaGhiBatThuong(Bien.ma_duong_dang_chon_thu);
-                        title =  String.valueOf(liskhdao.size()) +" KH";
-                        txtTiltle.setText(title);
-                        Bien.adapterKHThu.setData(liskhdao);
-                        Bien.adapterKHThu.notifyDataSetChanged();
-                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                        listviewKH.setSelection( Bien.bien_index_khachhang);
-                        Bien.listKH_thu = liskhdao;
-                        break;
 
-                    case 5: //ghi chu
+                    case 4: //ghi chu
 
                         liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon_thu);
                         title =  String.valueOf(liskhdao.size()) +" KH";

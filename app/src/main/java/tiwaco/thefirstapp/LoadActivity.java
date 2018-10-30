@@ -845,9 +845,9 @@ public class LoadActivity extends AppCompatActivity {
                         }
 
                     }
-                    String tenfile = "customers.txt";
-                    // String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-                    // tenfile += timeStamp + ".txt";
+                    String tenfile = "customers_";
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                    tenfile += timeStamp + ".txt";
 
 
                     String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());

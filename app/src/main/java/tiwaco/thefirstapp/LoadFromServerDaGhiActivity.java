@@ -832,7 +832,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        spdata.luuDataTuDongLuuTapTin(1);
                         Intent myIntent=new Intent(LoadFromServerDaGhiActivity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadFromServerDaGhiActivity.this.finish();
@@ -992,9 +992,9 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                         }
 
                     }
-                    String tenfile = "customers.txt";
-                    //  String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-                    // tenfile += timeStamp + ".txt";
+                    String tenfile = "customers_";
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                    tenfile += timeStamp + ".txt";
 
 
                     String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());

@@ -68,11 +68,11 @@
 
         </LinearLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true">
+        <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true">-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                     android:paddingTop="@dimen/activity_vertical_margin">
 
                     <TextView
-
+                        android:id="@+id/lb_thongtinkh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#00B9CD"
@@ -206,6 +206,7 @@
                                             android:layout_height="wrap_content"
                                             android:padding="@dimen/dp3"
                                             android:text="@string/KH_danhbo"
+
                                             android:textColor="#000000"
                                             android:textSize="@dimen/sp14" />
 
@@ -215,6 +216,7 @@
                                             android:layout_height="wrap_content"
                                             android:ellipsize="marquee"
                                             android:focusable="true"
+
                                             android:focusableInTouchMode="true"
                                             android:marqueeRepeatLimit="marquee_forever"
                                             android:maxLines="1"
@@ -287,6 +289,7 @@
                                         android:gravity="center_vertical"
                                         android:padding="@dimen/dp3"
                                         android:text="Loại: "
+                                        android:visibility="gone"
                                         android:textColor="#000000"
                                         android:textSize="@dimen/sp14" />
 
@@ -295,6 +298,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:visibility="gone"
                                         android:gravity="center_vertical"
                                         android:padding="@dimen/dp3"
                                         android:textColor="#000000"
@@ -335,6 +339,7 @@
                                 android:padding="@dimen/dp3"
                                     android:text="Định mức: "
                                 android:textColor="#000000"
+                                    android:visibility="gone"
                                 android:textSize="@dimen/sp14" />
 
                             <TextView
@@ -346,6 +351,7 @@
                                 android:focusableInTouchMode="true"
                                 android:marqueeRepeatLimit="marquee_forever"
                                 android:maxLines="1"
+                                android:visibility="gone"
                                 android:padding="@dimen/dp3"
                                 android:scrollHorizontally="true"
                                 android:singleLine="true"
@@ -665,6 +671,7 @@
                             android:visibility="gone">
 
                             <TextView
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dp3"
@@ -1611,6 +1618,26 @@
                     android:textSize="@dimen/sp14"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/lb_sumofmoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp3"
+                    android:text="Khách hàng không có hóa đơn nợ tiền nước."
+                    android:textColor="#9612A2"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/lb_thongbaohetno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp3"
+                    android:text="Khách hàng không có hóa đơn nợ tiền nước."
+                    android:textColor="#F13"
+                    android:textSize="@dimen/sp14" />
+
+
                 <ExpandableListView
                     android:id="@+id/ListThanhToanTheoKy"
                     android:layout_width="match_parent"
@@ -1623,7 +1650,7 @@
 
 
             </LinearLayout>
-        </ScrollView>
+        <!--</ScrollView>-->
 
 
         <!--
@@ -1656,6 +1683,18 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_thanhtoantiennuoc"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/selector_button_signin"
+        android:text="@string/thanhtoan_txtthanhtoan"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="@dimen/sp14"
+        android:textStyle="bold" />
     <RadioGroup
         android:layout_width="match_parent"
         android:background="@color/white"

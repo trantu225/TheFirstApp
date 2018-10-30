@@ -20,6 +20,7 @@ import java.util.List;
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.ListActivity;
@@ -39,6 +40,7 @@ public class CustomListThuAdapter extends BaseAdapter {
     SPData spdata;
     DuongDAO duongdao  ;
     KhachHangDAO khachhangdao ;
+    ThanhToanDAO thanhtoandao;
     String strghichu = "";
     public CustomListThuAdapter(Context con, List<KhachHangDTO> listcus,int vitriduong){
         customerList = listcus ;
@@ -48,6 +50,7 @@ public class CustomListThuAdapter extends BaseAdapter {
         spdata = new SPData(context);
         duongdao = new DuongDAO(context);
         khachhangdao = new KhachHangDAO(context);
+        thanhtoandao = new ThanhToanDAO(context);
     }
     public void setData(List<KhachHangDTO> list){
         customerList = list;
@@ -121,7 +124,7 @@ public class CustomListThuAdapter extends BaseAdapter {
         holder.GhiChu.setSelected(true);
 
 
-        if(cus.getNgaythanhtoan().equalsIgnoreCase("")){
+        if (thanhtoandao.countKhachHangChuaThuTheoMaKH(cus.getMaKhachHang().trim()) != 0) {
             holder.STT.setBackgroundResource(R.drawable.remove_bg);
 
         }

@@ -16,6 +16,7 @@
     <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
     <string name="API_GetNhanVien">http://113.176.94.250:8012/Service1.svc/GetNhanVien</string>
     <string name="API_UpdateThuTienNuoc">http://113.176.94.250:8012/Service1.svc/CapNhatThuTienNuocNongThon</string>
+    <string name="API_PayBillNB">https://www.thanhtoan.tiwaco.com.vn/PayAllThuNoiBo</string>
 
     <string name="link_apk">http://tiwaco.com.vn/uploads/apk/tiwaread.apk</string>
     <!-- Man Hinh -->
@@ -67,6 +68,7 @@
     <string name="list_chuyendulieu_hoighinuoc2"> không? </string>
     <!-- Mainactivity -->
     <string name="main_chuacothongtinduong"> Chưa chọn đường để ghi nước. Bạn có muốn chọn đường để ghi nước không? </string>
+    <string name="main_chuacothongtinduongdethu"> Chưa chọn đường để thu tiền nước. Bạn có muốn chọn đường để thu tiền nước không? </string>
     <string name="main_capnhatsdt_thanhcong">Cập nhật SĐT thành công</string>
     <string name="main_capnhatsdt_thatbai">Cập nhật SĐT thất bại</string>
     <string name="main_capnhatloaikh_thanhcong">Chuyển loại KH thành công</string>
@@ -156,7 +158,7 @@
     <string name="DialogDangNhap">Đang đăng nhập...</string>
     <string name="nhan_vien">Nhân viên: </string>
     <string name="note_phienbanmoinhat_true">Đây là phiên bản mới nhất.</string>
-
+    <string name="thanhtoan_txtthanhtoan">Thanh toán tiền nước</string>
 
 
 </resources>

@@ -77,9 +77,9 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_PHI , kh.getphi().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG , kh.gettongcong().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_NOVAT , kh.getvat().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_M31 , kh.getM3t1().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_M32 , kh.getM3t2().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_M33 , kh.getM3t3().trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINBN, "0");
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC, "0");
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU, "0");
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_M34 , kh.getM3t4().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIEN1 , kh.getTien1().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIEN2 , kh.getTien2().trim());
@@ -1119,14 +1119,13 @@ public class KhachHangDAO {
 
     }
 
-    public boolean updateKhachHangThanhToan(String maKH, String thoigian, String nhanvienthu, String vido, String kinhdo) {
+    public boolean updateKhachHangThanhToan(String maKH, String thoigian, String nhanvienthu) {
         db = myda.openDB();
         ContentValues values = new ContentValues();
 
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN, thoigian.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU, nhanvienthu.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_VIDO, vido.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_KINHDO, kinhdo.trim());
+
 
 
         // updating row
@@ -1414,6 +1413,7 @@ public class KhachHangDAO {
         List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
         // Select All Query
         String selectQuery =  "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH +" WHERE "+MyDatabaseHelper.KEY_DANHSACHKH_MADUONG +"='"+maduong+"' and " +MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN +" LIKE '%"+ngay+"%'  ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )" ;
+        Log.e("selectQuery", selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -1813,9 +1813,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -1943,9 +1943,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -2072,9 +2072,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -2201,9 +2201,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -2327,9 +2327,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -2454,9 +2454,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -2581,9 +2581,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -2708,9 +2708,9 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_PHI,
                         MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
                         MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M31 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M32,
-                        MyDatabaseHelper.KEY_DANHSACHKH_M33,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
                         MyDatabaseHelper.KEY_DANHSACHKH_M34,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
@@ -3754,5 +3754,63 @@ public class KhachHangDAO {
 
     public double lamtron2sothapphan(double a){
         return (Math.round(a*100)) /100;
+    }
+
+    public List<String> GetSoLanInTheoMaKH(String makh) {
+        db = myda.openDB();
+        List<String> ListIn = new ArrayList<String>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = '" + makh + "' ";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+
+                String laninbiennhan = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_LANINBN));
+
+                String laninthongbaotruoc = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC));
+
+                String laninthongbaosau = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU));
+
+
+                // Adding contact to list
+                ListIn.add(laninbiennhan);
+                ListIn.add(laninthongbaotruoc);
+                ListIn.add(laninthongbaosau);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        Log.e("so luong danh sach tt tim kiem", String.valueOf(ListIn.size()));
+        return ListIn;
+    }
+
+    public boolean updateLanIn(String makh, String biennhan, String thbaotruoc, String thbaosau) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINBN, biennhan);
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC, thbaotruoc);
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU, thbaosau);
+
+
+        // updating row
+        boolean kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{makh}) > 0;
+        db.close();
+        return kt;
+
+    }
+
+
+    public boolean tangSoLanIn(String makh, int solanbienhan, int solantbtruoc, int solantbsau) {
+        List<String> listsolanin = GetSoLanInTheoMaKH(makh);
+        String solaninbiennhan = String.valueOf(Integer.parseInt(listsolanin.get(0)) + solanbienhan);
+        String solanintbtruoc = String.valueOf(Integer.parseInt(listsolanin.get(1)) + solantbtruoc);
+        String solanintbsau = String.valueOf(Integer.parseInt(listsolanin.get(2)) + solantbsau);
+        Log.e("so lan in sau", solanintbsau);
+        if (updateLanIn(makh, solaninbiennhan, solanintbtruoc, solanintbsau)) {
+            return true;
+        }
+        return false;
     }
 }

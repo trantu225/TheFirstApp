@@ -410,7 +410,7 @@ public class ThongTinActivity extends AppCompatActivity {
         }
 
         luutudong.setText(String.valueOf(spdata.getDataChiSoLuuCapNhat()));
-        if (spdata.getDataHuyen() != "01") {
+        if (!spdata.getDataHuyen().equals("01")) {
             SwitchLuuTuDong.setVisibility(View.VISIBLE);
             doiluucapnhat.setEnabled(true);
         } else {
@@ -500,7 +500,7 @@ public class ThongTinActivity extends AppCompatActivity {
             if(result.equals("1")){
                 spdata.luuDataMatKhauNhanVienTrongSP("");
                 spdata.luuDataNhanVienTrongSP("");
-                spdata.luuThongTinNhanVien("", "", "");
+                spdata.luuThongTinNhanVien("", "", "", "", "");
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ThongTinActivity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Đổi mật khẩu thành công. Hãy đăng nhập lại!");

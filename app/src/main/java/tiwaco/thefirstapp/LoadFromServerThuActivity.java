@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -69,7 +70,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
     DonutProgress prgTime;
     LinearLayout layout_noidungload;
     Button btngetData, btnthoat;
-    EditText editKyHD, edtNV;
+    EditText editKyHD, edtNV, edtnhanvientai, edtmatkhau;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
 
@@ -80,7 +81,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
     KhachHangDAO khachhangDAO;
     ThanhToanDAO thanhtoanDAO;
     TinhTrangTLKDAO tinhtrangtlkdao;
-
+    TextView lv_nhanvien, lb_matkhau;
     SPData spdata;
 
     @Override
@@ -101,6 +102,8 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
         editKyHD = (EditText) findViewById(R.id.edt_kyhd);
         edtNV = (EditText) findViewById(R.id.edt_nhanvien);
+        edtnhanvientai = (EditText) findViewById(R.id.edt_nhanvientai);
+        edtmatkhau = (EditText) findViewById(R.id.edt_matkhau);
         prgTime.setProgress(0);
         prgTime.setText("0 %");
         if (spdata.getDataNhanVienTrongSP().trim().equals("admin")) {
@@ -121,18 +124,48 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // new GetUserList().execute("http://192.168.1.91/Service1.svc/GetListUser");
                 try {
-                    String manv = edtNV.getText().toString().trim(); // Lay manv
-                    Log.e("nhap", editKyHD.getText().toString());
-                    String thang = editKyHD.getText().toString().substring(4, 6);
-                    Log.e("thang", thang);
-                    String nam = editKyHD.getText().toString().substring(0, 4);
-                    Log.e("nam", nam);
-                    duongdanfile += "/" + manv + "/" + thang + "/" + nam;
-                    Log.e("duongdan", duongdanfile);
-                    layout_noidungload.setVisibility(View.GONE);
-                    prgTime.setVisibility(View.VISIBLE);
 
-                    askPermissionAndReadFile();
+                    String nhanvientai = edtnhanvientai.getText().toString().trim();
+                    String matkhautai = edtmatkhau.getText().toString().trim();
+                    if (!nhanvientai.equals("") && !matkhautai.equals("")) {
+
+                        String manv = edtNV.getText().toString().trim(); // Lay manv
+                        Log.e("nhap", editKyHD.getText().toString());
+                        String thang = editKyHD.getText().toString().substring(4, 6);
+                        Log.e("thang", thang);
+                        String nam = editKyHD.getText().toString().substring(0, 4);
+                        Log.e("nam", nam);
+
+                        duongdanfile += "/" + nhanvientai + "/" + matkhautai + "/" + manv + "/" + thang + "/" + nam;
+                        Log.e("duongdan", duongdanfile);
+                        layout_noidungload.setVisibility(View.GONE);
+                        prgTime.setVisibility(View.VISIBLE);
+
+                        askPermissionAndReadFile();
+                    } else {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
+                        // khởi tạo dialog
+                        alertDialogBuilder.setMessage("Chưa nhập thông tin nhân viên hoặc mật khẩu tải dữ liệu");
+                        // thiết lập nội dung cho dialog
+
+                        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                layout_noidungload.setVisibility(View.VISIBLE);
+                                prgTime.setVisibility(View.GONE);
+
+                                // button "no" ẩn dialog đi
+                            }
+                        });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                        // hiển thị dialog
+                    }
                 } catch (Exception loi) {
                     //Hiển thị dialog
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
@@ -805,7 +838,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             String tiennuoc = "";
                                             String phi = "";
                                             String tongcong = "";
-
+                                            String transid = "";
                                             String thue = "";
                                             String m3t1 = "";
                                             String m3t2 = "";
@@ -822,6 +855,11 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
                                             if (objKH.has("BienLai")) {
                                                 BienLai = objKH.getString("BienLai").toString().trim();
+                                            }
+                                            if (objKH.has("TransactionID")) {
+                                                if (objKH.getString("TransactionID") != null) {
+                                                    transid = objKH.getString("TransactionID").toString().trim();
+                                                }
                                             }
                                             if (objKH.has("ChiSoCu")) {
                                                 ChiSoCu = objKH.getString("ChiSoCu").toString().trim();
@@ -891,6 +929,17 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             if (objKH.has("tienmuc4")) {
                                                 tien4 = objKH.getString("tienmuc4").toString().trim();
                                             }
+                                            if (objKH.has("NgayThu")) {
+                                                if (objKH.getString("NgayThu") != null) {
+                                                    ngaythanhtoan = objKH.getString("NgayThu").toString().trim();
+                                                }
+
+                                            }
+                                            if (objKH.has("NhanVienThu")) {
+                                                if (objKH.getString("NhanVienThu") != null) {
+                                                    NhanVienThu = objKH.getString("NhanVienThu").toString().trim();
+                                                }
+                                            }
 
 
                                             ThanhToanDTO kh = new ThanhToanDTO();
@@ -900,7 +949,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             kh.setChiSoMoi(ChiSoMoi);
                                             kh.setChiSoCu(ChiSoCu);
                                             kh.setSLTieuThu(SLTieuThu);
-                                            kh.setLat(Lat);
+                                            kh.setTransactionID(transid);
                                             kh.setLon(Lon);
                                             kh.setKyHD(KyHD);
                                             kh.setNhanvienthu(NhanVienThu);
@@ -1015,7 +1064,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        spdata.luuDataTuDongLuuTapTin(1);
                         Intent myIntent = new Intent(LoadFromServerThuActivity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadFromServerThuActivity.this.finish();
@@ -1172,9 +1221,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                         }
 
                     }
-                    String tenfile = "customers.txt";
-                    //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-                    //tenfile += timeStamp + ".txt";
+                    String tenfile = "customers_thu_";
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                    tenfile += timeStamp + ".txt";
 
 
                     String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());

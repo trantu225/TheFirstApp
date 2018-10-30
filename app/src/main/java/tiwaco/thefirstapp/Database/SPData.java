@@ -3,6 +3,7 @@ package tiwaco.thefirstapp.Database;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import tiwaco.thefirstapp.Bien;
 
@@ -201,12 +202,14 @@ public class SPData  {
         String pass  = getDataMatKhauNhanVienTrongSP();
         String hoten = getDataTenNhanVien();
         String dienthoai = getDataDienThoai();
+        String idnhanvien = getDataIDNhanVien();
         String huyen = getDataHuyen();
+        String dthuyen = getDataDienThoaiHuyen();
         editor.clear();
         editor.commit();
         luuDataNhanVienTrongSP(nv);
         luuDataMatKhauNhanVienTrongSP(pass);
-        luuThongTinNhanVien(hoten, dienthoai, huyen);
+        luuThongTinNhanVien(idnhanvien, hoten, dienthoai, huyen, dthuyen);
     }
 
     public void luuDataKyHoaDonTrongSP(String kyhd){
@@ -312,17 +315,36 @@ public class SPData  {
         return flagghi;
     }
 
-    public void luuThongTinNhanVien(String ten, String dienthoai, String idhuyen) {
+    public void luuThongTinNhanVien(String idnhanvien, String ten, String dienthoai, String idhuyen, String dthuyen) {
 
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor = pre.edit();
+        editor.putString(Bien.SPIDNHANVIEN, idnhanvien);
         editor.putString(Bien.SPTENNHANVIEN, ten);
         if (dienthoai.trim().equals("")) {
             dienthoai = "0273.3873425";
         }
         editor.putString(Bien.SPDIENTHOAI, dienthoai);
         editor.putString(Bien.SPHUYEN, idhuyen);
+        if (dthuyen.trim().equals("")) {
+            dthuyen = "0273.3873425";
+        }
+        editor.putString(Bien.SPDTHUYEN, dthuyen);
         editor.commit();
+    }
+
+    public String getDataIDNhanVien() {
+
+
+        String flagghi = pre.getString(Bien.SPIDNHANVIEN, "0"); //mac dinh la off
+        return flagghi;
+    }
+
+    public String getDataDienThoaiHuyen() {
+
+
+        String flagghi = pre.getString(Bien.SPDTHUYEN, "0273 3873425"); //mac dinh la off
+        return flagghi;
     }
 
     public String getDataTenNhanVien() {
@@ -335,7 +357,7 @@ public class SPData  {
     public String getDataDienThoai() {
 
 
-        String flagghi = pre.getString(Bien.SPDIENTHOAI, "0273.3873425"); //mac dinh la off
+        String flagghi = pre.getString(Bien.SPDIENTHOAI, "0273 3873425"); //mac dinh la off
         return flagghi;
     }
 
@@ -343,6 +365,7 @@ public class SPData  {
 
 
         String flagghi = pre.getString(Bien.SPHUYEN, "01"); //mac dinh la off
+        Log.e("idhuyen", flagghi);
         return flagghi;
     }
 

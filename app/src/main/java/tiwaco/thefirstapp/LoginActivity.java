@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity  {
     boolean ketquakiemtra = false;
     String duongdanfile ="";
     ViewDialog_login dialoglogin ;
-    String dienthoai = "";
+    String dienthoai = "", idnhanvien = "", dienthoaihuyen = "";
     String hoten = "";
     String idhuyen = "";
 
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity  {
                 alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
             }
         }
-        Bien.listNV = nhanviendao.TaoDSNhanVien();
+        //      Bien.listNV = nhanviendao.TaoDSNhanVien();
 
 
 
@@ -410,7 +410,7 @@ public class LoginActivity extends AppCompatActivity  {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            finish();
+
 
                             // button "no" ẩn dialog đi
                         }
@@ -437,14 +437,13 @@ public class LoginActivity extends AppCompatActivity  {
             catch (Exception e) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
                 // khởi tạo dialog
-                alertDialogBuilder.setMessage("Chưa bật wifi hoặc 3G. Hãy kiểm tra lại 123456");
+                alertDialogBuilder.setMessage("Chưa bật wifi hoặc 3G. Hãy kiểm tra lại");
                 // thiết lập nội dung cho dialog
 
                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        finish();
 
 
                         // button "no" ẩn dialog đi
@@ -708,6 +707,11 @@ public class LoginActivity extends AppCompatActivity  {
                                 Log.e("dienthoai", dienthoai);
 
                             }
+                            if (objTiwaread.has("idnhanvien")) {
+                                idnhanvien = objTiwaread.getString("idnhanvien").trim();
+                                Log.e("idnhanvien", dienthoai);
+
+                            }
 
                             if (objTiwaread.has("hoten")) {
                                 hoten = objTiwaread.getString("hoten").trim();
@@ -716,7 +720,11 @@ public class LoginActivity extends AppCompatActivity  {
 
                             if (objTiwaread.has("idhuyen")) {
                                 idhuyen = objTiwaread.getString("idhuyen").trim();
-                                Log.e("hoten", idhuyen);
+                                Log.e("idhuyen", idhuyen);
+                            }
+                            if (objTiwaread.has("dienthoaihuyen")) {
+                                dienthoaihuyen = objTiwaread.getString("dienthoaihuyen").trim();
+                                Log.e("dienthoaihuyen", idhuyen);
                             }
 
 
@@ -744,7 +752,7 @@ public class LoginActivity extends AppCompatActivity  {
                 //spdata.luuDataKyHoaDonTrongSP("092017");
                 spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim() );
                 spdata.luuDataMatKhauNhanVienTrongSP(edt_pass.getText().toString().trim());
-                spdata.luuThongTinNhanVien(hoten, dienthoai, idhuyen);
+                spdata.luuThongTinNhanVien(idnhanvien, hoten, dienthoai, idhuyen, dienthoaihuyen);
                 Log.e("tennv,dienthoai", spdata.getDataTenNhanVien() + " + " + spdata.getDataDienThoai());
                 LichSuDTO ls = new LichSuDTO();
                 ls.setNoiDungLS(edt_ten.getText().toString().trim() +" đăng nhập.");

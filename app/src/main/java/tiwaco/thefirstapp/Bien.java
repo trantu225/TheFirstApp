@@ -76,7 +76,9 @@ public class Bien {
     public static final String SPNHANVIEN = "spnhanvien";
     public static final String SPDIENTHOAI = "spdienthoai";
     public static final String SPHUYEN = "sphuyen";
+    public static final String SPDTHUYEN = "spdthuyen";
     public static final String SPTENNHANVIEN = "sptennhanvien";
+    public static final String SPIDNHANVIEN = "spidnhanvien";
     public static final String SPCHOPHEPGHI = "spchophepghi";
     public static final String SPMATKHAU = "spmatkhau";
     public static final String SPINDEXDUONG= "spindexduong";

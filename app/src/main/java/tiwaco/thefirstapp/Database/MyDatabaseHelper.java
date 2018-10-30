@@ -94,14 +94,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_TONGCONG = "tongcong";
     public static final String KEY_DANHSACHKH_NOVAT = "novat";
     public static final String KEY_DANHSACHKH_THUE = "thue";
-    public static final String KEY_DANHSACHKH_M31 = "m3muc1";
-    public static final String KEY_DANHSACHKH_M32 = "m3muc2";
-    public static final String KEY_DANHSACHKH_M33 = "m3muc3";
-    public static final String KEY_DANHSACHKH_M34 = "m3muc4";
-    public static final String KEY_DANHSACHKH_TIEN1 = "tienmuc1";
-    public static final String KEY_DANHSACHKH_TIEN2 = "tienmuc2";
-    public static final String KEY_DANHSACHKH_TIEN3 = "tienmuc3";
-    public static final String KEY_DANHSACHKH_TIEN4 = "tienmuc4";
+    public static final String KEY_DANHSACHKH_LANINBN = "m3muc1";
+    public static final String KEY_DANHSACHKH_LANINTBTRUOC = "m3muc2";
+    public static final String KEY_DANHSACHKH_LANINTBSAU = "m3muc3";
+    public static final String KEY_DANHSACHKH_M34 = "m3muc4"; //ko sd
+    public static final String KEY_DANHSACHKH_TIEN1 = "tienmuc1";//ko sd
+    public static final String KEY_DANHSACHKH_TIEN2 = "tienmuc2";//ko sd
+    public static final String KEY_DANHSACHKH_TIEN3 = "tienmuc3";//ko sd
+    public static final String KEY_DANHSACHKH_TIEN4 = "tienmuc4";//ko sd
     public static final String KEY_DANHSACHKH_NGAYTHANHTOAN = "ngaythanhtoan";
     public static final String KEY_DANHSACHKH_CAPNHATTHU= "capnhatthu";
     public static final String KEY_DANHSACHKH_NHANVIENTHU = "nhanvienthu";
@@ -119,7 +119,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_THANHTOAN_CHISOCU = "ChiSoCu";
     public static final String KEY_THANHTOAN_CHISOMOI = "ChiSoMoi";
     public static final String KEY_THANHTOAN_GHICHU = "GhiChu";
-    public static final String KEY_THANHTOAN_VIDO = "Lat";
+    public static final String KEY_THANHTOAN_TRANSACTIONID = "TRANSACTIONID";
     public static final String KEY_THANHTOAN_KINHDO = "Lon";
     public static final String KEY_THANHTOAN_MAKH = "MaKhachHang";
     public static final String KEY_THANHTOAN_SLTIEUTHU = "SLTieuThu";
@@ -138,8 +138,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_THANHTOAN_TIEN3 = "tienmuc3";
     public static final String KEY_THANHTOAN_TIEN4 = "tienmuc4";
     public static final String KEY_THANHTOAN_NGAYTHANHTOAN = "ngaythanhtoan";
+    public static final String KEY_THANHTOAN_NGAYTHANHTOANREQUEST = "ngaythanhtoanrequest";
     public static final String KEY_THANHTOAN_CAPNHATTHU = "capnhatthu";
     public static final String KEY_THANHTOAN_NHANVIENTHU = "nhanvienthu";
+    public static final String KEY_THANHTOAN_LANINBIENNHAN = "laninbiennhan";
+    public static final String KEY_THANHTOAN_LANINTHONGBAOSAU = "laninthongbaosau";
+    public static final String KEY_THANHTOAN_LANINTHONGBAOTRUOC = "laninthongbaotruoc";
 
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -200,9 +204,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_TONGCONG + " TEXT, "       //41
                 + KEY_DANHSACHKH_NOVAT + " TEXT, "       //42
                 + KEY_DANHSACHKH_THUE+ " TEXT, "          //43
-                + KEY_DANHSACHKH_M31 + " TEXT, "          //44
-                + KEY_DANHSACHKH_M32 + " TEXT, "          //45
-                + KEY_DANHSACHKH_M33 + " TEXT, "          //46
+                + KEY_DANHSACHKH_LANINBN + " TEXT, "          //44
+                + KEY_DANHSACHKH_LANINTBTRUOC + " TEXT, "          //45
+                + KEY_DANHSACHKH_LANINTBSAU + " TEXT, "          //46
                 + KEY_DANHSACHKH_M34 + " TEXT, "          //47
                 + KEY_DANHSACHKH_TIEN1 + " TEXT, "          //48
                 + KEY_DANHSACHKH_TIEN2 + " TEXT, "          //49
@@ -246,10 +250,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_THANHTOAN_TIEN4 + " TEXT, "          //18
                 + KEY_THANHTOAN_NGAYTHANHTOAN + " TEXT, "          //19
                 + KEY_THANHTOAN_CAPNHATTHU + " TEXT, "          //20
-                + KEY_THANHTOAN_VIDO + " TEXT,"             //21
+                + KEY_THANHTOAN_TRANSACTIONID + " TEXT,"             //21
                 + KEY_THANHTOAN_KINHDO + " TEXT,"           //22
                 + KEY_THANHTOAN_KYHD + " TEXT,"           //23
-                + KEY_THANHTOAN_NHANVIENTHU + " TEXT " + ")";  //24
+                + KEY_THANHTOAN_NHANVIENTHU + " TEXT,"           //24
+                + KEY_THANHTOAN_LANINBIENNHAN + " TEXT,"           //25
+                + KEY_THANHTOAN_LANINTHONGBAOSAU + " TEXT,"           //26
+                + KEY_THANHTOAN_LANINTHONGBAOTRUOC + " TEXT,"           //26
+                + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT " + ")";  //27
 
 
         db.execSQL(CREATE_DUONG_TABLE);

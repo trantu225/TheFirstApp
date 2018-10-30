@@ -8,27 +8,38 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.DTO.ThanhToanDTO;
 import tiwaco.thefirstapp.Database.SPData;
+import tiwaco.thefirstapp.GPSTracker;
 import tiwaco.thefirstapp.MainActivity;
 import tiwaco.thefirstapp.MainThuActivity;
 import tiwaco.thefirstapp.R;
+import tiwaco.thefirstapp.StartActivity;
+import tiwaco.thefirstapp.ViewDialog;
 
 /**
  * Created by TUTRAN on 18/05/2017.
@@ -46,17 +57,30 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
     DuongDAO duongdao;
     KhachHangDAO khachhangdao;
     ThanhToanDAO thanhtoandao;
-    String strghichu = "";
+    String strghichu = "", vido = "", kinhdo = "";
+    DecimalFormat format, format1, format2;
+    TextView duong, duongthu, conlai;
 
-    public CustomListThanhToanAdapter(Context context, List<String> headerGroup, HashMap<String, List<ThanhToanDTO>> datas, String MaKH) {
+    public CustomListThanhToanAdapter(Context context, List<String> headerGroup, HashMap<String, List<ThanhToanDTO>> datas, String vd, String kd, TextView lbduong, TextView lbduongdangthu, TextView lbconlai) {
         mContext = context;
         mHeaderGroup = headerGroup;
         mDataChild = datas;
+        vido = vd;
+        kinhdo = kd;
+        duong = lbduong;
+        duongthu = lbduongdangthu;
+        conlai = lbconlai;
 
         spdata = new SPData(context);
         duongdao = new DuongDAO(context);
         khachhangdao = new KhachHangDAO(context);
         thanhtoandao = new ThanhToanDAO(context);
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(',');
+        format = new DecimalFormat("#,##0.00", decimalFormatSymbols);
+        format1 = new DecimalFormat("0.#");
+        format2 = new DecimalFormat("#,##0.#", decimalFormatSymbols);
     }
 
     @Override
@@ -100,11 +124,14 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
             LayoutInflater li = LayoutInflater.from(mContext);
             convertView = li.inflate(R.layout.listkyhd_item, parent, false);
         }
+        ExpandableListView mExpandableListView = (ExpandableListView) parent;
+        mExpandableListView.expandGroup(groupPosition);
+
         //TextView soketqua = (TextView) convertView.findViewById(R.id.tv_conlaiTK);
         final TextView tvHeader = (TextView) convertView.findViewById(R.id.tv_kyhd);
         final TextView tvthongbao = (TextView) convertView.findViewById(R.id.tv_thongbao);
-        final Button btnthanhtoan = (Button) convertView.findViewById(R.id.btn_thanhtoan);
-        tvthongbao.setVisibility(View.GONE);
+        //final Button btnthanhtoan = (Button) convertView.findViewById(R.id.btn_thanhtoan);
+        // tvthongbao.setVisibility(View.GONE);
         String kihd = "";
         if (!mHeaderGroup.get(groupPosition).toString().equals("")) {
             String nam = mHeaderGroup.get(groupPosition).toString().substring(0, 4);
@@ -115,14 +142,20 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
 
 
         tvHeader.setText(kihd);
-        Log.e("KyhD: ", mHeaderGroup.get(groupPosition).toString());
-        //Kiem tra thanh toan chua. neu da thanh toan hiển thị đã thanh toán
-        btnthanhtoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        //Log.e("KyhD: ", mHeaderGroup.get(groupPosition).toString());
 
-            }
-        });
+
+        final ThanhToanDTO cus = getChild(groupPosition, 0);
+        if (cus.getNgaythanhtoan().equals("")) {
+            tvthongbao.setText("Chưa thanh toán");
+        } else {
+
+            tvthongbao.setText("Đã thanh toán ");
+        }
+
+        //Kiem tra thanh toan chua. neu da thanh toan hiển thị đã thanh toán
+        final String finalKihd = kihd;
+
 
 
         return convertView;
@@ -157,7 +190,8 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
         holder.ChiSoMoi.setSelected(true);
         holder.M3.setSelected(true);
         holder.BienLai.setSelected(true);
-        holder.SoTienThanhToan.setText("Số tiền thanh toán: " + cus.gettongcong());
+        holder.SoTienThanhToan.setText("Số tiền thanh toán: " + format2.format(Double.parseDouble(format1.format(Double.valueOf(cus.gettongcong())))) + " đ");
+
 
 
         return convertView;
@@ -179,4 +213,6 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
         TextView SoTienThanhToan;
 
     }
+
+
 }

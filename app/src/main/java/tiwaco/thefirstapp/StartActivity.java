@@ -222,121 +222,121 @@ public class StartActivity extends AppCompatActivity  {
             switch (v.getId()) {
                 case R.id.btn_ghinuoc:
 
-                    String maduong = spdata.getDataDuongDangGhiTrongSP();
-
-
-                    if (maduong.equals("")) {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
-                        // khởi tạo dialog
-                        alertDialogBuilder.setMessage(R.string.start_chuacoduongdeghinuoc);
-                        // thiết lập nội dung cho dialog
-                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                Intent myIntent2 = new Intent(con, ListActivity.class);
-                                startActivity(myIntent2);
-                                finish();
-                            }
-                        });
-
-                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-
-                            }
-                        });
-
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        // tạo dialog
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.show();
-                    } else {
-                        Log.e("maduong", maduong);
-                        String tenduong = duongDAO.getTenDuongTheoMa(maduong);
-                        String mess = "Bạn có muốn tiếp tục ghi nước đường " + maduong + "." + tenduong + " không?";
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
-                        // khởi tạo dialog
-                        alertDialogBuilder.setMessage(mess);
-                        // thiết lập nội dung cho dialog
-                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-
-
-                                Intent myIntent = new Intent(con, MainActivity.class);
-                                //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
-                                myIntent.putExtra("MauLoadGhiThu", "1");
-                                startActivity(myIntent);
-
-
-                                //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
-                                //  spdata.luuDataIndexDuongDangGhiTrongSP(Bien.bien_index_duong);
-                                // Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
-                            }
-                        });
-
-                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
-                                // khởi tạo dialog
-                                alertDialogBuilder.setMessage("Bạn có muốn ghi nước đường khác không?");
-                                // thiết lập nội dung cho dialog
-                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-
-                                        Intent myIntent2 = new Intent(con, ListActivity.class);
-                                        startActivity(myIntent2);
-                                    }
-                                });
-
-                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-
-
-                                    }
-                                });
-
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                // tạo dialog
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-
-                            }
-                        });
-
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        // tạo dialog
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.show();
-                    }
+//                    String maduong = spdata.getDataDuongDangGhiTrongSP();
+//
+//
+//                    if (maduong.equals("")) {
+//                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+//                        // khởi tạo dialog
+//                        alertDialogBuilder.setMessage(R.string.start_chuacoduongdeghinuoc);
+//                        // thiết lập nội dung cho dialog
+//                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                                Intent myIntent2 = new Intent(con, ListActivity.class);
+//                                startActivity(myIntent2);
+//                                finish();
+//                            }
+//                        });
+//
+//                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//
+//                            }
+//                        });
+//
+//                        AlertDialog alertDialog = alertDialogBuilder.create();
+//                        // tạo dialog
+//                        alertDialog.setCanceledOnTouchOutside(false);
+//                        alertDialog.show();
+//                    } else {
+//                        Log.e("maduong", maduong);
+//                        String tenduong = duongDAO.getTenDuongTheoMa(maduong);
+//                        String mess = "Bạn có muốn tiếp tục ghi nước đường " + maduong + "." + tenduong + " không?";
+//                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+//                        // khởi tạo dialog
+//                        alertDialogBuilder.setMessage(mess);
+//                        // thiết lập nội dung cho dialog
+//                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//
+//
+//                                Intent myIntent = new Intent(con, MainActivity.class);
+//                                //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
+//                                myIntent.putExtra("MauLoadGhiThu", "1");
+//                                startActivity(myIntent);
+//
+//
+//                                //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
+//                                //  spdata.luuDataIndexDuongDangGhiTrongSP(Bien.bien_index_duong);
+//                                // Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+//                            }
+//                        });
+//
+//                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+//                                // khởi tạo dialog
+//                                alertDialogBuilder.setMessage("Bạn có muốn ghi nước đường khác không?");
+//                                // thiết lập nội dung cho dialog
+//                                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//
+//                                        Intent myIntent2 = new Intent(con, ListActivity.class);
+//                                        startActivity(myIntent2);
+//                                    }
+//                                });
+//
+//                                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//
+//
+//                                    }
+//                                });
+//
+//                                AlertDialog alertDialog = alertDialogBuilder.create();
+//                                // tạo dialog
+//                                alertDialog.setCanceledOnTouchOutside(false);
+//                                alertDialog.show();
+//
+//                            }
+//                        });
+//
+//                        AlertDialog alertDialog = alertDialogBuilder.create();
+//                        // tạo dialog
+//                        alertDialog.setCanceledOnTouchOutside(false);
+//                        alertDialog.show();
+//                    }
 
                     //Chọn màn hình ghi hay thu
 
-//                    ViewDialog_GhiThu alert = new ViewDialog_GhiThu();
-//                    alert.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",1); //1: chuc nang ghi
+                    ViewDialog_GhiThu alert = new ViewDialog_GhiThu();
+                    alert.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ", 1); //1: chuc nang ghi
 
 
 
                     break;
 
                 case R.id.btn_dskh:
-                    Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
-                    myIntent = new Intent(StartActivity.this, ListActivity.class);
-                    startActivity(myIntent);
+//                    Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
+//                    myIntent = new Intent(StartActivity.this, ListActivity.class);
+//                    startActivity(myIntent);
 
                     //Chọn màn hình ghi hay thu
-//
-//                    ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
-//                    alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ",2); //2: chuc nang danh sach
+
+                    ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
+                    alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ", 2); //2: chuc nang danh sach
 
 
                     break;
@@ -415,7 +415,7 @@ public class StartActivity extends AppCompatActivity  {
                     lichsudao.addTable_History(ls);
                     spdata.luuDataNhanVienTrongSP("");
                     spdata.luuDataMatKhauNhanVienTrongSP("");
-                    spdata.luuThongTinNhanVien("", "", "");
+                    spdata.luuThongTinNhanVien("", "", "", "", "");
                     finish();
                     myIntent = new Intent(StartActivity.this, LoginActivity.class);
                     startActivity(myIntent);

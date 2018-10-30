@@ -138,7 +138,7 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                     liskhdao = khachhangDAO.getAllKHChuaThuTheoDuong(duong.getMaDuong());
                 }
                 else if(Bien.bientrangthaithu ==3 ){
-                    String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                    String thoigian1 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
                     liskhdao = khachhangDAO.getAllKHDaThuHomNay(duong.getMaDuong(),thoigian1);
                 }
                 else  if(Bien.bientrangthaithu == 4){

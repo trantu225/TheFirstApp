@@ -2686,12 +2686,8 @@ public class Backup_Activity extends AppCompatActivity  {
             int soluongcapnhat =  0;
                 if(radioDaghi.isChecked()) {
                     soluongcapnhat = khachangdao.countKhachHangCapNhatServer();
-                }
-
-                    else{
-                    soluongcapnhat=   khachangdao.countKhachHangDaGhiServer() ;
-
-
+                } else {
+                    soluongcapnhat = khachangdao.countKhachHangDaGhiServer();
                 }
                 if(soluongcapnhat > 0) {
 
@@ -2710,8 +2706,6 @@ public class Backup_Activity extends AppCompatActivity  {
                             jsondata = taoJSONData_KHDaGhiTatCa_CapNhatServer2(kyhd);
                         } else if (radioDaghi.isChecked()) {
                             jsondata = taoJSONData_KH_DaGhi_CapNhatServer2(kyhd);
-
-
                         }
                         if (jsondata != null) {
                             if (jsondata.getListTiwaread().size() > 0) {

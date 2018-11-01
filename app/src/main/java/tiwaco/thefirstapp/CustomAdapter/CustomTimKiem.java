@@ -172,198 +172,188 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
 
-///*
-                final AlertDialog alertDialog =  new AlertDialog.Builder(mContext).create();
+                if (spdata.getChucNangGhiThu().equals("THU")) {
+                    final AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
 
-                alertDialog.setTitle("Tìm kiếm");
+                    alertDialog.setTitle("Tìm kiếm");
 
-                alertDialog.setMessage("Chọn chức năng ghi/thu:");
+                    alertDialog.setMessage("Chọn chức năng ghi/thu:");
 
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ghi", new DialogInterface.OnClickListener() {
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ghi", new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int id) {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                        if(cus.getChiSo().equalsIgnoreCase("")){
-                            //chua ghi
-                            Log.e("Ma duong dang chon", Bien.ma_duong_dang_chon);
+                            if (cus.getChiSo().equalsIgnoreCase("")) {
+                                //chua ghi
+                                Log.e("Ma duong dang chon", Bien.ma_duong_dang_chon);
 
-                            new AlertDialog.Builder(mContext)
-                                    .setTitle(mContext.getString(R.string.tab_ghinuoc))
-                                    .setMessage(mContext.getString(R.string.list_chuyendulieu_hoighinuoc_khachhang) +" "+ cus.getTenKhachHang() + " "+ mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(mContext, MainActivity.class);
-                                            Bundle bundle = new Bundle();
-                                            // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
-                                            bundle.putString(Bien.MADUONG, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                            bundle.putString(Bien.STT,cus.getSTT() );
-                                            if(index_duong !=-1) { //tu tim kiem chuyen qua
-                                                bundle.putInt(Bien.VITRI, index_duong);
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle(mContext.getString(R.string.tab_ghinuoc))
+                                        .setMessage(mContext.getString(R.string.list_chuyendulieu_hoighinuoc_khachhang) + " " + cus.getTenKhachHang() + " " + mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(mContext, MainActivity.class);
+                                                Bundle bundle = new Bundle();
+                                                // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                                bundle.putString(Bien.MADUONG, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                bundle.putString(Bien.STT, cus.getSTT());
+                                                if (index_duong != -1) { //tu tim kiem chuyen qua
+                                                    bundle.putInt(Bien.VITRI, index_duong);
+                                                } else {
+                                                    int vitri = duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                    bundle.putInt(Bien.VITRI, vitri);
+                                                }
+                                                intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                                if (!Bien.bienManHinhChuyenTimKiem.equals("start")) {
+                                                    ((Activity) mContext).finish();
+                                                }
+                                                mContext.startActivity(intent);
+
+
                                             }
-                                            else{
-                                                int vitri=  duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                                bundle.putInt(Bien.VITRI, vitri);
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
                                             }
-                                            intent.putExtra(Bien.GOITIN_MADUONG, bundle);
-                                            if( !Bien.bienManHinhChuyenTimKiem.equals("start") ) {
-                                                ((Activity) mContext).finish();
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_info)
+                                        .setCancelable(false)
+                                        .show();
+
+
+                            } else { // da ghi
+                                Log.e("Ma duong dang chon", Bien.ma_duong_dang_chon);
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle(mContext.getString(R.string.tab_ghinuoc))
+                                        .setMessage(mContext.getString(R.string.list_chuyendulieu_hoighinuoc_capnhatkhachhang) + " " + cus.getTenKhachHang() + " " + mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(mContext, MainActivity.class);
+                                                Bundle bundle = new Bundle();
+                                                // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
+                                                bundle.putString(Bien.MADUONG, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                bundle.putString(Bien.STT, cus.getSTT());
+                                                if (index_duong != -1) {
+                                                    bundle.putInt(Bien.VITRI, index_duong);
+                                                } else {
+                                                    int vitri = duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                    bundle.putInt(Bien.VITRI, vitri);
+                                                }
+                                                intent.putExtra(Bien.GOITIN_MADUONG, bundle);
+                                                if (!Bien.bienManHinhChuyenTimKiem.equals("start")) {
+                                                    ((Activity) mContext).finish();
+                                                }
+                                                mContext.startActivity(intent);
+
                                             }
-                                            mContext.startActivity(intent);
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_info)
+                                        .setCancelable(false)
+                                        .show();
 
 
-
-                                        }
-                                    })
-                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // do nothing
-                                        }
-                                    })
-                                    .setIcon(android.R.drawable.ic_dialog_info)
-                                    .setCancelable(false)
-                                    .show();
-
-
+                            }
 
                         }
-                        else{ // da ghi
-                            Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon);
-                            new AlertDialog.Builder(mContext)
-                                    .setTitle(mContext.getString(R.string.tab_ghinuoc))
-                                    .setMessage(mContext.getString(R.string.list_chuyendulieu_hoighinuoc_capnhatkhachhang) +" "+ cus.getTenKhachHang() + " "+ mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(mContext, MainActivity.class);
-                                            Bundle bundle = new Bundle();
-                                            // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
-                                            bundle.putString(Bien.MADUONG, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                            bundle.putString(Bien.STT,cus.getSTT());
-                                            if(index_duong !=-1) {
-                                                bundle.putInt(Bien.VITRI, index_duong);
-                                            }
-                                            else{
-                                                int vitri=  duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                                bundle.putInt(Bien.VITRI, vitri);
-                                            }
-                                            intent.putExtra(Bien.GOITIN_MADUONG, bundle);
-                                            if( !Bien.bienManHinhChuyenTimKiem.equals("start") ) {
-                                                ((Activity) mContext).finish();
-                                            }
-                                            mContext.startActivity(intent);
+                    });
 
-                                        }
-                                    })
-                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // do nothing
-                                        }
-                                    })
-                                    .setIcon(android.R.drawable.ic_dialog_info)
-                                    .setCancelable(false)
-                                    .show();
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Thu", new DialogInterface.OnClickListener() {
 
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            if (cus.getNgaythanhtoan().equalsIgnoreCase("")) {
+                                //chua thu
+                                Log.e("Ma duong dang chon", Bien.ma_duong_dang_chon_thu);
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle(mContext.getString(R.string.tab_thunuoc))
+                                        .setMessage(mContext.getString(R.string.list_chuyendulieu_hoithunuoc_khachhang) + " " + cus.getTenKhachHang() + " " + mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(mContext, MainThuActivity.class);
+                                                Bundle bundle = new Bundle();
+                                                // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon_thu);
+                                                bundle.putString(Bien.MADUONGTHU, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                bundle.putString(Bien.STTTHU, cus.getSTT());
+                                                if (index_duong != -1) { //tu tim kiem chuyen qua
+                                                    bundle.putInt(Bien.VITRITHU, index_duong);
+                                                } else {
+                                                    int vitri = duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                    bundle.putInt(Bien.VITRITHU, vitri);
+                                                }
+                                                bundle.putString(Bien.MAKHTHU, cus.getMaKhachHang());
+                                                intent.putExtra(Bien.GOITIN_MADUONGTHU, bundle);
+                                                mContext.startActivity(intent);
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_info)
+                                        .setCancelable(false)
+                                        .show();
+
+                            } else { // da thu
+                                Log.e("Ma duong dang chon", Bien.ma_duong_dang_chon_thu);
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle(mContext.getString(R.string.tab_thunuoc))
+                                        .setMessage(mContext.getString(R.string.list_chuyendulieu_hoithunuoc_capnhatkhachhang) + " " + cus.getTenKhachHang() + " " + mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(mContext, MainThuActivity.class);
+                                                Bundle bundle = new Bundle();
+                                                // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon_thu);
+                                                bundle.putString(Bien.MADUONGTHU, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                bundle.putString(Bien.STTTHU, cus.getSTT());
+                                                if (index_duong != -1) {
+                                                    bundle.putInt(Bien.VITRITHU, index_duong);
+                                                } else {
+                                                    int vitri = duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                                    bundle.putInt(Bien.VITRITHU, vitri);
+                                                }
+
+                                                bundle.putString(Bien.MAKHTHU, cus.getMaKhachHang());
+
+                                                intent.putExtra(Bien.GOITIN_MADUONGTHU, bundle);
+                                                mContext.startActivity(intent);
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_info)
+                                        .setCancelable(false)
+                                        .show();
+
+
+                            }
 
                         }
+                    });
 
-                    } });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Thoát", new DialogInterface.OnClickListener() {
 
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Thu", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        if(cus.getNgaythanhtoan().equalsIgnoreCase("")){
-                            //chua thu
-                            Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon_thu);
-                            new AlertDialog.Builder(mContext)
-                                    .setTitle(mContext.getString(R.string.tab_thunuoc))
-                                    .setMessage(mContext.getString(R.string.list_chuyendulieu_hoithunuoc_khachhang) +" "+ cus.getTenKhachHang() + " "+ mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(mContext, MainThuActivity.class);
-                                            Bundle bundle = new Bundle();
-                                            // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon_thu);
-                                            bundle.putString(Bien.MADUONGTHU, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                            bundle.putString(Bien.STTTHU,cus.getSTT() );
-                                            if(index_duong !=-1) { //tu tim kiem chuyen qua
-                                                bundle.putInt(Bien.VITRITHU, index_duong);
-                                            }
-                                            else{
-                                                int vitri=  duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                                bundle.putInt(Bien.VITRITHU, vitri);
-                                            }
-                                            bundle.putString(Bien.MAKHTHU,cus.getMaKhachHang());
-                                            intent.putExtra(Bien.GOITIN_MADUONGTHU, bundle);
-                                            mContext.startActivity(intent);
-                                        }
-                                    })
-                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // do nothing
-                                        }
-                                    })
-                                    .setIcon(android.R.drawable.ic_dialog_info)
-                                    .setCancelable(false)
-                                    .show();
+                            alertDialog.dismiss();
 
                         }
-                        else{ // da thu
-                            Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon_thu);
-                            new AlertDialog.Builder(mContext)
-                                    .setTitle(mContext.getString(R.string.tab_thunuoc))
-                                    .setMessage(mContext.getString(R.string.list_chuyendulieu_hoithunuoc_capnhatkhachhang) +" "+ cus.getTenKhachHang() + " "+ mContext.getString(R.string.list_chuyendulieu_hoighinuoc2))
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(mContext, MainThuActivity.class);
-                                            Bundle bundle = new Bundle();
-                                            // bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon_thu);
-                                            bundle.putString(Bien.MADUONGTHU, khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                            bundle.putString(Bien.STTTHU,cus.getSTT());
-                                            if(index_duong !=-1) {
-                                                bundle.putInt(Bien.VITRITHU, index_duong);
-                                            }
-                                            else{
-                                                int vitri=  duongdao.getindexDuong(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
-                                                bundle.putInt(Bien.VITRITHU, vitri);
-                                            }
-
-                                            bundle.putString(Bien.MAKHTHU,cus.getMaKhachHang());
-
-                                            intent.putExtra(Bien.GOITIN_MADUONGTHU, bundle);
-                                            mContext.startActivity(intent);
-                                        }
-                                    })
-                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // do nothing
-                                        }
-                                    })
-                                    .setIcon(android.R.drawable.ic_dialog_info)
-                                    .setCancelable(false)
-                                    .show();
+                    });
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_info);
+                    alertDialog.setCancelable(false);
+                    alertDialog.show();
 
 
-                        }
-
-                    }});
-
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Thoát", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        alertDialog.dismiss();
-
-                    }});
-                alertDialog.setIcon(android.R.drawable.ic_dialog_info);
-                alertDialog.setCancelable(false);
-                alertDialog.show();
-
-
-
-
-
-
-
-                /*
+                } else {
 
                 if(cus.getChiSo().equalsIgnoreCase("")){
                     //chua ghi
@@ -446,7 +436,8 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
 
 
                 }
-*/
+
+                }
 
             }
         });

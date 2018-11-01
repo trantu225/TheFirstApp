@@ -116,9 +116,9 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                 }
 
                 DuongDTO duong = listDuong.get(position);
-                Bien.ma_duong_dang_chon = duong.getMaDuong();
+                Bien.ma_duong_dang_chon_thu = duong.getMaDuong();
                 //   Bien.bien_index_duong = pos;
-                Log.e("Ma duong dang chon",Bien.ma_duong_dang_chon);
+                Log.e("Ma duong dang chon thu", Bien.ma_duong_dang_chon_thu);
                 tvmaduong.setText(duong.getMaDuong());
                 title =   "";
                 List<KhachHangDTO> liskhdao = new ArrayList<KhachHangDTO>();

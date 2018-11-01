@@ -153,6 +153,14 @@ public class ViewDialog_GhiThu {
         });
 
         Button dialogButton_thu = (Button) dialog.findViewById(R.id.btn_dialog_thu);
+
+        if (spdata.getChucNangGhiThu().equals("GHI")) {
+            dialogButton_thu.setEnabled(false);
+        } else {
+            dialogButton_thu.setEnabled(true);
+        }
+
+
         dialogButton_thu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

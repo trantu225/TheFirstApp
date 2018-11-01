@@ -275,8 +275,8 @@ public class MainThuActivity extends AppCompatActivity  {
             tongsoKHTheoDuong = String.valueOf(khachhangDAO.countKhachHangTheoDuong(maduong_nhan)) ;
             stt_nhan =  packageFromCaller.getString(Bien.STTTHU);
             vitri_nhan =  packageFromCaller.getInt(Bien.VITRITHU);
-
             makh_nhan = packageFromCaller.getString(Bien.MAKHTHU);
+            Log.e("MAINTHUACTIVITY_vitriduong", String.valueOf(maduong_nhan));
             if(makh_nhan == null){
                 makh_nhan ="";
             }
@@ -292,8 +292,8 @@ public class MainThuActivity extends AppCompatActivity  {
           //  Log.e("Bien index duong", String.valueOf(Bien.bien_index_duong));
             if(vitri_nhan !=-1) {
                 spdata.luuDataIndexDuongDangThuTrongSP(vitri_nhan);
-                Log.e("MAINACTIVITY_vitriduong", String.valueOf(vitri_nhan));
-                Bien.selected_item = spdata.getDataIndexDuongDangThuTrongSP();
+                Log.e("MAINTHUACTIVITY_vitriduong", String.valueOf(vitri_nhan));
+                Bien.selected_item_thu = spdata.getDataIndexDuongDangThuTrongSP();
 
             }
             Toast.makeText(this, maduong_nhan, Toast.LENGTH_SHORT).show();
@@ -1255,28 +1255,88 @@ public class MainThuActivity extends AppCompatActivity  {
     }
 
     protected void connect(int loai) {
+
         if(btsocket == null){
             Intent BTIntent = new Intent(getApplicationContext(), BTDeviceList.class);
             this.startActivityForResult(BTIntent, BTDeviceList.REQUEST_CONNECT_BT);
         }
         else{
 
-            OutputStream opstream = null;
+
             try {
-                opstream = btsocket.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            btoutputstream = opstream;
-            if (btoutputstream != null) {
-                if (rad_ingiaybao.isChecked()) {
-                    print_bt();
-                } else if (rad_inhd.isChecked()) {
-                    print_bt_hoadon(loai);
+                Bien.socketTest = btsocket;
+                if (Bien.socketTest != null) {
+                    boolean ktra = true;
+                    try {
+                        Bien.socketTest.connect();
+                    } catch (Exception a) {
+                        ktra = false;
+                        try {
+                            Bien.socketTest.close();
+                            Bien.socketTest = null;
+                        } catch (IOException e) {
+
+                        }
+
+                    }
+                    if (ktra) {
+                        Bien.socketTest.close();
+                        Bien.socketTest = null;
+                        OutputStream opstream = null;
+                        try {
+                            opstream = btsocket.getOutputStream();
+                            Log.e("getOutputStream", String.valueOf(btsocket.getOutputStream() == null));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        btoutputstream = opstream;
+                        if (btoutputstream != null) {
+                            if (rad_ingiaybao.isChecked()) {
+                                print_bt();
+                            } else if (rad_inhd.isChecked()) {
+                                print_bt_hoadon(loai);
+                            }
+                        } else {
+                            connect(loai);
+                        }
+
+                    }
                 }
-            } else {
-                connect(loai);
-            }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Đóng kết nối...", Toast.LENGTH_LONG).show();
+                try {
+                    if (btsocket != null) {
+                        btoutputstream.close();
+                        btsocket.close();
+                        btsocket = null;
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
+                        // khởi tạo dialog
+
+                        alertDialogBuilder.setMessage("Kết nối với máy in thất bại.Hãy kiểm tra lại máy in đã mở chưa.");
+
+                        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //  new UpdateThongTinThuNuoc().execute(urlstr);
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                        // hiển thị dialog
+                    }
+                } catch (Exception ez) {
+                    ez.printStackTrace();
+                }
+                }
+
 
         }
 
@@ -2033,15 +2093,15 @@ public class MainThuActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try {
-            if(btsocket!= null){
-                btoutputstream.close();
-                btsocket.close();
-                btsocket = null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if(btsocket!= null){
+//                btoutputstream.close();
+//                btsocket.close();
+//                btsocket = null;
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -2049,6 +2109,7 @@ public class MainThuActivity extends AppCompatActivity  {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             btsocket = BTDeviceList.getSocket();
+
             if(btsocket != null){
                 if(rad_ingiaybao.isChecked()) {
                     print_bt();
@@ -3219,7 +3280,7 @@ public boolean KiemTraDaThu(String maKH){
                 } else {
                     manvmoi = manvthu;
                 }
-                transactionID = thanhtoandao.taoTransactionID(manvmoi);
+                transactionID = thanhtoandao.taoTransactionID(manvmoi, MaKH.getText().toString().trim());
                 final URL url = new URL(connUrl[0]);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);

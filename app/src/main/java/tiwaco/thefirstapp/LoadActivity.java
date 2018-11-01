@@ -677,6 +677,7 @@ public class LoadActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         spdata.luuDataTuDongLuuTapTin(1);
+                        spdata.luuChucNangGhiThu("GHI");
                         Intent myIntent = new Intent(LoadActivity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadActivity.this.finish();

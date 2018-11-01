@@ -71,6 +71,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
     LinearLayout layout_noidungload;
     Button btngetData, btnthoat;
     EditText editKyHD, edtNV, edtnhanvientai, edtmatkhau;
+    TextView lb_nvtai, lb_mktai;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
 
@@ -102,8 +103,17 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
         editKyHD = (EditText) findViewById(R.id.edt_kyhd);
         edtNV = (EditText) findViewById(R.id.edt_nhanvien);
+
+        lb_nvtai = (TextView) findViewById(R.id.lb_nhanvientai);
+        lb_mktai = (TextView) findViewById(R.id.lb_matkhau);
         edtnhanvientai = (EditText) findViewById(R.id.edt_nhanvientai);
         edtmatkhau = (EditText) findViewById(R.id.edt_matkhau);
+        lb_nvtai.setVisibility(View.VISIBLE);
+        lb_mktai.setVisibility(View.VISIBLE);
+        edtnhanvientai.setVisibility(View.VISIBLE);
+        edtmatkhau.setVisibility(View.VISIBLE);
+
+
         prgTime.setProgress(0);
         prgTime.setText("0 %");
         if (spdata.getDataNhanVienTrongSP().trim().equals("admin")) {
@@ -1065,6 +1075,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         spdata.luuDataTuDongLuuTapTin(1);
+                        spdata.luuChucNangGhiThu("THU");
                         Intent myIntent = new Intent(LoadFromServerThuActivity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadFromServerThuActivity.this.finish();

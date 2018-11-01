@@ -1747,6 +1747,19 @@ public class MainActivity extends AppCompatActivity  {
         }
         DienThoai.setText(khachhang.getDienThoai().trim());
         //set background cho tới và lùi
+
+        if (spdata.getChucNangGhiThu().equals("THU")) {
+            lay_ghi.setEnabled(false);
+            Ghi.setEnabled(false);
+        } else {
+            lay_ghi.setEnabled(true);
+            Ghi.setEnabled(true);
+        }
+
+
+
+
+
         if(tt.equals("1")){
             lay_lui.setBackgroundResource(R.color.space_background_color);
             lay_toi.setBackgroundResource(R.drawable.backdround_vungngoai_ghi);

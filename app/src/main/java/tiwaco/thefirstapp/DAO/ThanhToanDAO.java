@@ -655,9 +655,9 @@ public class ThanhToanDAO {
     }
 
 
-    public String taoTransactionID(String manv) {
-        String thoigian1 = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-        return "TWC" + manv + thoigian1;
+    public String taoTransactionID(String manv, String makh) {
+        String thoigian1 = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
+        return "TWC" + manv + thoigian1 + makh;
     }
 
 

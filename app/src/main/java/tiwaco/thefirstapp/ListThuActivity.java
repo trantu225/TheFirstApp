@@ -103,14 +103,14 @@ public class ListThuActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
-        String SPduongdangghi  = spdata.getDataDuongDangThuTrongSP();
+        String SPduongdangthu = spdata.getDataDuongDangThuTrongSP();
 
-        if(!SPduongdangghi.equals("")){
-            Bien.ma_duong_dang_chon_thu = SPduongdangghi.trim();
+        if (!SPduongdangthu.equals("")) {
+            Bien.ma_duong_dang_chon_thu = SPduongdangthu.trim();
         }else {
             Bien.ma_duong_dang_chon_thu = listduong.get(spdata.getDataIndexDuongDangThuTrongSP()).getMaDuong().trim();
         }
-
+        Log.e("ma duong dang chon thu", Bien.ma_duong_dang_chon_thu);
 
         txt_title_dskh.setText("Danh sách thu");
         liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon_thu.trim());
@@ -126,7 +126,7 @@ public class ListThuActivity extends AppCompatActivity {
         listviewKH.setSelection( Bien.bien_index_khachhang_thu);
 
 
-        Log.e("select duong---listactivity", String.valueOf(Bien.selected_item));
+        Log.e("select duong---listactivity", String.valueOf(Bien.selected_item_thu));
         //   setview();
         loadDataDuong();
 
@@ -194,12 +194,13 @@ public class ListThuActivity extends AppCompatActivity {
                 }
                 final int finalVitriduong = vitriduong;
                 new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.tab_ghinuoc))
-                        .setMessage(getString(R.string.list_chuyendulieu_hoighinuoc1) +" "+ Bien.ma_duong_dang_chon_thu + " "+ getString(R.string.list_chuyendulieu_hoighinuoc2))
+                        .setTitle(getString(R.string.tab_thunuoc))
+                        .setMessage("Bạn có muốn thu tiền nước đường " + Bien.ma_duong_dang_chon_thu + " " + getString(R.string.list_chuyendulieu_hoighinuoc2))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(ListThuActivity.this, MainActivity.class);
+                                Intent intent = new Intent(ListThuActivity.this, MainThuActivity.class);
                                 Bundle bundle = new Bundle();
+                                bundle.putString(Bien.STTTHU, khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
                                 bundle.putString(Bien.MADUONGTHU, Bien.ma_duong_dang_chon_thu);
                                 bundle.putInt(Bien.VITRITHU,finalVitriduong);
                                 bundle.putString(Bien.MAKHTHU,"");
@@ -207,7 +208,7 @@ public class ListThuActivity extends AppCompatActivity {
                                 intent.putExtra(Bien.GOITIN_MADUONGTHU, bundle);
                                 //Log.e("gui bundle maduong", Bien.ma_duong_dang_chon_thu);
                                 // Log.e("gui bundle sott",khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon_thu));
-                                bundle.putString(Bien.STT,khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+
                                 startActivity(intent);
                             }
                         })
@@ -346,7 +347,7 @@ public class ListThuActivity extends AppCompatActivity {
         listviewKH.setSelection( Bien.bien_index_khachhang);
 
 
-        Log.e("select duong---listactivity", String.valueOf(Bien.selected_item));
+        Log.e("select duong---listactivity", String.valueOf(Bien.selected_item_thu));
     }
 
     private void loadDataDuong(){

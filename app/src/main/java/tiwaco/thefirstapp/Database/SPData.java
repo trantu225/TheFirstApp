@@ -369,5 +369,18 @@ public class SPData  {
         return flagghi;
     }
 
+    public void luuChucNangGhiThu(String ghithu) { //GHI, THU
 
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putString(Bien.SPCNGHITHU, ghithu);
+        editor.commit();
+    }
+
+    public String getChucNangGhiThu() {
+
+
+        String kyhd = pre.getString(Bien.SPCNGHITHU, "");
+        return kyhd;
+    }
 }

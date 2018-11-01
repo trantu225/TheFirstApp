@@ -5,12 +5,14 @@ import java.util.UUID;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,6 +93,27 @@ public class BTDeviceList extends ListActivity {
         }
 
     }
+
+    @Override
+    protected void onResume() {
+        // Register for broadcasts when a device is discovered and discovery has finished
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(mBTReceiver, filter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        // Make sure we're not doing discovery anymore
+        if (mBluetoothAdapter != null && mBluetoothAdapter.isDiscovering()) {
+            mBluetoothAdapter.cancelDiscovery();
+        }
+        // Unregister broadcast listeners
+        this.unregisterReceiver(mBTReceiver);
+        super.onStop();
+    }
     private int initDevicesList() {
 
         flushData();
@@ -106,8 +129,8 @@ public class BTDeviceList extends ListActivity {
             mBluetoothAdapter.cancelDiscovery();
         }
 
-        mArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1);
+        mArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listbluetooth_item);
+        //   android.R.layout.simple_list_item_1);
 
         setListAdapter(mArrayAdapter);
 
@@ -162,6 +185,16 @@ public class BTDeviceList extends ListActivity {
 
     }
 
+    public static boolean isBluetoothHeadsetConnected() {
+
+        Log.e("mBluetoothAdapter", String.valueOf(mBluetoothAdapter != null));
+        Log.e("mBluetoothAdapter.isEnabled()", String.valueOf(mBluetoothAdapter.isEnabled()));
+        Log.e("mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET)", String.valueOf(mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED));
+        Log.e("BluetoothHeadset.HEADSET", String.valueOf(BluetoothHeadset.HEADSET));
+
+        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
+                && mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED;
+    }
     private final BroadcastReceiver mBTReceiver = new BroadcastReceiver() {
 
         @Override
@@ -186,9 +219,17 @@ public class BTDeviceList extends ListActivity {
                 } catch (Exception ex) {
 // ex.fillInStackTrace();
                 }
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                if (mArrayAdapter.getCount() == 0) {
+                    String noDevices = "Không tìm thấy thiết bị nào";
+                    mArrayAdapter.add(noDevices);
+
+                }
+
             }
         }
     };
+
 
     @Override
     protected void onListItemClick(ListView l, View v, final int position,
@@ -221,7 +262,9 @@ public class BTDeviceList extends ListActivity {
                     mbtSocket = btDevices.getItem(position)
                             .createRfcommSocketToServiceRecord(uuid);
 
+                    //Bien.socketTest = mbtSocket;
                     mbtSocket.connect();
+
                 } catch (IOException ex) {
                     runOnUiThread(socketErrorRunnable);
                     try {

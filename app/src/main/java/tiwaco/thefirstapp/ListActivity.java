@@ -200,11 +200,12 @@ public class ListActivity extends AppCompatActivity {
                                 bundle.putString(Bien.MADUONG, Bien.ma_duong_dang_chon);
                                 bundle.putInt(Bien.VITRI,finalVitriduong);
                                 bundle.putString(Bien.MAKH,"");
+                                bundle.putString(Bien.STT, khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
                                 //Log.e("LISTACTIVITY_vitriduongghi", String.valueOf(finalVitriduong));
                                 intent.putExtra(Bien.GOITIN_MADUONG, bundle);
                                 //Log.e("gui bundle maduong", Bien.ma_duong_dang_chon);
                                // Log.e("gui bundle sott",khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
-                                bundle.putString(Bien.STT,khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon));
+
                                 startActivity(intent);
                             }
                         })

@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -67,7 +68,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
     DonutProgress prgTime;
     LinearLayout layout_noidungload;
     Button btngetData, btnthoat;
-    EditText editKyHD,edtNV;
+
+    EditText editKyHD, edtNV, edtnhanvientai, edtmatkhau;
+    TextView lb_nvtai, lb_mktai;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
 
@@ -96,6 +99,18 @@ public class LoadFromServerActivity extends AppCompatActivity {
 
         editKyHD = (EditText) findViewById(R.id.edt_kyhd) ;
         edtNV = (EditText) findViewById(R.id.edt_nhanvien) ;
+
+        lb_nvtai = (TextView) findViewById(R.id.lb_nhanvientai);
+        lb_mktai = (TextView) findViewById(R.id.lb_matkhau);
+        edtnhanvientai = (EditText) findViewById(R.id.edt_nhanvientai);
+        edtmatkhau = (EditText) findViewById(R.id.edt_matkhau);
+        lb_nvtai.setVisibility(View.GONE);
+        lb_mktai.setVisibility(View.GONE);
+        edtnhanvientai.setVisibility(View.GONE);
+        edtmatkhau.setVisibility(View.GONE);
+
+
+
         prgTime.setProgress(0);
         prgTime.setText("0 %");
         if(spdata.getDataNhanVienTrongSP().trim().equals("admin"))
@@ -799,6 +814,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         spdata.luuDataTuDongLuuTapTin(1);
+                        spdata.luuChucNangGhiThu("GHI");
                         Intent myIntent=new Intent(LoadFromServerActivity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadFromServerActivity.this.finish();

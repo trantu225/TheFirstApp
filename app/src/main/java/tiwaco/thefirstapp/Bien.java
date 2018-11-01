@@ -1,5 +1,6 @@
 package tiwaco.thefirstapp;
 
+import android.bluetooth.BluetoothSocket;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -65,8 +66,8 @@ public class Bien {
     public static final String SPCAPNHATSERVERTHU= "spcapnhatserverthu";
     public static final String SPCHISOLUUTUDONG = "spchisoluutudong";
     public static final String SPTAPTINLUUTUDONG = "sptaptinluutudong";
-
-
+    public static BluetoothSocket socketTest = null;
+    public static final String SPCNGHITHU = "spcnghithu";
     public static final String SPONOFFLUU = "sponoffluu";
     public static final String SPKYHD = "spkyhd";
     public static final String SPBKCG = "spbackupchuaghi";

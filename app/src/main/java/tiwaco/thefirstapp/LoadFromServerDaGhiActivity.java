@@ -468,6 +468,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                             String DiaChi = "";
                                             String DienThoai = "";
                                             String GhiChu = "";
+                                            String ghichuthu = "";
                                             String Lat = "";
                                             String Lon = "";
                                             String MaKhachHang = "";
@@ -510,6 +511,10 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
 
                                             if(objKH.has("ChiSo")){
                                                 ChiSo = objKH.getString("ChiSo").toString().trim();
+                                            }
+
+                                            if (objKH.has("ghichuthu")) {
+                                                ghichuthu = objKH.getString("ghichuthu").toString().trim();
                                             }
 
                                             if (objKH.has("ChiSo1")) {
@@ -714,7 +719,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                             kh.setChiSo2con(ChiSo2con);
                                             kh.setChiSo3(ChiSo3);
                                             kh.setChiSo3con(ChiSo3con);
-
+                                            kh.setGhichuthu(ghichuthu);
                                             kh.setSLTieuThu(SLTieuThu);
                                             kh.setSLTieuThu1(SLTieuThu1);
                                             kh.setSLTieuThu1con(SLTieuThu1con);
@@ -748,7 +753,12 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
 
 
                                             Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang, maduong));
-                                            boolean kt = khachhangDAO.addTable_KH(kh, maduong, capnhatghi);
+                                            boolean kt = false;
+                                            try {
+                                                kt = khachhangDAO.addTable_KH(kh, maduong, capnhatghi);
+                                            } catch (Exception x) {
+                                                Log.e("loi", x.toString());
+                                            }
                                             //SUABUG
                                             //boolean kt = khachhangDAO.updateTable_KH(kh);
                                             if (kt) {

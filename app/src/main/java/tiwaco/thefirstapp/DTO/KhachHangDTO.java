@@ -56,9 +56,18 @@ public class KhachHangDTO {
     String tien3;
     String tien4;
     String ngaythanhtoan;
+    String ghichuthu;
 
 
     String nhanvienthu;
+
+    public String getGhichuthu() {
+        return ghichuthu;
+    }
+
+    public void setGhichuthu(String ghichuthu) {
+        this.ghichuthu = ghichuthu;
+    }
 
     public String getNhanvienthu() {
         return nhanvienthu;

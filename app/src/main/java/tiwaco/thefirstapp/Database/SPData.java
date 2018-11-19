@@ -205,10 +205,13 @@ public class SPData  {
         String idnhanvien = getDataIDNhanVien();
         String huyen = getDataHuyen();
         String dthuyen = getDataDienThoaiHuyen();
+        String trangthaighithu = getChucNangGhiThu();
+
         editor.clear();
         editor.commit();
         luuDataNhanVienTrongSP(nv);
         luuDataMatKhauNhanVienTrongSP(pass);
+        luuChucNangGhiThu(trangthaighithu);
         luuThongTinNhanVien(idnhanvien, hoten, dienthoai, huyen, dthuyen);
     }
 
@@ -380,7 +383,7 @@ public class SPData  {
     public String getChucNangGhiThu() {
 
 
-        String kyhd = pre.getString(Bien.SPCNGHITHU, "");
+        String kyhd = pre.getString(Bien.SPCNGHITHU, "GHI");
         return kyhd;
     }
 }

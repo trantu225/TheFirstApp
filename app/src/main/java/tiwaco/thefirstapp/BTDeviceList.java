@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +31,12 @@ public class BTDeviceList extends ListActivity {
     static private ArrayAdapter<String> mArrayAdapter = null;
 
     static private ArrayAdapter<BluetoothDevice> btDevices = null;
+    ActionBar bar;
 
-    private static final UUID SPP_UUID = UUID
-            .fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
-// UUID.fromString(“00001101-0000-1000-8000-00805F9B34FB”);
+    private static final UUID SPP_UUID = UUID.fromString("0001101-0000-1000-8000-00805F9B34FB");
+//            UUID
+//            .fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
+
 
     static private BluetoothSocket mbtSocket = null;
 
@@ -41,7 +44,6 @@ public class BTDeviceList extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle("Bluetooth Devices");
 
         try {
             if (initDevicesList() != 0) {
@@ -56,6 +58,10 @@ public class BTDeviceList extends ListActivity {
 
         IntentFilter btIntentFilter = new IntentFilter(
                 BluetoothDevice.ACTION_FOUND);
+        btIntentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        btIntentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        btIntentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+
         registerReceiver(mBTReceiver, btIntentFilter);
     }
 
@@ -94,25 +100,34 @@ public class BTDeviceList extends ListActivity {
 
     }
 
+
     @Override
     protected void onResume() {
+        super.onResume();
+        //Có vao trong này
+        Log.e("KIEM tra ket noi", "co");
+
         // Register for broadcasts when a device is discovered and discovery has finished
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+
+
         registerReceiver(mBTReceiver, filter);
-        super.onResume();
+
     }
 
     @Override
     protected void onStop() {
-        // Make sure we're not doing discovery anymore
-        if (mBluetoothAdapter != null && mBluetoothAdapter.isDiscovering()) {
-            mBluetoothAdapter.cancelDiscovery();
-        }
-        // Unregister broadcast listeners
-        this.unregisterReceiver(mBTReceiver);
         super.onStop();
+        try {
+            unregisterReceiver(mBTReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private int initDevicesList() {
 
@@ -165,9 +180,8 @@ public class BTDeviceList extends ListActivity {
 
                             for (BluetoothDevice device : btDeviceList) {
                                 if (btDeviceList.contains(device) == false) {
-
+                                    Log.e(" btDevices.add(device)", "add onActivityResult " + device.getName());
                                     btDevices.add(device);
-
                                     mArrayAdapter.add(device.getName() + "\n"
                                             + device.getAddress());
                                     mArrayAdapter.notifyDataSetInvalidated();
@@ -185,26 +199,40 @@ public class BTDeviceList extends ListActivity {
 
     }
 
-    public static boolean isBluetoothHeadsetConnected() {
 
-        Log.e("mBluetoothAdapter", String.valueOf(mBluetoothAdapter != null));
-        Log.e("mBluetoothAdapter.isEnabled()", String.valueOf(mBluetoothAdapter.isEnabled()));
-        Log.e("mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET)", String.valueOf(mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED));
-        Log.e("BluetoothHeadset.HEADSET", String.valueOf(BluetoothHeadset.HEADSET));
 
-        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
-                && mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED;
-    }
     private final BroadcastReceiver mBTReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+
+            
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent
                         .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
                 try {
+//                    if (btDevices == null) {
+//                        btDevices = new ArrayAdapter<BluetoothDevice>(
+//                                getApplicationContext(), android.R.id.text1);
+//                    }
+//
+//                    if (btDevices.getPosition(device) < 0) {
+//
+//                        if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+//                            btDevices.add(device);
+//                            mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+//                            Log.e(" btDevices.add(device)", "add broahcast" + device.getName() );
+//                            mArrayAdapter.notifyDataSetInvalidated();
+//                        }
+//
+//
+//                        btDevices.add(device);
+//                        mArrayAdapter.add(device.getName() + "\n"
+//                                + device.getAddress() + "\n" );
+//                        mArrayAdapter.notifyDataSetChanged();
+//                        Log.e(" btDevices.add(device)", "add broahcast" + device.getName());
                     if (btDevices == null) {
                         btDevices = new ArrayAdapter<BluetoothDevice>(
                                 getApplicationContext(), android.R.id.text1);
@@ -216,16 +244,35 @@ public class BTDeviceList extends ListActivity {
                                 + device.getAddress() + "\n" );
                         mArrayAdapter.notifyDataSetInvalidated();
                     }
+
                 } catch (Exception ex) {
 // ex.fillInStackTrace();
                 }
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                if (mArrayAdapter.getCount() == 0) {
-                    String noDevices = "Không tìm thấy thiết bị nào";
-                    mArrayAdapter.add(noDevices);
+            }
+
+
+            if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                if (mbtSocket != null) {
+                    try {
+                        mbtSocket.getOutputStream().close();
+                        mbtSocket.close();
+                        mbtSocket = null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
+            } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                if (mbtSocket != null) {
+                    try {
+                        mbtSocket.getOutputStream().close();
+                        mbtSocket.close();
+                        mbtSocket = null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     };
@@ -255,10 +302,24 @@ public class BTDeviceList extends ListActivity {
             @Override
             public void run() {
                 try {
+//                    if (!btDevices.isEmpty()) {
+//                        BluetoothDevice device = btDevices.remove(position);
+//                        boolean result = device.fetchUuidsWithSdp();
+//                    }
+
+                    Log.e("vitri", String.valueOf(position));
                     boolean gotuuid = btDevices.getItem(position)
                             .fetchUuidsWithSdp();
-                    UUID uuid = btDevices.getItem(position).getUuids()[0]
-                            .getUuid();
+                    UUID uuid = null;
+                    try {
+                        uuid = btDevices.getItem(position).getUuids()[0]
+                                .getUuid();
+                    } catch (Exception e) {
+                        uuid = SPP_UUID;
+                    }
+
+
+                    //                   Log.e("uuid device",uuid.toString() );
                     mbtSocket = btDevices.getItem(position)
                             .createRfcommSocketToServiceRecord(uuid);
 
@@ -268,7 +329,9 @@ public class BTDeviceList extends ListActivity {
                 } catch (IOException ex) {
                     runOnUiThread(socketErrorRunnable);
                     try {
-                        mbtSocket.close();
+                        if (mbtSocket != null) {
+                            mbtSocket.close();
+                        }
                     } catch (IOException e) {
 // e.printStackTrace();
                     }
@@ -300,6 +363,7 @@ public class BTDeviceList extends ListActivity {
 
         }
     };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

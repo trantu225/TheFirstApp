@@ -131,13 +131,13 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
         final TextView tvHeader = (TextView) convertView.findViewById(R.id.tv_kyhd);
         final TextView tvthongbao = (TextView) convertView.findViewById(R.id.tv_thongbao);
         //final Button btnthanhtoan = (Button) convertView.findViewById(R.id.btn_thanhtoan);
-        // tvthongbao.setVisibility(View.GONE);
+        tvthongbao.setVisibility(View.GONE);
         String kihd = "";
         if (!mHeaderGroup.get(groupPosition).toString().equals("")) {
             String nam = mHeaderGroup.get(groupPosition).toString().substring(0, 4);
             String thang = mHeaderGroup.get(groupPosition).toString().substring(4);
             String strkyhd = thang + "/" + nam;
-            kihd = "Kỳ hóa đơn: " + strkyhd + " ";
+            kihd = "Kỳ: " + strkyhd + " ";
         }
 
 

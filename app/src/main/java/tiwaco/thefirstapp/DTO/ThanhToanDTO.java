@@ -11,7 +11,6 @@ public class ThanhToanDTO {
     String ChiSoCu;
     String ChiSoMoi;
     String KyHD;
-    String GhiChu;
     String Lat;
     String Lon;
     String MaKhachHang;
@@ -153,14 +152,6 @@ public class ThanhToanDTO {
         this.tongcong = tongcong;
     }
 
-
-    public String getGhiChu() {
-        return GhiChu;
-    }
-
-    public void setGhiChu(String ghiChu) {
-        GhiChu = ghiChu;
-    }
 
 
     public String getLat() {

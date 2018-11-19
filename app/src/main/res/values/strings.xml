@@ -17,6 +17,8 @@
     <string name="API_GetNhanVien">http://113.176.94.250:8012/Service1.svc/GetNhanVien</string>
     <string name="API_UpdateThuTienNuoc">http://113.176.94.250:8012/Service1.svc/CapNhatThuTienNuocNongThon</string>
     <string name="API_PayBillNB">https://www.thanhtoan.tiwaco.com.vn/PayAllThuNoiBo</string>
+    <string name="API_GetBillInfoNB">https://www.thanhtoan.tiwaco.com.vn/GetBill_InfoNB</string>
+    <string name="API_UpDatePhoneAndNote">https://www.thanhtoan.tiwaco.com.vn/UpDatePhoneAndNote</string>
 
     <string name="link_apk">http://tiwaco.com.vn/uploads/apk/tiwaread.apk</string>
     <!-- Man Hinh -->
@@ -86,7 +88,7 @@
     <string name="main_thongbao_batthuong">Chỉ số nước bất thường. Bạn có muốn tiếp tục sử dụng chỉ số này không?</string>
     <string name="main_thongbao_csmoinhohoncscu">Chỉ số nước mới không thể nhỏ hơn chỉ số cũ</string>
     <!-- button -->
-    <string name="btn_backup">Lưu dữ liệu</string>
+    <string name="btn_backup">Lưu</string>
     <string name="btn_ghinuoc">Ghi nước</string>
     <string name="btn_doisodt">Đổi</string>
     <string name="btn_timkiem">Tìm kiếm</string>
@@ -112,7 +114,7 @@
     <string name="KH_m3moi">m3: </string>
     <string name="KH_chisomoicon">Chỉ số: </string>
     <string name="KH_m3moicon">m3: </string>
-    <string name="KH_ghichu">Ghi chú </string>
+    <string name="KH_ghichu">Ghi chú: </string>
     <string name="KH_STT">STT: </string>
     <string name="KH_tinhtrangdongho">Tình trạng: </string>
     <string name="KH_hieuTLK">Hiệu: </string>
@@ -138,7 +140,7 @@
     <string name="ghi_nuoc">Ghi nước </string>
     <string name="ghi_thu">Ghi/Thu </string>
     <string name="DSKH">Danh sách</string>
-    <string name="nhap_du_lieu">Nhập dữ liệu</string>
+    <string name="nhap_du_lieu">Nhập</string>
     <string name="load_status">Đang xử lý...</string>
     <string name="btn_next">TỚI</string>
     <string name="btn_pre">LÙI</string>
@@ -159,7 +161,7 @@
     <string name="DialogDangNhap">Đang đăng nhập...</string>
     <string name="nhan_vien">Nhân viên: </string>
     <string name="note_phienbanmoinhat_true">Đây là phiên bản mới nhất.</string>
-    <string name="thanhtoan_txtthanhtoan">Thanh toán tiền nước</string>
+    <string name="thanhtoan_txtthanhtoan">Thanh toán và in biên nhận</string>
 
 
 </resources>

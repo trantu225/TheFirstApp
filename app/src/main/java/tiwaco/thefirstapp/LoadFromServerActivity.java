@@ -503,6 +503,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             String tien3 = "";
                                             String tien4 = "";
                                             String ngaythanhtoan ="";
+                                            String ghichuthu = "";
                                             if(objKH.has("ChiSo")){
                                                 ChiSo = objKH.getString("ChiSo").toString().trim();
                                             }
@@ -623,7 +624,9 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             if (objKH.has("masotlk")) {
                                                 masotlk = objKH.getString("masotlk").toString().trim();
                                             }
-
+                                            if (objKH.has("ghichuthu")) {
+                                                ghichuthu = objKH.getString("ghichuthu").toString().trim();
+                                            }
 
                                             if (objKH.has("NTSH")) {
                                                 ntsh = objKH.getString("NTSH").toString().trim();
@@ -718,7 +721,7 @@ public class LoadFromServerActivity extends AppCompatActivity {
                                             kh.setThue(tienthue);
                                             kh.settongcong(tongcong);
                                             kh.setNgaythanhtoan(ngaythanhtoan);
-
+                                            kh.setGhichuthu(ghichuthu);
 
 
                                             Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang, maduong));

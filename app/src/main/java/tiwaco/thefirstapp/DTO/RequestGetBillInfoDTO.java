@@ -59,7 +59,7 @@ public class RequestGetBillInfoDTO {
     String passWord;
     String requestTime;
 
-
+    String kyhd;
     String transactionID;
     Integer SumOfTotalMoney;
     String paymentChannel;
@@ -67,6 +67,14 @@ public class RequestGetBillInfoDTO {
 
     public RequestGetBillInfoDTO() {
 
+    }
+
+    public String getKyhd() {
+        return kyhd;
+    }
+
+    public void setKyhd(String kyhd) {
+        this.kyhd = kyhd;
     }
 
     public String getCustNo() {

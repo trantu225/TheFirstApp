@@ -388,6 +388,7 @@ public class LoadActivity extends AppCompatActivity {
                                 String phi ="";
                                 String tongcong  = "";
                                 String ngaythanhtoan = "";
+                                String ghichuthu = "";
                                 if (objKH.has("m3muc1")) {
                                     m31 = objKH.getString("m3muc1").toString().trim();
                                 }
@@ -544,6 +545,9 @@ public class LoadActivity extends AppCompatActivity {
                                         novat = "0";
                                     }
                                 }
+                                if (objKH.has("ghichuthu")) {
+                                    ghichuthu = objKH.getString("ghichuthu").toString().trim();
+                                }
                                 if (objKH.has("tiennuoc")) {
                                     tiennuoc = objKH.getString("tiennuoc").toString().trim();
                                 }
@@ -595,6 +599,7 @@ public class LoadActivity extends AppCompatActivity {
                                 kh.setNTSH(ntsh);
                                 kh.setvat(novat);
                                 kh.setM3t1(m31);
+                                kh.setGhichuthu(ghichuthu);
                                 kh.setM3t2(m32);
                                 kh.setM3t3(m33);
                                 kh.setM3t4(m34);

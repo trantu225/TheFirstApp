@@ -20,6 +20,7 @@ import java.util.List;
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.SPData;
@@ -42,6 +43,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
     SPData spdata;
     DuongDAO duongdao  ;
     KhachHangDAO khachhangdao ;
+    ThanhToanDAO thanhtoandao;
     String strghichu = "";
     public CustomTimKiem(Context context, List<DuongDTO> headerGroup, HashMap<String, List<KhachHangDTO>> datas,int vitriduong) {
         mContext = context;
@@ -51,6 +53,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
         spdata = new SPData(context);
         duongdao = new DuongDAO(context);
         khachhangdao = new KhachHangDAO(context);
+        thanhtoandao = new ThanhToanDAO(context);
 
     }
 
@@ -117,6 +120,7 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
             holder.DanhBo  = (TextView) convertView.findViewById(R.id.tv_danhbo);
             holder.GhiChu = (TextView) convertView.findViewById(R.id.tv_ghichu);
+            holder.SoTien = (TextView) convertView.findViewById(R.id.tv_sotien);
             convertView.setTag(holder);
 
         }
@@ -168,6 +172,24 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
             }
 
         }
+
+
+        if (spdata.getChucNangGhiThu().equals("THU")) {
+            holder.SoTien.setVisibility(View.VISIBLE);
+            holder.SoTien.setText("Số tiền thu: " + thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()));
+            holder.SoTien.setSelected(true);
+            if (cus.getNgaythanhtoan().equalsIgnoreCase("")) {
+                holder.STT.setBackgroundResource(R.drawable.remove_bg);
+
+            } else {
+                holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+
+            }
+
+
+        }
+
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -459,5 +481,6 @@ public class CustomTimKiem extends BaseExpandableListAdapter {
         TextView DiaChi;
         TextView DanhBo;
         TextView GhiChu;
+        TextView SoTien;
     }
 }

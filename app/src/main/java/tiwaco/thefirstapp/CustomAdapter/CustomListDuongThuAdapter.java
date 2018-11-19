@@ -1,5 +1,6 @@
 package tiwaco.thefirstapp.CustomAdapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
     SPData spdata ;
     int vitri = 0;
     int loaighi = 0;
+    ProgressDialog p;
 
 
 
@@ -57,6 +59,7 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
         this.tvTitleKH = titleKH;
         this.reduong = re;
         spdata = new SPData(con);
+        p = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
 
 
     }
@@ -135,7 +138,11 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                     liskhdao = khachhangDAO.getAllKHDaThuTheoDuong(duong.getMaDuong());
                 }
                 else if(Bien.bientrangthaithu ==2 ){
+                    p.setMessage("Đang tập hợp dữ liệu...");
+                    p.setCanceledOnTouchOutside(false);
+                    p.show();
                     liskhdao = khachhangDAO.getAllKHChuaThuTheoDuong(duong.getMaDuong());
+                    p.dismiss();
                 }
                 else if(Bien.bientrangthaithu ==3 ){
                     String thoigian1 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());

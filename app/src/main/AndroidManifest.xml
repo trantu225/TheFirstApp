@@ -85,11 +85,23 @@
             android:configChanges="orientation"
             android:parentActivityName=".ThongTinActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".BTDeviceList" />
-        <activity android:name=".ThongTinActivity"
+        <activity
+            android:name=".BTDeviceList"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+            android:label="Danh sách thiết bị"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ThongTinActivity"
             android:configChanges="orientation"
             android:parentActivityName=".StartActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+
+        <receiver android:name=".BluetoothChangeReceiver">
+            <intent-filter>
+                BluetoothDevice.ACTION_ACL_DISCONNECTED
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

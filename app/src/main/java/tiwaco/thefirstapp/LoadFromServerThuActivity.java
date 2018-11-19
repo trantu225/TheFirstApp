@@ -112,6 +112,10 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
         lb_mktai.setVisibility(View.VISIBLE);
         edtnhanvientai.setVisibility(View.VISIBLE);
         edtmatkhau.setVisibility(View.VISIBLE);
+        edtnhanvientai.setText("chau");
+        edtmatkhau.setText("123");
+        edtnhanvientai.setEnabled(false);
+        edtmatkhau.setEnabled(false);
 
 
         prgTime.setProgress(0);
@@ -135,8 +139,8 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                 // new GetUserList().execute("http://192.168.1.91/Service1.svc/GetListUser");
                 try {
 
-                    String nhanvientai = edtnhanvientai.getText().toString().trim();
-                    String matkhautai = edtmatkhau.getText().toString().trim();
+                    String nhanvientai = "chau";//edtnhanvientai.getText().toString().trim();
+                    String matkhautai = "123";//edtmatkhau.getText().toString().trim();
                     if (!nhanvientai.equals("") && !matkhautai.equals("")) {
 
                         String manv = edtNV.getText().toString().trim(); // Lay manv
@@ -537,6 +541,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             String tongcong = "";
                                             String ngaythanhtoan = "";
                                             String capnhatghi = "1";
+                                            String ghichuthu = "";
 
                                             if (objKH.has("ChiSo")) {
                                                 ChiSo = objKH.getString("ChiSo").toString().trim();
@@ -682,7 +687,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             if (objKH.has("tongcong")) {
                                                 tongcong = objKH.getString("tongcong").toString().trim();
                                             }
-
+                                            if (objKH.has("ghichuthu")) {
+                                                ghichuthu = objKH.getString("ghichuthu").toString().trim();
+                                            }
 
                                             if (objKH.has("m3muc1")) {
                                                 m31 = objKH.getString("m3muc1").toString().trim();
@@ -745,7 +752,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             kh.setChiSo2con(ChiSo2con);
                                             kh.setChiSo3(ChiSo3);
                                             kh.setChiSo3con(ChiSo3con);
-
+                                            kh.setGhichuthu(ghichuthu);
                                             kh.setSLTieuThu(SLTieuThu);
                                             kh.setSLTieuThu1(SLTieuThu1);
                                             kh.setSLTieuThu1con(SLTieuThu1con);
@@ -842,7 +849,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             String MaKhachHang = "";
                                             String SLTieuThu = "";
                                             String KyHD = "";
-                                            String GhiChu = "";
+                                            String GhiChuThu = "";
                                             String Lat = "";
                                             String Lon = "";
                                             String tiennuoc = "";
@@ -893,9 +900,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             }
 
 
-//                                            if (objKH.has("lat")) {
-//                                                Lat = objKH.getString("lat").toString().trim();
-//                                            }
+                                            if (objKH.has("GhiChuThu")) {
+                                                GhiChuThu = objKH.getString("GhiChuThu").toString().trim();
+                                            }
 //                                            if(objKH.has("lon")){
 //                                                Lon = objKH.getString("lon").toString().trim();
 //                                            }
@@ -955,7 +962,6 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             ThanhToanDTO kh = new ThanhToanDTO();
                                             kh.setBienLai(BienLai);
                                             kh.setMaKhachHang(MaKhachHang);
-                                            kh.setGhiChu(GhiChu);
                                             kh.setChiSoMoi(ChiSoMoi);
                                             kh.setChiSoCu(ChiSoCu);
                                             kh.setSLTieuThu(SLTieuThu);

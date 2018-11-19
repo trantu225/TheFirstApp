@@ -1,8 +1,12 @@
 package tiwaco.thefirstapp;
 
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -64,6 +68,7 @@ public class ListThuActivity extends AppCompatActivity {
     SPData spdata;
     Spinner spinTTGhi;
     EditText locSTT;
+    ProgressDialog dialogdoi;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.listkh_fragment);
@@ -88,10 +93,16 @@ public class ListThuActivity extends AppCompatActivity {
         duongDAO = new DuongDAO(con);
         khachhangDAO = new KhachHangDAO(con);
         listduong = duongDAO.getAllDuong();
-
+        dialogdoi = new ProgressDialog(con, ProgressDialog.STYLE_SPINNER);
+        dialogdoi.setMessage("Đang tập hợp dữ liệu...");
+        dialogdoi.setCanceledOnTouchOutside(false);
         Log.e("soluongkh", String.valueOf(khachhangDAO.countKhachHangAll()));
 
-
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        registerReceiver(mBTReceiver, filter);
         adapter = new CustomListDuongThuAdapter(con,listduong,listviewKH,txtduongchon,recyclerView,txtTiltle);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(con);
@@ -123,7 +134,7 @@ public class ListThuActivity extends AppCompatActivity {
         Bien.adapterKHThu = new CustomListThuAdapter(con, liskhdao, spdata.getDataIndexDuongDangThuTrongSP());
         listviewKH.setAdapter(Bien.adapterKHThu);
         Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-        listviewKH.setSelection( Bien.bien_index_khachhang_thu);
+        listviewKH.setSelection(Bien.bien_index_khachhang_thu - Integer.parseInt(khachhangDAO.getSTTnhoNhat(Bien.ma_duong_dang_chon_thu)));
 
 
         Log.e("select duong---listactivity", String.valueOf(Bien.selected_item_thu));
@@ -144,7 +155,7 @@ public class ListThuActivity extends AppCompatActivity {
                     KhachHangDTO khchuyen = khachhangDAO.getKHTheoDanhBoSTTDuong(Bien.ma_duong_dang_chon_thu,locSTT.getText().toString().trim());
                     if(khchuyen!=null) {
                         Log.e("chuyendenstt",locSTT.getText().toString()+": codulieu");
-                        int stt = Integer.parseInt(khchuyen.getSTT().toString()) - 1;
+                        int stt = Integer.parseInt(khchuyen.getSTT().toString());
                         int thutuchuyen =0;
                         for(int t =0;t<Bien.listKH_thu.size();t++){
                             Log.e("stt tim + size",Bien.listKH_thu.get(t).getSTT() +" " +Bien.listKH_thu.size());
@@ -161,7 +172,9 @@ public class ListThuActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    listviewKH.setSelection(0);
+                    int chuaghinhonhat = Integer.parseInt(khachhangDAO.getSTTChuaGhiNhoNhat(Bien.ma_duong_dang_chon_thu));
+                    int sttnhonhat = Integer.parseInt(khachhangDAO.getSTTnhoNhat(Bien.ma_duong_dang_chon_thu));
+                    listviewKH.setSelection(chuaghinhonhat - sttnhonhat - 1);
                 }
             }
 
@@ -257,9 +270,24 @@ public class ListThuActivity extends AppCompatActivity {
                     txtTiltle.setText(title);
                     Bien.adapterKHThu.setData(liskhdao);
                     Bien.adapterKHThu.notifyDataSetChanged();
-                    Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                    listviewKH.setSelection( Bien.bien_index_khachhang);
                     Bien.listKH_thu = liskhdao;
+                    Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+                    Log.e(" Bien.bien_index_khachhang_thu", String.valueOf(Bien.bien_index_khachhang_thu));
+                    int thutuchuyen_onre = 0;
+                    for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                        Log.e("stt tim + size -onresume", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+
+                        if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                            thutuchuyen_onre = t;
+                            Log.e("thutu1", String.valueOf(thutuchuyen_onre));
+                        }
+
+                    }
+                    Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                    if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                        listviewKH.setSelection(thutuchuyen_onre - 1);
+                    }
+
 
                     break;
                 case 1:
@@ -269,16 +297,34 @@ public class ListThuActivity extends AppCompatActivity {
                     Bien.adapterKHThu.setData(liskhdao);
                     Bien.adapterKHThu.notifyDataSetChanged();
                     Bien.listKH_thu = liskhdao;
+                    Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+
+                    listviewKH.setSelection(0);
+
                     break;
                 case 2:
+                    dialogdoi.show();
                     liskhdao = khachhangDAO.getAllKHChuaThuTheoDuong(Bien.ma_duong_dang_chon_thu);
                     title =  String.valueOf(liskhdao.size()) +" KH";
                     txtTiltle.setText(title);
                     Bien.adapterKHThu.setData(liskhdao);
                     Bien.adapterKHThu.notifyDataSetChanged();
-                    Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                    listviewKH.setSelection( Bien.bien_index_khachhang);
+
+                    Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
                     Bien.listKH_thu = liskhdao;
+                    int thutuchuyen1 = 0;
+                    for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                        Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                        if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                            thutuchuyen1 = t - 1;
+                        }
+                        Log.e("thutu", String.valueOf(thutuchuyen1));
+                    }
+                    Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                    if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                        listviewKH.setSelection(thutuchuyen1 - 1);
+                    }
+                    dialogdoi.dismiss();
                     break;
                 case 3:
                     String thoigian1 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
@@ -287,22 +333,48 @@ public class ListThuActivity extends AppCompatActivity {
                     txtTiltle.setText(title);
                     Bien.adapterKHThu.setData(liskhdao);
                     Bien.adapterKHThu.notifyDataSetChanged();
-                    Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                    listviewKH.setSelection( Bien.bien_index_khachhang);
                     Bien.listKH_thu = liskhdao;
+                    Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+
+                    int thutuchuyen2 = 0;
+                    for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                        Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                        if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                            thutuchuyen2 = t - 1;
+                        }
+                        Log.e("thutu", String.valueOf(thutuchuyen2));
+                    }
+                    Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                    if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                        listviewKH.setSelection(thutuchuyen2 - 1);
+                    }
+
                     break;
 
 
                 case 4: //ghi chu
 
-                    liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon_thu);
+                    liskhdao = khachhangDAO.getAllKHGhiChuThu(Bien.ma_duong_dang_chon_thu);
                     title =  String.valueOf(liskhdao.size()) +" KH";
                     txtTiltle.setText(title);
                     Bien.adapterKHThu.setData(liskhdao);
                     Bien.adapterKHThu.notifyDataSetChanged();
-                    Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                    listviewKH.setSelection( Bien.bien_index_khachhang);
                     Bien.listKH_thu = liskhdao;
+                    Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+                    int thutuchuyen3 = 0;
+                    for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                        Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                        if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                            thutuchuyen3 = t - 1;
+                        }
+                        Log.e("thutu", String.valueOf(thutuchuyen3));
+                    }
+                    Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                    if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                        listviewKH.setSelection(thutuchuyen3 - 1);
+                    }
+
+
                     break;
             }
         }
@@ -375,14 +447,28 @@ public class ListThuActivity extends AppCompatActivity {
                 Bien.bientrangthaithu = position;
                 switch (position){
                     case 0:
+
                         liskhdao = khachhangDAO.getAllKHTheoDuong(Bien.ma_duong_dang_chon_thu);
                         title =  String.valueOf(liskhdao.size()) +" KH";
                         txtTiltle.setText(title);
                         Bien.adapterKHThu.setData(liskhdao);
                         Bien.adapterKHThu.notifyDataSetChanged();
-                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                        listviewKH.setSelection( Bien.bien_index_khachhang);
                         Bien.listKH_thu = liskhdao;
+                        Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+
+                        int thutuchuyen = 0;
+                        for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                            Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                            if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                                thutuchuyen = t;
+                            }
+                            Log.e("thutu", String.valueOf(thutuchuyen));
+                        }
+                        Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                        if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                            listviewKH.setSelection(thutuchuyen - 1);
+                        }
+
 
                         break;
                     case 1:
@@ -392,16 +478,38 @@ public class ListThuActivity extends AppCompatActivity {
                         Bien.adapterKHThu.setData(liskhdao);
                         Bien.adapterKHThu.notifyDataSetChanged();
                         Bien.listKH_thu = liskhdao;
+                        Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+
+                        listviewKH.setSelection(0);
+
+
                         break;
                     case 2:
+
+                        dialogdoi.show();
+
                         liskhdao = khachhangDAO.getAllKHChuaThuTheoDuong(Bien.ma_duong_dang_chon_thu);
+
                         title =  String.valueOf(liskhdao.size()) +" KH";
                         txtTiltle.setText(title);
                         Bien.adapterKHThu.setData(liskhdao);
                         Bien.adapterKHThu.notifyDataSetChanged();
-                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                        listviewKH.setSelection( Bien.bien_index_khachhang);
                         Bien.listKH_thu = liskhdao;
+                        Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+
+                        int thutuchuyen1 = 0;
+                        for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                            Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                            if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                                thutuchuyen = t;
+                            }
+                            Log.e("thutu", String.valueOf(thutuchuyen1));
+                        }
+                        Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                        if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                            listviewKH.setSelection(thutuchuyen1 - 1);
+                        }
+                        dialogdoi.dismiss();
                         break;
                     case 3:
                         String thoigian1 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
@@ -410,22 +518,49 @@ public class ListThuActivity extends AppCompatActivity {
                         txtTiltle.setText(title);
                         Bien.adapterKHThu.setData(liskhdao);
                         Bien.adapterKHThu.notifyDataSetChanged();
-                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                        listviewKH.setSelection( Bien.bien_index_khachhang);
                         Bien.listKH_thu = liskhdao;
+                        Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) - 1;
+
+                        int thutuchuyen2 = 0;
+                        for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                            Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                            if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                                thutuchuyen = t;
+                            }
+                            Log.e("thutu", String.valueOf(thutuchuyen2));
+                        }
+                        Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                        if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                            listviewKH.setSelection(thutuchuyen2 - 1);
+                        }
+
+
                         break;
 
 
                     case 4: //ghi chu
 
-                        liskhdao = khachhangDAO.getAllKHGhiChu(Bien.ma_duong_dang_chon_thu);
+                        liskhdao = khachhangDAO.getAllKHGhiChuThu(Bien.ma_duong_dang_chon_thu);
                         title =  String.valueOf(liskhdao.size()) +" KH";
                         txtTiltle.setText(title);
                         Bien.adapterKHThu.setData(liskhdao);
                         Bien.adapterKHThu.notifyDataSetChanged();
-                        Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
-                        listviewKH.setSelection( Bien.bien_index_khachhang);
                         Bien.listKH_thu = liskhdao;
+                        Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+                        int thutuchuyen3 = 0;
+                        for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                            Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                            if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                                thutuchuyen = t;
+                            }
+                            Log.e("thutu", String.valueOf(thutuchuyen3));
+                        }
+                        Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                        if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                            listviewKH.setSelection(thutuchuyen3 - 1);
+                        }
+
+
                         break;
                 }
 
@@ -442,4 +577,86 @@ public class ListThuActivity extends AppCompatActivity {
 
 
     }
+
+    private final BroadcastReceiver mBTReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                if (Bien.btsocket != null) {
+
+                    try {
+
+                        if (Bien.btsocket != null) {
+                            Toast.makeText(ListThuActivity.this, "Đóng kết nối...", Toast.LENGTH_LONG).show();
+                            Bien.btoutputstream.close();
+                            Bien.btsocket.getOutputStream().close();
+                            Bien.btsocket.close();
+                            Bien.btsocket = null;
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListThuActivity.this);
+                            // khởi tạo dialog
+
+                            alertDialogBuilder.setMessage("Kết nối với máy in thất bại.Hãy kiểm tra lại máy in đã mở chưa.");
+
+                            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //  new UpdateThongTinThuNuoc().execute(urlstr);
+                                    dialog.dismiss();
+                                }
+                            });
+
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            // tạo dialog
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.show();
+                            // hiển thị dialog
+                        }
+                    } catch (Exception ez) {
+                        ez.printStackTrace();
+                    }
+
+
+                }
+
+            } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+
+                try {
+                    if (Bien.btsocket != null) {
+                        Toast.makeText(ListThuActivity.this, "Đóng kết nối...", Toast.LENGTH_LONG).show();
+                        Bien.btoutputstream.close();
+                        Bien.btsocket.getOutputStream().close();
+                        Bien.btsocket.close();
+                        Bien.btsocket = null;
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListThuActivity.this);
+                        // khởi tạo dialog
+
+                        alertDialogBuilder.setMessage("Kết nối với máy in thất bại.Hãy kiểm tra lại máy in đã mở chưa.");
+
+                        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //  new UpdateThongTinThuNuoc().execute(urlstr);
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                        // hiển thị dialog
+                    }
+                } catch (Exception ez) {
+                    ez.printStackTrace();
+                }
+
+            }
+        }
+    };
+
 }

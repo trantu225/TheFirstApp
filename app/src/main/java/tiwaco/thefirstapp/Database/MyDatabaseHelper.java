@@ -97,7 +97,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_LANINBN = "m3muc1";
     public static final String KEY_DANHSACHKH_LANINTBTRUOC = "m3muc2";
     public static final String KEY_DANHSACHKH_LANINTBSAU = "m3muc3";
-    public static final String KEY_DANHSACHKH_M34 = "m3muc4"; //ko sd
+    public static final String KEY_DANHSACHKH_GHICHUTHU = "m3muc4"; //ko sd
     public static final String KEY_DANHSACHKH_TIEN1 = "tienmuc1";//ko sd
     public static final String KEY_DANHSACHKH_TIEN2 = "tienmuc2";//ko sd
     public static final String KEY_DANHSACHKH_TIEN3 = "tienmuc3";//ko sd
@@ -207,7 +207,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_LANINBN + " TEXT, "          //44
                 + KEY_DANHSACHKH_LANINTBTRUOC + " TEXT, "          //45
                 + KEY_DANHSACHKH_LANINTBSAU + " TEXT, "          //46
-                + KEY_DANHSACHKH_M34 + " TEXT, "          //47
+                + KEY_DANHSACHKH_GHICHUTHU + " TEXT, "          //47
                 + KEY_DANHSACHKH_TIEN1 + " TEXT, "          //48
                 + KEY_DANHSACHKH_TIEN2 + " TEXT, "          //49
                 + KEY_DANHSACHKH_TIEN3 + " TEXT, "          //50

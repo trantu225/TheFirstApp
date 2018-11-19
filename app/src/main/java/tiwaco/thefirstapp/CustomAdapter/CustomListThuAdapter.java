@@ -83,6 +83,7 @@ public class CustomListThuAdapter extends BaseAdapter {
             holder.DiaChi = (TextView)convertView.findViewById(R.id.tv_diachi);
             holder.DanhBo  = (TextView) convertView.findViewById(R.id.tv_danhbo);
             holder.GhiChu  = (TextView) convertView.findViewById(R.id.tv_ghichu);
+            holder.SoTien = (TextView) convertView.findViewById(R.id.tv_sotien);
             //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
         }
@@ -108,8 +109,8 @@ public class CustomListThuAdapter extends BaseAdapter {
         holder.DiaChi.setSelected(true);
         holder.DanhBo.setText(cus.getDanhBo());
 
-        if(!cus.getGhiChu().toString().equals("")){
-            strghichu= "Ghi chú: "+ cus.getGhiChu();
+        if (!cus.getGhichuthu().toString().equals("")) {
+            strghichu = "Ghi chú: " + cus.getGhichuthu();
             holder.GhiChu.setVisibility(View.VISIBLE);
             holder.GhiChu.setText(strghichu);
 
@@ -119,9 +120,9 @@ public class CustomListThuAdapter extends BaseAdapter {
             holder.GhiChu.setVisibility(View.GONE);
 
         }
-
-
-        holder.GhiChu.setSelected(true);
+        holder.SoTien.setVisibility(View.VISIBLE);
+        holder.SoTien.setText("Số tiền thu: " + thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()));
+        holder.SoTien.setSelected(true);
 
 
         if (thanhtoandao.countKhachHangChuaThuTheoMaKH(cus.getMaKhachHang().trim()) != 0) {
@@ -219,6 +220,7 @@ public class CustomListThuAdapter extends BaseAdapter {
         TextView DiaChi;
         TextView DanhBo;
         TextView GhiChu;
+        TextView SoTien;
     }
 
 }

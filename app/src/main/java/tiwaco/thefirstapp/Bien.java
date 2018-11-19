@@ -3,7 +3,9 @@ package tiwaco.thefirstapp;
 import android.bluetooth.BluetoothSocket;
 import android.widget.ExpandableListView;
 
+import java.io.OutputStream;
 import java.util.List;
+import java.util.UUID;
 
 import tiwaco.thefirstapp.CustomAdapter.CustomListAdapter;
 import tiwaco.thefirstapp.CustomAdapter.CustomListThuAdapter;
@@ -66,7 +68,7 @@ public class Bien {
     public static final String SPCAPNHATSERVERTHU= "spcapnhatserverthu";
     public static final String SPCHISOLUUTUDONG = "spchisoluutudong";
     public static final String SPTAPTINLUUTUDONG = "sptaptinluutudong";
-    public static BluetoothSocket socketTest = null;
+    public static UUID uuidtest = null;
     public static final String SPCNGHITHU = "spcnghithu";
     public static final String SPONOFFLUU = "sponoffluu";
     public static final String SPKYHD = "spkyhd";
@@ -84,6 +86,8 @@ public class Bien {
     public static final String SPMATKHAU = "spmatkhau";
     public static final String SPINDEXDUONG= "spindexduong";
     public static final String SPINDEXDUONGTHU= "spindexduongthu";
+    public static BluetoothSocket btsocket;
+    public static OutputStream btoutputstream;
 
 
 }

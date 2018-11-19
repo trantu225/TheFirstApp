@@ -29,7 +29,7 @@
                 android:padding="@dimen/dp10"
                 android:text="@string/KH_DuongDangGhi"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp16"
                 android:textStyle="bold" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp16"
                 android:textStyle="bold" />
 
             <TextView
@@ -63,16 +63,18 @@
                 android:singleLine="true"
                 android:text="@string/string_con"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp16"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-        <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignParentTop="true">-->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="#ffffff"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,13 +93,13 @@
 
                     <TextView
                         android:id="@+id/lb_thongtinkh"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#00B9CD"
                         android:padding="@dimen/dp3"
-                        android:text="@string/ThongTinKH"
+                        android:text="Thông tin khách hàng:"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/sp14"
+                        android:textSize="@dimen/sp16"
                         android:textStyle="bold"
                         android:ellipsize="marquee"
                         android:focusable="true"
@@ -115,10 +117,11 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="#00B9CD"
+                    android:visibility="gone"
                     android:padding="@dimen/dp3"
                     android:text="@string/ThongTinKH"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp14"
+                    android:textSize="@dimen/sp16"
                     android:textStyle="bold"
                     android:ellipsize="marquee"
                     android:focusable="true"
@@ -179,7 +182,7 @@
                                         android:padding="@dimen/dp3"
                                         android:text="@string/KH_STT"
                                         android:textColor="#000000"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
 
                                     <TextView
                                         android:id="@+id/tv_sttKH"
@@ -187,18 +190,50 @@
                                         android:layout_height="wrap_content"
                                         android:padding="@dimen/dp3"
                                         android:textColor="@color/centre_button_color"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
+                                    <!--<LinearLayout-->
+                                    <!--android:layout_width="0dp"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_weight="1"-->
+                                    <!--android:visibility="gone"-->
+                                    <!--android:orientation="horizontal">-->
 
+                                    <!--<TextView-->
+                                    <!--android:id="@+id/tv11"-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:padding="@dimen/dp3"-->
+                                    <!--android:text="@string/KH_STT"-->
+
+                                    <!--android:textColor="#000000"-->
+                                    <!--android:textSize="@dimen/sp16" />-->
+
+                                    <!--<TextView-->
+                                    <!--android:id="@+id/tv_sttKH"-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:ellipsize="marquee"-->
+                                    <!--android:focusable="true"-->
+
+                                    <!--android:focusableInTouchMode="true"-->
+                                    <!--android:marqueeRepeatLimit="marquee_forever"-->
+                                    <!--android:maxLines="1"-->
+                                    <!--android:padding="@dimen/dp3"-->
+                                    <!--android:scrollHorizontally="true"-->
+                                    <!--android:singleLine="true"-->
+                                    <!--android:textColor="@android:color/holo_red_dark"-->
+                                    <!--android:textSize="@dimen/sp16" />-->
+                                    <!--</LinearLayout>-->
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
+                                        android:layout_weight="2"
                                         android:orientation="horizontal">
 
                                         <TextView
@@ -208,7 +243,7 @@
                                             android:text="@string/KH_danhbo"
 
                                             android:textColor="#000000"
-                                            android:textSize="@dimen/sp14" />
+                                            android:textSize="@dimen/sp16" />
 
                                         <TextView
                                             android:id="@+id/tv_DanhBo"
@@ -224,13 +259,13 @@
                                             android:scrollHorizontally="true"
                                             android:singleLine="true"
                                             android:textColor="@android:color/holo_red_dark"
-                                            android:textSize="@dimen/sp14" />
+                                            android:textSize="@dimen/sp16" />
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
+                                        android:layout_weight="2"
                                         android:orientation="horizontal">
 
                                         <TextView
@@ -239,7 +274,7 @@
                                             android:padding="@dimen/dp3"
                                             android:text="@string/KH_maTLK"
                                             android:textColor="#000000"
-                                            android:textSize="@dimen/sp14" />
+                                            android:textSize="@dimen/sp16" />
 
                                         <TextView
                                             android:id="@+id/tv_maKH"
@@ -254,7 +289,7 @@
                                             android:scrollHorizontally="true"
                                             android:singleLine="true"
                                             android:textColor="@android:color/holo_red_dark"
-                                            android:textSize="@dimen/sp14" />
+                                            android:textSize="@dimen/sp16" />
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -291,7 +326,7 @@
                                         android:text="Loại: "
                                         android:visibility="gone"
                                         android:textColor="#000000"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
 
                                     <TextView
                                         android:id="@+id/tv_loaiKH"
@@ -302,7 +337,7 @@
                                         android:gravity="center_vertical"
                                         android:padding="@dimen/dp3"
                                         android:textColor="#000000"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
 
                                     <ImageButton
                                         android:id="@+id/btn_chuyenloai"
@@ -340,7 +375,7 @@
                                     android:text="Định mức: "
                                 android:textColor="#000000"
                                     android:visibility="gone"
-                                android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                             <TextView
                                 android:id="@+id/tv_DinhMuc"
@@ -356,7 +391,7 @@
                                 android:scrollHorizontally="true"
                                 android:singleLine="true"
                                 android:textColor="#000000"
-                                android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp16" />
                         </LinearLayout>
                         </TableRow>
 
@@ -365,7 +400,6 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:gravity="clip_horizontal">
-
                             <LinearLayout
                             android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -375,12 +409,13 @@
                             <TextView
                                 android:id="@+id/tv1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
 
                                 android:padding="@dimen/dp3"
                                 android:text="@string/KH_hoten"
+                                android:layout_gravity="center_vertical"
                                 android:textColor="#000000"
-                                android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp16" />
 
                             <TextView
                                 android:id="@+id/tv_hotenKH"
@@ -393,10 +428,11 @@
                                 android:marqueeRepeatLimit="marquee_forever"
                                 android:maxLines="1"
                                 android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
                                 android:scrollHorizontally="true"
                                 android:singleLine="true"
                                 android:textColor="@android:color/holo_red_dark"
-                                android:textSize="@dimen/sp14"
+                                android:textSize="@dimen/sp18"
                                 android:textStyle="bold" />
                         </LinearLayout>
                         </TableRow>
@@ -417,11 +453,11 @@
                                     android:id="@+id/tv2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-
+                                    android:layout_gravity="center_vertical"
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_diachi"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:id="@+id/tv_diachiKH"
@@ -430,7 +466,7 @@
                                     android:layout_weight="1"
                                     android:padding="@dimen/dp3"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
                         </TableRow>
 
@@ -456,7 +492,8 @@
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_dienthoai"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+
+                                    android:textSize="@dimen/sp16" />
 
                                 <EditText
                                     android:id="@+id/edit_DienThoaiKH"
@@ -467,7 +504,10 @@
                                     android:inputType="numberDecimal"
                                     android:maxLength="12"
                                     android:maxLines="1"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16"
+                                    android:gravity="center_vertical"
+                                    android:padding="@dimen/dp10"
+                                    android:textColor="#000000" />
 
                                 <ImageButton
                                     android:id="@+id/imgbtn_doi"
@@ -477,8 +517,7 @@
                                     android:gravity="center_vertical"
                                     android:padding="@dimen/dp3"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14"
-                                    android:visibility="gone" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
 
                         </TableRow>
@@ -501,7 +540,7 @@
                                 android:padding="@dimen/dp3"
                                 android:text="@string/ThongTinDH"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/sp14"
+                                android:textSize="@dimen/sp16"
                                 android:textStyle="bold" />
 
 
@@ -527,7 +566,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_maTLK"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:id="@+id/tv_maTLK"
@@ -536,7 +575,7 @@
                                     android:layout_weight="1"
                                     android:padding="@dimen/dp3"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
                         </TableRow>
 
@@ -565,7 +604,7 @@
                                         android:padding="@dimen/dp3"
                                         android:text="@string/KH_hieuTLK"
                                         android:textColor="#000000"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
 
                                     <TextView
                                         android:id="@+id/tv_hieuTLK"
@@ -573,7 +612,7 @@
                                         android:layout_height="match_parent"
                                         android:padding="@dimen/dp3"
                                         android:textColor="#000000"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -588,7 +627,7 @@
                                         android:padding="@dimen/dp3"
                                         android:text="@string/KH_coTLK"
                                         android:textColor="#000000"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
 
                                     <TextView
                                         android:id="@+id/tv_coTLK"
@@ -596,7 +635,7 @@
                                         android:layout_height="match_parent"
                                         android:padding="@dimen/dp3"
                                         android:textColor="#000000"
-                                        android:textSize="@dimen/sp14" />
+                                        android:textSize="@dimen/sp16" />
                                 </LinearLayout>
                             </LinearLayout>
                         </TableRow>
@@ -621,7 +660,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_tinhtrangdongho"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <EditText
                                     android:id="@+id/edit_tinhtrangTLK"
@@ -631,7 +670,7 @@
 
                                     android:background="@android:drawable/editbox_background_normal"
                                     android:maxLines="1"
-                                    android:textSize="@dimen/sp14"
+                                    android:textSize="@dimen/sp16"
                                     android:visibility="gone" />
 
                                 <Spinner
@@ -640,7 +679,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
 
-                                    android:textSize="@dimen/sp14"></Spinner>
+                                    android:textSize="@dimen/sp16"></Spinner>
                             </LinearLayout>
                         </TableRow>
 
@@ -658,7 +697,7 @@
                             android:padding="@dimen/dp3"
                             android:text="Thông tin thu tiền nước"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/sp14"
+                            android:textSize="@dimen/sp16"
                             android:textStyle="bold" />
 
 
@@ -677,7 +716,7 @@
                             android:padding="@dimen/dp3"
                                 android:text="@string/KH_chisocu"
                             android:textColor="#000000"
-                            android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp16" />
                         </TableRow>
 
                         <TableRow
@@ -700,7 +739,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="Bình quân 3 tháng gần nhất: "
                                     android:textColor="#fff"
-                                    android:textSize="@dimen/sp14"
+                                    android:textSize="@dimen/sp16"
                                     android:textStyle="bold" />
                             </LinearLayout>
                             >
@@ -885,7 +924,7 @@
                                 android:padding="@dimen/dp3"
                                 android:text="@string/KH_chisocucon"
                                 android:textColor="#000000"
-                                android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp16" />
                         </TableRow>
 
                         <TableRow
@@ -1013,7 +1052,7 @@
                                 android:padding="@dimen/dp3"
                                 android:text="@string/KH_chisomoi_label"
                                 android:textColor="#000000"
-                                android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp16" />
 
                             <TextView
                                 android:id="@+id/tv_btmoi"
@@ -1022,7 +1061,7 @@
                                 android:padding="@dimen/dp3"
                                 android:text="@string/KH_chisobatthuong"
                                 android:textColor="@color/badge_background_color"
-                                android:textSize="@dimen/sp14"
+                                android:textSize="@dimen/sp16"
                                 android:textStyle="bold"
                                 android:visibility="gone" />
                         </TableRow>
@@ -1047,7 +1086,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_chisomoi"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <EditText
                                     android:id="@+id/edit_chisomoi"
@@ -1061,7 +1100,7 @@
                                     android:maxLines="1"
                                     android:padding="@dimen/dp10"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1070,7 +1109,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_m3moi"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <EditText
                                     android:id="@+id/edit_m3moi"
@@ -1083,7 +1122,7 @@
                                     android:maxLines="1"
                                     android:padding="@dimen/dp10"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
                         </TableRow>
 
@@ -1099,7 +1138,7 @@
                                 android:padding="@dimen/dp3"
                                 android:text="@string/KH_chisomoicon_label"
                                 android:textColor="#000000"
-                                android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp16" />
 
                             <TextView
                                 android:id="@+id/tv_btmoi_con"
@@ -1108,7 +1147,7 @@
                                 android:padding="@dimen/dp3"
                                 android:text="@string/KH_chisobatthuong"
                                 android:textColor="@color/badge_background_color"
-                                android:textSize="@dimen/sp14"
+                                android:textSize="@dimen/sp16"
                                 android:textStyle="bold"
                                 android:visibility="gone" />
                         </TableRow>
@@ -1133,7 +1172,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_chisomoicon"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <EditText
                                     android:id="@+id/edit_chisomoicon"
@@ -1147,7 +1186,7 @@
 
                                     android:padding="@dimen/dp10"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1156,7 +1195,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="@string/KH_m3moicon"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <EditText
                                     android:id="@+id/edit_m3moicon"
@@ -1169,38 +1208,17 @@
                                     android:maxLines="1"
                                     android:padding="@dimen/dp10"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
                         </TableRow>
 
-                        <TableRow
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:visibility="gone">
 
-                            <TextView
-                                android:id="@+id/tv_Thuchu"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="#00B9CD"
-                                android:padding="@dimen/dp3"
-                                android:text="@string/KH_ghichu"
-                                android:textColor="@android:color/white"
-                                android:textSize="@dimen/sp14"
-                                android:textStyle="bold" />
-
-
-                        </TableRow>
 
                         <TableRow
                             android:id="@+id/tableRow_Thuchu"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:visibility="gone">
-
+                            android:gravity="center_horizontal">
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -1209,26 +1227,31 @@
                                 android:orientation="horizontal">
                                 >
 
-
+                                <TextView
+                                    android:id="@+id/tv_Thuchu"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dp3"
+                                    android:text="@string/KH_ghichu"
+                                    android:textColor="#000000"
+                                    android:textSize="@dimen/sp16" />
                                 <EditText
-                                    android:id="@+id/edit_Thuchu"
+                                    android:id="@+id/edit_GhichuThu"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="9"
                                     android:background="@android:drawable/editbox_background_normal"
-
                                     android:gravity="center_vertical"
-
                                     android:inputType="text"
                                     android:padding="@dimen/dp10"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14"
+                                    android:textSize="@dimen/sp16"
 
 
                                     />
 
                                 <ImageButton
-                                    android:id="@+id/btn_updateThuchu"
+                                    android:id="@+id/btn_updateGhichuThu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/selector_button_change"
@@ -1241,10 +1264,8 @@
                         </TableRow>
 
                         <TableRow
-
                             android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
+                            android:layout_height="wrap_content"
                             android:visibility="gone">
 
                             <LinearLayout
@@ -1483,7 +1504,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="Tiền nước: "
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:id="@+id/tv_tiennuoc"
@@ -1498,7 +1519,7 @@
                                     android:scrollHorizontally="true"
                                     android:singleLine="true"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1512,7 +1533,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="Phí NTSH: "
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:id="@+id/tv_phi"
@@ -1527,7 +1548,7 @@
                                     android:scrollHorizontally="true"
                                     android:singleLine="true"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1541,7 +1562,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="Thuế GTGT: "
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:id="@+id/tv_thue"
@@ -1556,7 +1577,7 @@
                                     android:scrollHorizontally="true"
                                     android:singleLine="true"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1570,7 +1591,7 @@
                                     android:padding="@dimen/dp3"
                                     android:text="Tổng cộng: "
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14" />
+                                    android:textSize="@dimen/sp16" />
 
                                 <TextView
                                     android:id="@+id/tv_tongcong"
@@ -1585,7 +1606,7 @@
                                     android:scrollHorizontally="true"
                                     android:singleLine="true"
                                     android:textColor="#000000"
-                                    android:textSize="@dimen/sp14"
+                                    android:textSize="@dimen/sp16"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -1615,44 +1636,122 @@
                     android:padding="@dimen/dp3"
                     android:text="Thông tin thu tiền nước"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp14"
+                    android:textSize="@dimen/sp16"
                     android:textStyle="bold" />
 
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_hienthithongtinhd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp1"
+                        android:layout_marginBottom="@dimen/dp1"
+                        android:background="@drawable/information" />
+
+                    <LinearLayout
+
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="Số hóa đơn nợ: "
+                                android:textColor="#9612A2"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp16" />
+
+                            <TextView
+                                android:id="@+id/lb_sohoadonno"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="0 đ"
+                                android:textColor="#F11"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp20" />
+                        </LinearLayout>
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="Số tiền :"
+                                android:textColor="#9612A2"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp16" />
                 <TextView
                     android:id="@+id/lb_sumofmoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp3"
-                    android:text="Khách hàng không có hóa đơn nợ tiền nước."
-                    android:textColor="#9612A2"
+                    android:layout_gravity="center_vertical"
+                    android:text="0 đ"
+                    android:textColor="#F11"
                     android:textStyle="bold"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp20" />
+                        </LinearLayout>
+
+
+
+
+
+
+
+            </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
 
                 <TextView
                     android:id="@+id/lb_thongbaohetno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp3"
-                    android:text="Khách hàng không có hóa đơn nợ tiền nước."
+                    android:text="KH không có hóa đơn nợ tiền nước."
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
                     android:textColor="#F13"
-                    android:textSize="@dimen/sp14" />
-
-
-                <ExpandableListView
-                    android:id="@+id/ListThanhToanTheoKy"
-                    android:layout_width="match_parent"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_height="0dp"
-                    android:layout_weight="1.82"></ExpandableListView>
-
+                    android:textSize="@dimen/sp16" />
 
             </LinearLayout>
+        </ScrollView>
 
-
-            </LinearLayout>
-        <!--</ScrollView>-->
-
-
+        <ExpandableListView
+            android:id="@+id/ListThanhToanTheoKy"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="0dp"
+            android:layout_weight="1.82"></ExpandableListView>
         <!--
 <android.support.design.widget.BottomNavigationView
     android:id="@+id/bottom_navigation"
@@ -1683,21 +1782,10 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_thanhtoantiennuoc"
-        style="@android:style/TextAppearance.DeviceDefault.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:background="@drawable/selector_button_signin"
-        android:text="@string/thanhtoan_txtthanhtoan"
-        android:textAlignment="center"
-        android:textColor="@android:color/background_light"
-        android:textSize="@dimen/sp14"
-        android:textStyle="bold" />
     <RadioGroup
         android:layout_width="match_parent"
         android:background="@color/white"
+        android:visibility="gone"
         android:layout_height="wrap_content">
         <RadioButton
             android:layout_width="wrap_content"
@@ -1712,10 +1800,156 @@
     </RadioGroup>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingLeft="@dimen/dp3"
+            android:paddingRight="@dimen/dp3"
+            android:paddingBottom="@dimen/dp10"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dp10">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="Thông báo"
+                android:visibility="gone"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp16"
+                android:textStyle="bold" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp3"
+                    android:layout_gravity="center_vertical"
+                    android:text="Lần in:"
+                    android:textColor="#111"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/lb_laninTB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp3"
+                    android:layout_gravity="center_vertical"
+                    android:text="0 đ"
+                    android:textColor="#111"
+                    android:textSize="@dimen/sp16" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_inthongbao"
+                style="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_button_signin"
+
+                android:text="In thông báo"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light"
+                android:textSize="@dimen/sp14"
+
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingLeft="@dimen/dp3"
+            android:paddingRight="@dimen/dp3"
+            android:paddingBottom="@dimen/dp10"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dp10">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="Biên nhận"
+                android:visibility="gone"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp16"
+                android:textStyle="bold" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp3"
+                    android:layout_gravity="center_vertical"
+                    android:text="Lần in:"
+                    android:textColor="#111"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/lb_laninBN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp3"
+                    android:layout_gravity="center_vertical"
+                    android:text="0 đ"
+                    android:textColor="#111"
+                    android:textSize="@dimen/sp16" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_thanhtoantiennuoc"
+                style="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_button_signin"
+                android:text="@string/thanhtoan_txtthanhtoan"
+                android:textAlignment="center"
+
+
+                android:textColor="@android:color/background_light"
+                android:textSize="@dimen/sp14"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
 
         android:id="@+id/TableLayoutButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp60"
         android:background="#ffffff"
         android:orientation="horizontal"
 
@@ -1747,6 +1981,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.7"
             android:gravity="center"
+            android:visibility="gone"
             android:layout_gravity="center"
 
             >
@@ -1763,17 +1998,21 @@
             <LinearLayout
                 android:id="@+id/layout_Thu"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/button_round_selected"
+
                 android:layout_gravity="center"
                 android:gravity="center"
+
                 android:enabled="false"
                 android:clickable="true"
                 android:orientation="horizontal">
 
                 <ImageButton
+
                     android:id="@+id/btn_Thunuoc"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_thu_main">
 

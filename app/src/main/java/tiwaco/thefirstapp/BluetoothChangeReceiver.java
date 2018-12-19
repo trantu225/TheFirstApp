@@ -14,13 +14,14 @@ import android.widget.Toast;
 public class BluetoothChangeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
         try {
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             if (Bien.btsocket != null) {
-                Toast.makeText(context, "Đóng kết nối...", Toast.LENGTH_LONG).show();
                 Bien.btoutputstream.close();
-                Bien.btsocket.getOutputStream().close();
                 Bien.btsocket.close();
                 Bien.btsocket = null;
+                Toast.makeText(context, "Đóng kết nối...", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 // khởi tạo dialog
 

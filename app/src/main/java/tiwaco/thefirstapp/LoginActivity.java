@@ -331,6 +331,7 @@ public class LoginActivity extends AppCompatActivity  {
             // hiển thị dialog
         }
         else{
+            new CheckUser().execute(duongdanfile);//
 /*
              boolean kt = nhanviendao.kiemtraDangNhap(edt_ten.getText().toString(),edt_pass.getText().toString(),Bien.listNV,LoginActivity.this);
 
@@ -392,80 +393,7 @@ public class LoginActivity extends AppCompatActivity  {
 
 */
 
-            //Kiểm tra wifi or 3G
-           try {
-             //   new CheckUser().execute(duongdanfile);//
-                if (isInternetOn()) {
-                    Log.e("check wifi", "yes");
-                    dialoglogin.showDialog(getString(R.string.DialogDangNhap));
-                    new CheckUser().execute(duongdanfile);//
-                } else {
-                    Log.e("check wifi", "no");
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                    // khởi tạo dialog
-                    alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại");
-                    // thiết lập nội dung cho dialog
 
-                    alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-
-
-                            // button "no" ẩn dialog đi
-                        }
-                    });
-                    alertDialogBuilder.setPositiveButton("Bật Wifi", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                            // button "no" ẩn dialog đi
-                        }
-                    });
-
-
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    // tạo dialog
-                    alertDialog.setCanceledOnTouchOutside(false);
-                    alertDialog.show();
-
-                }
-
-            }
-            catch (Exception e) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                // khởi tạo dialog
-                alertDialogBuilder.setMessage("Chưa bật wifi hoặc 3G. Hãy kiểm tra lại");
-                // thiết lập nội dung cho dialog
-
-                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-
-                        // button "no" ẩn dialog đi
-                    }
-                });
-                alertDialogBuilder.setPositiveButton("Bật Wifi", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        // button "no" ẩn dialog đi
-                    }
-                });
-
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                // tạo dialog
-                alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.show();
-
-
-            }
 
 
 
@@ -821,6 +749,233 @@ public class LoginActivity extends AppCompatActivity  {
             }
             else{
                 this.cancel(true);
+                Log.e("nhanvien", spdata.getDataNhanVienTrongSP());
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.error_load_server);
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (Build.VERSION.SDK_INT >= 11) {
+                            recreate();
+                        } else {
+                            Intent intent = getIntent();
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                            startActivity(intent);
+                            overridePendingTransition(0, 0);
+                        }
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            }
+
+        }
+    }
+
+
+    public class CheckUser2 extends AsyncTask<String, Void, String> {
+
+        String fileContent = "";
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+
+
+            try {
+
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+                conn.setRequestMethod("POST");
+                int result = conn.getResponseCode();
+                if (result == 200) {
+
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        // long status = (i+1) *100/line.length();
+                        //     String.valueOf(status)
+
+                        fileContent = line;
+
+                    }
+                    reader.close();
+
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Log.e("loi load du lieu", ex.toString());
+            }
+            if (fileContent.equals("")) {
+                Log.e("filetuserver", "Rong");
+            } else {
+                if (fileContent.equals("1")) {
+                    Log.e("Lay thong tin nhan vien", "OK");
+                    String resultnv = "";
+                    try {
+                        String duongdankhoaso = getString(R.string.API_GetNhanVien) + "/" + edt_ten.getText().toString().trim() + "/" + edt_pass.getText().toString().trim();
+                        final URL url = new URL(duongdankhoaso);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+                        conn.setRequestMethod("GET");
+
+                        int result = conn.getResponseCode();
+
+                        if (result == 200) {
+
+                            InputStream in = new BufferedInputStream(conn.getInputStream());
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            int i = 0;
+                            while ((line = reader.readLine()) != null) {
+                                // long status = (i+1) *100/line.length();
+                                //     String.valueOf(status)
+
+                                resultnv = line;
+
+                            }
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        Log.e("loi load du lieu", ex.toString());
+                    }
+                    try {
+                        JSONObject objTiwaread = new JSONObject(resultnv);
+
+
+                        if (objTiwaread.has("dienthoai")) {
+                            dienthoai = objTiwaread.getString("dienthoai").trim();
+                            Log.e("dienthoai", dienthoai);
+
+                        }
+                        if (objTiwaread.has("idnhanvien")) {
+                            idnhanvien = objTiwaread.getString("idnhanvien").trim();
+                            Log.e("idnhanvien", dienthoai);
+
+                        }
+
+                        if (objTiwaread.has("hoten")) {
+                            hoten = objTiwaread.getString("hoten").trim();
+                            Log.e("hoten", hoten);
+                        }
+
+                        if (objTiwaread.has("idhuyen")) {
+                            idhuyen = objTiwaread.getString("idhuyen").trim();
+                            Log.e("idhuyen", idhuyen);
+                        }
+                        if (objTiwaread.has("dienthoaihuyen")) {
+                            dienthoaihuyen = objTiwaread.getString("dienthoaihuyen").trim();
+                            Log.e("dienthoaihuyen", idhuyen);
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+
+            return fileContent;
+
+        }
+
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("result update", result);
+            dialoglogin.closeDialog();
+            if (result.equals("1")) {
+
+                //Bien.nhanvien = edt_ten.getText().toString().trim();
+                //spdata.luuDataKyHoaDonTrongSP("092017");
+                spdata.luuDataNhanVienTrongSP(edt_ten.getText().toString().trim());
+                spdata.luuDataMatKhauNhanVienTrongSP(edt_pass.getText().toString().trim());
+                spdata.luuThongTinNhanVien(idnhanvien, hoten, dienthoai, idhuyen, dienthoaihuyen);
+                Log.e("tennv,dienthoai", spdata.getDataTenNhanVien() + " + " + spdata.getDataDienThoai());
+                LichSuDTO ls = new LichSuDTO();
+                ls.setNoiDungLS(edt_ten.getText().toString().trim() + " đăng nhập.");
+                ls.setMaLenh("DN");
+                String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                ls.setThoiGianLS(thoigian1);
+                lichsudao.addTable_History(ls);
+
+                Log.e("nhanvien", spdata.getDataNhanVienTrongSP());
+                if (spdata.getDataTuDongLuuTapTin() == 0) {
+                    ViewDialog alert = new ViewDialog();
+                    alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
+                } else {
+                    if (khdao.countKhachHangAll() > 0) {
+//                    TinhTrangTLKDAO tinhtrangtlkdao = new TinhTrangTLKDAO(con);
+//                    List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
+//                    for(int tt = 0 ; tt<listt.size();tt++){
+//                        tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
+//                    }
+                        finish();
+                        Intent myIntent = new Intent(LoginActivity.this, StartActivity.class);
+                        startActivity(myIntent);
+
+                    } else {
+//                    Intent myIntent = new Intent(this, LoadActivity.class);
+//                    //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
+//                    startActivity(myIntent);
+                        ViewDialog alert = new ViewDialog();
+                        alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
+                    }
+                }
+
+            } else if (result.equals("0")) {
+
+
+                Log.e("nhanvien", spdata.getDataNhanVienTrongSP());
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.error_incorrect_password);
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (Build.VERSION.SDK_INT >= 11) {
+                            recreate();
+                        } else {
+                            Intent intent = getIntent();
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                            startActivity(intent);
+                            overridePendingTransition(0, 0);
+                        }
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            } else {
+
                 Log.e("nhanvien",spdata.getDataNhanVienTrongSP());
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
                 // khởi tạo dialog

@@ -187,6 +187,7 @@ public class MainThuActivity extends AppCompatActivity  {
         urlstr =   getString(R.string.API_UpdateKhachHangDaGhi2);
         loadDataTinhTrangTLK();
         IntentFilter filter = new IntentFilter();
+
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
@@ -1017,6 +1018,7 @@ public class MainThuActivity extends AppCompatActivity  {
         super.onStop();
         Log.e("onStop", "onStop-----------------------------------------------");
         Log.e("select duong-mainactivity", String.valueOf(Bien.selected_item));
+        unregisterReceiver(mBTReceiver);
     }
 
     private void setDataForView(String tt, String maduong,String Makhach) {
@@ -1351,18 +1353,19 @@ public class MainThuActivity extends AppCompatActivity  {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
                 if (Bien.btsocket != null) {
 
                     try {
 
                         if (Bien.btsocket != null) {
-                            Toast.makeText(MainThuActivity.this, "Đóng kết nối...", Toast.LENGTH_LONG).show();
+
                             Bien.btoutputstream.close();
-                            Bien.btsocket.getOutputStream().close();
+
                             Bien.btsocket.close();
                             Bien.btsocket = null;
+                            Toast.makeText(MainThuActivity.this, "Đóng kết nối...", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                             // khởi tạo dialog
 
@@ -1394,11 +1397,12 @@ public class MainThuActivity extends AppCompatActivity  {
 
                 try {
                     if (Bien.btsocket != null) {
-                        Toast.makeText(MainThuActivity.this, "Đóng kết nối...", Toast.LENGTH_LONG).show();
+
                         Bien.btoutputstream.close();
-                        Bien.btsocket.getOutputStream().close();
+
                         Bien.btsocket.close();
                         Bien.btsocket = null;
+                        Toast.makeText(MainThuActivity.this, "Đóng kết nối...", Toast.LENGTH_LONG).show();
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThuActivity.this);
                         // khởi tạo dialog
 
@@ -1484,8 +1488,9 @@ public class MainThuActivity extends AppCompatActivity  {
             byte[] printformat = { 0x1B, 0x21, FONT_TYPE };
             //Bien.btoutputstream.write(printformat);
 
-            String xuongdong  ="\n";
+            String xuongdong = Uni2Tcvn("\n");
             String tencty = "CTY TNHH MTV CẤP NƯỚC TG\n\n";
+            //String tenctyconvert = Uni2Tcvn(tencty);
             String Giaybao = "GIẤY BÁO\n";
             String thoigian = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
             Log.e("thoi gian", thoigian);
@@ -1496,13 +1501,20 @@ public class MainThuActivity extends AppCompatActivity  {
             String haigach = "================================";
             String kihd ="";
             String lanTB = "";
+            String stt = "STT: " + STT.getText().toString().trim();
 
             String makh = "Mã KH: " + MaKH.getText().toString().trim() + "\n";
             String madb = "Danh bộ: " + LoaiKH.getText().toString().trim() + "-" + maduong_nhan + "-" + DanhBo.getText().toString() + "\n";
             String lb_ten = "Tên KH: ";
             String ten = HoTen.getText().toString().trim();
             List<String> listhotenmoihang = catchuxuongdong(ten, lb_ten);
-            String diachi = "Địa chỉ: " + DiaChi.getText().toString().trim() + " - " + DuongDangThu.getText().toString();
+            String diachi = "";
+            if (!DiaChi.getText().toString().trim().equals("")) {
+                diachi = "Địa chỉ: " + DiaChi.getText().toString().trim() + " - " + DuongDangThu.getText().toString();
+            } else {
+                diachi = "Địa chỉ: " + DuongDangThu.getText().toString();
+            }
+
             List<String> listdiachimoihang = catchuxuongdong(diachi, "");
 
             List<ThanhToanDTO> listchuathanhtoan = thanhtoandao.GetListThanhToanTheoMaKH(MaKH.getText().toString().trim());
@@ -1528,7 +1540,7 @@ public class MainThuActivity extends AppCompatActivity  {
                 List<String> listsolanin = khachhangDAO.GetSoLanInTheoMaKH(MaKH.getText().toString().trim());
                 String solaninbn = String.valueOf(Integer.parseInt(listsolanin.get(0)));
                 String solanintb = String.valueOf(Integer.parseInt(listsolanin.get(2)));
-                lanTB = "Lần in:" + solanintb + "\n";
+                lanTB = "Lần in:" + solanintb + "        ";
                 rad_ingiaybao.setText("In giấy báo - Đã in:" + solanintb + " lần");
                 rad_inhd.setText("In biên nhận thanh toán - Đã in: " + solaninbn + " lần");
                 lb_laninTB.setText(solanintb + " lần");
@@ -1546,6 +1558,7 @@ public class MainThuActivity extends AppCompatActivity  {
 //            String lienlac ="Vui lòng liên hệ số điện thoại\n0273.3873425 để được giúp đỡ.\n";
 
             String nhacnho  = "Đề nghị quý khách vui lòng thanh toán tiền nước trong vòng 5 ngày kể từ ngày nhận giấy báo. Qua thời hạn trên Cty sẽ tiến hành tạm ngưng cung cấp nước.";
+            // String nhacnhoconvert = Uni2Tcvn(nhacnho);
             List<String> listnhacnhomoihang = catchuxuongdong(nhacnho, "");
 //            String lienlac ="Vui lòng liên hệ số điện thoại 0273.3873425 để được giúp đỡ.\n";
 //            List<String> listlienlacmoihang  = catchuxuongdong(lienlac);
@@ -1566,7 +1579,8 @@ public class MainThuActivity extends AppCompatActivity  {
 
             writeWithFormat( new Formatter().get(), Formatter.leftAlign());
             Bien.btoutputstream.write(xuongdong.getBytes("X-UTF-16LE-BOM"));
-            Bien.btoutputstream.write(lanTB.getBytes("X-UTF-16LE-BOM"));
+            Bien.btoutputstream.write((lanTB + stt).getBytes("X-UTF-16LE-BOM"));
+            Bien.btoutputstream.write(xuongdong.getBytes("X-UTF-16LE-BOM"));
             Bien.btoutputstream.write(makh.getBytes("X-UTF-16LE-BOM"));
             Bien.btoutputstream.write(madb.getBytes("X-UTF-16LE-BOM"));
 
@@ -1600,7 +1614,7 @@ public class MainThuActivity extends AppCompatActivity  {
                     kihdin = "\nKỳ hóa đơn: " + strkyhd;
                 }
 
-                String chiso = "\nChỉ số cũ: " + listchuathanhtoan.get(ky).getChiSoCu() + "\nChỉ số mới: " + listchuathanhtoan.get(ky).getChiSoMoi() + "\nSố M3 tiêu thụ: " + listchuathanhtoan.get(ky).getSLTieuThu();
+                String chiso = "\nChỉ số cũ: " + listchuathanhtoan.get(ky).getChiSoCu() + "\nChỉ số mới: " + listchuathanhtoan.get(ky).getChiSoMoi() + "\nSố M3 tiêu thụ: " + listchuathanhtoan.get(ky).getSLTieuThu() + " ";
                 String lb_sotien = "\nSố tiền phải trả: ";
                 String sotien = format2.format(Double.parseDouble(format1.format(Double.valueOf(listchuathanhtoan.get(ky).gettongcong())))) + " đ";
 
@@ -1656,6 +1670,8 @@ public class MainThuActivity extends AppCompatActivity  {
             Bien.btoutputstream.write(xuongdong.getBytes("X-UTF-16LE-BOM"));
 
             String ketthuc = "*--*--*";
+
+
             writeWithFormat(new Formatter().get(), Formatter.centerAlign());
             Bien.btoutputstream.write(xuongdong.getBytes("X-UTF-16LE-BOM"));
             Bien.btoutputstream.write(ketthuc.getBytes("X-UTF-16LE-BOM"));
@@ -1709,6 +1725,7 @@ public class MainThuActivity extends AppCompatActivity  {
                     String solaninbn = "";
                     String solanintb = "";
 
+
                     if (khachhangDAO.tangSoLanIn(MaKH.getText().toString().trim(), 1, 0, 0)) {
                         LichSuDTO ls = new LichSuDTO();
                         ls.setNoiDungLS("In biên nhận thanh toán khách hàng " + DanhBo.getText().toString().trim());
@@ -1722,7 +1739,7 @@ public class MainThuActivity extends AppCompatActivity  {
                     }
 
 
-                    lanin = "Lần in: " + solaninbn + "\n";
+                    lanin = "Lần in: " + solaninbn + "        ";
                     rad_ingiaybao.setText("In giấy báo - Đã in:" + solanintb + " lần");
                     rad_inhd.setText("In biên nhận thanh toán - Đã in:" + solaninbn + " lần");
                     lb_laninTB.setText(solanintb + " lần");
@@ -1732,9 +1749,18 @@ public class MainThuActivity extends AppCompatActivity  {
                     String madb = "Danh bộ: " + LoaiKH.getText().toString().trim() + "-" + maduong_nhan + "-" + DanhBo.getText().toString() + "\n";
                     String makh = "Mã KH: " + MaKH.getText().toString().trim() + "\n";
                     String lbten = "Tên KH: ";
+                    String stt = "STT: " + STT.getText().toString().trim();
                     String tenkhach = HoTen.getText().toString().trim();
                     List<String> listhotenmoihang = catchuxuongdong(tenkhach, lbten);
-                    String diachi = "Địa chỉ: " + DiaChi.getText().toString().trim() + " - " + DuongDangThu.getText().toString();
+                    // String diachi = "Địa chỉ: " + DiaChi.getText().toString().trim() + " - " + DuongDangThu.getText().toString();
+                    String diachi = "";
+                    if (!DiaChi.getText().toString().trim().equals("")) {
+                        diachi = "Địa chỉ: " + DiaChi.getText().toString().trim() + " - " + DuongDangThu.getText().toString();
+                    } else {
+                        diachi = "Địa chỉ: " + DuongDangThu.getText().toString();
+                    }
+
+
                     List<String> listdiachimoihang = catchuxuongdong(diachi, "");
                     String gach = "--------------------------------";
                     writeWithFormat(new Formatter().get(), Formatter.centerAlign());
@@ -1746,7 +1772,8 @@ public class MainThuActivity extends AppCompatActivity  {
 
 
                     writeWithFormat(new Formatter().get(), Formatter.leftAlign());
-                    Bien.btoutputstream.write(lanin.getBytes("X-UTF-16LE-BOM"));
+                    Bien.btoutputstream.write((lanin + stt).getBytes("X-UTF-16LE-BOM"));
+                    Bien.btoutputstream.write(xuongdong.getBytes("X-UTF-16LE-BOM"));
                     Bien.btoutputstream.write(makh.getBytes("X-UTF-16LE-BOM"));
                     Bien.btoutputstream.write(madb.getBytes("X-UTF-16LE-BOM"));
                     Bien.btoutputstream.write(lbten.getBytes("X-UTF-16LE-BOM"));
@@ -4675,6 +4702,25 @@ public boolean KiemTraDaThu(String maKH){
         }
 
 
+    }
+
+    public String Uni2Tcvn(String value) {
+        char[] tcvn3 = new char[]{'¸', 'µ', '¶', '·', '¹', '¸', 'µ', '¶', '·', '¹', '¡', '¾', '»', '¼', '½', 'Æ', '¨', '¾', '»', '¼', '½', 'Æ', '¢', 'Ê', 'Ç', 'È', 'É', 'Ë', '©', 'Ê', 'Ç', 'È', 'É', 'Ë', '§', '®', 'Ð', 'Ì', 'Î', 'Ï', 'Ñ', 'Ð', 'Ì', 'Î', 'Ï', 'Ñ', '£', 'Õ', 'Ò', 'Ó', 'Ô', 'Ö', 'ª', 'Õ', 'Ò', 'Ó', 'Ô', 'Ö', 'Ý', '×', 'Ø', 'Ü', 'Þ', 'Ý', '×', 'Ø', 'Ü', 'Þ', 'ã', 'ß', 'á', 'â', 'ä', 'ã', 'ß', 'á', 'â', 'ä', '¤', 'è', 'å', 'æ', 'ç', 'é', '«', 'è', 'å', 'æ', 'ç', 'é', '¥', 'í', 'ê', 'ë', 'ì', 'î', '¬', 'í', 'ê', 'ë', 'ì', 'î', 'ó', 'ï', 'ñ', 'ò', 'ô', 'ó', 'ï', 'ñ', 'ò', 'ô', '¦', 'ø', 'õ', 'ö', '÷', 'ù', '­', 'ø', 'õ', 'ö', '÷', 'ù', 'ý', 'ú', 'û', 'ü', 'þ', 'ý', 'ú', 'û', 'ü', 'þ'};
+        char[] unic = new char[]{'Á', 'À', 'Ả', 'Ã', 'Ạ', 'á', 'à', 'ả', 'ã', 'ạ', 'Ă', 'Ắ', 'Ằ', 'Ẳ', 'Ẵ', 'Ặ', 'ă', 'ắ', 'ằ', 'ẳ', 'ẵ', 'ặ', 'Â', 'Ấ', 'Ầ', 'Ẩ', 'Ẫ', 'Ậ', 'â', 'ấ', 'ầ', 'ẩ', 'ẫ', 'ậ', 'Đ', 'đ', 'É', 'È', 'Ẻ', 'Ẽ', 'Ẹ', 'é', 'è', 'ẻ', 'ẽ', 'ẹ', 'Ê', 'Ế', 'Ề', 'Ể', 'Ễ', 'Ệ', 'ê', 'ế', 'ề', 'ể', 'ễ', 'ệ', 'Í', 'Ì', 'Ỉ', 'Ĩ', 'Ị', 'í', 'ì', 'ỉ', 'ĩ', 'ị', 'Ó', 'Ò', 'Ỏ', 'Õ', 'Ọ', 'ó', 'ò', 'ỏ', 'õ', 'ọ', 'Ô', 'Ố', 'Ồ', 'Ổ', 'Ỗ', 'Ộ', 'ô', 'ố', 'ồ', 'ổ', 'ỗ', 'ộ', 'Ơ', 'Ớ', 'Ờ', 'Ở', 'Ỡ', 'Ợ', 'ơ', 'ớ', 'ờ', 'ở', 'ỡ', 'ợ', 'Ú', 'Ù', 'Ủ', 'Ũ', 'Ụ', 'ú', 'ù', 'ủ', 'ũ', 'ụ', 'Ư', 'Ứ', 'Ừ', 'Ử', 'Ữ', 'Ự', 'ư', 'ứ', 'ừ', 'ử', 'ữ', 'ự', 'Ý', 'Ỳ', 'Ỷ', 'Ỹ', 'Ỵ', 'ý', 'ỳ', 'ỷ', 'ỹ', 'ỵ'};
+        List<Character> uniclist = new ArrayList<>();
+        for (int i = 0; i < unic.length; i++) {
+            uniclist.add(unic[i]);
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < value.length(); i++) {
+            int index = uniclist.indexOf(value.charAt(i));
+            if (index >= 0) {
+                sb.append(tcvn3[index]);
+            } else {
+                sb.append(value.charAt(i));
+            }
+        }
+        return sb.toString();
     }
 
 

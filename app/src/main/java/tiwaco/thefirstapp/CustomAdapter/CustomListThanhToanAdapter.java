@@ -183,14 +183,14 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
         // final KhachHangDTO cus = customerList.get(childPosition);
         holder.BienLai.setText("Biên lai: " + cus.getBienLai());
         holder.BienLai.setSelected(true);
-        holder.ChiSoCu.setText("CS cũ: " + cus.getChiSoCu());
-        holder.ChiSoMoi.setText("CS mới: " + cus.getChiSoMoi());
+        holder.ChiSoCu.setText("CSC: " + cus.getChiSoCu());
+        holder.ChiSoMoi.setText("CSM: " + cus.getChiSoMoi());
         holder.M3.setText("M3: " + cus.getSLTieuThu());
         holder.ChiSoCu.setSelected(true);
         holder.ChiSoMoi.setSelected(true);
         holder.M3.setSelected(true);
         holder.BienLai.setSelected(true);
-        holder.SoTienThanhToan.setText("Số tiền thanh toán: " + format2.format(Double.parseDouble(format1.format(Double.valueOf(cus.gettongcong())))) + " đ");
+        holder.SoTienThanhToan.setText("Số tiền: " + format2.format(Double.parseDouble(format1.format(Double.valueOf(cus.gettongcong())))) + " đ");
 
 
 

@@ -98,7 +98,6 @@
 
         <receiver android:name=".BluetoothChangeReceiver">
             <intent-filter>
-                BluetoothDevice.ACTION_ACL_DISCONNECTED
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
             </intent-filter>
         </receiver>

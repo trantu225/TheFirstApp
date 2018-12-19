@@ -87,9 +87,10 @@ public class ViewDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-               // activity.finish();
-
-                // activity.finish();
+                activity.finish();
+                Intent myIntent = new Intent(activity, StartActivity.class);
+                //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
+                activity.startActivity(myIntent);
 
 
             }

@@ -291,6 +291,24 @@ public class DuongDAO {
        return duong;
     }
 
+    public String getTrangThaiKhoaSoCuaDuong(String maduong) {
+        db = myda.openDB();
+        Cursor cursor = db.query(TABLE_DUONG,
+                new String[]{KEY_DUONG_MADUONG, KEY_DUONG_TENDUONG, KEY_DUONG_TRANGTHAI, KEY_DUONG_KHOASO, KEY_DUONG_TRANGTHAI_THU},
+                KEY_DUONG_MADUONG + "=?",
+                new String[]{String.valueOf(maduong)},
+                null, null, null, null);
+        DuongDTO duong = null;
+        if (cursor != null && cursor.moveToFirst()) {
+
+
+            duong = new DuongDTO(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getInt(4));
+        }
+        cursor.close();
+        db.close();
+        return duong.getKhoaSo();
+    }
+
 
 
         public int countDuong(){

@@ -2852,7 +2852,7 @@ public class Backup_Activity extends AppCompatActivity  {
             {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Backup_Activity.this);
                 // khởi tạo dialog
-                alertDialogBuilder.setMessage("Không còn KH nào để cập nhật.");
+                alertDialogBuilder.setMessage("Không còn KH nào để cập nhật hoặc đường đã bị khóa sổ");
                 // thiết lập nội dung cho dialog
 
                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {

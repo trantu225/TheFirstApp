@@ -540,7 +540,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             String phi = "";
                                             String tongcong = "";
                                             String ngaythanhtoan = "";
-                                            String capnhatghi = "1";
+                                            String capnhatghi = "1";  //Khách hàng tải đã có thanh toán
                                             String ghichuthu = "";
 
                                             if (objKH.has("ChiSo")) {
@@ -606,9 +606,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             if (objKH.has("SLTieuThu1")) {
                                                 SLTieuThu1 = objKH.getString("SLTieuThu1").toString().trim();
                                             }
-                                            if (objKH.has("nhanvien")) {
-                                                NhanVien = objKH.getString("nhanvien").toString().trim();
-                                            }
+
 
                                             if (objKH.has("lat")) {
                                                 Lat = objKH.getString("lat").toString().trim();
@@ -947,13 +945,14 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                                 tien4 = objKH.getString("tienmuc4").toString().trim();
                                             }
                                             if (objKH.has("NgayThu")) {
-                                                if (objKH.getString("NgayThu") != null) {
+                                                if (objKH.getString("NgayThu") != null && !objKH.getString("NgayThu").equals("")) {
                                                     ngaythanhtoan = objKH.getString("NgayThu").toString().trim();
                                                 }
+                                                Log.e("ngaythu", ngaythanhtoan);
 
                                             }
                                             if (objKH.has("NhanVienThu")) {
-                                                if (objKH.getString("NhanVienThu") != null) {
+                                                if (objKH.getString("NhanVienThu") != null && !objKH.getString("NhanVienThu").equals("")) {
                                                     NhanVienThu = objKH.getString("NhanVienThu").toString().trim();
                                                 }
                                             }
@@ -992,14 +991,21 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             if (kt) {
                                                 ID++;
 
-//                                                if(kh.getChiSo().equals("") && kh.getSLTieuThu().equals(""))
-//                                                {
-//
-//                                                }
-//                                                else{
-//                                                    khachhangDAO.tinhTienNuoc(kh.getMaKhachHang().trim());
-//                                                }
+
                                                 Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "Thanh cong");
+                                                if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
+                                                    if (khachhangDAO.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), kh.getNhanvienthu())) {
+                                                        Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                        if (khachhangDAO.updateDaChamNo(kh.getMaKhachHang())) {
+                                                            Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                        } else {
+                                                            Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                        }
+
+                                                    } else {
+                                                        Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                    }
+                                                }
                                             } else {
                                                 Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "ko Thanh cong");
 

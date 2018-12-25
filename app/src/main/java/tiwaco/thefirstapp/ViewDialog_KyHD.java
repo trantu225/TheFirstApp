@@ -30,7 +30,14 @@ public class ViewDialog_KyHD {
         TextView textm3 = (TextView) dialog.findViewById(R.id.m3cu);
         String m3cu = "M3 cũ: "+ m3;
         textm3.setText(m3cu);
-
+        TextView txtmakh = (TextView) dialog.findViewById(R.id.makh);
+        TextView txthoten = (TextView) dialog.findViewById(R.id.hoten);
+        TextView txtdiachi = (TextView) dialog.findViewById(R.id.diachi);
+        TextView txtdienthoai = (TextView) dialog.findViewById(R.id.dienthoai);
+        txtmakh.setVisibility(View.GONE);
+        txthoten.setVisibility(View.GONE);
+        txtdiachi.setVisibility(View.GONE);
+        txtdienthoai.setVisibility(View.GONE);
         Button dialogButton_thoat = (Button) dialog.findViewById(R.id.btn_thoat);
         dialogButton_thoat.setOnClickListener(new View.OnClickListener() {
             @Override

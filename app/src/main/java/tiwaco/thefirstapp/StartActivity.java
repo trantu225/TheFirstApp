@@ -354,6 +354,7 @@ public class StartActivity extends AppCompatActivity  {
 
 
                 case R.id.btn_loaddata:
+                    Log.e("LOADDATA", "OK");
                     if (KiemTraTonTaiDuLieu()) {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
                         // khởi tạo dialog
@@ -389,6 +390,9 @@ public class StartActivity extends AppCompatActivity  {
                         // tạo dialog
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
+                    } else {
+                        ViewDialog alertload = new ViewDialog();
+                        alertload.showDialog(StartActivity.this, "Chọn nguồn để load dữ liệu: ");
                     }
 
                         break;

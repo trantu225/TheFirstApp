@@ -2307,9 +2307,12 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 String urlstr = getString(R.string.API_UpdateKhachHangDaGhi2);
                                 try {
                                     if (isInternetOn()) {
-                                        if (khachhangDAO.countKhachHangCapNhatServer() > 0) {
+                                        //if (khachhangDAO.countKhachHangCapNhatServer() > 0) {
                                             new UpdateThongTinGhiNuoc().execute(urlstr);
-                                        }
+                                        // }
+                                        // else{
+                                        //      Toast.makeText(con,"Tự động cập nhật thất bại do đường đã khóa sổ",Toast.LENGTH_SHORT).show();
+                                        //  }
                                     } else {
                                         spdata.luuDataUpdateServer(0);
                                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -2355,6 +2358,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 }
                             }
                         } else {
+                            Log.e("cap nhat tu dong", String.valueOf(spdata.getDataOnOffLuu()));
                             if (spdata.getDataOnOffLuu() == 1) {
                                 int flagupdate = spdata.getDataUPdateServer();
                                 int chisoluutudong = spdata.getDataChiSoLuuCapNhat();
@@ -2370,9 +2374,12 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                                     try {
                                         if (isInternetOn()) {
-                                            if (khachhangDAO.countKhachHangCapNhatServer() > 0) {
+                                            //  if (khachhangDAO.countKhachHangCapNhatServer() > 0) {
                                                 new UpdateThongTinGhiNuoc().execute(urlstr);
-                                            }
+                                            //  }
+                                            //  else{
+                                            //     Toast.makeText(con,"Tự động cập nhật thất bại do đường đã khóa sổ",Toast.LENGTH_SHORT).show();
+                                            // }
                                         } else {
                                             //spdata.luuDataUpdateServer(0);
                                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -2743,7 +2750,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             } else if (result.equals("RONG")) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                 // khởi tạo dialog
-                alertDialogBuilder.setMessage("Không còn KH nào để cập nhật.");
+                alertDialogBuilder.setMessage("Không thể cập nhật do đường đang ghi đã bị khóa sổ");
                 // thiết lập nội dung cho dialog
 
                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {

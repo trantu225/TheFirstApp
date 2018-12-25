@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
@@ -207,7 +208,7 @@ public class BTDeviceList extends ListActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            
+
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent
                         .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -314,12 +315,14 @@ public class BTDeviceList extends ListActivity {
                     try {
                         uuid = btDevices.getItem(position).getUuids()[0]
                                 .getUuid();
+                        Log.e("uuid device", uuid.toString());
                     } catch (Exception e) {
                         uuid = SPP_UUID;
+                        Log.e("uuid SPP_UUID", uuid.toString());
                     }
 
 
-                    //                   Log.e("uuid device",uuid.toString() );
+
                     mbtSocket = btDevices.getItem(position)
                             .createRfcommSocketToServiceRecord(uuid);
 
@@ -327,16 +330,29 @@ public class BTDeviceList extends ListActivity {
                     mbtSocket.connect();
 
                 } catch (IOException ex) {
-                    runOnUiThread(socketErrorRunnable);
+//                    Log.e("loi ket noi thiet bi", ex.toString());
+//                    runOnUiThread(socketErrorRunnable);
+//                    try {
+//                        if (mbtSocket != null) {
+//                            mbtSocket.close();
+//                        }
+//                    } catch (IOException e) {
+//// e.printStackTrace();
+//                    }
+//                    mbtSocket = null;
+//                    return;
                     try {
-                        if (mbtSocket != null) {
-                            mbtSocket.close();
-                        }
-                    } catch (IOException e) {
-// e.printStackTrace();
+                        Log.e("", "trying fallback...");
+
+                        mbtSocket = (BluetoothSocket) btDevices.getItem(position).getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(btDevices.getItem(position), 1);
+                        mbtSocket.connect();
+
+                        Log.e("", "Connected");
+                    } catch (Exception e2) {
+                        runOnUiThread(socketErrorRunnable);
+                        Log.e("", "Couldn't establish Bluetooth connection!");
                     }
-                    mbtSocket = null;
-                    return;
+
                 } finally {
                     runOnUiThread(new Runnable() {
 

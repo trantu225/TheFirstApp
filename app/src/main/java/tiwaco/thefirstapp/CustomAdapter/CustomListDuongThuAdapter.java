@@ -23,6 +23,7 @@ import java.util.List;
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.SPData;
@@ -41,24 +42,26 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
     ListView listviewKH;
     DuongDTO duongchon;
     TextView tvmaduong;
-    TextView tvTitleKH;
+    TextView tvTitleKH, titleHD;
     RecyclerView reduong;
     String title ="";
     SPData spdata ;
     int vitri = 0;
     int loaighi = 0;
     ProgressDialog p;
+    ThanhToanDAO thanhtoandao;
 
 
-
-    public CustomListDuongThuAdapter(Context context,List<DuongDTO> listData,ListView listKH,TextView txtMaDuong,RecyclerView re,TextView titleKH) {
+    public CustomListDuongThuAdapter(Context context, List<DuongDTO> listData, ListView listKH, TextView txtMaDuong, RecyclerView re, TextView titleKH, TextView titleHD) {
         this.listDuong = listData;
         this.con = context;
         this.listviewKH = listKH;
         this.tvmaduong = txtMaDuong;
         this.tvTitleKH = titleKH;
+        this.titleHD = titleHD;
         this.reduong = re;
         spdata = new SPData(con);
+        thanhtoandao = new ThanhToanDAO(con);
         p = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
 
 
@@ -132,30 +135,65 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
 
                 if(Bien.bientrangthaithu == 0){
                     liskhdao = khachhangDAO.getAllKHTheoDuong(duong.getMaDuong());
+                    Log.e("Đuong", duong.getMaDuong());
+                    String sohd1 = thanhtoandao.getSoHDTheoMaDuongPhanLoai(0, duong.getMaDuong());
+                    String tongcong1 = thanhtoandao.getSoTienTheoMaDuongPhanLoai(0, duong.getMaDuong());
+
+                    titleHD.setText("Số HD: " + sohd1 + " - Số tiền: " + tongcong1);
+
                 }
                 else if(Bien.bientrangthaithu ==1 )
                 {
                     liskhdao = khachhangDAO.getAllKHDaThuTheoDuong(duong.getMaDuong());
+                    String sohd1 = thanhtoandao.getSoHDTheoMaDuongPhanLoai(1, duong.getMaDuong());
+                    String tongcong1 = thanhtoandao.getSoTienTheoMaDuongPhanLoai(1, duong.getMaDuong());
+
+                    titleHD.setText("Số HD: " + sohd1 + " - Số tiền: " + tongcong1);
                 }
                 else if(Bien.bientrangthaithu ==2 ){
                     p.setMessage("Đang tập hợp dữ liệu...");
                     p.setCanceledOnTouchOutside(false);
                     p.show();
                     liskhdao = khachhangDAO.getAllKHChuaThuTheoDuong(duong.getMaDuong());
+                    String sohd1 = thanhtoandao.getSoHDTheoMaDuongPhanLoai(2, duong.getMaDuong());
+                    String tongcong1 = thanhtoandao.getSoTienTheoMaDuongPhanLoai(2, duong.getMaDuong());
+
+                    titleHD.setText("Số HD: " + sohd1 + " - Số tiền: " + tongcong1);
                     p.dismiss();
                 }
                 else if(Bien.bientrangthaithu ==3 ){
                     String thoigian1 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
                     liskhdao = khachhangDAO.getAllKHDaThuHomNay(duong.getMaDuong(),thoigian1);
+                    String sohd1 = thanhtoandao.getSoHDTheoMaDuongPhanLoai(3, duong.getMaDuong());
+                    String tongcong1 = thanhtoandao.getSoTienTheoMaDuongPhanLoai(3, duong.getMaDuong());
+
+                    titleHD.setText("Số HD: " + sohd1 + " - Số tiền: " + tongcong1);
                 }
                 else  if(Bien.bientrangthaithu == 4){
                     liskhdao = khachhangDAO.getAllKHGhiChu(duong.getMaDuong());
+                    int tongcong4 = 0;
+                    int sohd4 = 0;
+                    for (int i = 0; i < liskhdao.size(); i++) {
+                        sohd4 += thanhtoandao.getSoHDTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                        tongcong4 += thanhtoandao.getSoTienTongCongTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                    }
+                    titleHD.setText("Số HD: " + sohd4 + " - Số tiền: " + thanhtoandao.formatTien(tongcong4));
+                } else if (Bien.bientrangthaithu == 5) {
+                    liskhdao = khachhangDAO.getAllKHCoNoTheoDuong(duong.getMaDuong());
+                    int tongcong4 = 0;
+                    int sohd4 = 0;
+                    for (int i = 0; i < liskhdao.size(); i++) {
+                        sohd4 += thanhtoandao.getSoHDTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                        tongcong4 += thanhtoandao.getSoTienTongCongTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                    }
+                    titleHD.setText("Số HD: " + sohd4 + " - Số tiền: " + thanhtoandao.formatTien(tongcong4));
                 }
                 Bien.listKH_thu = liskhdao;
                 Bien.adapterKHThu = new CustomListThuAdapter(con,liskhdao,pos);
                 title += String.valueOf(liskhdao.size()) +" KH";
                 Bien.bienSoLuongKHThu = liskhdao.size();
                 tvTitleKH.setText(title);
+
                 listviewKH.setAdapter(Bien.adapterKHThu);
 
             }

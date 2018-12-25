@@ -356,7 +356,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/dp3"
-                                android:text="Tổng số tiền của gói thu: "
+                                android:text="Tổng số tiền: "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/sp14" />
 
@@ -367,7 +367,14 @@
                                 android:padding="@dimen/dp3"
                                 android:textStyle="bold"
                                 android:textColor="@android:color/holo_red_dark"
-                                android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp14"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:singleLine="true"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:maxLines="1" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -397,7 +404,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/dp3"
-                                android:text="Số KH đã thu: "
+                                android:text="Số KH: "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/sp14" />
 
@@ -428,7 +435,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/dp3"
-                                android:text="Số hóa đơn đã thu: "
+                                android:text="Số hóa đơn: "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/sp14" />
 
@@ -439,7 +446,14 @@
                                 android:padding="@dimen/dp3"
                                 android:textColor="@android:color/holo_red_dark"
                                 android:textStyle="bold"
-                                android:textSize="@dimen/sp14" />
+                                android:textSize="@dimen/sp14"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:singleLine="true"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:maxLines="1" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -452,7 +466,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/dp3"
-                                android:text="Tổng số tiền đã thu: "
+                                android:text="Số tiền: "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/sp14" />
 
@@ -500,7 +514,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/dp3"
-                                android:text="Số KH đã thu hôm nay: "
+                                android:text="Số KH đã thu: "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/sp14" />
 
@@ -531,7 +545,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/dp3"
-                                android:text="Số hóa đơn đã thu hôm nay: "
+                                android:text="Số hóa đơn đã thu: "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/sp14" />
 
@@ -542,6 +556,13 @@
                                 android:padding="@dimen/dp3"
                                 android:textStyle="bold"
                                 android:textColor="@android:color/holo_red_dark"
+                                android:ellipsize="marquee"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:maxLines="1"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true"
                                 android:textSize="@dimen/sp14" />
                         </LinearLayout>
 
@@ -555,7 +576,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/dp3"
-                                android:text="Số tiền đã thu hôm nay: "
+                                android:text="Số tiền đã thu: "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/sp14" />
 

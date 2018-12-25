@@ -17,7 +17,7 @@ import tiwaco.thefirstapp.CustomAdapter.CustomListThanhToanAdapter;
 
 public class ViewDialog_ChiTietHDThanhToan {
 
-    public void showDialog(final Activity activity, CustomListThanhToanAdapter thanhtoandapter) {
+    public void showDialog(final Activity activity, CustomListThanhToanAdapter thanhtoandapter, String maKH) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         // dialog.setCancelable(false);

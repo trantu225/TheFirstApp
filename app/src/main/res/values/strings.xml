@@ -99,7 +99,7 @@
     <string name="tab_dsKH">Danh sách ghi</string>
     <string name="tab_dsKHThu">Danh sách thu</string>
     <string name="tab_dsduong">Danh sách đường</string>
-
+    <string name="list_khayloc">Khay lọc theo tiêu chí </string>
     <!-- các trường -->
     <string name="KH_hoten">Họ và tên: </string>
     <string name="KH_diachi">Địa chỉ: </string>

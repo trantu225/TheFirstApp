@@ -47,6 +47,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DTO.JSONUser;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
@@ -61,14 +62,15 @@ public class ThongTinActivity extends AppCompatActivity {
     TextView txt_tongsokh , txt_sokhdaghi, txt_dokhghihomnay, txt_som3daghi,txt_phienban,txt_kyhd;
 
     TextView txt_tongsokhthu, txt_tongtien, txt_tonghd, txt_sokhdathu, txt_sokhdathuhomnay, txt_hddathu, txt_hddathuhomnay, txt_sotientdathu, txt_sotiendathuhomnay;
-    EditText matkhaucu, matkhaumoi, luutudong, edit_kyhd;
+    EditText matkhaucu, matkhaumoi, luutudong, edit_kyhd, edit_kyhdthu;
     Switch SwitchLuuTuDong;
-    Button doimatkhau, truyvanluocsu, thoat, capnhat, doiluucapnhat, capnhatkyhd;
+    Button doimatkhau, truyvanluocsu, thoat, capnhat, doiluucapnhat, capnhatkyhd, capnhatkyhdthu;
     SPData spdata;
     KhachHangDAO khachhangdao ;
+    KhachHangThuDAO khachhangthudao;
     String urldoimatkhau = "";
     String urlcapnhat  ="";
-    LinearLayout layoutghi, layoutthu, lay_kyhd;
+    LinearLayout layoutghi, layoutthu, lay_kyhd, lay_kyhdthu;
     ThanhToanDAO thanhtoandao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class ThongTinActivity extends AppCompatActivity {
         con = ThongTinActivity.this;
         spdata = new SPData(con);
         khachhangdao = new KhachHangDAO(con);
+        khachhangthudao = new KhachHangThuDAO(con);
         thanhtoandao = new ThanhToanDAO(con);
         getSupportActionBar().setTitle("Thông tin");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -296,27 +299,47 @@ public class ThongTinActivity extends AppCompatActivity {
                 }
             }
         });
-        capnhatkyhd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+
+        capnhatkyhd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (edit_kyhd.getText().toString().trim().equals("")) {
+            public void onClick(View view) {
+                if (edit_kyhd.getText().toString().trim().equals("")) {
 
-                        showDiaLogThongBao("Bạn chưa nhập kỳ hóa đơn.");
+                    showDiaLogThongBao("Bạn chưa nhập kỳ hóa đơn.");
 
 
+                } else {
+                    if (TextUtils.isDigitsOnly(edit_kyhd.getText().toString().trim())) {
+                        spdata.luuDataKyHoaDonTrongSP(edit_kyhd.getText().toString().trim());
+                        Toast.makeText(ThongTinActivity.this, "Cập nhật thành công ", Toast.LENGTH_LONG).show();
                     } else {
-                        if (TextUtils.isDigitsOnly(edit_kyhd.getText().toString().trim())) {
-                            spdata.luuDataKyHoaDonTrongSP(edit_kyhd.getText().toString().trim());
-                        } else {
-                            luutudong.setText("");
-                            showDiaLogThongBao("Chỉ được nhập số nguyên, không được chứa ký tự đặc biệt");
-                        }
+                        edit_kyhd.setText("");
+                        showDiaLogThongBao("Chỉ được nhập số nguyên, không được chứa ký tự đặc biệt");
                     }
                 }
             }
         });
 
+
+        capnhatkyhdthu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (edit_kyhdthu.getText().toString().trim().equals("")) {
+
+                    showDiaLogThongBao("Bạn chưa nhập kỳ hóa đơn.");
+
+
+                } else {
+                    if (TextUtils.isDigitsOnly(edit_kyhdthu.getText().toString().trim())) {
+                        spdata.luuDataKyHoaDonThuTrongSP(edit_kyhdthu.getText().toString().trim());
+                    } else {
+                        capnhatkyhdthu.setText("");
+                        showDiaLogThongBao("Chỉ được nhập số nguyên, không được chứa ký tự đặc biệt");
+                    }
+                }
+            }
+        });
 
     }
 
@@ -409,7 +432,10 @@ public class ThongTinActivity extends AppCompatActivity {
         txt_sotiendathuhomnay = (TextView) findViewById(R.id.tv_sotiendathuhomnay);
         edit_kyhd = (EditText) findViewById(R.id.edit_kyhd);
         capnhatkyhd = (Button) findViewById(R.id.btn_luukyhd);
+        edit_kyhdthu = (EditText) findViewById(R.id.edit_kyhdthu);
+        capnhatkyhdthu = (Button) findViewById(R.id.btn_luukyhdthu);
         lay_kyhd = (LinearLayout) findViewById(R.id.lay_kyhd);
+        lay_kyhdthu = (LinearLayout) findViewById(R.id.lay_kyhdthu);
 
     }
 
@@ -425,6 +451,7 @@ public class ThongTinActivity extends AppCompatActivity {
     }
     public void hienThiView(){
         int TongSoKH = khachhangdao.countKhachHangAll();
+        int TongSoKHThu = khachhangthudao.countKhachHangAll();
         int SoKHDaGhi  = khachhangdao.countKhachHangDaGhi();
         String thoigian1 = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         int SoKHDaghiHomNay  = khachhangdao.countKhachHangDaGhiHomNay(thoigian1);
@@ -442,6 +469,7 @@ public class ThongTinActivity extends AppCompatActivity {
         txt_phienban.setText(String.valueOf(getVersionName()));
 
         String kyhd = spdata.getDataKyHoaDonTrongSP();
+        String kyhdthu = spdata.getDataKyHoaDonThuTrongSP();
         Log.e("KYHD",kyhd);
         if(!kyhd.equals("")) {
             String nam = kyhd.substring(0, 4);
@@ -451,16 +479,16 @@ public class ThongTinActivity extends AppCompatActivity {
         }
 
         String thoigian2 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        int SoKHDaThu = khachhangdao.countKhachHangDaThu();
-        int SoKHDaThuHomNay = khachhangdao.countKhachHangDaThuHomNay(thoigian2);
+        int SoKHDaThu = khachhangthudao.countKhachHangDaThuTheoNhanVien(spdata.getDataNhanVienTrongSP());
+        int SoKHDaThuHomNay = khachhangthudao.countKhachHangDaThuHomNayTheoNV(thoigian2, spdata.getDataNhanVienTrongSP());
         String tongsotien = thanhtoandao.getSoTienTongCong();
-        String tongtienthu = thanhtoandao.getSoTienTongCongDaThu();
-        String tongtienthuhomnay = thanhtoandao.getSoTienTongCongDaThuTheoNgay(thoigian2);
+        String tongtienthu = thanhtoandao.getSoTienTongCongDaThuTheoTen(spdata.getDataNhanVienTrongSP());
+        String tongtienthuhomnay = thanhtoandao.getSoTienTongCongDaThuTheoNgayTheoTen(thoigian2, spdata.getDataNhanVienTrongSP());
         int sohdtong = thanhtoandao.getHDTongCong();
-        int sohdthu = thanhtoandao.getSoHDDaThu();
-        int sohdthuhomnay = thanhtoandao.getSoHDDaThuTheoNgay(thoigian2);
+        int sohdthu = thanhtoandao.getSoHDDaThuTheoTen(spdata.getDataNhanVienTrongSP());
+        int sohdthuhomnay = thanhtoandao.getSoHDDaThuTheoNgayTheoTen(thoigian2, spdata.getDataNhanVienTrongSP());
 
-        txt_tongsokhthu.setText(String.valueOf(TongSoKH));
+        txt_tongsokhthu.setText(String.valueOf(TongSoKHThu));
         txt_tongtien.setText(tongsotien);
         txt_tonghd.setText(String.valueOf(sohdtong));
         txt_sokhdathu.setText(String.valueOf(SoKHDaThu));
@@ -473,11 +501,13 @@ public class ThongTinActivity extends AppCompatActivity {
         if (spdata.getChucNangGhiThu().equals("GHI")) {
             layoutghi.setVisibility(View.VISIBLE);
             layoutthu.setVisibility(View.GONE);
-        } else {
+        } else if (spdata.getChucNangGhiThu().equals("THU")) {
             layoutghi.setVisibility(View.GONE);
             layoutthu.setVisibility(View.VISIBLE);
+        } else if (spdata.getChucNangGhiThu().equals("GHITHU")) {
+            layoutghi.setVisibility(View.VISIBLE);
+            layoutthu.setVisibility(View.VISIBLE);
         }
-
 
 
 
@@ -495,10 +525,13 @@ public class ThongTinActivity extends AppCompatActivity {
             SwitchLuuTuDong.setChecked(true);
         }
         edit_kyhd.setText(spdata.getDataKyHoaDonTrongSP());
+        edit_kyhdthu.setText(spdata.getDataKyHoaDonThuTrongSP());
         if (spdata.getDataNhanVienTrongSP().equalsIgnoreCase("admin")) {
             lay_kyhd.setVisibility(View.VISIBLE);
+            lay_kyhdthu.setVisibility(View.VISIBLE);
         } else {
             lay_kyhd.setVisibility(View.GONE);
+            lay_kyhdthu.setVisibility(View.VISIBLE);
         }
 
     }

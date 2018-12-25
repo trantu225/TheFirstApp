@@ -147,6 +147,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                     askPermissionAndReadFile();
                 }
                 catch(Exception loi){
+                    Log.e("Loi tai data", loi.toString());
                     //Hiển thị dialog
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerDaGhiActivity.this);
                     // khởi tạo dialog
@@ -391,7 +392,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                             Log.e("DaCoDuLieu", "yes");
                             MyDatabaseHelper mydata = new MyDatabaseHelper(con);
                             SQLiteDatabase db = mydata.openDB();
-                            mydata.resetDatabase(db);
+                            mydata.resetDatabaseGHI(db);
                         } else {
                             Log.e("DaCoDuLieu", "no");
                         }
@@ -857,7 +858,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         spdata.luuDataTuDongLuuTapTin(1);
-                        spdata.luuChucNangGhiThu("GHI");
+                        spdata.luuChucNangGhiThu();
                         Intent myIntent=new Intent(LoadFromServerDaGhiActivity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadFromServerDaGhiActivity.this.finish();

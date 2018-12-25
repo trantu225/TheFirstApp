@@ -399,8 +399,10 @@ public class StartActivity extends AppCompatActivity  {
 
                 case R.id.btn_timkiem:
 
-                    myIntent = new Intent(StartActivity.this, SearchActivity.class);
-                    startActivity(myIntent);
+//                    myIntent = new Intent(StartActivity.this, SearchActivity.class);
+//                    startActivity(myIntent);
+                    ViewDialog_GhiThu alert3 = new ViewDialog_GhiThu();
+                    alert3.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ", 3); //2: chuc nang danh sach
                     Bien.bienManHinhChuyenTimKiem ="start";
 
                     break;

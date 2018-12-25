@@ -39,12 +39,14 @@ import java.util.List;
 import tiwaco.thefirstapp.CustomAdapter.CustomListAdapter;
 import tiwaco.thefirstapp.CustomAdapter.CustomListDuongAdapter;
 import tiwaco.thefirstapp.CustomAdapter.CustomListDuongThuAdapter;
+import tiwaco.thefirstapp.CustomAdapter.CustomListThu2Adapter;
 import tiwaco.thefirstapp.CustomAdapter.CustomListThuAdapter;
-import tiwaco.thefirstapp.DAO.DuongDAO;
+import tiwaco.thefirstapp.DAO.DuongThuDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
-import tiwaco.thefirstapp.DTO.DuongDTO;
-import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.DuongThuDTO;
+import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
 import tiwaco.thefirstapp.Database.SPData;
 
 /**
@@ -54,15 +56,15 @@ import tiwaco.thefirstapp.Database.SPData;
 public class ListThuActivity extends AppCompatActivity {
 
     ListView listviewKH ;
-    List<KhachHangDTO> liskh ;
-    KhachHangDAO khachhangDAO = null;
+    List<KhachHangThuDTO> liskh;
+    KhachHangThuDAO khachhangDAO = null;
     RecyclerView recyclerView;
     CustomListDuongThuAdapter adapter;
-    List<DuongDTO> listduong;
-    DuongDAO duongDAO;
+    List<DuongThuDTO> listduong;
+    DuongThuDAO duongDAO;
     Context con;
     ActionBar bar;
-    List<KhachHangDTO> liskhdao;
+    List<KhachHangThuDTO> liskhdao;
     TextView txtduongchon, txtTiltle, txt_title_dskh, txt_title_hd;
     int vitri = 0;
     String title ="";
@@ -94,8 +96,8 @@ public class ListThuActivity extends AppCompatActivity {
         spinTTGhi = (Spinner) findViewById(R.id.spin_tinhtrangghi);
         spinTTGhi.setSelected(true);
         spdata= new SPData(con);
-        duongDAO = new DuongDAO(con);
-        khachhangDAO = new KhachHangDAO(con);
+        duongDAO = new DuongThuDAO(con);
+        khachhangDAO = new KhachHangThuDAO(con);
         thanhtoandao = new ThanhToanDAO(con);
         listduong = duongDAO.getAllDuong();
         dialogdoi = new ProgressDialog(con, ProgressDialog.STYLE_SPINNER);
@@ -135,8 +137,7 @@ public class ListThuActivity extends AppCompatActivity {
         txtTiltle.setText(title);
 
 
-
-        Bien.adapterKHThu = new CustomListThuAdapter(con, liskhdao, spdata.getDataIndexDuongDangThuTrongSP());
+        Bien.adapterKHThu = new CustomListThu2Adapter(con, liskhdao, spdata.getDataIndexDuongDangThuTrongSP());
         listviewKH.setAdapter(Bien.adapterKHThu);
         Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
         listviewKH.setSelection(Bien.bien_index_khachhang_thu - Integer.parseInt(khachhangDAO.getSTTnhoNhat(Bien.ma_duong_dang_chon_thu)));
@@ -157,7 +158,7 @@ public class ListThuActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!locSTT.getText().toString().equals("")) {
 
-                    KhachHangDTO khchuyen = khachhangDAO.getKHTheoDanhBoSTTDuong(Bien.ma_duong_dang_chon_thu,locSTT.getText().toString().trim());
+                    KhachHangThuDTO khchuyen = khachhangDAO.getKHTheoDanhBoSTTDuong(Bien.ma_duong_dang_chon_thu, locSTT.getText().toString().trim());
                     if(khchuyen!=null) {
                         Log.e("chuyendenstt",locSTT.getText().toString()+": codulieu");
                         int stt = Integer.parseInt(khchuyen.getSTT().toString());
@@ -216,7 +217,7 @@ public class ListThuActivity extends AppCompatActivity {
                         .setMessage("Bạn có muốn thu tiền nước đường " + Bien.ma_duong_dang_chon_thu + " " + getString(R.string.list_chuyendulieu_hoighinuoc2))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(ListThuActivity.this, MainThuActivity.class);
+                                Intent intent = new Intent(ListThuActivity.this, MainThu2Activity.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putString(Bien.STTTHU, khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
                                 bundle.putString(Bien.MADUONGTHU, Bien.ma_duong_dang_chon_thu);
@@ -479,7 +480,7 @@ public class ListThuActivity extends AppCompatActivity {
         title =  String.valueOf(liskhdao.size()) +" khách hàng";
         txtTiltle.setText(title);
         if(Bien.adapterKHThu == null) {
-            Bien.adapterKHThu = new CustomListThuAdapter(con, liskhdao, spdata.getDataIndexDuongDangThuTrongSP());
+            Bien.adapterKHThu = new CustomListThu2Adapter(con, liskhdao, spdata.getDataIndexDuongDangThuTrongSP());
         }
         listviewKH.setAdapter(Bien.adapterKHThu);
         Bien.bien_index_khachhang = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;

@@ -1751,7 +1751,7 @@ public class MainActivity extends AppCompatActivity  {
         if (spdata.getChucNangGhiThu().equals("THU")) {
             lay_ghi.setEnabled(false);
             Ghi.setEnabled(false);
-        } else {
+        } else if (spdata.getChucNangGhiThu().equals("GHI") || spdata.getChucNangGhiThu().equals("GHITHU")) {
             lay_ghi.setEnabled(true);
             Ghi.setEnabled(true);
         }

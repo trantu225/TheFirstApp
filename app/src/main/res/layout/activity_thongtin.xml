@@ -711,7 +711,7 @@
                 android:layout_weight="1"
                 android:background="#00B9CD"
                 android:padding="@dimen/dp3"
-                android:text="Cập nhật kỳ hóa đơn"
+                android:text="Cập nhật kỳ hóa đơn ghi"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp14"
                 android:textStyle="bold" />
@@ -748,6 +748,76 @@
 
                 <Button
                     android:id="@+id/btn_luukyhd"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Đổi"
+                    android:layout_height="match_parent">
+
+                </Button>
+
+
+            </TableRow>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/lay_kyhdthu"
+            android:visibility="gone">
+
+            <TableRow
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00B9CD"
+                    android:padding="@dimen/dp3"
+                    android:text="Cập nhật kỳ hóa đơn thu"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp14"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
+
+            <TableRow
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left">
+
+
+            </TableRow>
+
+
+            <TableRow
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left">
+
+
+                <EditText
+                    android:id="@+id/edit_kyhdthu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:hint="Kỳ hóa đơn"
+                    android:maxLines="1"
+                    android:textSize="@dimen/sp14" />
+
+                <Button
+                    android:id="@+id/btn_luukyhdthu"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:text="Đổi"

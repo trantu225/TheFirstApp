@@ -56,7 +56,7 @@ public class ListActivity extends AppCompatActivity {
     Context con;
     ActionBar bar;
     List<KhachHangDTO> liskhdao;
-    TextView txtduongchon,txtTiltle;
+    TextView txtduongchon, txtTiltle, txt_title_hd;
     int vitri = 0;
     String title ="";
     SPData spdata;
@@ -80,6 +80,8 @@ public class ListActivity extends AppCompatActivity {
         locSTT = (EditText) findViewById(R.id.txt_title_STT);
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_listduong);
         spinTTGhi = (Spinner) findViewById(R.id.spin_tinhtrangghi);
+        txt_title_hd = (TextView) findViewById(R.id.txt_sohd);
+        txt_title_hd.setVisibility(View.GONE);
         spinTTGhi.setSelected(true);
         spdata= new SPData(con);
         duongDAO = new DuongDAO(con);

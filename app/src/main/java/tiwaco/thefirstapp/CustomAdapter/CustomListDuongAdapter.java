@@ -169,12 +169,16 @@ public class CustomListDuongAdapter extends  RecyclerView.Adapter<CustomListDuon
             holder.itemView.setPressed(true);
             holder.MaDuong.setSelected(true);
             holder.TenDuong.setSelected(true);
+            holder.MaDuong.setBackgroundResource(R.drawable.button_round_chon);
+            holder.TenDuong.setTextColor(con.getResources().getColor(R.color.badge_background_color));
 
         } else {
             holder.itemView.setSelected(false);
             holder.itemView.setPressed(false);
             holder.MaDuong.setSelected(false);
             holder.TenDuong.setSelected(false);
+            holder.MaDuong.setBackgroundResource(R.drawable.button_round);
+            holder.TenDuong.setTextColor(con.getResources().getColor(R.color.selector_recylerview_text));
 
         }
 

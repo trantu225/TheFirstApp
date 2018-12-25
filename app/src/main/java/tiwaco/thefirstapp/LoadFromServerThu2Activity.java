@@ -51,12 +51,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import circleprogress.DonutProgress;
-import tiwaco.thefirstapp.DAO.DuongDAO;
+import tiwaco.thefirstapp.DAO.DuongThuDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
-import tiwaco.thefirstapp.DTO.DuongDTO;
+import tiwaco.thefirstapp.DTO.DuongThuDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
 import tiwaco.thefirstapp.DTO.ListJsonData;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
 import tiwaco.thefirstapp.DTO.ThanhToanDTO;
@@ -65,7 +67,7 @@ import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.File.XuLyFile;
 
-public class LoadFromServerThuActivity extends AppCompatActivity {
+public class LoadFromServerThu2Activity extends AppCompatActivity {
     private String filename = "";
     DonutProgress prgTime;
     LinearLayout layout_noidungload;
@@ -77,9 +79,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
     String duongdanfile = "";
 
-    DuongDAO duongDAO;
+    DuongThuDAO DuongThuDAO;
     Context con;
-    KhachHangDAO khachhangDAO;
+    KhachHangThuDAO khachhangthudao;
     ThanhToanDAO thanhtoanDAO;
     TinhTrangTLKDAO tinhtrangtlkdao;
     TextView lv_nhanvien, lb_matkhau;
@@ -90,10 +92,10 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loaddata_server);
         getSupportActionBar().hide();
-        con = LoadFromServerThuActivity.this;
-        duongDAO = new DuongDAO(LoadFromServerThuActivity.this);
-        khachhangDAO = new KhachHangDAO(LoadFromServerThuActivity.this);
-        thanhtoanDAO = new ThanhToanDAO(LoadFromServerThuActivity.this);
+        con = LoadFromServerThu2Activity.this;
+        DuongThuDAO = new DuongThuDAO(LoadFromServerThu2Activity.this);
+        khachhangthudao = new KhachHangThuDAO(LoadFromServerThu2Activity.this);
+        thanhtoanDAO = new ThanhToanDAO(LoadFromServerThu2Activity.this);
         tinhtrangtlkdao = new TinhTrangTLKDAO(con);
         spdata = new SPData(con);
         prgTime = (DonutProgress) findViewById(R.id.prgTime);
@@ -157,7 +159,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
                         askPermissionAndReadFile();
                     } else {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
                         // khởi tạo dialog
                         alertDialogBuilder.setMessage("Chưa nhập thông tin nhân viên hoặc mật khẩu tải dữ liệu");
                         // thiết lập nội dung cho dialog
@@ -181,8 +183,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                         // hiển thị dialog
                     }
                 } catch (Exception loi) {
+                    Log.e("Loi lay du lieu thu", loi.toString());
                     //Hiển thị dialog
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
                     // khởi tạo dialog
                     alertDialogBuilder.setMessage("Kết nối thất bại.Hãy kiểm tra lại thông tin nhân viên và kỳ hóa đơn!");
                     // thiết lập nội dung cho dialog
@@ -212,9 +215,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
         btnthoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(LoadFromServerThuActivity.this, StartActivity.class);
+                Intent myIntent = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
                 startActivity(myIntent);
-                LoadFromServerThuActivity.this.finish();
+                LoadFromServerThu2Activity.this.finish();
 
             }
         });
@@ -286,7 +289,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
                         // contacts-related task you need to do.
 
-                        GPSTracker gps = new GPSTracker(con, LoadFromServerThuActivity.this);
+                        GPSTracker gps = new GPSTracker(con, LoadFromServerThu2Activity.this);
 
                         // Check if GPS enabled
                         if (gps.canGetLocation()) {
@@ -397,7 +400,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                             String tenDS = jsonobj.getString("tenDS");
                             // String kyhd = "082017"; //cắt chuỗi từ tên DS
                             //Luu ky hd vao SP
-                            spdata.luuDataKyHoaDonTrongSP(tenDS);
+                            spdata.luuDataKyHoaDonThuTrongSP(tenDS);
                             Log.e("kyhddaluu", tenDS);
 
                         } catch (JSONException e) {
@@ -425,7 +428,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                             Log.e("DaCoDuLieu", "yes");
                             MyDatabaseHelper mydata = new MyDatabaseHelper(con);
                             SQLiteDatabase db = mydata.openDB();
-                            mydata.resetDatabase(db);
+                            mydata.resetDatabaseTHU(db);
                         } else {
                             Log.e("DaCoDuLieu", "no");
                         }
@@ -438,7 +441,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                         if (jsonobj.has("ListTiwaread")) {
                             try {
                                 JSONArray listtiwaread = jsonobj.getJSONArray("ListTiwaread");
-                                List<DuongDTO> listduong = new ArrayList<>();
+                                List<DuongThuDTO> listduong = new ArrayList<>();
                                 for (int i = 0; i < listtiwaread.length(); i++) {
                                     JSONObject objTiwaread = listtiwaread.getJSONObject(i);
                                     String maduong = "";
@@ -450,13 +453,13 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                     if (objTiwaread.has("Tenduong")) {
                                         tenduong = objTiwaread.getString("Tenduong").trim();
                                     }
-                                    Log.e("kiem tra da ton tai hay chua", String.valueOf(duongDAO.countDuong()));
-                                    if (duongDAO.countDuong() <= 0) {
+                                    Log.e("kiem tra da ton tai hay chua", String.valueOf(DuongThuDAO.countDuong()));
+                                    if (DuongThuDAO.countDuong() <= 0) {
 
 
                                         Log.e("Them database_duong: ", "chay zo day rui");
-                                        DuongDTO duong = new DuongDTO(maduong, tenduong, 0, "0", 0);
-                                        boolean kt = duongDAO.addTable_Duong(duong);
+                                        DuongThuDTO duong = new DuongThuDTO(maduong, tenduong, 0, "0", 0);
+                                        boolean kt = DuongThuDAO.addTABLE_DUONGTHU(duong);
 
 
                                         if (kt) {
@@ -468,12 +471,12 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                         }
                                         //loadDataDuongfromDB();
                                     } else {
-                                        if (duongDAO.checkExistDuong(maduong)) {
+                                        if (DuongThuDAO.checkExistDuong(maduong)) {
                                             //    loadDataDuongfromDB();
                                             Log.e("Them database_duong: ", " Da ton tai duong nay");
                                         } else {
-                                            DuongDTO duong = new DuongDTO(maduong, tenduong, 0, "0", 0);
-                                            boolean kt = duongDAO.addTable_Duong(duong);
+                                            DuongThuDTO duong = new DuongThuDTO(maduong, tenduong, 0, "0", 0);
+                                            boolean kt = DuongThuDAO.addTABLE_DUONGTHU(duong);
                                             if (kt) {
                                                 Log.e("Them database_duong: " + maduong, "Thanh cong");
                                             } else {
@@ -713,21 +716,22 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             if (objKH.has("tienmuc4")) {
                                                 tien4 = objKH.getString("tienmuc4").toString().trim();
                                             }
-
+                                            Log.e("Load datathu", "load data khach hang");
                                             String thoigian1 = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
-                                            if (Integer.parseInt(spdata.getDataKyHoaDonTrongSP()) >= Integer.parseInt(thoigian1)) {
-                                                if (NhanVien.equals("")) {
-                                                    SLTieuThu = "";
-                                                    ChiSo = "";
-                                                    Lat = "";
-                                                    Lon = "";
-                                                    TrangThaiTLK = "";
-                                                    ThoiGian = "";
-                                                    capnhatghi = "0";
 
-                                                }
-                                            }
-                                            KhachHangDTO kh = new KhachHangDTO();
+//                                            if (Integer.parseInt(spdata.getDataKyHoaDonThuTrongSP()) >= Integer.parseInt(thoigian1)) {
+//                                                if (NhanVien.equals("")) {
+//                                                    SLTieuThu = "";
+//                                                    ChiSo = "";
+//                                                    Lat = "";
+//                                                    Lon = "";
+//                                                    TrangThaiTLK = "";
+//                                                    ThoiGian = "";
+//                                                    capnhatghi = "0";
+//
+//                                                }
+//                                            }
+                                            KhachHangThuDTO kh = new KhachHangThuDTO();
                                             kh.setMaKhachHang(MaKhachHang);
                                             kh.setTenKhachHang(TenKhachHang);
                                             kh.setDanhBo(DanhBo);
@@ -780,10 +784,11 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             kh.setNgaythanhtoan(ngaythanhtoan);
 
 
-                                            Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang, maduong));
-                                            boolean kt = khachhangDAO.addTable_KH(kh, maduong, capnhatghi);
+                                            Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangthudao.checkExistKH(MaKhachHang, maduong));
+
+                                            boolean kt = khachhangthudao.addTable_KH(kh, maduong, capnhatghi);
                                             //SUABUG
-                                            //boolean kt = khachhangDAO.updateTable_KH(kh);
+                                            //boolean kt = KhachHangThuDAO.updateTable_KH(kh);
                                             if (kt) {
                                                 sokhdacapnhat++;
 //                                                if(kh.getChiSo().equals("") && kh.getSLTieuThu().equals(""))
@@ -791,7 +796,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 //
 //                                                }
 //                                                else{
-//                                                    khachhangDAO.tinhTienNuoc(kh.getMaKhachHang().trim());
+//                                                    KhachHangThuDAO.tinhTienNuoc(kh.getMaKhachHang().trim());
 //                                                }
                                                 Log.e("Them database_KH: " + MaKhachHang + " " + TenKhachHang, "Thanh cong");
                                             } else {
@@ -984,26 +989,81 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                             kh.setCapNhatThu(CapNhatThu);
 
 
-                                            Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangDAO.checkExistKH(MaKhachHang, maduong));
+                                            Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangthudao.checkExistKH(MaKhachHang, maduong));
                                             boolean kt = thanhtoanDAO.addTable_ThanhToan(kh, maduong);
                                             //SUABUG
-                                            //boolean kt = khachhangDAO.updateTable_KH(kh);
+                                            //boolean kt = KhachHangThuDAO.updateTable_KH(kh);
                                             if (kt) {
                                                 ID++;
+                                                List<ThanhToanDTO> listdathanhtoantruoc = thanhtoanDAO.GetListThanhToanTheoMaKHDaThanhToan(kh.getMaKhachHang());
 
 
-                                                Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "Thanh cong");
-                                                if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
-                                                    if (khachhangDAO.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), kh.getNhanvienthu())) {
-                                                        Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
-                                                        if (khachhangDAO.updateDaChamNo(kh.getMaKhachHang())) {
-                                                            Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                if (listdathanhtoantruoc.size() == 0) {
+                                                    Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "Thanh cong");
+                                                    if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
+                                                        //check xem da ton tai hoa don truoc do da cham no chua
+
+                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), kh.getNhanvienthu())) {
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                            if (khachhangthudao.updateDaChamNo(kh.getMaKhachHang())) {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                            } else {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                            }
+
                                                         } else {
-                                                            Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
                                                         }
 
-                                                    } else {
-                                                        Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                    } else if (kh.getNgaythanhtoan().equals("") && kh.getNhanvienthu().equals("")) {
+                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), "", "")) {
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                            if (khachhangthudao.updateTrangThaiThuCapNhat(kh.getMaKhachHang(), "0")) {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                            } else {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                            }
+
+                                                        } else {
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                        }
+                                                    }
+                                                } else {
+                                                    String nguoithuvakyhd = "";
+                                                    for (ThanhToanDTO thanhtoan : listdathanhtoantruoc) {
+                                                        String tenNV = thanhtoan.getNhanvienthu();
+                                                        String kyhd = thanhtoan.getKyHD();
+                                                        nguoithuvakyhd += tenNV + "-" + kyhd + " ";
+                                                    }
+                                                    if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
+                                                        //check xem da ton tai hoa don truoc do da cham no chua
+
+                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), nguoithuvakyhd)) {
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                            if (khachhangthudao.updateDaChamNo(kh.getMaKhachHang())) {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                            } else {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                            }
+
+                                                        } else {
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                        }
+
+                                                    } else if (kh.getNgaythanhtoan().equals("") && kh.getNhanvienthu().equals("")) {
+
+                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), "", "")) {
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                            if (khachhangthudao.updateTrangThaiThuCapNhat(kh.getMaKhachHang(), "0")) {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                            } else {
+                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                            }
+
+                                                        } else {
+                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                        }
+
                                                     }
                                                 }
                                             } else {
@@ -1025,12 +1085,12 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
 
                                 }
-                                List<DuongDTO> listduongcapnhat = duongDAO.getAllDuong();
+                                List<DuongThuDTO> listduongcapnhat = DuongThuDAO.getAllDuong();
                                 for (int i = 0; i < listduongcapnhat.size(); i++) {
                                     Log.e("listduongcapnhat" + i, listduongcapnhat.get(i).getMaDuong());
-                                    Log.e("so khchuaghi", String.valueOf(khachhangDAO.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong())));
-                                    if (khachhangDAO.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong()) == 0) {
-                                        duongDAO.updateDuongDaGhi(listduongcapnhat.get(i).getMaDuong());
+                                    Log.e("so khchuaghi", String.valueOf(khachhangthudao.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong())));
+                                    if (khachhangthudao.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong()) == 0) {
+                                        DuongThuDAO.updateDuongDaGhi(listduongcapnhat.get(i).getMaDuong());
                                     }
                                 }
                                 Log.e("sokhco", String.valueOf(sokhco));
@@ -1042,6 +1102,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                                 }
                                 //     loadDataDuongfromDB();
                             } catch (JSONException e) {
+                                Log.e("Loi khi cap nhat", e.toString());
                                 FlagupdateDB = "TB";
                                 e.printStackTrace();
                             }
@@ -1051,6 +1112,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                         publishProgress("Empty");
                     }
                 } catch (Exception x) {
+                    Log.e("show loi", x.toString());
                     FlagupdateDB = "TB";
                 }
             }
@@ -1077,7 +1139,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
             if (result.equals("TC")) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Load dữ liệu thành công  " + sokhdacapnhat + " khách hàng");
                 // thiết lập nội dung cho dialog
@@ -1088,9 +1150,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         spdata.luuDataTuDongLuuTapTin(1);
                         spdata.luuChucNangGhiThu();
-                        Intent myIntent = new Intent(LoadFromServerThuActivity.this, StartActivity.class);
+                        Intent myIntent = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
                         startActivity(myIntent);
-                        LoadFromServerThuActivity.this.finish();
+                        LoadFromServerThu2Activity.this.finish();
                         // button "no" ẩn dialog đi
                     }
                 });
@@ -1103,7 +1165,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
 
             } else if (result.equals("EMPTY")) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.loadserver_error_kocokh);
                 // thiết lập nội dung cho dialog
@@ -1112,9 +1174,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent myIntent = new Intent(LoadFromServerThuActivity.this, StartActivity.class);
+                        Intent myIntent = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
                         startActivity(myIntent);
-                        LoadFromServerThuActivity.this.finish();
+                        LoadFromServerThu2Activity.this.finish();
                         // button "no" ẩn dialog đi
                     }
                 });
@@ -1125,7 +1187,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                 alertDialog.show();
                 // hiển thị dialog
             } else {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage(R.string.error_load);
                 // thiết lập nội dung cho dialog
@@ -1143,9 +1205,9 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent myIntent = new Intent(LoadFromServerThuActivity.this, StartActivity.class);
+                        Intent myIntent = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
                         startActivity(myIntent);
-                        LoadFromServerThuActivity.this.finish();
+                        LoadFromServerThu2Activity.this.finish();
                         // button "no" ẩn dialog đi
                     }
                 });
@@ -1162,7 +1224,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
     }
 
     private Boolean KiemTraTonTaiDuLieu() {
-        if (duongDAO.countDuong() <= 0 && khachhangDAO.countKhachHangAll() <= 0) {
+        if (DuongThuDAO.countDuong() <= 0 && khachhangthudao.countKhachHangAll() <= 0) {
             return false;
         }
         return true;
@@ -1307,7 +1369,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
             }
         } else {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThuActivity.this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
             // khởi tạo dialog
             alertDialogBuilder.setMessage(R.string.error_load_server);
             // thiết lập nội dung cho dialog
@@ -1317,7 +1379,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
-                    Intent in = new Intent(LoadFromServerThuActivity.this, StartActivity.class);
+                    Intent in = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
                     startActivity(in);
                     // button "no" ẩn dialog đi
                 }
@@ -1377,16 +1439,18 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
 
     private String taoJSONData_KH_TatCa(String tendanhsach) {
         ListJsonData jsondata = new ListJsonData();
+        KhachHangDAO khachhangdao = new KhachHangDAO(con);
+
         //Lấy danh sách tất cả các đường
-        List<DuongDTO> listduong = new ArrayList<DuongDTO>();
+        List<DuongThuDTO> listduong = new ArrayList<DuongThuDTO>();
         List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
-        String soluongKH = String.valueOf(khachhangDAO.countKhachHangAll());
-        listduong = duongDAO.getAllDuong();
+        String soluongKH = String.valueOf(khachhangdao.countKhachHangAll());
+        listduong = DuongThuDAO.getAllDuong();
         for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
             String maduong = listduong.get(thutuduong).getMaDuong();
             String tenduong = listduong.get(thutuduong).getTenDuong();
             List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
-            listkh = khachhangDAO.getAllKHTheoDuong(maduong);
+            listkh = khachhangdao.getAllKHTheoDuong(maduong);
             ListTiwareadDTO tiwaread = new ListTiwareadDTO();
             tiwaread.setMaDuong(maduong);
             tiwaread.setTenDuong(tenduong);

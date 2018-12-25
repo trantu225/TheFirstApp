@@ -1,5 +1,8 @@
 package tiwaco.thefirstapp;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 import android.app.ListActivity;
@@ -11,6 +14,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -302,29 +306,28 @@ public class BTDeviceList extends ListActivity {
 
             @Override
             public void run() {
+                UUID uuid = null;
+                Log.e("vitri", String.valueOf(position));
+//                boolean gotuuid = btDevices.getItem(position)
+//                        .fetchUuidsWithSdp();
+
+                try {
+                    uuid = btDevices.getItem(position).getUuids()[0]
+                            .getUuid();
+                    Log.e("uuid device", uuid.toString());
+                } catch (Exception e) {
+                    uuid = SPP_UUID;
+                    Log.e("uuid SPP_UUID", uuid.toString());
+                }
                 try {
 //                    if (!btDevices.isEmpty()) {
 //                        BluetoothDevice device = btDevices.remove(position);
 //                        boolean result = device.fetchUuidsWithSdp();
 //                    }
 
-                    Log.e("vitri", String.valueOf(position));
-                    boolean gotuuid = btDevices.getItem(position)
-                            .fetchUuidsWithSdp();
-                    UUID uuid = null;
-                    try {
-                        uuid = btDevices.getItem(position).getUuids()[0]
-                                .getUuid();
-                        Log.e("uuid device", uuid.toString());
-                    } catch (Exception e) {
-                        uuid = SPP_UUID;
-                        Log.e("uuid SPP_UUID", uuid.toString());
-                    }
 
+                    mbtSocket = btDevices.getItem(position).createRfcommSocketToServiceRecord(uuid);
 
-
-                    mbtSocket = btDevices.getItem(position)
-                            .createRfcommSocketToServiceRecord(uuid);
 
                     //Bien.socketTest = mbtSocket;
                     mbtSocket.connect();
@@ -342,15 +345,25 @@ public class BTDeviceList extends ListActivity {
 //                    mbtSocket = null;
 //                    return;
                     try {
-                        Log.e("", "trying fallback...");
+                        Log.e("", "trying fallback..." + ex);
+                        if (Build.VERSION.SDK_INT >= 10) {
+                            try {
+                                final Method m = btDevices.getItem(position).getClass().getMethod("createInsecureRfcommSocketToServiceRecord", new Class[]{UUID.class});
+                                mbtSocket = (BluetoothSocket) m.invoke(btDevices.getItem(position), uuid);
+                                mbtSocket.connect();
+                            } catch (Exception e) {
+                                Log.e("", "Could not create Insecure RFComm Connection", e);
+                            }
+                        } else {
+                            mbtSocket = (BluetoothSocket) btDevices.getItem(position).getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(btDevices.getItem(position), 1);
+                            mbtSocket.connect();
+                        }
 
-                        mbtSocket = (BluetoothSocket) btDevices.getItem(position).getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(btDevices.getItem(position), 1);
-                        mbtSocket.connect();
 
                         Log.e("", "Connected");
                     } catch (Exception e2) {
                         runOnUiThread(socketErrorRunnable);
-                        Log.e("", "Couldn't establish Bluetooth connection!");
+                        Log.e("", "Couldn't establish Bluetooth connection!" + e2);
                     }
 
                 } finally {
@@ -402,4 +415,5 @@ public class BTDeviceList extends ListActivity {
 
         return true;
     }
+
 }

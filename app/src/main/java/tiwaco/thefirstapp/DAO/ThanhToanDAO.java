@@ -364,6 +364,57 @@ public class ThanhToanDAO {
         return ListTT;
     }
 
+    public List<ThanhToanDTO> GetListThanhToanTheoMaKHDaThanhToanTheoNV(String makh, String tennhanvien) {
+        db = myda.openDB();
+        List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = '" + makh + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " <> '' " + " and " + MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU + " = '" + tennhanvien + "' order by " + MyDatabaseHelper.KEY_THANHTOAN_KYHD;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ThanhToanDTO kh = new ThanhToanDTO();
+                kh.setBienLai(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
+                kh.setMaKhachHang(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+
+                kh.setChiSoMoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOMOI)));
+                kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
+                kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+                kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
+                kh.setM3t2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M32)));
+                kh.setM3t3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M33)));
+                kh.setM3t4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M34)));
+                kh.setTien1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN1)));
+                kh.setTien2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN2)));
+                kh.setTien3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN3)));
+                kh.setTien4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN4)));
+                kh.setTienNuoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC)));
+                kh.setphi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_PHI)));
+                kh.setThue(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_THUE)));
+                kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
+                kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
+                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
+                kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
+                kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
+
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        Log.e("so luong danh sach tt tim kiem", String.valueOf(ListTT.size()));
+        return ListTT;
+    }
+
 
     public List<ThanhToanDTO> getTatCaThanhToan() {
         db = myda.openDB();
@@ -543,7 +594,7 @@ public class ThanhToanDAO {
     public int countKhachHangChuaThuTheoDuong(String maduong) {
         db = myda.openDB();
         int sokh = 0;
-        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MADUONG + "='" + maduong + "' and " + MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN + "=''";
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MADUONG + "='" + maduong + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "=''";
 
         Cursor cursor = db.rawQuery(countQuery, null);
         sokh = cursor.getCount();
@@ -555,7 +606,7 @@ public class ThanhToanDAO {
     public int countKhachHangChuaThuTheoMaKH(String makh) {
         db = myda.openDB();
         int sokh = 0;
-        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "='" + makh + "' and " + MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN + "=''";
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "='" + makh + "'and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "=''";
 
         Cursor cursor = db.rawQuery(countQuery, null);
         sokh = cursor.getCount();
@@ -576,10 +627,22 @@ public class ThanhToanDAO {
         return sokh;
     }
 
+    public int countHDChuaThuTheoMaKH(String makh) {
+        db = myda.openDB();
+        int sokh = 0;
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "='" + makh + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "=''";
+
+        Cursor cursor = db.rawQuery(countQuery, null);
+        sokh = cursor.getCount();
+        cursor.close();
+        db.close();
+        return sokh;
+    }
+
     public int countSoHDDaThuTuNgayDenNgay(String ngaytu, String ngayden) {
         db = myda.openDB();
         int sokh = 0;
-        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE (" + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + ">='" + ngaytu + "' and " + MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN + " <='" + ngayden + "'and " + MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN + "<>''";
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE (" + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + ">='" + ngaytu + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " <='" + ngayden + "'and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "<>''";
 
         Cursor cursor = db.rawQuery(countQuery, null);
         sokh = cursor.getCount();
@@ -591,7 +654,7 @@ public class ThanhToanDAO {
     public int countSoHDDaThuTheoNgay(String ngay) {
         db = myda.openDB();
         int sokh = 0;
-        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN + "LIKE '%" + ngay + "%'";
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "LIKE '%" + ngay + "%'";
 
         Cursor cursor = db.rawQuery(countQuery, null);
         sokh = cursor.getCount();
@@ -606,6 +669,72 @@ public class ThanhToanDAO {
         List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "='" + makh + "'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ThanhToanDTO kh = new ThanhToanDTO();
+                kh.setBienLai(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
+                kh.setMaKhachHang(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+
+                kh.setChiSoMoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOMOI)));
+                kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
+                kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+                kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
+                kh.setM3t2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M32)));
+                kh.setM3t3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M33)));
+                kh.setM3t4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M34)));
+                kh.setTien1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN1)));
+                kh.setTien2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN2)));
+                kh.setTien3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN3)));
+                kh.setTien4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN4)));
+                kh.setTienNuoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC)));
+                kh.setphi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_PHI)));
+                kh.setThue(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_THUE)));
+                kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
+                kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
+                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
+                kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
+                kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
+
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        if (ListTT.size() == 0) {
+            return " 0 đ";
+        } else {
+            String tongcong = "";
+            int summoney = 0;
+            for (ThanhToanDTO t : ListTT) {
+                int money = Integer.parseInt(t.gettongcong());
+                summoney += money;
+            }
+
+            tongcong = " " + format2.format(Double.parseDouble(format1.format(Double.valueOf(summoney)))) + " đ";
+            return tongcong;
+        }
+
+
+    }
+
+    public String getSoTienTongCongChuaThuTheoMAKH(String makh) {
+
+        db = myda.openDB();
+        List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "='" + makh + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "=''";
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -937,6 +1066,72 @@ public class ThanhToanDAO {
 
     }
 
+    public String getSoTienTongCongDaThuTheoNgayTheoTen(String ngay, String tennv) {
+
+        db = myda.openDB();
+        List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " LIKE '%" + ngay + "%' and " + MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU + "= '" + tennv + "'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ThanhToanDTO kh = new ThanhToanDTO();
+                kh.setBienLai(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
+                kh.setMaKhachHang(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+
+                kh.setChiSoMoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOMOI)));
+                kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
+                kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+                kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
+                kh.setM3t2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M32)));
+                kh.setM3t3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M33)));
+                kh.setM3t4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M34)));
+                kh.setTien1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN1)));
+                kh.setTien2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN2)));
+                kh.setTien3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN3)));
+                kh.setTien4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN4)));
+                kh.setTienNuoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC)));
+                kh.setphi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_PHI)));
+                kh.setThue(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_THUE)));
+                kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
+                kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
+                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
+                kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
+                kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
+
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        if (ListTT.size() == 0) {
+            return " 0 đ";
+        } else {
+            String tongcong = "";
+            int summoney = 0;
+            for (ThanhToanDTO t : ListTT) {
+                int money = Integer.parseInt(t.gettongcong());
+                summoney += money;
+            }
+
+            tongcong = " " + format2.format(Double.parseDouble(format1.format(Double.valueOf(summoney)))) + " đ";
+            return tongcong;
+        }
+
+
+    }
+
     public String getSoTienTongCongDaThu() {
 
         db = myda.openDB();
@@ -1004,6 +1199,72 @@ public class ThanhToanDAO {
 
     }
 
+    public String getSoTienTongCongDaThuTheoTen(String tennv) {
+
+        db = myda.openDB();
+        List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "<>'' and " + MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU + "='" + tennv + "'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ThanhToanDTO kh = new ThanhToanDTO();
+                kh.setBienLai(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
+                kh.setMaKhachHang(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+
+                kh.setChiSoMoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOMOI)));
+                kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
+                kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+                kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
+                kh.setM3t2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M32)));
+                kh.setM3t3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M33)));
+                kh.setM3t4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M34)));
+                kh.setTien1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN1)));
+                kh.setTien2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN2)));
+                kh.setTien3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN3)));
+                kh.setTien4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN4)));
+                kh.setTienNuoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC)));
+                kh.setphi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_PHI)));
+                kh.setThue(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_THUE)));
+                kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
+                kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
+                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
+                kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
+                kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
+//                if(Double.parseDouble(kh.getNgaythanhtoan()) >= 20181214000000.00 &&Double.parseDouble(kh.getNgaythanhtoan()) < 20181215000000.00 ) {
+//                    // Adding contact to list
+//                    Log.e("makh",kh.getMaKhachHang());
+                ListTT.add(kh);
+                //      }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        if (ListTT.size() == 0) {
+            return " 0 đ";
+        } else {
+            String tongcong = "";
+            int summoney = 0;
+            for (ThanhToanDTO t : ListTT) {
+                int money = Integer.parseInt(t.gettongcong());
+                summoney += money;
+            }
+
+            tongcong = " " + format2.format(Double.parseDouble(format1.format(Double.valueOf(summoney)))) + " đ";
+            return tongcong;
+        }
+
+
+    }
 
     public int getHDTongCong() {
 
@@ -1064,7 +1325,61 @@ public class ThanhToanDAO {
         db = myda.openDB();
         List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " LIKE '%" + ngay + "%'";
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " LIKE '%" + ngay + "%' ";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ThanhToanDTO kh = new ThanhToanDTO();
+                kh.setBienLai(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
+                kh.setMaKhachHang(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+
+                kh.setChiSoMoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOMOI)));
+                kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
+                kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+                kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
+                kh.setM3t2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M32)));
+                kh.setM3t3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M33)));
+                kh.setM3t4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M34)));
+                kh.setTien1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN1)));
+                kh.setTien2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN2)));
+                kh.setTien3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN3)));
+                kh.setTien4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN4)));
+                kh.setTienNuoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC)));
+                kh.setphi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_PHI)));
+                kh.setThue(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_THUE)));
+                kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
+                kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
+                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
+                kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
+                kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
+
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+
+        return ListTT.size();
+
+    }
+
+    public int getSoHDDaThuTheoNgayTheoTen(String ngay, String tennv) {
+
+        db = myda.openDB();
+        List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " LIKE '%" + ngay + "%' and " + MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU + "= '" + tennv + "'";
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -1119,6 +1434,61 @@ public class ThanhToanDAO {
         List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "<>''";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ThanhToanDTO kh = new ThanhToanDTO();
+                kh.setBienLai(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
+                kh.setMaKhachHang(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+
+                kh.setChiSoMoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOMOI)));
+                kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
+                kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+                kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
+                kh.setM3t2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M32)));
+                kh.setM3t3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M33)));
+                kh.setM3t4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M34)));
+                kh.setTien1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN1)));
+                kh.setTien2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN2)));
+                kh.setTien3(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN3)));
+                kh.setTien4(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIEN4)));
+                kh.setTienNuoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC)));
+                kh.setphi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_PHI)));
+                kh.setThue(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_THUE)));
+                kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
+                kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
+                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
+                kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
+                kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
+
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return ListTT.size();
+
+    }
+
+
+    public int getSoHDDaThuTheoTen(String tennv) {
+
+        db = myda.openDB();
+        List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "<>'' and " + MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU + "= '" + tennv + "'";
+        ;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list

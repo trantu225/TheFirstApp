@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import tiwaco.thefirstapp.Bien;
+import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -205,14 +207,19 @@ public class SPData  {
         String idnhanvien = getDataIDNhanVien();
         String huyen = getDataHuyen();
         String dthuyen = getDataDienThoaiHuyen();
-        String trangthaighithu = getChucNangGhiThu();
+        // String trangthaighithu = getChucNangGhiThu();
+        String kyhdghi = getDataKyHoaDonTrongSP();
+        String kyhdthu = getDataKyHoaDonThuTrongSP();
 
         editor.clear();
         editor.commit();
         luuDataNhanVienTrongSP(nv);
         luuDataMatKhauNhanVienTrongSP(pass);
-        luuChucNangGhiThu(trangthaighithu);
+        //luuChucNangGhiThuTheoTrangThai(trangthaighithu);
+        luuChucNangGhiThu();
         luuThongTinNhanVien(idnhanvien, hoten, dienthoai, huyen, dthuyen);
+        luuDataKyHoaDonTrongSP(kyhdghi);
+        luuDataKyHoaDonThuTrongSP(kyhdthu);
     }
 
     public void luuDataKyHoaDonTrongSP(String kyhd){
@@ -226,6 +233,22 @@ public class SPData  {
 
 
         String kyhd=pre.getString(Bien.SPKYHD, "");
+        return kyhd;
+    }
+
+
+    public void luuDataKyHoaDonThuTrongSP(String kyhd) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putString(Bien.SPKYHDTHU, kyhd);
+        editor.commit();
+    }
+
+    public String getDataKyHoaDonThuTrongSP() {
+
+
+        String kyhd = pre.getString(Bien.SPKYHDTHU, "");
         return kyhd;
     }
 
@@ -318,6 +341,7 @@ public class SPData  {
         return flagghi;
     }
 
+
     public void luuThongTinNhanVien(String idnhanvien, String ten, String dienthoai, String idhuyen, String dthuyen) {
 
         //tạo đối tượng Editor để lưu thay đổi
@@ -372,18 +396,39 @@ public class SPData  {
         return flagghi;
     }
 
-    public void luuChucNangGhiThu(String ghithu) { //GHI, THU
+    public void luuChucNangGhiThu() { //GHI, THU
 
+        String ghithu = "";
+        KhachHangDAO khdao = new KhachHangDAO(context);
+        KhachHangThuDAO khthudao = new KhachHangThuDAO(context);
+        if (khdao.countKhachHangAll() == 0 && khthudao.countKhachHangAll() != 0) {
+            ghithu = "THU";
+        } else if (khdao.countKhachHangAll() != 0 && khthudao.countKhachHangAll() == 0) {
+            ghithu = "GHI";
+        } else if (khdao.countKhachHangAll() != 0 && khthudao.countKhachHangAll() != 0) {
+            ghithu = "GHITHU";
+        } else if (khdao.countKhachHangAll() == 0 && khthudao.countKhachHangAll() == 0) {
+            ghithu = "";
+        }
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor = pre.edit();
         editor.putString(Bien.SPCNGHITHU, ghithu);
         editor.commit();
     }
 
+    public void luuChucNangGhiThuTheoTrangThai(String trangthai) { //GHI, THU
+
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putString(Bien.SPCNGHITHU, trangthai);
+        editor.commit();
+    }
+
     public String getChucNangGhiThu() {
 
 
-        String kyhd = pre.getString(Bien.SPCNGHITHU, "GHI");
+        String kyhd = pre.getString(Bien.SPCNGHITHU, "");
         return kyhd;
     }
 }

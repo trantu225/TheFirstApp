@@ -138,10 +138,12 @@ public class ViewDialog_GhiThu {
                 }
 
 
-                }
-                else{
+                } else if (loai == 2) {
                     Bien.selected_item = spdata.getDataIndexDuongDangGhiTrongSP();
                     Intent myIntent2 = new Intent(activity, ListActivity.class);
+                    activity.startActivity(myIntent2);
+                } else if (loai == 3) {
+                    Intent myIntent2 = new Intent(activity, SearchActivity.class);
                     activity.startActivity(myIntent2);
                 }
 
@@ -155,11 +157,16 @@ public class ViewDialog_GhiThu {
         Button dialogButton_thu = (Button) dialog.findViewById(R.id.btn_dialog_thu);
 
         if (spdata.getChucNangGhiThu().equals("GHI")) {
+            dialogButton_ghi.setEnabled(true);
             dialogButton_thu.setEnabled(false);
-        } else {
-            dialogButton_thu.setEnabled(true);
         }
-
+        if (spdata.getChucNangGhiThu().equals("THU")) {
+            dialogButton_thu.setEnabled(true);
+            dialogButton_ghi.setEnabled(false);
+        } else if (spdata.getChucNangGhiThu().equals("GHITHU")) {
+            dialogButton_thu.setEnabled(true);
+            dialogButton_ghi.setEnabled(true);
+        }
 
         dialogButton_thu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,7 +220,7 @@ public class ViewDialog_GhiThu {
                                 dialog.dismiss();
 
 
-                                Intent myIntent = new Intent(activity, MainThuActivity.class);
+                                Intent myIntent = new Intent(activity, MainThu2Activity.class);
                                 //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
                                 myIntent.putExtra("MauLoadGhiThu", "1");
                                 activity.startActivity(myIntent);
@@ -266,10 +273,12 @@ public class ViewDialog_GhiThu {
                         alertDialog.show();
 
                     }
-                }
-                else{
+                } else if (loai == 2) {
                     Bien.selected_item = spdata.getDataIndexDuongDangThuTrongSP();
                     Intent myIntent2 = new Intent(activity, ListThuActivity.class);
+                    activity.startActivity(myIntent2);
+                } else if (loai == 3) {
+                    Intent myIntent2 = new Intent(activity, SearchThuActivity.class);
                     activity.startActivity(myIntent2);
                 }
 

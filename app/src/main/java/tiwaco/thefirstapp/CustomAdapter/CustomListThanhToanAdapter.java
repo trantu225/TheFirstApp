@@ -26,7 +26,9 @@ import java.util.List;
 
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DAO.DuongDAO;
+import tiwaco.thefirstapp.DAO.DuongThuDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
@@ -54,8 +56,8 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
     private LayoutInflater layoutInflater;
     int index_duong;
     SPData spdata;
-    DuongDAO duongdao;
-    KhachHangDAO khachhangdao;
+    DuongThuDAO duongdao;
+    KhachHangThuDAO khachhangdao;
     ThanhToanDAO thanhtoandao;
     String strghichu = "", vido = "", kinhdo = "";
     DecimalFormat format, format1, format2;
@@ -72,8 +74,8 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
         conlai = lbconlai;
 
         spdata = new SPData(context);
-        duongdao = new DuongDAO(context);
-        khachhangdao = new KhachHangDAO(context);
+        duongdao = new DuongThuDAO(context);
+        khachhangdao = new KhachHangThuDAO(context);
         thanhtoandao = new ThanhToanDAO(context);
         DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');

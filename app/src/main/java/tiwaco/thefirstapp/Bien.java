@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.UUID;
 
 import tiwaco.thefirstapp.CustomAdapter.CustomListAdapter;
+import tiwaco.thefirstapp.CustomAdapter.CustomListThu2Adapter;
 import tiwaco.thefirstapp.CustomAdapter.CustomListThuAdapter;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
 import tiwaco.thefirstapp.DTO.NhanVienDTO;
 
 /**
@@ -22,9 +24,9 @@ public class Bien {
 
     public static List<NhanVienDTO> listNV =null ;
     public static CustomListAdapter adapterKH =null;
-    public static CustomListThuAdapter adapterKHThu =null;
+    public static CustomListThu2Adapter adapterKHThu = null;
     public static List<KhachHangDTO> listKH =null;
-    public static List<KhachHangDTO> listKH_thu =null;
+    public static List<KhachHangThuDTO> listKH_thu = null;
     public static String ma_duong_dang_chon ="";
     public static String ma_duong_dang_chon_thu ="";
     public static int selected_item = 0;
@@ -72,6 +74,7 @@ public class Bien {
     public static final String SPCNGHITHU = "spcnghithu";
     public static final String SPONOFFLUU = "sponoffluu";
     public static final String SPKYHD = "spkyhd";
+    public static final String SPKYHDTHU = "spkyhdthu";
     public static final String SPBKCG = "spbackupchuaghi";
     public static final String SPFLAGGHI = "spghi";
     public static final String SPSTTDANGGHI = "spstt";
@@ -83,6 +86,7 @@ public class Bien {
     public static final String SPTENNHANVIEN = "sptennhanvien";
     public static final String SPIDNHANVIEN = "spidnhanvien";
     public static final String SPCHOPHEPGHI = "spchophepghi";
+    public static final String SPCHOPHEPTHU = "spchophepthu";
     public static final String SPMATKHAU = "spmatkhau";
     public static final String SPINDEXDUONG= "spindexduong";
     public static final String SPINDEXDUONGTHU= "spindexduongthu";

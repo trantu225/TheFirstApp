@@ -75,7 +75,7 @@ public class ViewDialog {
             public void onClick(View v) {
                 dialog.dismiss();
                 activity.finish();
-                Intent myIntent = new Intent(activity, LoadFromServerThuActivity.class);
+                Intent myIntent = new Intent(activity, LoadFromServerThu2Activity.class);
                 activity.startActivity(myIntent);
                 // activity.finish();
 

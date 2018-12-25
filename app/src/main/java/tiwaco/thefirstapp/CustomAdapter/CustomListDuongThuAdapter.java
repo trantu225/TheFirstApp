@@ -22,10 +22,10 @@ import java.util.List;
 
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DAO.DuongDAO;
-import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
-import tiwaco.thefirstapp.DTO.DuongDTO;
-import tiwaco.thefirstapp.DTO.KhachHangDTO;
+import tiwaco.thefirstapp.DTO.DuongThuDTO;
+import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.R;
 
@@ -37,10 +37,10 @@ import static android.R.color.holo_green_dark;
 
 public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListDuongThuAdapter.RecyclerViewHolder> {
 
-    List<DuongDTO> listDuong;
+    List<DuongThuDTO> listDuong;
     Context con;
     ListView listviewKH;
-    DuongDTO duongchon;
+    DuongThuDTO duongchon;
     TextView tvmaduong;
     TextView tvTitleKH, titleHD;
     RecyclerView reduong;
@@ -52,7 +52,7 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
     ThanhToanDAO thanhtoandao;
 
 
-    public CustomListDuongThuAdapter(Context context, List<DuongDTO> listData, ListView listKH, TextView txtMaDuong, RecyclerView re, TextView titleKH, TextView titleHD) {
+    public CustomListDuongThuAdapter(Context context, List<DuongThuDTO> listData, ListView listKH, TextView txtMaDuong, RecyclerView re, TextView titleKH, TextView titleHD) {
         this.listDuong = listData;
         this.con = context;
         this.listviewKH = listKH;
@@ -66,7 +66,8 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
 
 
     }
-    public void setData(List<DuongDTO> list){
+
+    public void setData(List<DuongThuDTO> list) {
         listDuong = list;
     }
 
@@ -121,14 +122,14 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                     notifyDataSetChanged();
                 }
 
-                DuongDTO duong = listDuong.get(position);
+                DuongThuDTO duong = listDuong.get(position);
                 Bien.ma_duong_dang_chon_thu = duong.getMaDuong();
                 //   Bien.bien_index_duong = pos;
                 Log.e("Ma duong dang chon thu", Bien.ma_duong_dang_chon_thu);
                 tvmaduong.setText(duong.getMaDuong());
                 title =   "";
-                List<KhachHangDTO> liskhdao = new ArrayList<KhachHangDTO>();
-                KhachHangDAO khachhangDAO = new KhachHangDAO(con);
+                List<KhachHangThuDTO> liskhdao = new ArrayList<KhachHangThuDTO>();
+                KhachHangThuDAO khachhangDAO = new KhachHangThuDAO(con);
 
                 //xu ly lay list tai day ( tat ca, da ghi, chua ghi)
 
@@ -189,7 +190,7 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                     titleHD.setText("Số HD: " + sohd4 + " - Số tiền: " + thanhtoandao.formatTien(tongcong4));
                 }
                 Bien.listKH_thu = liskhdao;
-                Bien.adapterKHThu = new CustomListThuAdapter(con,liskhdao,pos);
+                Bien.adapterKHThu = new CustomListThu2Adapter(con, liskhdao, pos);
                 title += String.valueOf(liskhdao.size()) +" KH";
                 Bien.bienSoLuongKHThu = liskhdao.size();
                 tvTitleKH.setText(title);
@@ -205,12 +206,16 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
             holder.itemView.setPressed(true);
             holder.MaDuong.setSelected(true);
             holder.TenDuong.setSelected(true);
+            holder.MaDuong.setBackgroundResource(R.drawable.button_round_chon);
+            holder.TenDuong.setTextColor(con.getResources().getColor(R.color.badge_background_color));
 
         } else {
             holder.itemView.setSelected(false);
             holder.itemView.setPressed(false);
             holder.MaDuong.setSelected(false);
             holder.TenDuong.setSelected(false);
+            holder.MaDuong.setBackgroundResource(R.drawable.button_round);
+            holder.TenDuong.setTextColor(con.getResources().getColor(R.color.selector_recylerview_text));
 
         }
 

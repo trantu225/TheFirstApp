@@ -51,38 +51,28 @@
             android:textSize="@dimen/sp14"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/spin_tinhtrangghi"
+
+        <EditText
+            android:id="@+id/txt_title_STT"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp3"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textSize="@dimen/sp14">
-
-        </Spinner>
-        <EditText
-            android:id="@+id/txt_title_STT"
-            android:layout_width="@dimen/dp100"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginLeft="@dimen/dp10"
+            android:background="#FFD"
             android:padding="@dimen/dp3"
             android:hint="STT,DB"
+
             android:textColor="@android:color/black"
             android:inputType="numberDecimal"
             android:textSize="@dimen/sp14"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/txt_title_dskh1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:text="asdasdsd"
             android:gravity="end"
             android:padding="@dimen/dp3"
             android:textColor="@android:color/holo_red_light"
@@ -103,6 +93,42 @@
         android:visibility="gone"
         android:textStyle="bold" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="@dimen/dp3"
+            android:paddingLeft="@dimen/dp3"
+            android:paddingBottom="@dimen/dp3"
+            android:paddingRight="@dimen/dp10"
+            android:text="@string/list_khayloc"
+            android:textColor="@android:color/black"
+            android:textStyle="italic"
+            android:textSize="@dimen/sp14" />
+
+        <Spinner
+            android:id="@+id/spin_tinhtrangghi"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp3"
+            android:ellipsize="marquee"
+            android:layout_marginLeft="@dimen/dp10"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textSize="@dimen/sp14">
+
+        </Spinner>
+    </LinearLayout>
     <TextView
         android:id="@+id/txt_sohd"
         android:layout_width="match_parent"

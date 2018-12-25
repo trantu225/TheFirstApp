@@ -682,7 +682,7 @@ public class LoadActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         spdata.luuDataTuDongLuuTapTin(1);
-                        spdata.luuChucNangGhiThu("GHI");
+                        spdata.luuChucNangGhiThu();
                         Intent myIntent = new Intent(LoadActivity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadActivity.this.finish();
@@ -880,7 +880,7 @@ public class LoadActivity extends AppCompatActivity {
                 //xóa sqlite
                 MyDatabaseHelper mydata = new MyDatabaseHelper(con);
                 SQLiteDatabase db = mydata.openDB();
-                mydata.resetDatabase(db);
+                mydata.resetDatabaseGHI(db);
 
 
                 //Thêm data vào sqlite

@@ -131,7 +131,7 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 
         }
         if (!spdata.getDataKyHoaDonTrongSP().trim().equals("")) {
-            editKyHD.setText(spdata.getDataKyHoaDonTrongSP().trim());
+            editKyHD.setText(spdata.getDataKyHoaDonThuTrongSP().trim());
         }
 
         duongdanfile = getString(R.string.API_GetListTiwareadDataThu);
@@ -962,6 +962,10 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
                                                 }
                                             }
 
+                                            if (!ngaythanhtoan.equals(("")) && !NhanVienThu.equals("")) {
+                                                CapNhatThu = "OLDDATA"; //du lieu cu
+                                            }
+
 
                                             ThanhToanDTO kh = new ThanhToanDTO();
                                             kh.setBienLai(BienLai);
@@ -1095,11 +1099,22 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
                                 }
                                 Log.e("sokhco", String.valueOf(sokhco));
                                 Log.e("sokhdacapnhat", String.valueOf(sokhdacapnhat));
+
+
                                 if (sokhco == sokhdacapnhat) {
                                     FlagupdateDB = "TC";
                                 } else {
                                     FlagupdateDB = "TB";
                                 }
+                                List<KhachHangThuDTO> listthanhtoan = khachhangthudao.getAllKH();
+                                for (KhachHangThuDTO t : listthanhtoan) {
+                                    if (thanhtoanDAO.countHDChuaThuTheoMaKH(t.getMaKhachHang().trim()) == 0) {
+                                        String thoigian1 = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
+                                        khachhangthudao.updateTrangThaiThuCapNhat(t.getMaKhachHang(), "KODONG");
+                                    }
+                                }
+
+
                                 //     loadDataDuongfromDB();
                             } catch (JSONException e) {
                                 Log.e("Loi khi cap nhat", e.toString());

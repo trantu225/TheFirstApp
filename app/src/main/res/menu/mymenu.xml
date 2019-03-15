@@ -30,5 +30,10 @@
         android:icon="@android:drawable/presence_invisible"
         android:title="@string/btn_daghi"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_disprint"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="Ngắt kết nối máy in"
+        app:showAsAction="collapseActionView" />
 
 </menu>

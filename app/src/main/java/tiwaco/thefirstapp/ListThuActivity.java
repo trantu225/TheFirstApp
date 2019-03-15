@@ -450,6 +450,12 @@ public class ListThuActivity extends AppCompatActivity {
 
         super.onResume();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBTReceiver);
+    }
     public void setview(){
 
 

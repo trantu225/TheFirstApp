@@ -27,6 +27,7 @@ import java.util.Date;
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
@@ -41,6 +42,7 @@ public class StartActivity extends AppCompatActivity  {
     SPData spdata;
     DuongDAO duongDAO;
     KhachHangDAO khachhangDAO;
+    KhachHangThuDAO khachhangthuDAO;
     SharedPreferences pre;
     LichSuDAO lichsudao;
     @Override
@@ -58,6 +60,7 @@ public class StartActivity extends AppCompatActivity  {
 
         getSupportActionBar().hide();
         khachhangDAO = new KhachHangDAO(con);
+        khachhangthuDAO = new KhachHangThuDAO(con);
         lichsudao = new LichSuDAO(con);
         duongDAO = new DuongDAO(con);
         spdata = new SPData(con);
@@ -335,10 +338,47 @@ public class StartActivity extends AppCompatActivity  {
 
                     //Chọn màn hình ghi hay thu
 
-                    ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
-                    alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ", 2); //2: chuc nang danh sach
+                    if (khachhangDAO.countKhachHangAll() == 0 && khachhangthuDAO.countKhachHangAll() == 0) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                        // khởi tạo dialog
+                        alertDialogBuilder.setMessage("Chưa có dữ liệu. Hãy tiến hành lấy dữ liệu");
+                        // thiết lập nội dung cho dialog
 
 
+                        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Luu lai file chua sqlite cũ
+
+
+                                //Intent myIntent = new Intent(StartActivity.this, LoadActivity.class);
+                                ViewDialog alert = new ViewDialog();
+                                alert.showDialog(StartActivity.this, "Chọn nguồn để load dữ liệu: ");
+
+                                // Intent myIntent = new Intent(StartActivity.this, LoadFromServerActivity.class);
+                                // startActivity(myIntent);
+
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                // button "no" ẩn dialog đi
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                    } else {
+
+                        ViewDialog_GhiThu alert2 = new ViewDialog_GhiThu();
+                        alert2.showDialog(StartActivity.this, "Chọn chức năng ghi/thu: ", 2); //2: chuc nang danh sach
+
+                    }
                     break;
                 case R.id.btn_backup:
 

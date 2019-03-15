@@ -531,7 +531,7 @@ public class ThongTinActivity extends AppCompatActivity {
             lay_kyhdthu.setVisibility(View.VISIBLE);
         } else {
             lay_kyhd.setVisibility(View.GONE);
-            lay_kyhdthu.setVisibility(View.VISIBLE);
+            lay_kyhdthu.setVisibility(View.GONE);
         }
 
     }

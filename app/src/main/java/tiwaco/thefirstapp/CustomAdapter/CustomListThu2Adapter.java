@@ -115,7 +115,7 @@ public class CustomListThu2Adapter extends BaseAdapter {
 
         }
         holder.SoTien.setVisibility(View.VISIBLE);
-        holder.SoTien.setText("Số tiền thu: " + thanhtoandao.getSoTienTongCongChuaThuTheoMAKH(cus.getMaKhachHang().trim()));
+        holder.SoTien.setText("Số tiền thu: " + thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()));
         holder.SoTien.setSelected(true);
 
 

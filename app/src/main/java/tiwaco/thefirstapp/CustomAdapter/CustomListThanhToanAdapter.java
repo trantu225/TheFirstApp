@@ -176,6 +176,8 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
             holder.ChiSoMoi = (TextView) convertView.findViewById(R.id.tv_label_csmoi);
             holder.M3 = (TextView) convertView.findViewById(R.id.tv_label_m3);
             holder.SoTienThanhToan = (TextView) convertView.findViewById(R.id.tv_tongcong);
+            holder.NhanVienThu = (TextView) convertView.findViewById(R.id.tv_nvthu);
+            holder.ThoiGian = (TextView) convertView.findViewById(R.id.tv_thoigian);
             convertView.setTag(holder);
 
         } else {
@@ -193,6 +195,40 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
         holder.M3.setSelected(true);
         holder.BienLai.setSelected(true);
         holder.SoTienThanhToan.setText("Số tiền: " + format2.format(Double.parseDouble(format1.format(Double.valueOf(cus.gettongcong())))) + " đ");
+        if (cus.getNhanvienthu().equals("")) {
+            holder.NhanVienThu.setVisibility(View.GONE);
+        } else {
+            holder.NhanVienThu.setVisibility(View.VISIBLE);
+            holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu());
+        }
+
+        if (cus.getNgaythanhtoan().equals("")) {
+            holder.ThoiGian.setVisibility(View.GONE);
+        } else {
+            holder.ThoiGian.setVisibility(View.VISIBLE);
+            String nam = cus.getNgaythanhtoan().substring(0, 4);
+            Log.e("nam", nam);
+            Log.e("ngaythanhtoan", cus.getNgaythanhtoan());
+            String thang = cus.getNgaythanhtoan().substring(4, 6);
+
+            String ngay = cus.getNgaythanhtoan().substring(6, 8);
+
+            String gio = cus.getNgaythanhtoan().substring(8, 10);
+
+            String phut = cus.getNgaythanhtoan().substring(10, 12);
+
+            String giay = cus.getNgaythanhtoan().substring(12, 14);
+            Log.e("ngaythanhtoan", cus.getNgaythanhtoan());
+            Log.e("nam", nam);
+            Log.e("thang", thang);
+            Log.e("ngay", ngay);
+            Log.e("gio", gio);
+            Log.e("phut", phut);
+            Log.e("giay", giay);
+            String tgthu = ngay + "-" + thang + "-" + nam + " " + gio + ":" + phut + ":" + giay;
+            holder.ThoiGian.setText("Thời gian thu: " + tgthu);
+
+        }
 
 
 
@@ -213,6 +249,8 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
         //  ImageView TrangThai;
         TextView M3;
         TextView SoTienThanhToan;
+        TextView NhanVienThu;
+        TextView ThoiGian;
 
     }
 

@@ -44,6 +44,7 @@ public class ThanhToanDAO {
         format2 = new DecimalFormat("#,##0.#", decimalFormatSymbols);
     }
 
+
     public boolean addTable_ThanhToan(ThanhToanDTO kh, String maduong) {
         db = myda.openDB();
         ContentValues values = new ContentValues();
@@ -76,6 +77,7 @@ public class ThanhToanDAO {
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN, "0");
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU, "0");
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC, "0");
+
         // Inserting Row
         long kt = db.insert(MyDatabaseHelper.TABLE_THANHTOAN, null, values);
         db.close();
@@ -86,6 +88,12 @@ public class ThanhToanDAO {
         }
     }
 
+    public boolean deleteData(String id) {
+        db = myda.openDB();
+        boolean kt = db.delete(MyDatabaseHelper.TABLE_THANHTOAN, MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = ? ", new String[]{id}) > 0;
+        db.close();
+        return kt;
+    }
     public List<ThanhToanDTO> TimKiemTheoSQLThanhToan(String sqlstring) {
         db = myda.openDB();
         List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
@@ -172,7 +180,6 @@ public class ThanhToanDAO {
                 ThanhToanDTO kh = new ThanhToanDTO();
                 kh.setBienLai(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
                 kh.setMaKhachHang(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
-
                 kh.setChiSoMoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOMOI)));
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
@@ -198,6 +205,7 @@ public class ThanhToanDAO {
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
+
 
 
                 // Adding contact to list
@@ -265,7 +273,7 @@ public class ThanhToanDAO {
         db = myda.openDB();
         List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = '" + makh + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " = '' order by " + MyDatabaseHelper.KEY_THANHTOAN_KYHD;
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = '" + makh + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " = '' and " + MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU + " = '0' order by " + MyDatabaseHelper.KEY_THANHTOAN_KYHD;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -534,7 +542,7 @@ public class ThanhToanDAO {
 
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN, thoigian.trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU, nhanvienthu.trim());
-        values.put(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU, "1");
+        //values.put(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU, "1");
         values.put(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID, transid.trim());
 
 
@@ -552,7 +560,7 @@ public class ThanhToanDAO {
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN, thoigian.trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU, nhanvienthu.trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID, transid.trim());
-        values.put(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU, "1");
+        //values.put(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU, "1");
 
 
         // updating row
@@ -1551,7 +1559,7 @@ public class ThanhToanDAO {
         } else if (loai == 2) {
             selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MADUONG + " = '" + maduong + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " = '' ";
         } else if (loai == 3) {
-            String thoigiantu = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()) + "000000";
+            String thoigiantu = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());// + "000000";
 
             selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MADUONG + " = '" + maduong + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " like '%" + thoigiantu + "%' ";
         }
@@ -1620,7 +1628,7 @@ public class ThanhToanDAO {
         } else if (loai == 2) {
             selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MADUONG + " = '" + maduong + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " = '' ";
         } else if (loai == 3) {
-            String thoigiantu = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()) + "000000";
+            String thoigiantu = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());//+ "000000";
 
             selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MADUONG + " = '" + maduong + "' and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + " like '%" + thoigiantu + "%' ";
         }

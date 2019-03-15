@@ -2656,7 +2656,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
         String maKH = MaKH.getText().toString().trim();
-        List<ThanhToanDTO> listchuatt = thanhtoandao.GetListThanhToanTheoMaKHChuaThanhToan(maKH);
+        List<ThanhToanDTO> listchuatt = thanhtoandao.GetListThanhToanTheoMaKH(maKH);
 
         String thoigian1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         String nhanvienthu = spdata.getDataNhanVienTrongSP();

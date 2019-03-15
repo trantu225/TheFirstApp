@@ -344,7 +344,8 @@ public class KhachHangThuDAO {
         db = myda.openDB();
         List<KhachHangThuDTO> ListKH = new ArrayList<KhachHangThuDTO>();
         // Select All Query
-        String selectQuery = "SELECT DISTINCT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "='" + maduong + "' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )";
+        // String selectQuery = "SELECT DISTINCT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "='" + maduong + "' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )";
+        String selectQuery = "SELECT DISTINCT " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + ".* FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + "," + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + "." + MyDatabaseHelper.KEY_DANHSACHKHTHU_MAKH + "=" + MyDatabaseHelper.TABLE_THANHTOAN + "." + MyDatabaseHelper.KEY_THANHTOAN_MAKH + " and " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + "." + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "='" + maduong + "' and  ( SELECT COUNT (BIENLAI) FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.TABLE_THANHTOAN + "." + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "=" + MyDatabaseHelper.TABLE_DANHSACHKHTHU + "." + MyDatabaseHelper.KEY_DANHSACHKHTHU_MAKH + " and " + MyDatabaseHelper.TABLE_THANHTOAN + "." + MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN + " <>'' ) >  0  ORDER BY cast( " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + "." + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )";
         //SUABUG:Ghi chu sai du lieu (SQL sua)
         //String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO +"<>'' and ("+ MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO  +"-"+ MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO1   +")<>"+ MyDatabaseHelper.KEY_DANHSACHKHTHU_SLTIEUTHU +" ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )" ;
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -599,273 +600,7 @@ public class KhachHangThuDAO {
     }
 
 
-    public List<RequestObjectThu> getAllKHDaThuTheoDuongChuaCapNhat1(String maduong) {
-        db = myda.openDB();
-        List<RequestObjectThu> ListKH = new ArrayList<RequestObjectThu>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "='" + maduong + "' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "='2' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ";
-        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                RequestObjectThu kh = new RequestObjectThu();
-                kh.setMaKhachHang(cursor.getString(0).trim());
-                kh.setDanhBo(cursor.getString(2).trim());
-
-                kh.setSTT(String.valueOf(cursor.getInt(5)));
-                kh.setLat(cursor.getString(30).trim());
-                kh.setLon(cursor.getString(31).trim());
-                kh.setNgayThanhToan(cursor.getString(52).trim());
-                kh.setNhanVienThu(cursor.getString(54).trim());
-
-
-                // Adding contact to list
-                ListKH.add(kh);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return ListKH;
-    }
-
-    public List<RequestObject> getAllKHTatCaDaGhiTheoDuong(String maduong) {
-        db = myda.openDB();
-        List<RequestObject> ListKH = new ArrayList<RequestObject>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "='" + maduong + "'  and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO + "<>'' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )";
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                /*
-                 String ChiSo;
-    String DanhBo;
-    String DienThoai;
-    String GhiChu;
-    String Lat;
-    String Lon;
-    String MaKhachHang;
-    String NhanVien;
-    String SLTieuThu;
-    String STT;
-    String ThoiGian;
-    String TrangThaiTLK;
-    String loaikh;
-    String loaikhmoi;
-    String ChiSo1;
-    String SLTieuThu1;
-    String MaDuong;
-
-
-                 */
-
-
-                RequestObject kh = new RequestObject();
-                kh.setMaKhachHang(cursor.getString(0).trim());
-                kh.setDanhBo(cursor.getString(2).trim());
-                kh.setDienThoai(cursor.getString(4).trim());
-                kh.setSTT(String.valueOf(cursor.getInt(5)));
-                kh.setTrangThaiTLK(cursor.getString(6).trim());
-                kh.setLoaikh(cursor.getString(11).trim());
-                kh.setGhiChu(cursor.getString(13).trim());
-                kh.setChiSo(cursor.getString(14).trim());
-                kh.setChiSo1(cursor.getString(16).trim());
-                kh.setSLTieuThu(cursor.getString(22).trim());
-                kh.setSLTieuThu1(cursor.getString(23).trim());
-                kh.setLat(cursor.getString(30).trim());
-                kh.setLon(cursor.getString(31).trim());
-                kh.setThoiGian(cursor.getString(32).trim());
-                kh.setNhanVien(cursor.getString(33).trim());
-                kh.setLoaikhmoi(cursor.getString(36).trim());
-
-
-                // Adding contact to list
-                ListKH.add(kh);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return ListKH;
-    }
-
-
-    public List<RequestObjectThu> getAllKHTatCaDaThuTheoDuong(String maduong) {
-        db = myda.openDB();
-        List<RequestObjectThu> ListKH = new ArrayList<RequestObjectThu>();
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE (" + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "='2' or " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "='3') and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ORDER BY " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "," + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-
-
-                RequestObjectThu kh = new RequestObjectThu();
-                kh.setMaKhachHang(cursor.getString(0).trim());
-                kh.setDanhBo(cursor.getString(2).trim());
-                kh.setSTT(String.valueOf(cursor.getInt(5)));
-                kh.setLat(cursor.getString(30).trim());
-                kh.setLon(cursor.getString(31).trim());
-                kh.setNgayThanhToan(cursor.getString(52).trim());
-                kh.setNhanVienThu(cursor.getString(54).trim());
-
-
-                // Adding contact to list
-                ListKH.add(kh);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return ListKH;
-    }
-
-
-    public int getSoKHDaGhiChuaCapNhat() {
-        db = myda.openDB();
-        List<RequestObject> ListKH = new ArrayList<RequestObject>();
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHAT + "='0' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO + "<>'' ORDER BY " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "," + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                RequestObject kh = new RequestObject();
-                kh.setMaKhachHang(cursor.getString(0).trim());
-                kh.setDanhBo(cursor.getString(2).trim());
-                kh.setDienThoai(cursor.getString(4).trim());
-                kh.setSTT(String.valueOf(cursor.getInt(5)));
-                kh.setTrangThaiTLK(cursor.getString(6).trim());
-                kh.setLoaikh(cursor.getString(11).trim());
-                kh.setGhiChu(cursor.getString(13).trim());
-                kh.setChiSo(cursor.getString(14).trim());
-                kh.setChiSo1(cursor.getString(16).trim());
-                kh.setSLTieuThu(cursor.getString(22).trim());
-                kh.setSLTieuThu1(cursor.getString(23).trim());
-                kh.setLat(cursor.getString(30).trim());
-                kh.setLon(cursor.getString(31).trim());
-                kh.setThoiGian(cursor.getString(32).trim());
-                kh.setNhanVien(cursor.getString(33).trim());
-                kh.setLoaikhmoi(cursor.getString(36).trim());
-                //kh.setMaDuong(cursor.getString(35).trim());
-
-
-                // Adding contact to list
-                ListKH.add(kh);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return ListKH.size();
-    }
-
-    public int getSoKHDaThuChuaCapNhat() {
-        db = myda.openDB();
-        List<RequestObjectThu> ListKH = new ArrayList<RequestObjectThu>();
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "='2' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ORDER BY " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "," + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                RequestObjectThu kh = new RequestObjectThu();
-                kh.setMaKhachHang(cursor.getString(0).trim());
-                kh.setDanhBo(cursor.getString(2).trim());
-
-                kh.setSTT(String.valueOf(cursor.getInt(5)));
-
-                kh.setLat(cursor.getString(30).trim());
-                kh.setLon(cursor.getString(31).trim());
-                kh.setNgayThanhToan(cursor.getString(52).trim());
-                kh.setNhanVienThu(cursor.getString(54).trim());
-
-                //kh.setMaDuong(cursor.getString(35).trim());
-
-
-                // Adding contact to list
-                ListKH.add(kh);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return ListKH.size();
-    }
-
-    public List<KhachHangThuDTO> getAllKHChuaGhiTheoDuong(String maduong) {
-        db = myda.openDB();
-        List<KhachHangThuDTO> ListKH = new ArrayList<KhachHangThuDTO>();
-        // Select All Query
-        // String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG +"='"+maduong+"' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO +"='' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )" ;
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "='" + maduong + "' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO + "='' ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )";
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                KhachHangThuDTO kh = new KhachHangThuDTO();
-                kh.setMaKhachHang(cursor.getString(0).trim());
-                kh.setTenKhachHang(cursor.getString(1).trim());
-                kh.setDanhBo(cursor.getString(2).trim());
-                kh.setDiaChi(cursor.getString(3).trim());
-                kh.setDienThoai(cursor.getString(4).trim());
-                kh.setSTT(String.valueOf(cursor.getInt(5)));
-                kh.setTrangThaiTLK(cursor.getString(6).trim());
-                kh.setChitietloai(cursor.getString(7).trim());
-                kh.setCotlk(cursor.getString(8).trim());
-                kh.setDinhmuc(cursor.getString(9).trim());
-                kh.setHieutlk(cursor.getString(10).trim());
-                kh.setLoaikh(cursor.getString(11).trim());
-                kh.setMasotlk(cursor.getString(12).trim());
-                kh.setGhiChu(cursor.getString(13).trim());
-                kh.setChiSo(cursor.getString(14).trim());
-                kh.setChiSocon(cursor.getString(15).trim());
-                kh.setChiSo1(cursor.getString(16).trim());
-                kh.setChiSo1con(cursor.getString(17).trim());
-                kh.setChiSo2(cursor.getString(18).trim());
-                kh.setChiSo2con(cursor.getString(19).trim());
-                kh.setChiSo3(cursor.getString(20).trim());
-                kh.setChiSo3con(cursor.getString(21).trim());
-                kh.setSLTieuThu(cursor.getString(22).trim());
-                kh.setSLTieuThu1(cursor.getString(23).trim());
-                kh.setSLTieuThu1con(cursor.getString(24).trim());
-                kh.setSLTieuThu2(cursor.getString(25).trim());
-                kh.setSLTieuThu2con(cursor.getString(26).trim());
-                kh.setSLTieuThu3(cursor.getString(27).trim());
-                kh.setSLTieuThu3con(cursor.getString(28).trim());
-                kh.setSLTieuThucon(cursor.getString(29).trim());
-                kh.setLat(cursor.getString(30).trim());
-                kh.setLon(cursor.getString(31).trim());
-                kh.setThoiGian(cursor.getString(32).trim());
-                kh.setNhanVien(cursor.getString(33).trim());
-                kh.setLoaikhmoi(cursor.getString(36).trim());
-                kh.setNTSH(cursor.getString(38));
-                kh.setTienNuoc(cursor.getString(39));
-                kh.setphi(cursor.getString(40));
-                kh.settongcong(cursor.getString(41));
-                kh.setvat(cursor.getString(42));
-                kh.setThue(cursor.getString(43));
-                kh.setM3t1(cursor.getString(44));
-                kh.setM3t2(cursor.getString(45));
-                kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
-                kh.setTien2(cursor.getString(49));
-                kh.setTien3(cursor.getString(50));
-                kh.setTien4(cursor.getString(51));
-                kh.setNgaythanhtoan(cursor.getString(52));
-                kh.setNhanvienthu(cursor.getString(54));
-                // Adding contact to list
-                ListKH.add(kh);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return ListKH;
-    }
 
     public List<KhachHangThuDTO> getAllKHChuaThuTheoDuong(String maduong) {
         db = myda.openDB();
@@ -1305,27 +1040,6 @@ public class KhachHangThuDAO {
         return sokh;
     }
 
-    public int countKhachHangDaThuServer() {
-        db = myda.openDB();
-        int sokh = 0;
-        String countQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "='2' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ORDER BY " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "," + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT;
-        Cursor cursor = db.rawQuery(countQuery, null);
-        sokh = cursor.getCount();
-        cursor.close();
-        db.close();
-        return sokh;
-    }
-
-    public int countKhachHangDaThu() {
-        db = myda.openDB();
-        int sokh = 0;
-        String countQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ";
-        Cursor cursor = db.rawQuery(countQuery, null);
-        sokh = cursor.getCount();
-        cursor.close();
-        db.close();
-        return sokh;
-    }
 
     public int countKhachHangDaThuTheoNhanVien(String tennv) {
         db = myda.openDB();
@@ -1349,9 +1063,10 @@ public class KhachHangThuDAO {
         db.close();
         if (sokh > 0) {
             return true;
-        } else
+        } else {
             Log.e("ketquacheckKHDaChamNo", String.valueOf(sokh));
-        return false;
+            return false;
+        }
 
     }
 
@@ -1381,20 +1096,6 @@ public class KhachHangThuDAO {
     }
 
 
-    public int countKhachHangCapNhatServerThu() {
-        db = myda.openDB();
-        int sokh = 0;
-        // String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU +" WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO+"<>''";
-        String countQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE (" + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "='2' or " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "='3') and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' ORDER BY " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "," + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT;
-
-
-        Log.e("SQL maduong", countQuery);
-        Cursor cursor = db.rawQuery(countQuery, null);
-        sokh = cursor.getCount();
-        cursor.close();
-        db.close();
-        return sokh;
-    }
 
     public int countKhachHangDaGhiHomNay(String thoigian) {
         db = myda.openDB();
@@ -1469,7 +1170,7 @@ public class KhachHangThuDAO {
         db = myda.openDB();
         int sokh = 0;
         String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU;
-
+        //  String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH;
         Cursor cursor = db.rawQuery(countQuery, null);
         if (cursor == null) {
             sokh = 0;
@@ -3115,8 +2816,27 @@ public class KhachHangThuDAO {
         db = myda.openDB();
         Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKHTHU,
                 new String[]{"MIN(" + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + ") AS MINSTT"},
-                MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "='' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + ">=? ",
+                MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "='' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + ">=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "<> 'KODONG'",
                 new String[]{maduong, stthientai},
+                null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
+        } else {
+            data = "";
+        }
+        Log.e("data chua ghi nho nhat lon hon hien tai", data);
+        // db.close();
+        return data;
+
+    }
+
+    public String getSTTChuaThuNhoNhatLonHonHienTaiKhacMaKH(String maduong, String stthientai, String makh) {
+        String data = "";
+        db = myda.openDB();
+        Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKHTHU,
+                new String[]{"MIN(" + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + ") AS MINSTT"},
+                MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "='' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + ">= ? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MAKH + "<> ? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "<> 'KODONG'",
+                new String[]{maduong, stthientai, makh},
                 null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
@@ -3211,8 +2931,27 @@ public class KhachHangThuDAO {
         db = myda.openDB();
         Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKHTHU,
                 new String[]{"MAX(" + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + ") AS MAXSTT"},
-                MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "='' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + "<=? ",
+                MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "='' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + "<=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "<> 'KODONG'",
                 new String[]{maduong, stthientai},
+                null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it
+        } else {
+            data = "";
+        }
+        Log.e("data chua ghi lon nhat nho hon hien tai", data);
+        db.close();
+        return data;
+
+    }
+
+    public String getSTTChuaThuLonNhatNhoHonHienTaiKhacMaKH(String maduong, String stthientai, String makh) {
+        String data = "";
+        db = myda.openDB();
+        Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKHTHU,
+                new String[]{"MAX(" + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + ") AS MAXSTT"},
+                MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG + "=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "='' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + "<=? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_MAKH + "<> ? and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHATTHU + "<> 'KODONG'",
+                new String[]{maduong, stthientai, makh},
                 null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             data = String.valueOf(cursor.getInt(0));// use the data type of the column or use String itself you can parse it

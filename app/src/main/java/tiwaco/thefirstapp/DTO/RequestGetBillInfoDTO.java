@@ -58,7 +58,6 @@ public class RequestGetBillInfoDTO {
     String userName;
     String passWord;
     String requestTime;
-
     String kyhd;
     String transactionID;
     Integer SumOfTotalMoney;

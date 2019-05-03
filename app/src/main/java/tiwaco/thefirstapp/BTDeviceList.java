@@ -398,7 +398,7 @@ public class BTDeviceList extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        menu.add(0, Menu.FIRST, Menu.NONE, "Refresh Scanning");
+        menu.add(0, Menu.FIRST, Menu.NONE, "Tải lại máy in");
 
         return true;
     }
@@ -410,6 +410,10 @@ public class BTDeviceList extends ListActivity {
         switch (item.getItemId()) {
             case Menu.FIRST:
                 initDevicesList();
+                break;
+            case android.R.id.home:
+
+                this.finish();
                 break;
         }
 

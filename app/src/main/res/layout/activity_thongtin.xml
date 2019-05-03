@@ -625,11 +625,40 @@
 
         </LinearLayout>
 
+        <TableRow
+            android:id="@+id/tb_ThuOffline"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
 
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/thuoff"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="Thu offline"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp14"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/SwitchThuOffline"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:checked="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </TableRow>
         <TableRow
             android:id="@+id/tb_DoiLuu"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp1"
             android:gravity="center_horizontal">
 
             <TextView

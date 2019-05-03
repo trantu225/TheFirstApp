@@ -173,7 +173,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKHTHU_NGAYTHANHTOAN = "ngaythanhtoan";
     public static final String KEY_DANHSACHKHTHU_CAPNHATTHU = "capnhatthu";
     public static final String KEY_DANHSACHKHTHU_NHANVIENTHU = "nhanvienthu";
-
+    public static final String KEY_DANHSACHKHTHU_TAMTHU = "tamthu";
     // Duong Table Columns names
     public static final String KEY_LISHSU_MALS = "malichsu";
     public static final String KEY_LICHSU_NDLS = "noidunglichsu";
@@ -211,6 +211,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_THANHTOAN_LANINBIENNHAN = "laninbiennhan";
     public static final String KEY_THANHTOAN_LANINTHONGBAOSAU = "laninthongbaosau";
     public static final String KEY_THANHTOAN_LANINTHONGBAOTRUOC = "laninthongbaotruoc";
+    public static final String KEY_THANHTOAN_TAMTHU = "thanhtoantamthu";
 
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -346,7 +347,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKHTHU_TIEN4 + " TEXT, "          //51
                 + KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " TEXT, "          //52
                 + KEY_DANHSACHKHTHU_CAPNHATTHU + " TEXT, "          //53
-                + KEY_DANHSACHKHTHU_NHANVIENTHU + " TEXT " + ")";  //54
+                + KEY_DANHSACHKHTHU_NHANVIENTHU + " TEXT, "          //53
+                + KEY_DANHSACHKHTHU_TAMTHU + " TEXT " + ")";  //54
 
 
         String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
@@ -388,8 +390,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_THANHTOAN_NHANVIENTHU + " TEXT,"           //24
                 + KEY_THANHTOAN_LANINBIENNHAN + " TEXT,"           //25
                 + KEY_THANHTOAN_LANINTHONGBAOSAU + " TEXT,"           //26
-                + KEY_THANHTOAN_LANINTHONGBAOTRUOC + " TEXT,"           //26
-                + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT " + ")";  //27
+                + KEY_THANHTOAN_LANINTHONGBAOTRUOC + " TEXT,"           //27
+                + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT,"           //28
+                + KEY_THANHTOAN_TAMTHU + " TEXT " + " )";  //29
 
 
         db.execSQL(CREATE_DUONG_TABLE);
@@ -613,7 +616,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKHTHU_TIEN4 + " TEXT, "          //51
                 + KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " TEXT, "          //52
                 + KEY_DANHSACHKHTHU_CAPNHATTHU + " TEXT, "          //53
-                + KEY_DANHSACHKHTHU_NHANVIENTHU + " TEXT " + ")";  //54
+                + KEY_DANHSACHKHTHU_NHANVIENTHU + " TEXT, "          //54
+                + KEY_DANHSACHKHTHU_TAMTHU + " TEXT " + ")";  //55
         String CREATE_THANHTOAN_TABLE = "CREATE TABLE  " + TABLE_THANHTOAN + "("
                 + KEY_THANHTOAN_BIENLAI + " TEXT PRIMARY KEY," //0
                 + KEY_THANHTOAN_MAKH + " TEXT ," //1
@@ -643,7 +647,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_THANHTOAN_LANINBIENNHAN + " TEXT,"           //25
                 + KEY_THANHTOAN_LANINTHONGBAOSAU + " TEXT,"           //26
                 + KEY_THANHTOAN_LANINTHONGBAOTRUOC + " TEXT,"           //26
-                + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT " + ")";  //27
+                + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT,"           //26
+                + KEY_THANHTOAN_TAMTHU + " TEXT " + ")";  //27
         db.execSQL(CREATE_TINHTRANGTLK_TABLE);
         db.execSQL(CREATE_LISHSU_TABLE);
         db.execSQL(CREATE_DUONGTHU_TABLE);

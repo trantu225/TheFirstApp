@@ -15,7 +15,7 @@
     <string name="API_DoiMatKhau">http://113.176.94.250:8012/Service1.svc/UpdatePassUser</string>
     <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
     <string name="API_GetNhanVien">http://113.176.94.250:8012/Service1.svc/GetNhanVien</string>
-    <string name="API_UpdateThuTienNuoc">http://113.176.94.250:8012/Service1.svc/CapNhatThuTienNuocNongThon</string>
+    <string name="API_UpdateThuTienNuoc">https://www.thanhtoan.tiwaco.com.vn/PayTamThu</string>
     <string name="API_PayBillNB">https://www.thanhtoan.tiwaco.com.vn/PayAllThuNoiBo</string>
     <string name="API_LayHoaDonTheoMaKH">https://www.thanhtoan.tiwaco.com.vn/LayHoaDonTheoMaKH</string>
     <string name="API_GetBillInfoNB">https://www.thanhtoan.tiwaco.com.vn/GetBill_InfoNB</string>

@@ -326,6 +326,22 @@ public class SPData  {
         return flagghi;
     }
 
+
+    public void luuDataThuOffline(int bienghi) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putInt(Bien.SPONOFFTHUOFFLINE, bienghi);
+        editor.commit();
+    }
+
+    public int getDataThuOffline() {
+
+
+        int flagghi = pre.getInt(Bien.SPONOFFTHUOFFLINE, 0); //mac dinh la thu online
+        return flagghi;
+    }
+
     public void luuDataChoPhepGhi(int bienghi) {
 
         //tạo đối tượng Editor để lưu thay đổi
@@ -401,6 +417,7 @@ public class SPData  {
         String ghithu = "";
         KhachHangDAO khdao = new KhachHangDAO(context);
         KhachHangThuDAO khthudao = new KhachHangThuDAO(context);
+        Log.e("SOLUONGKHTHU", String.valueOf(khthudao.countKhachHangAll()));
         if (khdao.countKhachHangAll() == 0 && khthudao.countKhachHangAll() != 0) {
             ghithu = "THU";
         } else if (khdao.countKhachHangAll() != 0 && khthudao.countKhachHangAll() == 0) {

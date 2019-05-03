@@ -238,8 +238,7 @@
                             android:id="@+id/radio_daghitheoduong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:text="Tất cả khách hàng đã thu" />
+                            android:text="Cập nhật khách hàng đã thanh toán tiền nước" />
 
                         <RadioButton
                             android:id="@+id/radio_daghihomnay"

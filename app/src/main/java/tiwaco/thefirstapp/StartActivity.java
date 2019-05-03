@@ -1,13 +1,19 @@
 package tiwaco.thefirstapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +27,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,6 +57,8 @@ public class StartActivity extends AppCompatActivity  {
     KhachHangThuDAO khachhangthuDAO;
     SharedPreferences pre;
     LichSuDAO lichsudao;
+    String urlcapnhat = "";
+    NetworkChangeReceiver networkreceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +78,9 @@ public class StartActivity extends AppCompatActivity  {
         lichsudao = new LichSuDAO(con);
         duongDAO = new DuongDAO(con);
         spdata = new SPData(con);
+        networkreceiver = new NetworkChangeReceiver();
+        registerReceiver(networkreceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         btnGhinuoc = (ImageButton) findViewById(R.id.btn_ghinuoc);
         btnDanhSachKH = (ImageButton) findViewById(R.id.btn_dskh);
         btnLoadDl = (ImageButton) findViewById(R.id.btn_loaddata);
@@ -86,7 +103,6 @@ public class StartActivity extends AppCompatActivity  {
         btnLoadDl.setOnClickListener(myclick);
         btnBackup.setOnClickListener(myclick);
         btnSearch.setOnClickListener(myclick);
-
         btnLogout.setOnClickListener(myclick);
         btnHistory.setOnClickListener(myclick);
 
@@ -104,20 +120,77 @@ public class StartActivity extends AppCompatActivity  {
         Log.e("flag flagall", String.valueOf(Bien.bienbkall));
         Log.e("flag flagcg", String.valueOf(Bien.bienbkcg));
         Log.e("flag flagdg", String.valueOf(Bien.bienbkdg));
-
+        urlcapnhat = getString(R.string.API_CapNhat) + "/" + String.valueOf(BuildConfig.VERSION_CODE);
         btnBackup.setEnabled(true);
         btnBackup.setBackgroundResource(R.drawable.ic_save);
-//        if( Bien.bienbkall == Bien.bienghi  && Bien.bienbkcg ==Bien.bienghi  && Bien.bienbkdg ==Bien.bienghi  && Bien.bienbkdghn ==Bien.bienghi  )
-//        {
-//            btnBackup.setEnabled(false);
-//            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
-//          //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-//        }
-//        else{
+
+
 //
-//            btnBackup.setEnabled(true);
-//            btnBackup.setBackgroundResource(R.drawable.ic_save);
+//        try {
+//            if (isInternetOn()) {
+//                new CheckUpdate().execute(urlcapnhat);
+//            } else {
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+//                // khởi tạo dialog
+//                alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
+//                // thiết lập nội dung cho dialog
+//
+//                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+//
+//                        // button "no" ẩn dialog đi
+//                    }
+//                });
+//                alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//                        // button "no" ẩn dialog đi
+//                    }
+//                });
+//
+//
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//                // tạo dialog
+//                alertDialog.setCanceledOnTouchOutside(false);
+//                alertDialog.show();
+//            }
 //        }
+//        catch(Exception e){
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+//            // khởi tạo dialog
+//            alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
+//            // thiết lập nội dung cho dialog
+//
+//            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+//
+//                    // button "no" ẩn dialog đi
+//                }
+//            });
+//            alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//
+//                    // button "no" ẩn dialog đi
+//                }
+//            });
+//
+//
+//            AlertDialog alertDialog = alertDialogBuilder.create();
+//            // tạo dialog
+//            alertDialog.setCanceledOnTouchOutside(false);
+//            alertDialog.show();
+//        }
+
 
     }
 
@@ -129,7 +202,69 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+            if (isInternetOn()) {
+                new CheckUpdate().execute(urlcapnhat);
+            } else {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
+                // thiết lập nội dung cho dialog
 
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+
+                        // button "no" ẩn dialog đi
+                    }
+                });
+                alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+            }
+        } catch (Exception e) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+            // khởi tạo dialog
+            alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
+            // thiết lập nội dung cho dialog
+
+            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+            alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    // button "no" ẩn dialog đi
+                }
+            });
+
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // tạo dialog
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+        }
 //
 //        if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
 //                || Bien.bienbkall == -1
@@ -197,6 +332,43 @@ public class StartActivity extends AppCompatActivity  {
             alertDialog.show();
         }
         */
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("DESTROY", "DESTROY-----------------------------------------------");
+//        if(networkreceiver !=null) {
+//             unregisterReceiver(networkreceiver);
+//        }
+
+    }
+
+    public final boolean isInternetOn() {
+
+        boolean k = false;
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connec =
+                (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+
+        // Check for network connections
+        if (connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
+                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING) {
+
+            // if connected with internet
+
+            // Toast.makeText(this, connec.getActiveNetworkInfo().getTypeName(), Toast.LENGTH_LONG).show();
+            k = true;
+
+        } else if (
+                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED) {
+
+            //Toast.makeText(this, " Chưa có internet hoặc 3G/4G ", Toast.LENGTH_LONG).show();
+            k = false;
+        }
+
+        return k;
     }
     public static int getViewHeight(View view) {
         WindowManager wm =
@@ -505,5 +677,156 @@ public class StartActivity extends AppCompatActivity  {
             return false;
         }
         return true;
+    }
+
+
+    public class CheckUpdate extends AsyncTask<String, Void, String> {
+
+        String fileContent = "";
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+            if (!isCancelled()) {
+
+
+                try {
+
+                    final URL url = new URL(connUrl[0]);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+                    conn.setRequestMethod("GET");
+                    int result = conn.getResponseCode();
+                    if (result == 200) {
+
+                        InputStream in = new BufferedInputStream(conn.getInputStream());
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        StringBuilder sb = new StringBuilder();
+                        String line = "";
+
+                        while ((line = reader.readLine()) != null) {
+                            // long status = (i+1) *100/line.length();
+                            //     String.valueOf(status)
+
+                            fileContent = line;
+
+                        }
+                        reader.close();
+
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Log.e("loi load du lieu", ex.toString());
+                }
+                if (fileContent.equals("")) {
+                    Log.e("filetuserver", "Rong");
+                } else {
+                    Log.e("filetuserver", fileContent);
+                }
+
+
+            }
+            return fileContent;
+
+        }
+
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("result update", result);
+
+            if (result.equals("1")) { //phiên bản mới nhất
+                this.cancel(true);
+
+            } else if (result.equals("0")) {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage("Hãy cập nhật phiên bản mới nhất để tiếp tục sử dụng phần mềm.Bạn có muốn cập nhật phiên bản mới nhất không?");
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent updateIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(getString(R.string.link_apk)));
+
+
+                        updateIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(updateIntent);
+                        if (Build.VERSION.SDK_INT >= 11) {
+                            recreate();
+                        } else {
+                            Intent intent = getIntent();
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                            startActivity(intent);
+                            overridePendingTransition(0, 0);
+                        }
+
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        finish();
+//                        if (Build.VERSION.SDK_INT >= 11) {
+//                            recreate();
+//                        } else {
+//                            Intent intent = getIntent();
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                            finish();
+//                            overridePendingTransition(0, 0);
+//                            startActivity(intent);
+//                            overridePendingTransition(0, 0);
+//                        }
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            } else if (result.equals("")) {
+                this.cancel(true);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.error_load_server);
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (Build.VERSION.SDK_INT >= 11) {
+                            recreate();
+                        } else {
+                            Intent intent = getIntent();
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                            startActivity(intent);
+                            overridePendingTransition(0, 0);
+                        }
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            }
+
+        }
     }
 }

@@ -73,6 +73,7 @@ public class Bien {
     public static UUID uuidtest = null;
     public static final String SPCNGHITHU = "spcnghithu";
     public static final String SPONOFFLUU = "sponoffluu";
+    public static final String SPONOFFTHUOFFLINE = "sponoffthuoffline";
     public static final String SPKYHD = "spkyhd";
     public static final String SPKYHDTHU = "spkyhdthu";
     public static final String SPBKCG = "spbackupchuaghi";

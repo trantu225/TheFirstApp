@@ -63,7 +63,7 @@ public class ThongTinActivity extends AppCompatActivity {
 
     TextView txt_tongsokhthu, txt_tongtien, txt_tonghd, txt_sokhdathu, txt_sokhdathuhomnay, txt_hddathu, txt_hddathuhomnay, txt_sotientdathu, txt_sotiendathuhomnay;
     EditText matkhaucu, matkhaumoi, luutudong, edit_kyhd, edit_kyhdthu;
-    Switch SwitchLuuTuDong;
+    Switch SwitchLuuTuDong, SwitchThuOffline;
     Button doimatkhau, truyvanluocsu, thoat, capnhat, doiluucapnhat, capnhatkyhd, capnhatkyhdthu;
     SPData spdata;
     KhachHangDAO khachhangdao ;
@@ -275,6 +275,17 @@ public class ThongTinActivity extends AppCompatActivity {
                 }
             }
         });
+
+        SwitchThuOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (SwitchThuOffline.isChecked()) {
+                    spdata.luuDataThuOffline(1);
+                } else {
+                    spdata.luuDataThuOffline(0);
+                }
+            }
+        });
         luutudong.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -421,6 +432,7 @@ public class ThongTinActivity extends AppCompatActivity {
         capnhat  = (Button) findViewById(R.id.kiemtracapnhat_button);
         thoat = (Button) findViewById(R.id.close_button);
         SwitchLuuTuDong = (Switch) findViewById(R.id.SwitchLuuTuDong);
+        SwitchThuOffline = (Switch) findViewById(R.id.SwitchThuOffline);
         txt_tongsokhthu = (TextView) findViewById(R.id.tv_tongsoKHThu);
         txt_tongtien = (TextView) findViewById(R.id.tv_tongsotien);
         txt_tonghd = (TextView) findViewById(R.id.tv_tongsoHD);
@@ -523,6 +535,12 @@ public class ThongTinActivity extends AppCompatActivity {
             SwitchLuuTuDong.setChecked(false);
         } else {
             SwitchLuuTuDong.setChecked(true);
+        }
+
+        if (spdata.getDataThuOffline() == 0) {
+            SwitchThuOffline.setChecked(false);
+        } else {
+            SwitchThuOffline.setChecked(true);
         }
         edit_kyhd.setText(spdata.getDataKyHoaDonTrongSP());
         edit_kyhdthu.setText(spdata.getDataKyHoaDonThuTrongSP());

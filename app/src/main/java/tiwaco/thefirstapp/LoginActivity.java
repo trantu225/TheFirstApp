@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.LichSuDAO;
 import tiwaco.thefirstapp.DAO.NhanVienDAO;
 import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity  {
     Context con ;
     LichSuDAO lichsudao;
     KhachHangDAO khdao;
+    KhachHangThuDAO khthudao;
     SPData spdata;
     String UserJson = "";
     boolean ketquakiemtra = false;
@@ -103,11 +105,12 @@ public class LoginActivity extends AppCompatActivity  {
         nhanviendao = new NhanVienDAO();
         lichsudao = new LichSuDAO(con);
         khdao = new KhachHangDAO(con);
+        khthudao = new KhachHangThuDAO(con);
         dialoglogin = new ViewDialog_login(LoginActivity.this);
 
         if(!spdata.getDataNhanVienTrongSP().equals("")){
             edt_ten.setText(spdata.getDataNhanVienTrongSP().trim());
-            if(khdao.countKhachHangAll() >0){
+            if (khdao.countKhachHangAll() > 0 || khthudao.countKhachHangAll() > 0) {
 
 //                    }
                 finish();

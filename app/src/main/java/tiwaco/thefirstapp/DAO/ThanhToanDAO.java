@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import tiwaco.thefirstapp.DTO.BillTamThu;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.LichSuDTO;
 import tiwaco.thefirstapp.DTO.ThanhToanDTO;
@@ -77,6 +78,7 @@ public class ThanhToanDAO {
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN, "0");
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU, "0");
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC, "0");
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TAMTHU, "0");
 
         // Inserting Row
         long kt = db.insert(MyDatabaseHelper.TABLE_THANHTOAN, null, values);
@@ -218,6 +220,67 @@ public class ThanhToanDAO {
         return ListTT;
     }
 
+
+    public List<BillTamThu> GetThanhToanTamThu() {
+        db = myda.openDB();
+        List<BillTamThu> ListTT = new ArrayList<BillTamThu>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_TAMTHU + " = '1' ";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                BillTamThu kh = new BillTamThu();
+
+                kh.setCustNo(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+                kh.setPeriod(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setTimeThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setTotalMoney(Integer.valueOf(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG))));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setUserThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        //      Log.e("so luong danh sach tt tim kiem", String.valueOf(ListTT.size()));
+        return ListTT;
+    }
+
+    public int GetSoLuongThanhToanTamThu() {
+        db = myda.openDB();
+        List<BillTamThu> ListTT = new ArrayList<BillTamThu>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_TAMTHU + " = '1' ";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                BillTamThu kh = new BillTamThu();
+
+                kh.setCustNo(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+                kh.setPeriod(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setTimeThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setTotalMoney(Integer.valueOf(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG))));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setUserThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        Log.e("so luong danh sach tt tim kiem", String.valueOf(ListTT.size()));
+        return ListTT.size();
+    }
+
     public List<ThanhToanDTO> GetListThanhToanTheoMaKH(String makh) {
         db = myda.openDB();
         List<ThanhToanDTO> ListTT = new ArrayList<ThanhToanDTO>();
@@ -268,6 +331,7 @@ public class ThanhToanDAO {
         Log.e("so luong danh sach tt tim kiem", String.valueOf(ListTT.size()));
         return ListTT;
     }
+
 
     public List<ThanhToanDTO> GetListThanhToanTheoMaKHChuaThanhToan(String makh) {
         db = myda.openDB();
@@ -569,6 +633,39 @@ public class ThanhToanDAO {
         return kt;
 
     }
+
+    public boolean updateThanhToanTamThuTheoMaKhvaKyHD(String makh, String thoigian, String transid, String nhanvienthu, String kyhd) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN, thoigian.trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU, nhanvienthu.trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID, transid.trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TAMTHU, "1");
+
+
+        // updating row
+        boolean kt = db.update(MyDatabaseHelper.TABLE_THANHTOAN, values, MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = ? and " + MyDatabaseHelper.KEY_THANHTOAN_KYHD + " = ? ", new String[]{makh, kyhd}) > 0;
+        db.close();
+        return kt;
+
+    }
+
+    public boolean updateThanhToanTrangThaiTamThu(String makh, String tt) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+
+
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TAMTHU, tt);
+
+
+        // updating row
+        boolean kt = db.update(MyDatabaseHelper.TABLE_THANHTOAN, values, MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = ? ", new String[]{makh}) > 0;
+        db.close();
+        return kt;
+
+    }
+
 
     public boolean updateLanIn(String bienlai, String biennhan, String thbaotruoc, String thbaosau) {
         db = myda.openDB();

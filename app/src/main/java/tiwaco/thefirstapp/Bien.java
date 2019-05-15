@@ -73,6 +73,8 @@ public class Bien {
     public static UUID uuidtest = null;
     public static final String SPCNGHITHU = "spcnghithu";
     public static final String SPONOFFLUU = "sponoffluu";
+    public static final String SPLUUTUDONGTHU = "spluutudongthu";
+    public static final String SPLUUTUDONGCHUYENOFFLINE = "sptudongchuyenoffline";
     public static final String SPONOFFTHUOFFLINE = "sponoffthuoffline";
     public static final String SPKYHD = "spkyhd";
     public static final String SPKYHDTHU = "spkyhdthu";
@@ -91,6 +93,7 @@ public class Bien {
     public static final String SPMATKHAU = "spmatkhau";
     public static final String SPINDEXDUONG= "spindexduong";
     public static final String SPINDEXDUONGTHU= "spindexduongthu";
+    public static final String SPTHOIGIANTAIGOITHU = "spthoigiantaigoithu";
     public static BluetoothSocket btsocket;
     public static OutputStream btoutputstream;
 

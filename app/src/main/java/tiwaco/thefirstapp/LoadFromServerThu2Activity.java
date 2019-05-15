@@ -1165,6 +1165,7 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         spdata.luuDataTuDongLuuTapTin(1);
                         spdata.luuChucNangGhiThu();
+                        spdata.luuThoiGianTaiGoi();
                         Intent myIntent = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
                         startActivity(myIntent);
                         LoadFromServerThu2Activity.this.finish();

@@ -188,6 +188,24 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                         tongcong4 += thanhtoandao.getSoTienTongCongTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
                     }
                     titleHD.setText("Số HD: " + sohd4 + " - Số tiền: " + thanhtoandao.formatTien(tongcong4));
+                } else if (Bien.bientrangthaithu == 6) {
+                    liskhdao = khachhangDAO.getAllKHTamThuChuaCapNhat(duong.getMaDuong());
+                    int tongcong4 = 0;
+                    int sohd4 = 0;
+                    for (int i = 0; i < liskhdao.size(); i++) {
+                        sohd4 += thanhtoandao.getSoHDTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                        tongcong4 += thanhtoandao.getSoTienTongCongTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                    }
+                    titleHD.setText("Số HD: " + sohd4 + " - Số tiền: " + thanhtoandao.formatTien(tongcong4));
+                } else if (Bien.bientrangthaithu == 7) {
+                    liskhdao = khachhangDAO.getAllKHTamThuDaCapNhat(duong.getMaDuong());
+                    int tongcong4 = 0;
+                    int sohd4 = 0;
+                    for (int i = 0; i < liskhdao.size(); i++) {
+                        sohd4 += thanhtoandao.getSoHDTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                        tongcong4 += thanhtoandao.getSoTienTongCongTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                    }
+                    titleHD.setText("Số HD: " + sohd4 + " - Số tiền: " + thanhtoandao.formatTien(tongcong4));
                 }
                 Bien.listKH_thu = liskhdao;
                 Bien.adapterKHThu = new CustomListThu2Adapter(con, liskhdao, pos);

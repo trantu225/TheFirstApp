@@ -177,7 +177,9 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
             holder.M3 = (TextView) convertView.findViewById(R.id.tv_label_m3);
             holder.SoTienThanhToan = (TextView) convertView.findViewById(R.id.tv_tongcong);
             holder.NhanVienThu = (TextView) convertView.findViewById(R.id.tv_nvthu);
+            holder.NhanVienThu.setSelected(true);
             holder.ThoiGian = (TextView) convertView.findViewById(R.id.tv_thoigian);
+            holder.ThoiGian.setSelected(true);
             convertView.setTag(holder);
 
         } else {
@@ -199,7 +201,15 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
             holder.NhanVienThu.setVisibility(View.GONE);
         } else {
             holder.NhanVienThu.setVisibility(View.VISIBLE);
-            holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu());
+            String tamthu = khachhangdao.getTamThuTheoMAKH(cus.getMaKhachHang());
+            if (tamthu.equals("0")) {
+                holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu());
+
+            } else if (tamthu.equals("1")) {
+                holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu() + " (Tạm thu - Chưa cập nhật) ");
+            } else {
+                holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu() + " (Tạm thu - Đã cập nhật) ");
+            }
         }
 
         if (cus.getNgaythanhtoan().equals("")) {

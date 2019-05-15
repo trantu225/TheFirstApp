@@ -1,5 +1,7 @@
 package tiwaco.thefirstapp;
 
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -37,6 +42,9 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -61,9 +69,9 @@ public class ThongTinActivity extends AppCompatActivity {
     Context con;
     TextView txt_tongsokh , txt_sokhdaghi, txt_dokhghihomnay, txt_som3daghi,txt_phienban,txt_kyhd;
 
-    TextView txt_tongsokhthu, txt_tongtien, txt_tonghd, txt_sokhdathu, txt_sokhdathuhomnay, txt_hddathu, txt_hddathuhomnay, txt_sotientdathu, txt_sotiendathuhomnay;
+    TextView txt_tongsokhthu, txt_tongtien, txt_tonghd, txt_sokhdathu, txt_sokhdathuhomnay, txt_hddathu, txt_hddathuhomnay, txt_sotientdathu, txt_sotiendathuhomnay, lb_tong;
     EditText matkhaucu, matkhaumoi, luutudong, edit_kyhd, edit_kyhdthu;
-    Switch SwitchLuuTuDong, SwitchThuOffline;
+    Switch SwitchLuuTuDong, SwitchThuOffline, SwitchLuuTuDongThu, SwitchTuDongChuyenOffline;
     Button doimatkhau, truyvanluocsu, thoat, capnhat, doiluucapnhat, capnhatkyhd, capnhatkyhdthu;
     SPData spdata;
     KhachHangDAO khachhangdao ;
@@ -276,6 +284,31 @@ public class ThongTinActivity extends AppCompatActivity {
             }
         });
 
+        SwitchLuuTuDongThu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (SwitchLuuTuDongThu.isChecked()) {
+                    spdata.luuDataLuuTuDongThu(1);
+                } else {
+                    spdata.luuDataLuuTuDongThu(0);
+                }
+            }
+        });
+
+        SwitchTuDongChuyenOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (SwitchTuDongChuyenOffline.isChecked()) {
+                    spdata.luuDataTuDongChuyenOffline(1);
+                    SwitchThuOffline.setEnabled(false);
+                } else {
+                    spdata.luuDataTuDongChuyenOffline(0);
+                    SwitchThuOffline.setEnabled(true);
+                }
+            }
+        });
+
+
         SwitchThuOffline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -423,6 +456,7 @@ public class ThongTinActivity extends AppCompatActivity {
         txt_kyhd = (TextView) findViewById(R.id.tv_kyhd);
         txt_phienban = (TextView) findViewById(R.id.tv_phienban);
         txt_som3daghi = (TextView) findViewById(R.id.tv_som3daghi);
+        lb_tong = (TextView) findViewById(R.id.lb_tong);
         matkhaucu = (EditText) findViewById(R.id.password_cu);
         matkhaumoi = (EditText) findViewById(R.id.password_moi);
         luutudong = (EditText) findViewById(R.id.edit_luutudong);
@@ -432,6 +466,8 @@ public class ThongTinActivity extends AppCompatActivity {
         capnhat  = (Button) findViewById(R.id.kiemtracapnhat_button);
         thoat = (Button) findViewById(R.id.close_button);
         SwitchLuuTuDong = (Switch) findViewById(R.id.SwitchLuuTuDong);
+        SwitchLuuTuDongThu = (Switch) findViewById(R.id.SwitchLuuTuDongThu);
+        SwitchTuDongChuyenOffline = (Switch) findViewById(R.id.SwitchTuDongChuyenOffline);
         SwitchThuOffline = (Switch) findViewById(R.id.SwitchThuOffline);
         txt_tongsokhthu = (TextView) findViewById(R.id.tv_tongsoKHThu);
         txt_tongtien = (TextView) findViewById(R.id.tv_tongsotien);
@@ -473,7 +509,7 @@ public class ThongTinActivity extends AppCompatActivity {
         {
             som3daghi += Integer.parseInt(listkh.get(i).getSLTieuThu());
         }
-
+        lb_tong.setText("Tổng gói thu ngày " + spdata.getThoiGianTaiGoi());
         txt_tongsokh.setText(String.valueOf(TongSoKH));
         txt_sokhdaghi.setText(String.valueOf(SoKHDaGhi));
         txt_dokhghihomnay.setText(String.valueOf(SoKHDaghiHomNay));
@@ -535,6 +571,20 @@ public class ThongTinActivity extends AppCompatActivity {
             SwitchLuuTuDong.setChecked(false);
         } else {
             SwitchLuuTuDong.setChecked(true);
+        }
+
+        if (spdata.getDataLuuTuDongThu() == 0) {
+            SwitchLuuTuDongThu.setChecked(false);
+        } else {
+            SwitchLuuTuDongThu.setChecked(true);
+        }
+
+        if (spdata.getDataTuDongChuyenOffline() == 0) {
+            SwitchTuDongChuyenOffline.setChecked(false);
+            SwitchThuOffline.setEnabled(true);
+        } else {
+            SwitchTuDongChuyenOffline.setChecked(true);
+            SwitchThuOffline.setEnabled(false);
         }
 
         if (spdata.getDataThuOffline() == 0) {
@@ -771,6 +821,12 @@ public class ThongTinActivity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        // downloadUpdate(getString(R.string.link_apk));
+
+
+
+
                         Intent updateIntent = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse(getString(R.string.link_apk)));
 
@@ -840,5 +896,23 @@ public class ThongTinActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+
+    public void downloadUpdate(String url) {
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setDescription("Đang tải...");
+        request.setTitle("TIWAREAD");
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+
+        String name = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url));
+
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
+
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
     }
 }

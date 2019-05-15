@@ -1,6 +1,7 @@
 package tiwaco.thefirstapp;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -202,145 +203,81 @@ public class StartActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            if (isInternetOn()) {
-                new CheckUpdate().execute(urlcapnhat);
-            } else {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
-                // khởi tạo dialog
-                alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
-                // thiết lập nội dung cho dialog
-
-                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-
-                        // button "no" ẩn dialog đi
-                    }
-                });
-                alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-                        // button "no" ẩn dialog đi
-                    }
-                });
-
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                // tạo dialog
-                alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.show();
-            }
-        } catch (Exception e) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
-            // khởi tạo dialog
-            alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
-            // thiết lập nội dung cho dialog
-
-            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-
-                    // button "no" ẩn dialog đi
-                }
-            });
-            alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-
-                    // button "no" ẩn dialog đi
-                }
-            });
-
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            // tạo dialog
-            alertDialog.setCanceledOnTouchOutside(false);
-            alertDialog.show();
-        }
+//        try {
+//            if (isInternetOn()) {
+//                new CheckUpdate().execute(urlcapnhat);
+//            } else {
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+//                // khởi tạo dialog
+//                alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
+//                // thiết lập nội dung cho dialog
 //
-//        if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
-//                || Bien.bienbkall == -1
-//                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkdg == -1)
-//                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == -1)
-//                || (Bien.bienbkall == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkcg == -1)) {
-//            btnBackup.setEnabled(false);
-//            btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
-//            //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-//        } else {
+//                alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 //
-//            btnBackup.setEnabled(true);
-//            btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
+//                        // button "no" ẩn dialog đi
+//                    }
+//                });
+//                alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        finish();
+//
+//                        // button "no" ẩn dialog đi
+//                    }
+//                });
+//
+//
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//                // tạo dialog
+//                alertDialog.setCanceledOnTouchOutside(false);
+//                alertDialog.show();
+//            }
+//        } catch (Exception e) {
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
+//            // khởi tạo dialog
+//            alertDialogBuilder.setMessage("Chưa kết nối internet. Hãy kiểm tra lại wifi hoặc 3G/4G");
+//            // thiết lập nội dung cho dialog
+//
+//            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+//
+//                    // button "no" ẩn dialog đi
+//                }
+//            });
+//            alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                    finish();
+//                    // button "no" ẩn dialog đi
+//                }
+//            });
+//
+//
+//            AlertDialog alertDialog = alertDialogBuilder.create();
+//            // tạo dialog
+//            alertDialog.setCanceledOnTouchOutside(false);
+//            alertDialog.show();
 //        }
-
-        /*
-        //KIểm tra thời gian có cùng kì hd ko
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
-        String formattedDate = format.format(date);
-        SPData sp = new SPData(StartActivity.this);
-        String kihd = sp.getDataKyHoaDonTrongSP();// "08/2017";
-
-        if(formattedDate.equals(kihd)) {
-
-            if ((Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi)
-                    || Bien.bienbkall == -1
-                    || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkdg == -1)
-                    || (Bien.bienbkall == Bien.bienghi && Bien.bienbkcg == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == -1)
-                    || (Bien.bienbkall == Bien.bienghi && Bien.bienbkdg == Bien.bienghi && Bien.bienbkdghn == Bien.bienghi && Bien.bienbkcg == -1)) {
-                btnBackup.setEnabled(false);
-                btnBackup.setBackgroundResource(R.drawable.ic_save_disable);
-                //  taoDialogThongBao(getString(R.string.backup_dialog_moinhat));
-            } else {
-
-                btnBackup.setEnabled(true);
-                btnBackup.setBackgroundResource(R.drawable.selector_button_backup_change);
-            }
-            //   getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
-        }
-        else{
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StartActivity.this);
-            // khởi tạo dialog
-            alertDialogBuilder.setMessage("Thời gian của máy không trùng với kỳ hóa đơn. Hãy điều chỉnh lại.");
-            // thiết lập nội dung cho dialog
-            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    startActivityForResult(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS), 0);
-                }
-            });
-            alertDialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    StartActivity.this.finish();
-
-                }
-            });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            // tạo dialog
-            alertDialog.setCanceledOnTouchOutside(false);
-            alertDialog.show();
-        }
-        */
+//
     }
 
     @Override
     protected void onDestroy() {
+        if (networkreceiver != null) {
+            unregisterReceiver(networkreceiver);
+        }
         super.onDestroy();
         Log.e("DESTROY", "DESTROY-----------------------------------------------");
-//        if(networkreceiver !=null) {
-//             unregisterReceiver(networkreceiver);
-//        }
+
 
     }
 
@@ -752,6 +689,7 @@ public class StartActivity extends AppCompatActivity  {
 
 
                         updateIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
                         startActivity(updateIntent);
                         if (Build.VERSION.SDK_INT >= 11) {
                             recreate();

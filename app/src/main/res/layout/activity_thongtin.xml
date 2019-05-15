@@ -287,7 +287,7 @@
                         android:orientation="vertical">
 
                         <TextView
-
+                            android:id="@+id/lb_tong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dp3"
@@ -654,6 +654,36 @@
 
 
         </TableRow>
+
+        <TableRow
+            android:id="@+id/tb_TuDongOffline"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp1"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tudongchuyenoffline"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="Tự động chuyển sang offline"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp14"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/SwitchTuDongChuyenOffline"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </TableRow>
+
         <TableRow
             android:id="@+id/tb_DoiLuu"
             android:layout_width="fill_parent"
@@ -668,7 +698,7 @@
                 android:layout_weight="1"
                 android:background="#00B9CD"
                 android:padding="@dimen/dp3"
-                android:text="Cập nhật tự động"
+                android:text="Cập nhật tự động khi ghi nước"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp14"
                 android:textStyle="bold" />
@@ -721,11 +751,41 @@
 
         </TableRow>
 
+        <TableRow
+            android:id="@+id/tb_capnhattudongthutiennuoc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp1"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/lb_capnhattudongthutiennuoc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:text="Cập nhật tự động khi thu tiền"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp14"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/SwitchLuuTuDongThu"
+                android:background="#00B9CD"
+                android:padding="@dimen/dp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </TableRow>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/lay_kyhd"
+            android:layout_marginTop="@dimen/dp1"
             android:visibility="gone">
         <TableRow
 
@@ -863,6 +923,8 @@
             android:id="@+id/tb_DoiMK"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/dp1"
             android:gravity="center_horizontal">
 
             <TextView

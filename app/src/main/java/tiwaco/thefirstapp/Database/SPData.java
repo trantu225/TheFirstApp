@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import tiwaco.thefirstapp.Bien;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
 import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
@@ -323,6 +326,53 @@ public class SPData  {
 
 
         int flagghi = pre.getInt(Bien.SPONOFFLUU, 1); //mac dinh la on
+        return flagghi;
+    }
+
+
+    public void luuThoiGianTaiGoi() {
+        String thoigian1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putString(Bien.SPTHOIGIANTAIGOITHU, thoigian1);
+        editor.commit();
+    }
+
+    public String getThoiGianTaiGoi() {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        String flagghi = pre.getString(Bien.SPTHOIGIANTAIGOITHU, ""); //mac dinh la on
+        return flagghi;
+    }
+
+
+    public void luuDataLuuTuDongThu(int bienghi) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putInt(Bien.SPLUUTUDONGTHU, bienghi);
+        editor.commit();
+    }
+
+    public int getDataLuuTuDongThu() {
+
+
+        int flagghi = pre.getInt(Bien.SPLUUTUDONGTHU, 1); //mac dinh la on
+        return flagghi;
+    }
+
+    public void luuDataTuDongChuyenOffline(int bienghi) {
+
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor = pre.edit();
+        editor.putInt(Bien.SPLUUTUDONGCHUYENOFFLINE, bienghi);
+        editor.commit();
+    }
+
+    public int getDataTuDongChuyenOffline() {
+
+
+        int flagghi = pre.getInt(Bien.SPLUUTUDONGCHUYENOFFLINE, 1); //mac dinh la on
         return flagghi;
     }
 

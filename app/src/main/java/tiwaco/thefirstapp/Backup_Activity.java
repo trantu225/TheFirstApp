@@ -657,6 +657,8 @@ public class Backup_Activity extends AppCompatActivity  {
                     @Override
                     public void onFailure(Call<ResponePayTamThu> call, Throwable t) {
                         Log.e("LOI ", "Unable to submit post to API." + t.getMessage());
+                        mstatus.setVisibility(View.GONE);
+                        table.setVisibility(View.VISIBLE);
                     }
                 });
             } else {

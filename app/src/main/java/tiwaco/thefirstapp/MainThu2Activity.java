@@ -423,8 +423,13 @@ public class MainThu2Activity extends AppCompatActivity {
 //                } else {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThu2Activity.this);
                 // khởi tạo dialog
-
-                alertDialogBuilder.setMessage("Bạn có muốn thanh toán tiền nước khách hàng này không?");
+                if (spdata.getDataThuOffline() == 1) {
+                    alertDialogBuilder.setTitle("Thu offline");
+                    alertDialogBuilder.setMessage("Bạn có muốn tạm thu tiền nước khách hàng này không?");
+                } else {
+                    alertDialogBuilder.setTitle("Thu online");
+                    alertDialogBuilder.setMessage("Bạn có muốn thanh toán tiền nước khách hàng này không?");
+                }
 
                 alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
@@ -1410,7 +1415,14 @@ public class MainThu2Activity extends AppCompatActivity {
         } else {
             lbnvthu.setVisibility(View.VISIBLE);
             tv_nhanvienthu.setVisibility(View.VISIBLE);
-            tv_nhanvienthu.setText(khachhang.getNhanvienthu());
+
+            if (khachhangthuDAO.getTamThuTheoMAKH(khachhang.getMaKhachHang().trim()).equals("0")) {
+                tv_nhanvienthu.setText(khachhang.getNhanvienthu());
+            } else if (khachhangthuDAO.getTamThuTheoMAKH(khachhang.getMaKhachHang().trim()).equals("1")) {
+                tv_nhanvienthu.setText(khachhang.getNhanvienthu() + " (Tạm thu - Chưa cập nhật)");
+            } else if (khachhangthuDAO.getTamThuTheoMAKH(khachhang.getMaKhachHang().trim()).equals("2")) {
+                tv_nhanvienthu.setText(khachhang.getNhanvienthu() + " (Tạm thu - Đã cập nhật)");
+            }
         }
 
         if (khachhang.getNgaythanhtoan().equals("")) {
@@ -2591,14 +2603,15 @@ public class MainThu2Activity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        if (mBTReceiver != null) {
+            unregisterReceiver(mBTReceiver);
+        }
+        if (networkreceiver != null) {
+            unregisterReceiver(networkreceiver);
+        }
         super.onDestroy();
         Log.e("DESTROY", "DESTROY-----------------------------------------------");
-//        if(mBTReceiver!=null) {
-//            unregisterReceiver(mBTReceiver);
-//        }
-//        if(networkreceiver != null) {
-//            unregisterReceiver(networkreceiver);
-//        }
+
 //        try {
 //            if(Bien.btsocket!= null){
 //                Bien.btoutputstream.close();
@@ -3563,7 +3576,7 @@ public class MainThu2Activity extends AppCompatActivity {
                         if (khachhangthuDAO.updateKhachHangTamThu(maKH, thoigian2, nhanvienthu)) {
                             setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
                             String thoigian3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-                            Toast.makeText(con, "Thu tiền nước thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(con, "Tạm thu tiền nước thành công", Toast.LENGTH_SHORT).show();
                             LichSuDTO ls = new LichSuDTO();
                             ls.setNoiDungLS("Tạm thu tiền nước đường " + tenduong + ", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
                             ls.setMaLenh("TT");
@@ -3575,7 +3588,7 @@ public class MainThu2Activity extends AppCompatActivity {
                             //Co thi in va chuyen sang khach hang chua thu ke tiep
                             //khong thi ko in va chuyen sang khach hang chua thu ke tiep
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThu2Activity.this);
-                            alertDialogBuilder.setMessage("Thanh toán tiền nước thành công.Bạn có muốn in hóa đơn tiền nước không?");
+                            alertDialogBuilder.setMessage("Tạm thanh toán tiền nước thành công.Bạn có muốn in hóa đơn tiền nước không?");
                             alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -3762,7 +3775,7 @@ public class MainThu2Activity extends AppCompatActivity {
                     if (khachhangthuDAO.updateKhachHangTamThu(maKH, thoigian2, nhanvienthu)) {
                         setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
                         String thoigian3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-                        Toast.makeText(con, "Thu tiền nước thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(con, "Tạm thu tiền nước thành công", Toast.LENGTH_SHORT).show();
                         LichSuDTO ls = new LichSuDTO();
                         ls.setNoiDungLS("Tạm thu tiền nước đường " + tenduong + ", khách hàng có danh bộ " + DanhBo.getText().toString().trim());
                         ls.setMaLenh("TT");
@@ -3774,7 +3787,7 @@ public class MainThu2Activity extends AppCompatActivity {
                         //Co thi in va chuyen sang khach hang chua thu ke tiep
                         //khong thi ko in va chuyen sang khach hang chua thu ke tiep
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThu2Activity.this);
-                        alertDialogBuilder.setMessage("Thanh toán tiền nước thành công.Bạn có muốn in hóa đơn tiền nước không?");
+                        alertDialogBuilder.setMessage("Tạm thanh toán tiền nước thành công.Bạn có muốn in hóa đơn tiền nước không?");
                         alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -4935,6 +4948,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
                                 }
+                                dialogxuly.dismiss();
                                 setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
 
                                 paybillall();
@@ -4942,6 +4956,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
                         } catch (JSONException e) {
+                            dialogxuly.dismiss();
                             e.printStackTrace();
                         }
 
@@ -4949,7 +4964,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
                 } catch (Exception e) {
-
+                    dialogxuly.dismiss();
                 }
             }
 
@@ -5690,6 +5705,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
                                     }
+                                    dialogxuly.dismiss();
                                     setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
                                     checkbill();
                                 }
@@ -5697,6 +5713,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
                         } catch (JSONException e) {
+                            dialogxuly.dismiss();
                             e.printStackTrace();
                         }
 
@@ -5704,7 +5721,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
                 } catch (Exception e) {
-
+                    dialogxuly.dismiss();
                 }
             }
 
@@ -5745,6 +5762,8 @@ public class MainThu2Activity extends AppCompatActivity {
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
+                conn.setConnectTimeout(120000);
+                conn.setReadTimeout(120000);
                 conn.setChunkedStreamingMode(0);
                 conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
                 conn.setRequestMethod("POST");
@@ -5896,7 +5915,7 @@ public class MainThu2Activity extends AppCompatActivity {
                                 alertDialog.setCanceledOnTouchOutside(false);
                                 alertDialog.show();
                             } else if (returncode == 1) {
-                                //Kiểm tra nếu ngaythu == jsonngaythu thì ko cập nhật
+
                                 thanhtoandao.deleteData(MaKH.getText().toString());
                                 setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
                             } else if (returncode == -3) {
@@ -5921,7 +5940,7 @@ public class MainThu2Activity extends AppCompatActivity {
                                     alertDialog.setCanceledOnTouchOutside(false);
                                     alertDialog.show();
                             } else if (returncode == 0) {
-
+                                dialogxuly.dismiss();
                                 thanhtoandao.deleteData(MaKH.getText().toString());
                                 // button "no" ẩn dialog đi
                                 Log.e("kết qua trung", "da ton tai  hoa don");
@@ -6161,6 +6180,7 @@ public class MainThu2Activity extends AppCompatActivity {
                             }
 
                         } catch (JSONException e) {
+                            dialogxuly.dismiss();
                             e.printStackTrace();
                         }
 
@@ -6168,7 +6188,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
                 } catch (Exception e) {
-
+                    dialogxuly.dismiss();
                 }
             }
 
@@ -6191,6 +6211,7 @@ public class MainThu2Activity extends AppCompatActivity {
                     Toast.makeText(MainThu2Activity.this, tinhtrangmang, Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThu2Activity.this);
                     // khởi tạo dialog
+                    alertDialogBuilder.setTitle("Thu offline");
                     alertDialogBuilder.setMessage("Tình trạng mạng không ổn định không thể thực hiện đối soát. Bạn có muốn thực hiện thu tiền nước offline không?");
                     // thiết lập nội dung cho dialog
 
@@ -6510,6 +6531,7 @@ public class MainThu2Activity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainThu2Activity.this, tinhtrangmang, Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainThu2Activity.this);
+                    alertDialogBuilder.setTitle("Thu offline");
                     // khởi tạo dialog
                     alertDialogBuilder.setMessage("Tình trạng mạng không ổn định không thể thực hiện đối soát. Bạn có muốn thực hiện in thông báo không?");
                     // thiết lập nội dung cho dialog

@@ -31,6 +31,7 @@ public class ThanhToanDAO {
     MyDatabaseHelper myda;
     DecimalFormatSymbols decimalFormatSymbols;
     DecimalFormat format, format1, format2;
+    KhachHangThuDAO khachhangthudao;
 
 
     public ThanhToanDAO(Context con) {
@@ -43,6 +44,7 @@ public class ThanhToanDAO {
         format = new DecimalFormat("#,##0.00", decimalFormatSymbols);
         format1 = new DecimalFormat("0.#");
         format2 = new DecimalFormat("#,##0.#", decimalFormatSymbols);
+        khachhangthudao = new KhachHangThuDAO(con);
     }
 
 
@@ -93,6 +95,8 @@ public class ThanhToanDAO {
     public boolean deleteData(String id) {
         db = myda.openDB();
         boolean kt = db.delete(MyDatabaseHelper.TABLE_THANHTOAN, MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = ? ", new String[]{id}) > 0;
+        //UPDATE LAI KHACHHANG VE THANH TOAN
+        khachhangthudao.updateKhachHangTamThuCapNhatServer(id, "0");
         db.close();
         return kt;
     }
@@ -249,6 +253,39 @@ public class ThanhToanDAO {
         db.close();
         //      Log.e("so luong danh sach tt tim kiem", String.valueOf(ListTT.size()));
         return ListTT;
+    }
+
+    public boolean GetThanhToanTamThuTheoMaKHChuaCapNhat(String MAKH) {
+        db = myda.openDB();
+        List<BillTamThu> ListTT = new ArrayList<BillTamThu>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_TAMTHU + " = '1' AND " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = " + MAKH;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        boolean capnhattamthu = true;
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                BillTamThu kh = new BillTamThu();
+
+                kh.setCustNo(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+                kh.setPeriod(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+                kh.setTimeThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
+                kh.setTotalMoney(Integer.valueOf(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG))));
+                kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
+                kh.setUserThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
+                if (cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)).equals("1")) {
+                    capnhattamthu = false;
+                }
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        //      Log.e("so luong danh sach tt tim kiem", String.valueOf(ListTT.size()));
+        return ListTT.size() > 0;
+
     }
 
     public int GetSoLuongThanhToanTamThu() {

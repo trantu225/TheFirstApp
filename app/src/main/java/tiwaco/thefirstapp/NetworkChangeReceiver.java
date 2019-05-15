@@ -64,7 +64,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     SPData spdata;
     Context context;
     APIService mAPIService;
-    Call<ResponePayTamThu> call;
+    Call<ResponePayTamThu> call = null;
 
     @Override
     public void onReceive(Context con, Intent intent) {
@@ -78,8 +78,9 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         try {
             if (isOnline(context)) {
 
-
-                spdata.luuDataThuOffline(0);
+                if (spdata.getDataTuDongChuyenOffline() == 1) {
+                    spdata.luuDataThuOffline(0);
+                }
                 // Toast.makeText(context, "Online Connect Intenet: "+ getNetworkType(context), Toast.LENGTH_SHORT).show();
                 // dialog(true);
                 Log.e("keshav", "Online Connect Intenet: " + getNetworkType(context));
@@ -87,15 +88,18 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                 if (getNetworkType(context).equals("4g") || getNetworkType(context).equals("wifi")) {
                     Log.e("so luong hd thu", String.valueOf(thanhtoandao.GetSoLuongThanhToanTamThu()));
                     if (thanhtoandao.GetSoLuongThanhToanTamThu() > 0) {
-
-                        UpdateThanhToanThuTamHDRetrofit();
+                        if (spdata.getDataLuuTuDongThu() == 1) {
+                            UpdateThanhToanThuTamHDRetrofit();
+                        }
 
                     }
                 }
 
             } else {
+                if (spdata.getDataTuDongChuyenOffline() == 1) {
+                    spdata.luuDataThuOffline(1);
+                }
 
-                spdata.luuDataThuOffline(1);
 //                Toast.makeText(context, "Conectivity Failure ", Toast.LENGTH_SHORT).show();
                 //  dialog(false);
                 Log.e("keshav", "Conectivity Failure !!! ");

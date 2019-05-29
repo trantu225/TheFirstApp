@@ -183,12 +183,10 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
         return kq;
     }
-
     public void UpdateThanhToanThuTamHDRetrofit() {
 
         try {
-            List<BillTamThu> listbill = null;
-            listbill = thanhtoandao.GetThanhToanTamThu();
+            final List<BillTamThu> listbill = thanhtoandao.GetThanhToanTamThu();
             RequestTamThu jsondata = new RequestTamThu();
             if (listbill.size() > 0) {
                 jsondata.setUserName(spdata.getDataNhanVienTrongSP());
@@ -198,29 +196,56 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                 String thoigian2 = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                 jsondata.setRequestTime(thoigian2);
                 final ArrayList<String> myListerror = new ArrayList<String>();
-                if (call == null) {
-                    call = mAPIService.updatetamthu(jsondata);
+                final ArrayList<String> myListTrung = new ArrayList<String>();
+                call = mAPIService.updatetamthu(jsondata);
+                //  Log.i(TAG, "Works until here");
 
+                call.enqueue(new Callback<ResponePayTamThu>() {
+                    @Override
+                    public void onResponse(Call<ResponePayTamThu> call, Response<ResponePayTamThu> response) {
+                        //  Toast.makeText(MainActivity.this, "Все прошло хорошо",Toast.LENGTH_SHORT).show();
 
-                    final List<BillTamThu> finalListbill = listbill;
-                    call.enqueue(new Callback<ResponePayTamThu>() {
-                        @Override
-                        public void onResponse(Call<ResponePayTamThu> call, Response<ResponePayTamThu> response) {
-                            //  Toast.makeText(MainActivity.this, "Все прошло хорошо",Toast.LENGTH_SHORT).show();
-                            call = null;
+                        if (response.isSuccessful()) {
 
                             int code = response.body().getResponseCode();
                             String desc = response.body().getResponseDesc();
 
                             if (code == 0) {
+
                                 //Update vào database
-                                for (BillTamThu ma : finalListbill) {
+                                for (BillTamThu ma : listbill) {
                                     if (thanhtoandao.updateThanhToanTrangThaiTamThu(ma.getCustNo(), "2")) {
                                         if (khachhangthudao.updateKhachHangTamThuCapNhatServer(ma.getCustNo(), "2")) {
 
                                         }
                                     }
                                 }
+                                List<LOGNBDTO> listhutrung = response.body().getListError();
+                                Log.e("List trung ", "" + listhutrung.size());
+                                if (listhutrung.size() > 0) {
+                                    for (LOGNBDTO thutrung : listhutrung) {
+                                        String MATHUTRUNG = thutrung.getMAKH();
+                                        Log.e("MATHUTRUNG", MATHUTRUNG);
+                                        String KYHDTRUNG = thutrung.getRETURNCODEDESC();
+                                        Log.e("KYHDTRUNG", KYHDTRUNG);
+                                        String kyhd = KYHDTRUNG.substring(4) + "/" + KYHDTRUNG.substring(0, 4);
+                                        if (thanhtoandao.updateThanhToanTrangThaiTamThu(MATHUTRUNG, "3")) {
+                                            if (khachhangthudao.updateKhachHangTamThuCapNhatServer(MATHUTRUNG, "3")) {
+
+                                            }
+                                        }
+
+                                        KhachHangThuDTO kherror = khachhangthudao.getKHTheoMaKH(MATHUTRUNG.trim());
+                                        String maduong = khachhangthudao.getMaDuongTheoMaKhachHang(MATHUTRUNG.trim());
+                                        String chuoihienthi = "Đường:" + maduong + "- Danh bộ:" + kherror.getDanhBo() + " - Tên:" + kherror.getTenKhachHang() + " -  Lỗi: Thu trùng kỳ hóa đơn " + kyhd;
+                                        Log.d("Chuoi hien thi", chuoihienthi);
+                                        myListTrung.add(chuoihienthi);
+                                    }
+                                    desc += ".Trong đó,thu trùng: " + listhutrung.size() + " hóa đơn";
+
+
+                                }
+
                             } else if (code == -5) {
                                 try {
                                     desc += ".Kiểm tra lại danh sách lỗi";
@@ -249,7 +274,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
                                     }
 
-                                    for (BillTamThu ma : finalListbill) {
+                                    for (BillTamThu ma : listbill) {
                                         if (thanhtoandao.updateThanhToanTrangThaiTamThu(ma.getCustNo(), "2")) {
                                             if (khachhangthudao.updateKhachHangTamThuCapNhatServer(ma.getCustNo(), "2")) {
 
@@ -311,35 +336,56 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                                         // button "no" ẩn dialog đi
                                     }
                                 });
+                            } else if (code == 0) {
+                                if (myListTrung.size() > 0) {
+                                    alertDialogBuilder.setPositiveButton("DS Thu Trùng", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+
+
+                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                                            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+
+                                            View convertView = (View) inflater.inflate(R.layout.lishkh_error, null);
+                                            alertDialog.setView(convertView);
+                                            alertDialog.setTitle("Danh sách thu trùng");
+                                            ListView lv = (ListView) convertView.findViewById(R.id.lv);
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, myListTrung);
+                                            lv.setAdapter(adapter);
+                                            alertDialog.show();
+                                            // button "no" ẩn dialog đi
+                                        }
+                                    });
+                                }
                             }
 
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             // tạo dialog
                             alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.show();
-
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Call<ResponePayTamThu> call, Throwable t) {
-                            call = null;
+                    @Override
+                    public void onFailure(Call<ResponePayTamThu> call, Throwable t) {
+                        Log.e("LOI ", "Unable to submit post to API." + t.getCause().toString());
 
-                            Log.e("LOI ", "Unable to submit post to API." + t.getMessage());
-                        }
-                    });
-                }
+                    }
+                });
             } else {
-
                 Log.e("LOI ", "Không có list");
             }
 
 
         } catch (Exception e) {
-            call = null;
-
-            Log.e("loi retrofit", e.toString());
+            if (call.isCanceled()) {
+                //   Log.e(TAG, "request was aborted");
+            } else {
+                //   Log.e(TAG, "Unable to submit post to API.");
+            }
         }
-
     }
+
 
 }

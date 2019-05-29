@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -374,6 +375,7 @@ public class MainThu2Activity extends AppCompatActivity {
         }
 
         //--------------------------------------------------------------------------
+        //XuLyIn
         inthongbao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1320,9 +1322,16 @@ public class MainThu2Activity extends AppCompatActivity {
 
 
             lb_tbhetno.setVisibility(View.GONE);
-            LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
-            DuongDangThu.setBackgroundResource(android.R.color.holo_red_dark);
-            ConLai.setBackgroundResource(android.R.color.holo_red_dark);
+
+            if (thanhtoandao.countKhachHangTamThuTrungTheoMaKH(khachhang.getMaKhachHang().trim()) != 0) {
+                LabelDuong.setBackgroundResource(android.R.color.holo_orange_light);
+                DuongDangThu.setBackgroundResource(android.R.color.holo_orange_light);
+                ConLai.setBackgroundResource(android.R.color.holo_orange_light);
+            } else {
+                LabelDuong.setBackgroundResource(android.R.color.holo_red_dark);
+                DuongDangThu.setBackgroundResource(android.R.color.holo_red_dark);
+                ConLai.setBackgroundResource(android.R.color.holo_red_dark);
+            }
             // lay_Thu.setEnabled(false);
             // Thu.setEnabled(false);
 
@@ -1422,6 +1431,8 @@ public class MainThu2Activity extends AppCompatActivity {
                 tv_nhanvienthu.setText(khachhang.getNhanvienthu() + " (Tạm thu - Chưa cập nhật)");
             } else if (khachhangthuDAO.getTamThuTheoMAKH(khachhang.getMaKhachHang().trim()).equals("2")) {
                 tv_nhanvienthu.setText(khachhang.getNhanvienthu() + " (Tạm thu - Đã cập nhật)");
+            } else if (khachhangthuDAO.getTamThuTheoMAKH(khachhang.getMaKhachHang().trim()).equals("3")) {
+                tv_nhanvienthu.setText(khachhang.getNhanvienthu() + " (Tạm thu - Thu trùng)");
             }
         }
 

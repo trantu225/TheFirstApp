@@ -207,8 +207,10 @@ public class CustomListThanhToanAdapter extends BaseExpandableListAdapter {
 
             } else if (tamthu.equals("1")) {
                 holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu() + " (Tạm thu - Chưa cập nhật) ");
-            } else {
+            } else if (tamthu.equals("2")) {
                 holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu() + " (Tạm thu - Đã cập nhật) ");
+            } else if (tamthu.equals("3")) {
+                holder.NhanVienThu.setText("Nhân viên thu: " + cus.getNhanvienthu() + " (Tạm thu - Thu trùng) ");
             }
         }
 

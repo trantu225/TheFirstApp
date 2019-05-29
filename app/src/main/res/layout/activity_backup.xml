@@ -242,6 +242,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/ThongTinLuuFie_Chuaghi"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_dathu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ThongTinLuuFie_DaThu" />
                 </RadioGroup>
 
             </TableRow>

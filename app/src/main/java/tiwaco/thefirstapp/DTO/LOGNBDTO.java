@@ -10,8 +10,8 @@ public class LOGNBDTO {
     String LOGID;
     String USERNAME;
     String MAKH;
-    Date date;
-    Date REQUESTTIME;
+    String date;
+    String REQUESTTIME;
     String IPADDRESS;
     String ACTION;
     int RETURNCODE;
@@ -41,19 +41,19 @@ public class LOGNBDTO {
         this.MAKH = MAKH;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Date getREQUESTTIME() {
+    public String getREQUESTTIME() {
         return REQUESTTIME;
     }
 
-    public void setREQUESTTIME(Date REQUESTTIME) {
+    public void setREQUESTTIME(String REQUESTTIME) {
         this.REQUESTTIME = REQUESTTIME;
     }
 

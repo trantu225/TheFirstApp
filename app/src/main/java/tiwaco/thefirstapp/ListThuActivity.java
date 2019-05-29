@@ -509,6 +509,38 @@ public class ListThuActivity extends AppCompatActivity {
 
 
                     break;
+                case 8: //có nợ
+
+                    liskhdao = khachhangDAO.getAllKHTamThuDaCapNhatBiTrung(Bien.ma_duong_dang_chon_thu);
+                    title = String.valueOf(liskhdao.size()) + " KH";
+                    txtTiltle.setText(title);
+
+                    int tongcong8 = 0;
+                    int sohd8 = 0;
+                    for (int i = 0; i < liskhdao.size(); i++) {
+                        sohd8 += thanhtoandao.getSoHDTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                        tongcong8 += thanhtoandao.getSoTienTongCongTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                    }
+                    txt_title_hd.setText("Số HD: " + sohd8 + " - Số tiền: " + thanhtoandao.formatTien(tongcong8));
+                    Bien.adapterKHThu.setData(liskhdao);
+                    Bien.adapterKHThu.notifyDataSetChanged();
+                    Bien.listKH_thu = liskhdao;
+                    Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+                    int thutuchuyen8 = 0;
+                    for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                        //     Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                        if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                            thutuchuyen7 = t - 1;
+                        }
+                        //       Log.e("thutu", String.valueOf(thutuchuyen5));
+                    }
+                    //  Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                    if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                        listviewKH.setSelection(thutuchuyen8 - 1);
+                    }
+
+
+                    break;
             }
         }
 
@@ -571,6 +603,7 @@ public class ListThuActivity extends AppCompatActivity {
         listTTGhi.add("Có HĐ nợ");
         listTTGhi.add("Tạm thu - Chưa cập nhật");
         listTTGhi.add("Tạm thu - Đã cập nhật");
+        listTTGhi.add("Tạm thu - Thu trùng");
         ArrayAdapter<String> adapter=new ArrayAdapter<String>
                 (
                         this,
@@ -820,6 +853,38 @@ public class ListThuActivity extends AppCompatActivity {
                         //  Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
                         if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
                             listviewKH.setSelection(thutuchuyen7 - 1);
+                        }
+
+
+                        break;
+                    case 8: //có nợ
+
+                        liskhdao = khachhangDAO.getAllKHTamThuDaCapNhatBiTrung(Bien.ma_duong_dang_chon_thu);
+                        title = String.valueOf(liskhdao.size()) + " KH";
+                        txtTiltle.setText(title);
+
+                        int tongcong8 = 0;
+                        int sohd8 = 0;
+                        for (int i = 0; i < liskhdao.size(); i++) {
+                            sohd8 += thanhtoandao.getSoHDTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                            tongcong8 += thanhtoandao.getSoTienTongCongTheoMAKHKhongFormat(liskhdao.get(i).getMaKhachHang());
+                        }
+                        txt_title_hd.setText("Số HD: " + sohd8 + " - Số tiền: " + thanhtoandao.formatTien(tongcong8));
+                        Bien.adapterKHThu.setData(liskhdao);
+                        Bien.adapterKHThu.notifyDataSetChanged();
+                        Bien.listKH_thu = liskhdao;
+                        Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
+                        int thutuchuyen8 = 0;
+                        for (int t = 0; t < Bien.listKH_thu.size(); t++) {
+                            //     Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                            if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
+                                thutuchuyen7 = t - 1;
+                            }
+                            //       Log.e("thutu", String.valueOf(thutuchuyen5));
+                        }
+                        //  Log.e("chuyendenstt-stt", String.valueOf(Bien.bien_index_khachhang_thu) + " " + Bien.bienSoLuongKH);
+                        if (Bien.bien_index_khachhang_thu > 0 && Bien.bien_index_khachhang_thu <= Integer.parseInt(khachhangDAO.getSTTLonNhat(Bien.ma_duong_dang_chon_thu))) {
+                            listviewKH.setSelection(thutuchuyen8 - 1);
                         }
 
 

@@ -123,7 +123,11 @@ public class CustomListThu2Adapter extends BaseAdapter {
             holder.STT.setBackgroundResource(R.drawable.remove_bg);
 
         } else {
-            holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+            if (thanhtoandao.countKhachHangTamThuTrungTheoMaKH(cus.getMaKhachHang().trim()) != 0) {
+                holder.STT.setBackgroundResource(R.drawable.remove_bg_thutrung);
+            } else {
+                holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
+            }
         }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

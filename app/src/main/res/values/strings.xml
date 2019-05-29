@@ -163,6 +163,7 @@
     <string name="nhan_vien">Nhân viên: </string>
     <string name="note_phienbanmoinhat_true">Đây là phiên bản mới nhất.</string>
     <string name="thanhtoan_txtthanhtoan">Thanh toán và in biên nhận</string>
+    <string name="ThongTinLuuFie_DaThu">Đã thu</string>
 
 
 </resources>

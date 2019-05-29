@@ -17,6 +17,7 @@ import java.util.List;
 import tiwaco.thefirstapp.DTO.BillTamThu;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.LichSuDTO;
+import tiwaco.thefirstapp.DTO.ObjectThu;
 import tiwaco.thefirstapp.DTO.ThanhToanDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 import tiwaco.thefirstapp.Database.SPData;
@@ -703,6 +704,22 @@ public class ThanhToanDAO {
 
     }
 
+    public boolean updateThanhToanTrangThaiTamThuTheoMaKHvaKyHD(String makh, String kyhd, String tt) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+
+
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TAMTHU, tt);
+
+
+        // updating row
+        boolean kt = db.update(MyDatabaseHelper.TABLE_THANHTOAN, values, MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = ? and " + MyDatabaseHelper.KEY_THANHTOAN_KYHD + " = ?", new String[]{makh, kyhd}) > 0;
+        db.close();
+        return kt;
+
+    }
+
+
 
     public boolean updateLanIn(String bienlai, String biennhan, String thbaotruoc, String thbaosau) {
         db = myda.openDB();
@@ -749,6 +766,18 @@ public class ThanhToanDAO {
         db = myda.openDB();
         int sokh = 0;
         String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "='" + makh + "'and " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "=''";
+
+        Cursor cursor = db.rawQuery(countQuery, null);
+        sokh = cursor.getCount();
+        cursor.close();
+        db.close();
+        return sokh;
+    }
+
+    public int countKhachHangTamThuTrungTheoMaKH(String makh) {
+        db = myda.openDB();
+        int sokh = 0;
+        String countQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_MAKH + "='" + makh + "'and " + MyDatabaseHelper.KEY_THANHTOAN_TAMTHU + "='3'";
 
         Cursor cursor = db.rawQuery(countQuery, null);
         sokh = cursor.getCount();
@@ -1678,7 +1707,37 @@ public class ThanhToanDAO {
 
     }
 
+    public List<ObjectThu> getHDDaThuTheoTen(String tennv) {
 
+        db = myda.openDB();
+        List<ObjectThu> ListTT = new ArrayList<ObjectThu>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_THANHTOAN + " WHERE " + MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN + "<>'' and " + MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU + "= '" + tennv + "'";
+        ;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ObjectThu kh = new ObjectThu();
+                kh.setBIENLAI(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_BIENLAI)));
+                kh.setMAKH(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_MAKH)));
+
+
+                kh.setTHANG(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
+
+                kh.setTONGCONG(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
+
+                // Adding contact to list
+                ListTT.add(kh);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return ListTT;
+
+    }
     // 0: tat ca, 1: da thu, 2: chua thu, 3: da thu hom nay
     public String getSoHDTheoMaDuongPhanLoai(int loai, String maduong) {
 

@@ -1066,6 +1066,7 @@ public class MainThu2Activity extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pullToRefresh.setRefreshing(true);
                 refreshData(); // your code
                 pullToRefresh.setRefreshing(false);
             }
@@ -1082,7 +1083,7 @@ public class MainThu2Activity extends AppCompatActivity {
     }
 
     public void refreshData() {
-        pullToRefresh.setRefreshing(true);
+
 
         try {
             if (isInternetOn()) {
@@ -1110,7 +1111,7 @@ public class MainThu2Activity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        dialog.dismiss();
 
                         // button "no" ẩn dialog đi
                     }
@@ -1140,7 +1141,7 @@ public class MainThu2Activity extends AppCompatActivity {
             alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    dialog.dismiss();
 
                     // button "no" ẩn dialog đi
                 }
@@ -2658,7 +2659,7 @@ public class MainThu2Activity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        dialog.dismiss();
 
                         // button "no" ẩn dialog đi
                     }
@@ -3182,6 +3183,14 @@ public class MainThu2Activity extends AppCompatActivity {
                 }
 
                 break;
+            case R.id.action_reload:
+
+                refreshData();
+
+                break;
+
+
+
         }
 
 
@@ -3363,7 +3372,7 @@ public class MainThu2Activity extends AppCompatActivity {
 
         if (spdata.getDataThuOffline() == 0) {
 
-            if (getNetworkType(con).equals("4g") || getNetworkType(con).equals("3g") || getNetworkType(con).equals("wifi")) {
+            if (getNetworkType(con).equals("4g") || getNetworkType(con).equals("3g") || getNetworkType(con).equals("2g") || getNetworkType(con).equals("wifi")) {
 
 
                 String maKH = MaKH.getText().toString().trim();
@@ -3379,16 +3388,26 @@ public class MainThu2Activity extends AppCompatActivity {
 
                 if (listchuatt.size() > 0) {
                     int sothanhtoan = 0;
-                    for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
-                        if (thanhtoandao.updateThanhToanTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
-                            Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
-                            sothanhtoan++;
-                        }
-
-                    }
-                    if (sothanhtoan == listchuatt.size()) {
+//                    for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
+//                        if (thanhtoandao.updateThanhToanTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
+//                            Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
+//                            sothanhtoan++;
+//                        }
+//
+//                    }
+//                    if (sothanhtoan == listchuatt.size()) {
 
                         if (khachhangthuDAO.updateKhachHangThanhToan(maKH, thoigian2, nhanvienthu)) {
+
+
+                            for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
+                                if (thanhtoandao.updateThanhToanTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
+                                    Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
+                                    sothanhtoan++;
+                                }
+
+                            }
+                            if (sothanhtoan == listchuatt.size()) {
                             setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
                             String thoigian3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
                             Toast.makeText(con, "Thu tiền nước thành công", Toast.LENGTH_SHORT).show();
@@ -3575,16 +3594,24 @@ public class MainThu2Activity extends AppCompatActivity {
 
                 if (listchuatt.size() > 0) {
                     int sothanhtoan = 0;
-                    for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
-                        if (thanhtoandao.updateThanhToanTamThuTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
-                            Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
-                            sothanhtoan++;
-                        }
-
-                    }
-                    if (sothanhtoan == listchuatt.size()) {
+//                    for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
+//                        if (thanhtoandao.updateThanhToanTamThuTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
+//                            Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
+//                            sothanhtoan++;
+//                        }
+//
+//                    }
+//                    if (sothanhtoan == listchuatt.size()) {
 
                         if (khachhangthuDAO.updateKhachHangTamThu(maKH, thoigian2, nhanvienthu)) {
+                            for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
+                                if (thanhtoandao.updateThanhToanTamThuTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
+                                    Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
+                                    sothanhtoan++;
+                                }
+
+                            }
+                            if (sothanhtoan == listchuatt.size()) {
                             setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
                             String thoigian3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
                             Toast.makeText(con, "Tạm thu tiền nước thành công", Toast.LENGTH_SHORT).show();
@@ -3774,16 +3801,24 @@ public class MainThu2Activity extends AppCompatActivity {
 
             if (listchuatt.size() > 0) {
                 int sothanhtoan = 0;
-                for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
-                    if (thanhtoandao.updateThanhToanTamThuTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
-                        Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
-                        sothanhtoan++;
-                    }
-
-                }
-                if (sothanhtoan == listchuatt.size()) {
+//                for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
+//                    if (thanhtoandao.updateThanhToanTamThuTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
+//                        Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
+//                        sothanhtoan++;
+//                    }
+//
+//                }
+//                if (sothanhtoan == listchuatt.size()) {
 
                     if (khachhangthuDAO.updateKhachHangTamThu(maKH, thoigian2, nhanvienthu)) {
+                        for (int bienlai = 0; bienlai < listchuatt.size(); bienlai++) {
+                            if (thanhtoandao.updateThanhToanTamThuTheoMaKhvaKyHD(maKH, thoigian2, trans, nhanvienthu, listchuatt.get(bienlai).getKyHD())) {
+                                Log.e("bienlai", listchuatt.get(bienlai).getBienLai());
+                                sothanhtoan++;
+                            }
+
+                        }
+                        if (sothanhtoan == listchuatt.size()) {
                         setDataForView(STT.getText().toString(), maduong_nhan, MaKH.getText().toString());
                         String thoigian3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
                         Toast.makeText(con, "Tạm thu tiền nước thành công", Toast.LENGTH_SHORT).show();
@@ -3950,9 +3985,11 @@ public class MainThu2Activity extends AppCompatActivity {
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
                         // hiển thị dialog
-                    } else {
-                        Toast.makeText(con, "Thu tiền nước thất bại", Toast.LENGTH_SHORT).show();
-                    }
+
+                        } else {
+                            Toast.makeText(con, "Thu tiền nước thất bại", Toast.LENGTH_SHORT).show();
+                        }
+
                 } else {
                     Toast.makeText(con, "Thu tiền nước thất bại", Toast.LENGTH_SHORT).show();
                 }
@@ -6213,7 +6250,7 @@ public class MainThu2Activity extends AppCompatActivity {
         try {
             if (isInternetOn()) {
                 String tinhtrangmang = getNetworkType(con);
-                if (tinhtrangmang.equals("4g") || tinhtrangmang.equals("3g") || tinhtrangmang.equals("wifi")) {
+                if (tinhtrangmang.equals("4g") || tinhtrangmang.equals("3g") || tinhtrangmang.equals("2g") || tinhtrangmang.equals("wifi")) {
                     rad_inhd.setChecked(true);
                     String urlgetBill = getString(R.string.API_PayBillNB);
                     KiemTraThongTinThuTienNuoc ask = new KiemTraThongTinThuTienNuoc();
@@ -6287,7 +6324,7 @@ public class MainThu2Activity extends AppCompatActivity {
                     alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
+                            dialog.dismiss();
 
                             // button "no" ẩn dialog đi
                         }
@@ -6368,8 +6405,8 @@ public class MainThu2Activity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
 
+                        dialog.dismiss();
                         // button "no" ẩn dialog đi
                     }
                 });
@@ -6448,7 +6485,7 @@ public class MainThu2Activity extends AppCompatActivity {
             alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    dialog.dismiss();
 
                     // button "no" ẩn dialog đi
                 }
@@ -6478,6 +6515,7 @@ public class MainThu2Activity extends AppCompatActivity {
                 int networkType = mTelephonyManager.getNetworkType();
                 switch (networkType) {
                     case TelephonyManager.NETWORK_TYPE_GPRS:
+
                     case TelephonyManager.NETWORK_TYPE_EDGE:
                     case TelephonyManager.NETWORK_TYPE_CDMA:
                     case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -6500,6 +6538,7 @@ public class MainThu2Activity extends AppCompatActivity {
                     case TelephonyManager.NETWORK_TYPE_EVDO_B:
                     case TelephonyManager.NETWORK_TYPE_EHRPD:
                     case TelephonyManager.NETWORK_TYPE_HSPAP:
+                    case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
                         //Log.d("Type", "3g");
                         //For 3g HSDPA , HSPAP(HSPA+) are main  networktype which are under 3g Network
                         //But from other constants also it will 3g like HSPA,HSDPA etc which are in 3g case.
@@ -6509,6 +6548,11 @@ public class MainThu2Activity extends AppCompatActivity {
                         kq = "3g";
                         break;
                     case TelephonyManager.NETWORK_TYPE_LTE:
+                    case TelephonyManager.NETWORK_TYPE_GSM:
+                    case TelephonyManager.NETWORK_TYPE_IWLAN:
+
+                    case 19:
+
                         //No specification for the 4g but from wiki
                         //I found(LTE (Long-Term Evolution, commonly marketed as 4G LTE))
                         //https://en.wikipedia.org/wiki/LTE_(telecommunication)
@@ -6534,7 +6578,7 @@ public class MainThu2Activity extends AppCompatActivity {
                 //Lấy loại mạng
                 //nếu 2g thì offline
                 String tinhtrangmang = getNetworkType(con);
-                if (tinhtrangmang.equals("4g") || tinhtrangmang.equals("3g") || tinhtrangmang.equals("wifi")) {
+                if (tinhtrangmang.equals("4g") || tinhtrangmang.equals("3g") || tinhtrangmang.equals("2g") || tinhtrangmang.equals("wifi")) {
                     Toast.makeText(MainThu2Activity.this, tinhtrangmang, Toast.LENGTH_SHORT).show();
                     String urlgetBill = getString(R.string.API_GetBillInfoNB);
                     CheckBillNB ask = new CheckBillNB();
@@ -6559,7 +6603,7 @@ public class MainThu2Activity extends AppCompatActivity {
                     alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
+                            dialog.dismiss();
 
                             // button "no" ẩn dialog đi
                         }
@@ -6593,7 +6637,7 @@ public class MainThu2Activity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        dialog.dismiss();
 
                         // button "no" ẩn dialog đi
                     }
@@ -6624,7 +6668,7 @@ public class MainThu2Activity extends AppCompatActivity {
             alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    dialog.dismiss();
 
                     // button "no" ẩn dialog đi
                 }
@@ -6665,7 +6709,7 @@ public class MainThu2Activity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        dialog.dismiss();
 
                         // button "no" ẩn dialog đi
                     }
@@ -6695,7 +6739,7 @@ public class MainThu2Activity extends AppCompatActivity {
             alertDialogBuilder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    dialog.dismiss();
 
                     // button "no" ẩn dialog đi
                 }

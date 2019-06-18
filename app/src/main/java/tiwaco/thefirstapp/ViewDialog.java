@@ -39,6 +39,21 @@ public class ViewDialog {
             }
         });
 
+        Button dialogButton_from_file_thu = (Button) dialog.findViewById(R.id.btn_dialog_from_file_thu);
+        dialogButton_from_file_thu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                activity.finish();
+                Intent myIntent = new Intent(activity, LoadThuActivity.class);
+                //Intent myIntent = new Intent(this, LoadFromServerActivity.class);
+                activity.startActivity(myIntent);
+                // activity.finish();
+
+
+            }
+        });
+
         Button dialogButton_from_server = (Button) dialog.findViewById(R.id.btn_dialog_from_server);
         dialogButton_from_server.setOnClickListener(new View.OnClickListener() {
             @Override

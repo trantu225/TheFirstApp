@@ -428,7 +428,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DUONGTHU);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKHTHU);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
+        // db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_THANHTOAN);
         // Create tables again
@@ -454,7 +454,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DUONG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
         String CREATE_DUONG_TABLE = "CREATE TABLE " + TABLE_DUONG + "("
                 + KEY_DUONG_MADUONG + " TEXT PRIMARY KEY,"
                 + KEY_DUONG_TENDUONG + " TEXT,"
@@ -532,7 +532,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TINHTRANGTLK_TABLE);
         db.execSQL(CREATE_DUONG_TABLE);
         db.execSQL(CREATE_KHACHHANG_TABLE);
-        db.execSQL(CREATE_LISHSU_TABLE);
+        // db.execSQL(CREATE_LISHSU_TABLE);
 
 
     }
@@ -543,18 +543,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DUONGTHU);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHSACHKHTHU);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
+        // db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_THANHTOAN);
         // Create tables again
         String CREATE_TINHTRANGTLK_TABLE = "CREATE TABLE " + TABLE_TINHTRANGTLK + "("
                 + KEY_TINHTRANGTLK_MATT + " TEXT PRIMARY KEY,"
                 + KEY_TINHTRANGTLK_ThuTuTT + " INTEGER,"
                 + KEY_TINHTRANGTLK_TENTT + " TEXT" + ")";
-        String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
-                + KEY_LISHSU_MALS + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + KEY_LICHSU_NDLS + " TEXT,"
-                + KEY_LICHSU_MALENH + " TEXT,"
-                + KEY_LICHSU_THOIGIAN + " TEXT" + ")";
+//        String CREATE_LISHSU_TABLE = "CREATE TABLE  " + TABLE_LICHSU + "("
+//                + KEY_LISHSU_MALS + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+//                + KEY_LICHSU_NDLS + " TEXT,"
+//                + KEY_LICHSU_MALENH + " TEXT,"
+//                + KEY_LICHSU_THOIGIAN + " TEXT" + ")";
         String CREATE_DUONGTHU_TABLE = "CREATE TABLE " + TABLE_DUONGTHU + "("
                 + KEY_DUONGTHU_MADUONG + " TEXT PRIMARY KEY,"
                 + KEY_DUONGTHU_TENDUONG + " TEXT,"
@@ -650,7 +650,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT,"           //26
                 + KEY_THANHTOAN_TAMTHU + " TEXT " + ")";  //27
         db.execSQL(CREATE_TINHTRANGTLK_TABLE);
-        db.execSQL(CREATE_LISHSU_TABLE);
+        //  db.execSQL(CREATE_LISHSU_TABLE);
         db.execSQL(CREATE_DUONGTHU_TABLE);
         db.execSQL(CREATE_KHACHHANGTHU_TABLE);
         db.execSQL(CREATE_THANHTOAN_TABLE);

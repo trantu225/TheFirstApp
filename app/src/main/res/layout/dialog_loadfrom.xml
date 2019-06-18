@@ -45,7 +45,20 @@
             android:layout_marginTop="@dimen/dp10"
 
             android:background="@drawable/selector_button_signin"
-            android:text="Tập tin"
+            android:text="Tập tin ghi"
+            android:textAllCaps="false"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:id="@+id/btn_dialog_from_file_thu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp10"
+
+            android:background="@drawable/selector_button_signin"
+            android:text="Tập tin thu"
             android:textAllCaps="false"
             android:textColor="#ffffffff" />
 

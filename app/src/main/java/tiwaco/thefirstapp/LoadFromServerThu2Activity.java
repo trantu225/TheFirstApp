@@ -57,6 +57,10 @@ import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
 import tiwaco.thefirstapp.DTO.DuongThuDTO;
+import tiwaco.thefirstapp.DTO.JSONBACKUPTHU;
+import tiwaco.thefirstapp.DTO.JSONDUONGTHU;
+import tiwaco.thefirstapp.DTO.JSONKHTHU;
+import tiwaco.thefirstapp.DTO.JSONTHANHTOANTHU;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
 import tiwaco.thefirstapp.DTO.ListJsonData;
@@ -156,8 +160,35 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
                         Log.e("duongdan", duongdanfile);
                         layout_noidungload.setVisibility(View.GONE);
                         prgTime.setVisibility(View.VISIBLE);
+                        if (thanhtoanDAO.GetSoLuongThanhToanTamThu() > 0) {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
+                            // khởi tạo dialog
+                            alertDialogBuilder.setMessage("Vẫn còn dữ liệu thu offline chưa cập nhật lên server. Hãy cập nhật và đối soát lại dữ liệu để có thể lấy gói thu mới");
+                            // thiết lập nội dung cho dialog
 
-                        askPermissionAndReadFile();
+                            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    layout_noidungload.setVisibility(View.VISIBLE);
+                                    prgTime.setVisibility(View.GONE);
+                                    Intent myIntent = new Intent(LoadFromServerThu2Activity.this, Backup_Activity.class);
+                                    myIntent.putExtra("MauLoadBackUp", "2");
+                                    startActivity(myIntent);
+
+
+                                    // button "no" ẩn dialog đi
+                                }
+                            });
+
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            // tạo dialog
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.show();
+                        } else {
+                            askPermissionAndReadFile();
+                        }
                     } else {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
                         // khởi tạo dialog
@@ -1240,7 +1271,7 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
     }
 
     private Boolean KiemTraTonTaiDuLieu() {
-        if (DuongThuDAO.countDuong() <= 0 && khachhangthudao.countKhachHangAll() <= 0) {
+        if (DuongThuDAO.countDuong() <= 0 && khachhangthudao.countKhachHangAll() <= 0 && thanhtoanDAO.countThanhToanAll() <= 0) {
             return false;
         }
         return true;
@@ -1329,7 +1360,7 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 
                     String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());
                     if (!result_tatca_string.equals("")) {
-                        String filename1 = thumucchuafile + "/TUDONGCAPNHAT";
+                        String filename1 = thumucchuafile + "/TUDONGCAPNHATTHU";
 
                         File f = new File(filename1);
                         if (!f.exists()) {
@@ -1454,40 +1485,23 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
     }
 
     private String taoJSONData_KH_TatCa(String tendanhsach) {
-        ListJsonData jsondata = new ListJsonData();
-        KhachHangDAO khachhangdao = new KhachHangDAO(con);
-
+        JSONBACKUPTHU jsondata = new JSONBACKUPTHU();
+        KhachHangThuDAO khachhangdao = new KhachHangThuDAO(con);
+        DuongThuDAO duongthudao = new DuongThuDAO(con);
         //Lấy danh sách tất cả các đường
-        List<DuongThuDTO> listduong = new ArrayList<DuongThuDTO>();
-        List<ListTiwareadDTO> listtiwaread = new ArrayList<ListTiwareadDTO>();
-        String soluongKH = String.valueOf(khachhangdao.countKhachHangAll());
-        listduong = DuongThuDAO.getAllDuong();
-        for (int thutuduong = 0; thutuduong < listduong.size(); thutuduong++) {
-            String maduong = listduong.get(thutuduong).getMaDuong();
-            String tenduong = listduong.get(thutuduong).getTenDuong();
-            List<KhachHangDTO> listkh = new ArrayList<KhachHangDTO>();
-            listkh = khachhangdao.getAllKHTheoDuong(maduong);
-            ListTiwareadDTO tiwaread = new ListTiwareadDTO();
-            tiwaread.setMaDuong(maduong);
-            tiwaread.setTenDuong(tenduong);
-            tiwaread.setTiwareadList(listkh);
-            if (listkh.size() > 0) {
-                listtiwaread.add(tiwaread);
-            }
-        }
-        String json = "";
-        if (listtiwaread.size() > 0) {
-            jsondata.setListTiwaread(listtiwaread);
-            String kyhd = spdata.getDataKyHoaDonTrongSP();
-            jsondata.setTenDS(kyhd);
+        List<JSONDUONGTHU> listduong = duongthudao.getAllDuongThu();
+        List<JSONKHTHU> listkh = khachhangdao.getAllKHThu();
+        List<JSONTHANHTOANTHU> listthanhtoan = thanhtoanDAO.GetAllThanhToanThu();
 
-            jsondata.setTongSLkh(soluongKH);
+
+        String json = "";
+        if (listduong.size() > 0 && listkh.size() > 0 && listthanhtoan.size() > 0) {
+            jsondata.setListduong(listduong);
+            jsondata.setListkh(listkh);
+            jsondata.setListthanhtoan(listthanhtoan);
+
             Gson gson = new Gson();
             json = gson.toJson(jsondata);
-        } else {
-            spdata.luuDataFlagBKAllTrongSP(-1);
-            Bien.bienbkall = -1;
-
         }
 
         return json;

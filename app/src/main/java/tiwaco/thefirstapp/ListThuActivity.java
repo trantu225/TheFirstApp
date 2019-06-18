@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -73,6 +74,7 @@ public class ListThuActivity extends AppCompatActivity {
     EditText locSTT;
     ProgressDialog dialogdoi;
     ThanhToanDAO thanhtoandao;
+    NetworkChangeReceiver networkreceiver;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.listkh_fragment);
@@ -104,7 +106,8 @@ public class ListThuActivity extends AppCompatActivity {
         dialogdoi.setMessage("Đang tập hợp dữ liệu...");
         dialogdoi.setCanceledOnTouchOutside(false);
         Log.e("soluongkh", String.valueOf(khachhangDAO.countKhachHangAll()));
-
+        networkreceiver = new NetworkChangeReceiver();
+        registerReceiver(networkreceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);

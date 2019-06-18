@@ -136,6 +136,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                 int networkType = mTelephonyManager.getNetworkType();
                 switch (networkType) {
                     case TelephonyManager.NETWORK_TYPE_GPRS:
+
                     case TelephonyManager.NETWORK_TYPE_EDGE:
                     case TelephonyManager.NETWORK_TYPE_CDMA:
                     case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -158,6 +159,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                     case TelephonyManager.NETWORK_TYPE_EVDO_B:
                     case TelephonyManager.NETWORK_TYPE_EHRPD:
                     case TelephonyManager.NETWORK_TYPE_HSPAP:
+                    case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
                         //Log.d("Type", "3g");
                         //For 3g HSDPA , HSPAP(HSPA+) are main  networktype which are under 3g Network
                         //But from other constants also it will 3g like HSPA,HSDPA etc which are in 3g case.
@@ -167,6 +169,11 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                         kq = "3g";
                         break;
                     case TelephonyManager.NETWORK_TYPE_LTE:
+                    case TelephonyManager.NETWORK_TYPE_GSM:
+                    case TelephonyManager.NETWORK_TYPE_IWLAN:
+
+                    case 19:
+
                         //No specification for the 4g but from wiki
                         //I found(LTE (Long-Term Evolution, commonly marketed as 4G LTE))
                         //https://en.wikipedia.org/wiki/LTE_(telecommunication)

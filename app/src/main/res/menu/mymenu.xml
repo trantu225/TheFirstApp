@@ -21,6 +21,11 @@
     <!--android:title="Tính tiền nước"-->
     <!--app:showAsAction="collapseActionView"/>-->
     <item
+        android:id="@+id/action_reload"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:title="Tải lại dữ liệu"
+        app:showAsAction="collapseActionView" />
+    <item
         android:id="@+id/action_kieughi"
         android:icon="@android:drawable/ic_media_ff"
         android:title="@string/btn_kieughi"

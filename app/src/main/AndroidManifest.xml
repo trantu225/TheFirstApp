@@ -60,6 +60,12 @@
             android:screenOrientation="portrait"
             android:noHistory="true" />
         <activity
+            android:name=".LoadThuActivity"
+            android:configChanges="orientation"
+            android:parentActivityName=".StartActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
+        <activity
             android:name=".LoadFromServerActivity"
             android:configChanges="orientation"
             android:parentActivityName=".StartActivity"

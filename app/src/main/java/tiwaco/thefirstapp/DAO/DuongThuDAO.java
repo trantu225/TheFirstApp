@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tiwaco.thefirstapp.DTO.DuongThuDTO;
+import tiwaco.thefirstapp.DTO.JSONDUONGTHU;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
 import tiwaco.thefirstapp.Database.MyDatabaseHelper;
 
@@ -68,6 +69,31 @@ public class DuongThuDAO {
                 duong.setTrangThai(Integer.parseInt(cursor.getString(2)));
                 duong.setKhoaSo(cursor.getString(3));
                 duong.setTrangThaiThu(Integer.parseInt(cursor.getString(4)));
+                // Adding contact to list
+                ListDuong.add(duong);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return ListDuong;
+    }
+
+    public List<JSONDUONGTHU> getAllDuongThu() {
+        db = myda.openDB();
+        List<JSONDUONGTHU> ListDuong = new ArrayList<JSONDUONGTHU>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DUONGTHU;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                JSONDUONGTHU duong = new JSONDUONGTHU();
+                duong.setMaduong(cursor.getString(0));
+                duong.setTenduong(cursor.getString(1));
+                duong.setTrangthai(cursor.getString(2));
+                duong.setKhoaso(cursor.getString(3));
+                duong.setTrangthaithu(cursor.getString(4));
                 // Adding contact to list
                 ListDuong.add(duong);
             } while (cursor.moveToNext());

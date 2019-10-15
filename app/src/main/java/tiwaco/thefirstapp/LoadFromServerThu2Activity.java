@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -114,10 +115,10 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
         lb_mktai = (TextView) findViewById(R.id.lb_matkhau);
         edtnhanvientai = (EditText) findViewById(R.id.edt_nhanvientai);
         edtmatkhau = (EditText) findViewById(R.id.edt_matkhau);
-        lb_nvtai.setVisibility(View.VISIBLE);
-        lb_mktai.setVisibility(View.VISIBLE);
-        edtnhanvientai.setVisibility(View.VISIBLE);
-        edtmatkhau.setVisibility(View.VISIBLE);
+        lb_nvtai.setVisibility(View.GONE);
+        lb_mktai.setVisibility(View.GONE);
+        edtnhanvientai.setVisibility(View.GONE);
+        edtmatkhau.setVisibility(View.GONE);
         edtnhanvientai.setText("chau");
         edtmatkhau.setText("123");
         edtnhanvientai.setEnabled(false);
@@ -126,6 +127,10 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 
         prgTime.setProgress(0);
         prgTime.setText("0 %");
+        String thoigian2 = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
+        editKyHD.setText(thoigian2);
+        editKyHD.setEnabled(false);
+
         if (spdata.getDataNhanVienTrongSP().trim().equals("admin")) {
             edtNV.setEnabled(true);
             edtNV.setTextColor(R.color.default_active_item_color);
@@ -134,9 +139,9 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
             edtNV.setEnabled(false);
 
         }
-        if (!spdata.getDataKyHoaDonTrongSP().trim().equals("")) {
-            editKyHD.setText(spdata.getDataKyHoaDonThuTrongSP().trim());
-        }
+//        if (!spdata.getDataKyHoaDonTrongSP().trim().equals("")) {
+//            editKyHD.setText(spdata.getDataKyHoaDonThuTrongSP().trim());
+//        }
 
         duongdanfile = getString(R.string.API_GetListTiwareadDataThu);
         btngetData.setOnClickListener(new View.OnClickListener() {
@@ -1353,7 +1358,7 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
                         }
 
                     }
-                    String tenfile = "customers_thu_";
+                    String tenfile = "customersthu_";
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
                     tenfile += timeStamp + ".txt";
 

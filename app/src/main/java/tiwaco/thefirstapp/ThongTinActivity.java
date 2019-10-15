@@ -510,6 +510,7 @@ public class ThongTinActivity extends AppCompatActivity {
             som3daghi += Integer.parseInt(listkh.get(i).getSLTieuThu());
         }
         lb_tong.setText("Tổng gói thu ngày " + spdata.getThoiGianTaiGoi());
+        lb_tong.setSelected(true);
         txt_tongsokh.setText(String.valueOf(TongSoKH));
         txt_sokhdaghi.setText(String.valueOf(SoKHDaGhi));
         txt_dokhghihomnay.setText(String.valueOf(SoKHDaghiHomNay));
@@ -527,14 +528,15 @@ public class ThongTinActivity extends AppCompatActivity {
         }
 
         String thoigian2 = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        int SoKHDaThu = khachhangthudao.countKhachHangDaThuTheoNhanVien(spdata.getDataNhanVienTrongSP());
-        int SoKHDaThuHomNay = khachhangthudao.countKhachHangDaThuHomNayTheoNV(thoigian2, spdata.getDataNhanVienTrongSP());
+        int SoKHDaThu = khachhangthudao.countKhachHangDaThuTheoNhanVien(spdata.getDataNhanVienTrongSP().toLowerCase());
+        Log.e("tennhanvien", spdata.getDataNhanVienTrongSP().toLowerCase());
+        int SoKHDaThuHomNay = khachhangthudao.countKhachHangDaThuHomNayTheoNV(thoigian2, spdata.getDataNhanVienTrongSP().toLowerCase());
         String tongsotien = thanhtoandao.getSoTienTongCong();
-        String tongtienthu = thanhtoandao.getSoTienTongCongDaThuTheoTen(spdata.getDataNhanVienTrongSP());
-        String tongtienthuhomnay = thanhtoandao.getSoTienTongCongDaThuTheoNgayTheoTen(thoigian2, spdata.getDataNhanVienTrongSP());
+        String tongtienthu = thanhtoandao.getSoTienTongCongDaThuTheoTen(spdata.getDataNhanVienTrongSP().toLowerCase());
+        String tongtienthuhomnay = thanhtoandao.getSoTienTongCongDaThuTheoNgayTheoTen(thoigian2, spdata.getDataNhanVienTrongSP().toLowerCase());
         int sohdtong = thanhtoandao.getHDTongCong();
-        int sohdthu = thanhtoandao.getSoHDDaThuTheoTen(spdata.getDataNhanVienTrongSP());
-        int sohdthuhomnay = thanhtoandao.getSoHDDaThuTheoNgayTheoTen(thoigian2, spdata.getDataNhanVienTrongSP());
+        int sohdthu = thanhtoandao.getSoHDDaThuTheoTen(spdata.getDataNhanVienTrongSP().toLowerCase());
+        int sohdthuhomnay = thanhtoandao.getSoHDDaThuTheoNgayTheoTen(thoigian2, spdata.getDataNhanVienTrongSP().toLowerCase());
 
         txt_tongsokhthu.setText(String.valueOf(TongSoKHThu));
         txt_tongtien.setText(tongsotien);
@@ -578,6 +580,8 @@ public class ThongTinActivity extends AppCompatActivity {
         } else {
             SwitchLuuTuDongThu.setChecked(true);
         }
+        SwitchLuuTuDongThu.setEnabled(false);
+        SwitchLuuTuDongThu.setChecked(true);
 
         if (spdata.getDataTuDongChuyenOffline() == 0) {
             SwitchTuDongChuyenOffline.setChecked(false);
@@ -587,6 +591,8 @@ public class ThongTinActivity extends AppCompatActivity {
             SwitchThuOffline.setEnabled(false);
         }
 
+        SwitchTuDongChuyenOffline.setEnabled(false);
+        SwitchTuDongChuyenOffline.setChecked(true);
         if (spdata.getDataThuOffline() == 0) {
             SwitchThuOffline.setChecked(false);
         } else {
@@ -594,7 +600,7 @@ public class ThongTinActivity extends AppCompatActivity {
         }
         edit_kyhd.setText(spdata.getDataKyHoaDonTrongSP());
         edit_kyhdthu.setText(spdata.getDataKyHoaDonThuTrongSP());
-        if (spdata.getDataNhanVienTrongSP().equalsIgnoreCase("admin")) {
+        if (spdata.getDataNhanVienTrongSP().toLowerCase().equalsIgnoreCase("admin")) {
             lay_kyhd.setVisibility(View.VISIBLE);
             lay_kyhdthu.setVisibility(View.VISIBLE);
         } else {
@@ -623,7 +629,7 @@ public class ThongTinActivity extends AppCompatActivity {
                 conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
                 conn.setRequestMethod("PUT");
                 User u  = new User();
-                u.setUserName(spdata.getDataNhanVienTrongSP());
+                u.setUserName(spdata.getDataNhanVienTrongSP().toLowerCase());
                 u.setPassword(matkhaumoi.getText().toString().trim());
                 JSONUser juser = new JSONUser();
                 juser.setUser(u);

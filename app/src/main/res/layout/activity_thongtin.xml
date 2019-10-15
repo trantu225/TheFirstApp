@@ -294,7 +294,14 @@
                             android:text="Tổng"
                             android:textStyle="bold"
                             android:textColor="#F12"
-                            android:textSize="@dimen/sp14" />
+                            android:textSize="@dimen/sp14"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:singleLine="true"
+                            android:scrollHorizontally="true"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:maxLines="1" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

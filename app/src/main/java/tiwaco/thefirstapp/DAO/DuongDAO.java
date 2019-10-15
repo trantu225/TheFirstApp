@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +138,7 @@ public class DuongDAO {
         db = myda.openDB();
         List<DuongDTO> ListDuong = new ArrayList<DuongDTO>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DUONG +" WHERE " + MyDatabaseHelper.KEY_DUONG_KHOASO +"='0' ";
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DUONG + " WHERE " + MyDatabaseHelper.KEY_DUONG_KHOASO + "= '0' ";
 
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -153,12 +154,14 @@ public class DuongDAO {
                 duong.setTrangThaiThu(Integer.parseInt(cursor.getString(4)));
                 // Adding contact to list
                 ListDuong.add(duong);
+                Log.e("LIST CHUA KHOA SO", cursor.getString(0));
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
         // return contact list
         return ListDuong;
+
     }
 
 
@@ -209,6 +212,7 @@ public class DuongDAO {
 
         // updating row
         long kt = db.update(MyDatabaseHelper.TABLE_DUONG, values, KEY_DUONG_MADUONG + " = ?", new String[] { maduong });
+        Log.e("KHOA SO DUONG", maduong + "" + khoa);
         db.close();
         if(kt != 0){
             return true;

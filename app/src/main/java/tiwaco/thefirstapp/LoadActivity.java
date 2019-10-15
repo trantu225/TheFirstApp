@@ -47,9 +47,16 @@ import java.util.Scanner;
 
 import circleprogress.DonutProgress;
 import tiwaco.thefirstapp.DAO.DuongDAO;
+import tiwaco.thefirstapp.DAO.DuongThuDAO;
 import tiwaco.thefirstapp.DAO.KhachHangDAO;
+import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
+import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DAO.TinhTrangTLKDAO;
 import tiwaco.thefirstapp.DTO.DuongDTO;
+import tiwaco.thefirstapp.DTO.JSONBACKUPTHU;
+import tiwaco.thefirstapp.DTO.JSONDUONGTHU;
+import tiwaco.thefirstapp.DTO.JSONKHTHU;
+import tiwaco.thefirstapp.DTO.JSONTHANHTOANTHU;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.ListJsonData;
 import tiwaco.thefirstapp.DTO.ListTiwareadDTO;
@@ -822,6 +829,30 @@ public class LoadActivity extends AppCompatActivity {
 
         return json;
     }
+
+    private String taoJSONData_KH_TatCa_thu(String tendanhsach) {
+        JSONBACKUPTHU jsondata = new JSONBACKUPTHU();
+        KhachHangThuDAO khachhangdao = new KhachHangThuDAO(con);
+        DuongThuDAO duongthudao = new DuongThuDAO(con);
+        ThanhToanDAO thanhToanDAO = new ThanhToanDAO(con);
+        //Lấy danh sách tất cả các đường
+        List<JSONDUONGTHU> listduong = duongthudao.getAllDuongThu();
+        List<JSONKHTHU> listkh = khachhangdao.getAllKHThu();
+        List<JSONTHANHTOANTHU> listthanhtoan = thanhToanDAO.GetAllThanhToanThu();
+
+
+        String json = "";
+        if (listduong.size() > 0 && listkh.size() > 0 && listthanhtoan.size() > 0) {
+            jsondata.setListduong(listduong);
+            jsondata.setListkh(listkh);
+            jsondata.setListthanhtoan(listthanhtoan);
+
+            Gson gson = new Gson();
+            json = gson.toJson(jsondata);
+        }
+
+        return json;
+    }
     private void loadData(){
 //        getSdCardPath();
         File file = new File(duongdanfile);
@@ -855,11 +886,14 @@ public class LoadActivity extends AppCompatActivity {
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
                     tenfile += timeStamp + ".txt";
 
+                    String tenfilethu = "customersthu_";
 
+                    tenfilethu += timeStamp + ".txt";
                     String result_tatca_string = taoJSONData_KH_TatCa(tenfile.trim());
+                    String result_tatca_string_thu = taoJSONData_KH_TatCa_thu(tenfile.trim());
                     if (!result_tatca_string.equals("")) {
                         String filename1 = thumucchuafile + "/TUDONGCAPNHAT";
-
+                        String filename2 = thumucchuafile + "/TUDONGCAPNHATTHU";
                         File f = new File(filename1);
                         if (!f.exists()) {
                             f.mkdirs();
@@ -867,14 +901,13 @@ public class LoadActivity extends AppCompatActivity {
                         }
 
                         boolean kt = writeFile(filename1, tenfile.trim(), result_tatca_string);
+                        boolean kt2 = writeFile(filename1, tenfilethu.trim(), result_tatca_string_thu);
                         if (kt) {
                             Toast.makeText(con, "Tự động cập nhật thành công", Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 }
-
-
 
 
                 //xóa sqlite

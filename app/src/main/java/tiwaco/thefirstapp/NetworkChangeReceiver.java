@@ -63,8 +63,10 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     ThanhToanDAO thanhtoandao;
     SPData spdata;
     Context context;
-    APIService mAPIService;
+    //  APIService mAPIService;
     Call<ResponePayTamThu> call = null;
+    APIService mAPIService = ApiUtils.getAPIService();
+
 
     @Override
     public void onReceive(Context con, Intent intent) {
@@ -75,32 +77,40 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         mAPIService = ApiUtils.getAPIService();
         spdata = new SPData(context);
         String urlthu = context.getString(R.string.API_UpdateThuTienNuoc);
+
         try {
             if (isOnline(context)) {
 
                 if (spdata.getDataTuDongChuyenOffline() == 1) {
                     spdata.luuDataThuOffline(0);
                 }
-                // Toast.makeText(context, "Online Connect Intenet: "+ getNetworkType(context), Toast.LENGTH_SHORT).show();
+
+                // Toast.makeText(context, "Đã kết nối internet: "+ getNetworkType(context), Toast.LENGTH_SHORT).show();
                 // dialog(true);
-                Log.e("keshav", "Online Connect Intenet: " + getNetworkType(context));
+                Log.e("keshav", "Online Connect Internet: " + getNetworkType(context));
+
                 Log.e("so luong hd thu", String.valueOf(thanhtoandao.GetSoLuongThanhToanTamThu()));
-                if (getNetworkType(context).equals("4g") || getNetworkType(context).equals("wifi")) {
+                if (getNetworkType(context).equals("1")) {
                     Log.e("so luong hd thu", String.valueOf(thanhtoandao.GetSoLuongThanhToanTamThu()));
+
+
                     if (thanhtoandao.GetSoLuongThanhToanTamThu() > 0) {
                         if (spdata.getDataLuuTuDongThu() == 1) {
-                            UpdateThanhToanThuTamHDRetrofit();
-                        }
 
+                            UpdateThanhToanThuTamHDRetrofit();
+
+
+                        }
                     }
                 }
+
 
             } else {
                 if (spdata.getDataTuDongChuyenOffline() == 1) {
                     spdata.luuDataThuOffline(1);
                 }
 
-//                Toast.makeText(context, "Conectivity Failure ", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "Mất kết nối ", Toast.LENGTH_SHORT).show();
                 //  dialog(false);
                 Log.e("keshav", "Conectivity Failure !!! ");
             }
@@ -113,6 +123,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
             //should check null because in airplane mode it will be null
             return (netInfo != null && netInfo.isConnected());
         } catch (NullPointerException e) {
@@ -124,19 +135,22 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     public static String getNetworkType(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
+
         String kq = "";
         if (info != null && info.isAvailable()) {
 
-            if (info.getType() == ConnectivityManager.TYPE_WIFI) {
-                kq = "wifi";
-            } else if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
+//            if (info.getType() == ConnectivityManager.TYPE_WIFI) {
+//                kq = "wifi";
+//            } else
+            if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
 
                 TelephonyManager mTelephonyManager = (TelephonyManager)
                         context.getSystemService(Context.TELEPHONY_SERVICE);
+                Log.e("subtype", info.getSubtype() + "");
                 int networkType = mTelephonyManager.getNetworkType();
-                switch (networkType) {
+                Log.e("networkType", networkType + "");
+                switch (info.getSubtype()) {
                     case TelephonyManager.NETWORK_TYPE_GPRS:
-
                     case TelephonyManager.NETWORK_TYPE_EDGE:
                     case TelephonyManager.NETWORK_TYPE_CDMA:
                     case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -187,8 +201,11 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         } else {
             kq = "Notfound";
         }
-
-        return kq;
+        String tinhtrang = "0";
+        if ((kq.equals("4g") || kq.equals("3g") || kq.equals("2g")) && info.getState() == NetworkInfo.State.CONNECTED) {
+            tinhtrang = "1";
+        }
+        return tinhtrang;
     }
     public void UpdateThanhToanThuTamHDRetrofit() {
 
@@ -204,7 +221,11 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                 jsondata.setRequestTime(thoigian2);
                 final ArrayList<String> myListerror = new ArrayList<String>();
                 final ArrayList<String> myListTrung = new ArrayList<String>();
-                call = mAPIService.updatetamthu(jsondata);
+                if (call != null) {
+                    call = null;
+                } else {
+                    call = mAPIService.updatetamthu(jsondata);
+                }
                 //  Log.i(TAG, "Works until here");
 
                 call.enqueue(new Callback<ResponePayTamThu>() {
@@ -371,24 +392,32 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                             // tạo dialog
                             alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.show();
+
+                        } else {
+                            call.cancel();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponePayTamThu> call, Throwable t) {
-                        Log.e("LOI ", "Unable to submit post to API." + t.getCause().toString());
 
+                        Log.e("LOI ", "Unable to submit post to API." + t.getCause().toString());
+                        call.cancel();
                     }
                 });
             } else {
+
                 Log.e("LOI ", "Không có list");
             }
 
 
         } catch (Exception e) {
+
             if (call.isCanceled()) {
+
                 //   Log.e(TAG, "request was aborted");
             } else {
+                call.cancel();
                 //   Log.e(TAG, "Unable to submit post to API.");
             }
         }

@@ -397,7 +397,7 @@ public class LoadFromServerThuActivity extends AppCompatActivity {
                             String tenDS = jsonobj.getString("tenDS");
                             // String kyhd = "082017"; //cắt chuỗi từ tên DS
                             //Luu ky hd vao SP
-                            spdata.luuDataKyHoaDonTrongSP(tenDS);
+                            spdata.luuDataKyHoaDonThuTrongSP(tenDS);
                             Log.e("kyhddaluu", tenDS);
 
                         } catch (JSONException e) {

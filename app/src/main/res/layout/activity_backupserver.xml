@@ -257,8 +257,7 @@
                             android:id="@+id/radio_dathu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:text="Đã Thu" />
+                            android:text="Chuyển dữ liệu đã thu để đối soát" />
                     </RadioGroup>
 
                 </TableRow>

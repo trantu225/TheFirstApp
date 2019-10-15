@@ -2,7 +2,9 @@ package tiwaco.thefirstapp.CustomAdapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -10,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +30,7 @@ import tiwaco.thefirstapp.DAO.KhachHangThuDAO;
 import tiwaco.thefirstapp.DAO.ThanhToanDAO;
 import tiwaco.thefirstapp.DTO.DuongThuDTO;
 import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
+import tiwaco.thefirstapp.DTO.ThanhToanDTO;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.R;
 
@@ -129,7 +134,7 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                 tvmaduong.setText(duong.getMaDuong());
                 title =   "";
                 List<KhachHangThuDTO> liskhdao = new ArrayList<KhachHangThuDTO>();
-                KhachHangThuDAO khachhangDAO = new KhachHangThuDAO(con);
+                final KhachHangThuDAO khachhangDAO = new KhachHangThuDAO(con);
 
                 //xu ly lay list tai day ( tat ca, da ghi, chua ghi)
 
@@ -223,6 +228,8 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                 tvTitleKH.setText(title);
 
                 listviewKH.setAdapter(Bien.adapterKHThu);
+
+                //
 
             }
 

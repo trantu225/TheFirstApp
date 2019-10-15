@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity  {
             if(makh_nhan == null){
                 makh_nhan ="";
             }
-            if(maduong_nhan.equals("99")){
+            if (maduong_nhan.equals("9999")) {
                 STT_HienTai = "0";
             }
             else {
@@ -2126,7 +2126,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                 sothutu = khachhangDAO.getSTTChuaGhiLonNhatNhoHonHienTai(maduong_nhan, STT_HienTai);
                             }
                             Log.e("Ghi nuoc, stt",sothutu);
-                            if(!sothutu.equals("0")  && !maduong_nhan.equals("99")) {
+                            if (!sothutu.equals("0") && !maduong_nhan.equals("9999")) {
 
                                 STT_HienTai = sothutu;
                                 Log.e("STT Hien tai",STT_HienTai);
@@ -2138,8 +2138,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                     setDataForView(sothutu, maduong_nhan, khghike.getMaKhachHang());
                                 }
                                 spdata.luuDataDuongVaSTTDangGhiTrongSP(maduong_nhan, sothutu);
-                            }
-                            else if(sothutu.equals("0")  && maduong_nhan.equals("99"))
+                            } else if (sothutu.equals("0") && maduong_nhan.equals("9999"))
                             {
                                 STT_HienTai = "0";
                                 KhachHangDTO khghike = khachhangDAO.getKHTheoSTT_Duong_khacmaKH_chuaghi("0", maduong_nhan, MaKH.getText().toString().trim());
@@ -2160,7 +2159,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                         dialog.dismiss();
                                         String sothutukhConLai = khachhangDAO.getSTTChuaGhiNhoNhat(maduong_nhan);
 
-                                        if(maduong_nhan.equals("99")){
+                                        if (maduong_nhan.equals("9999")) {
                                             sothutukhConLai ="0";
                                         }
                                         if(!sothutukhConLai.equals("")) {
@@ -2531,8 +2530,12 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             String fileContent = "";
             try {
                 String duongdankhoaso = getString(R.string.API_DuongKhoaSo)+"/"+spdata.getDataNhanVienTrongSP()+"/"+spdata.getDataKyHoaDonTrongSP();
+                Log.e("DUONG DAN KHOA SO", duongdankhoaso);
                 final URL url = new URL(duongdankhoaso);
                 conn = (HttpURLConnection) url.openConnection();
+                // conn.setDoOutput(true);
+                // conn.setDoInput(true);
+                // conn.setChunkedStreamingMode(0);
                 conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
                 conn.setRequestMethod("GET");
 
@@ -2547,10 +2550,12 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                     while ((line = reader.readLine()) != null) {
                         // long status = (i+1) *100/line.length();
                         //     String.valueOf(status)
+                        Log.e("FILE LINE", line);
                         publishProgress("Lấy thông tin đường khóa sổ...");
                         fileContent = line;
 
                     }
+                    Log.e("FILE KHOASO", fileContent);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -2558,7 +2563,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             }
             try {
                 JSONArray listduongks  = new JSONArray(fileContent);
-
+                Log.e("FILE KHOASO", fileContent);
                 for(int i  =0;i<listduongks.length();i++)
                 {
                     JSONObject objTiwaread = listduongks.getJSONObject(i);
@@ -2750,7 +2755,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
             } else if (result.equals("RONG")) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                 // khởi tạo dialog
-                alertDialogBuilder.setMessage("Không thể cập nhật do đường đang ghi đã bị khóa sổ");
+                alertDialogBuilder.setMessage("Không thể cập nhật do đường đang ghi đã bị khóa sổ hoặc không có dữ liệu để cập nhật");
                 // thiết lập nội dung cho dialog
 
                 alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -2874,6 +2879,8 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
 
                     } else {
+
+
                         if (jsonobj.has("danhsachkhloi")) {
 
 
@@ -2882,6 +2889,54 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
 
                                 final ArrayList<String> myListerror = new ArrayList<String>();
                                 JSONArray tong = jsonobj.getJSONArray("danhsachkhloi");
+                                String duongkhoaso = "";
+                                if (tong.length() == 0) {
+                                    if (jsonobj.has("danhsachDuongKhoaSo")) {
+                                        JSONArray dskhoaso = jsonobj.getJSONArray("danhsachDuongKhoaSo");
+
+                                        for (int i = 0; i < dskhoaso.length(); i++) {
+                                            JSONObject objKHLOI = dskhoaso.getJSONObject(i);
+
+                                            if (objKHLOI.has("maduong")) {
+                                                String maDuong = objKHLOI.getString("maduong").trim();
+                                                duongkhoaso += maDuong + " ";
+                                                duongDAO.updateDuongKhoaSo(maDuong, "1");
+                                            }
+
+
+                                        }
+                                    }
+
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    // khởi tạo dialog
+                                    alertDialogBuilder.setMessage("Cập nhật không thành công.Do đường " + duongkhoaso + " đã khóa sổ");
+                                    // thiết lập nội dung cho dialog
+
+                                    alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            if (xongduong) {
+                                                Log.e("xongduong", "xong");
+                                                MainActivity.this.finish();
+                                            }
+
+                                            // button "no" ẩn dialog đi
+                                        }
+                                    });
+
+
+                                    AlertDialog alertDialog = alertDialogBuilder.create();
+                                    // tạo dialog
+                                    alertDialog.setCanceledOnTouchOutside(false);
+                                    alertDialog.show();
+
+
+                                } else {
+
+
+
+
                                 for (int i = 0; i < tong.length(); i++) {
                                     JSONObject objKHLOI = tong.getJSONObject(i);
 
@@ -2951,7 +3006,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                             alertDialog.setView(convertView);
                                             alertDialog.setTitle("Danh sách lỗi");
                                             ListView lv = (ListView) convertView.findViewById(R.id.lv);
-                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,myListerror);
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, myListerror);
                                             lv.setAdapter(adapter);
                                             alertDialog.show();
                                             // button "no" ẩn dialog đi
@@ -2963,6 +3018,7 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                                     // tạo dialog
                                     alertDialog.setCanceledOnTouchOutside(false);
                                     alertDialog.show();
+                                }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

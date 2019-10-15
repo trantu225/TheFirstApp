@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.widget.ExpandableListView;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
 import tiwaco.thefirstapp.DTO.NhanVienDTO;
+import tiwaco.thefirstapp.DTO.ThanhToanDTO;
 
 /**
  * Created by TUTRAN on 04/04/2017.
@@ -96,6 +98,7 @@ public class Bien {
     public static final String SPTHOIGIANTAIGOITHU = "spthoigiantaigoithu";
     public static BluetoothSocket btsocket;
     public static OutputStream btoutputstream;
+    public static List<ThanhToanDTO> ListThanhToanHo = new ArrayList<>();
 
 
 }

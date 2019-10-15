@@ -258,10 +258,10 @@ public class LoadThuActivity extends AppCompatActivity {
 
 
             //THêm database loại tinh trang tlk
-            List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
-            for (int tt = 0; tt < listt.size(); tt++) {
-                tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
-            }
+//            List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
+//            for (int tt = 0; tt < listt.size(); tt++) {
+//                tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
+//            }
 
             JSONObject jsonobj = null;
             try {
@@ -613,6 +613,9 @@ public class LoadThuActivity extends AppCompatActivity {
                         if (objKH.has("capnhatthu")) {
                             capnhatthu = objKH.getString("capnhatthu").toString().trim();
                         }
+                        if (objKH.has("ngaythanhtoan")) {
+                            ngaythanhtoan = objKH.getString("ngaythanhtoan").toString().trim();
+                        }
 
 
                         JSONKHTHU kh = new JSONKHTHU();
@@ -799,7 +802,9 @@ public class LoadThuActivity extends AppCompatActivity {
                         if (objKH.has("kyhd")) {
                             kyhd = objKH.getString("kyhd").toString().trim();
                         }
-
+                        if (objKH.has("ngaythanhtoan")) {
+                            ngaythanhtoan = objKH.getString("ngaythanhtoan").toString().trim();
+                        }
                         if (objKH.has("ngaythanhtoanrequest")) {
                             ngaythanhtoanrequest = objKH.getString("ngaythanhtoanrequest").toString().trim();
                         }
@@ -1012,8 +1017,9 @@ public class LoadThuActivity extends AppCompatActivity {
     private Boolean KiemTraTonTaiDuLieu() {
         if (duongDAO.countDuong() <= 0 && khachhangDAO.countKhachHangAll() <= 0 && thanhToanDAO.countThanhToanAll() <= 0) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     private boolean writeFile(String path, String tenfile, String data) {
@@ -1082,6 +1088,7 @@ public class LoadThuActivity extends AppCompatActivity {
 
         return json;
     }
+
 
     private void loadData() {
 //        getSdCardPath();

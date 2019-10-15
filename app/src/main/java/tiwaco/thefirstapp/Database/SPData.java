@@ -21,6 +21,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class SPData  {
     Context context;
     SharedPreferences pre;
+    private String kyhd;
+
     public SPData(Context con) {
         this.context = con;
         pre= con.getSharedPreferences(Bien.SPDATA,con.MODE_PRIVATE);
@@ -226,6 +228,7 @@ public class SPData  {
     }
 
     public void luuDataKyHoaDonTrongSP(String kyhd){
+        this.kyhd = kyhd;
 
         //tạo đối tượng Editor để lưu thay đổi
         SharedPreferences.Editor editor=pre.edit();

@@ -9,6 +9,7 @@ import java.util.List;
 public class ListKHTheoDuong {
     String Maduong;
     String Tenduong;
+    String Huyen;
     List<RequestObject> TiwareadList;
 
     public List<RequestObject> getTiwareadList() {
@@ -23,6 +24,10 @@ public class ListKHTheoDuong {
         return Tenduong;
     }
 
+    public String getHuyen() {
+        return Huyen;
+    }
+
     public void setTiwareadList(List<RequestObject> tiwareadList) {
         TiwareadList = tiwareadList;
     }
@@ -34,4 +39,9 @@ public class ListKHTheoDuong {
     public void setTenDuong(String tenDuong) {
         Tenduong = tenDuong;
     }
+
+    public void setHuyen(String huyen) {
+        Huyen = huyen;
+    }
+
 }

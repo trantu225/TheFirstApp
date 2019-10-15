@@ -1,5 +1,7 @@
 package tiwaco.thefirstapp.DTO;
 
+import java.util.List;
+
 /**
  * Created by Admin on 15/3/2019.
  */
@@ -11,6 +13,8 @@ public class RequestCustNB {
     String passWord;
     String requestTime;
     String kyhd;
+    List<PeriodDTO> listhd;
+
 
     public String getCustNo() {
         return custNo;
@@ -52,5 +56,12 @@ public class RequestCustNB {
         this.kyhd = kyhd;
     }
 
+    public List<PeriodDTO> getListhd() {
+        return listhd;
+    }
 
+    public RequestCustNB setListhd(List<PeriodDTO> listhd) {
+        this.listhd = listhd;
+        return this;
+    }
 }

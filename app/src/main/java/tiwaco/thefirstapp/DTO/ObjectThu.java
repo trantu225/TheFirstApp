@@ -9,7 +9,7 @@ public class ObjectThu {
     String TONGCONG;
     String BIENLAI;
     String THANG;
-
+    String THOIGIANTHU;
     public String getMAKH() {
         return MAKH;
     }
@@ -40,5 +40,13 @@ public class ObjectThu {
 
     public void setTHANG(String THANG) {
         this.THANG = THANG;
+    }
+
+    public String getTHHOIGIANTHU() {
+        return THOIGIANTHU;
+    }
+
+    public void setTHOIGIANTHU(String THOIGIANTHU) {
+        this.THOIGIANTHU = THOIGIANTHU;
     }
 }

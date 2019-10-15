@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -106,8 +107,7 @@ public class ListThuActivity extends AppCompatActivity {
         dialogdoi.setMessage("Đang tập hợp dữ liệu...");
         dialogdoi.setCanceledOnTouchOutside(false);
         Log.e("soluongkh", String.valueOf(khachhangDAO.countKhachHangAll()));
-        networkreceiver = new NetworkChangeReceiver();
-        registerReceiver(networkreceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
@@ -144,7 +144,6 @@ public class ListThuActivity extends AppCompatActivity {
         listviewKH.setAdapter(Bien.adapterKHThu);
         Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu)) -1;
         listviewKH.setSelection(Bien.bien_index_khachhang_thu - Integer.parseInt(khachhangDAO.getSTTnhoNhat(Bien.ma_duong_dang_chon_thu)));
-
 
         Log.e("select duong---listactivity", String.valueOf(Bien.selected_item_thu));
         //   setview();
@@ -260,7 +259,14 @@ public class ListThuActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
+        networkreceiver = new NetworkChangeReceiver();
+        registerReceiver(networkreceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        registerReceiver(mBTReceiver, filter);
         //adapter duong
         if(adapter != null &&  Bien.adapterKHThu !=null ) {
 
@@ -296,7 +302,7 @@ public class ListThuActivity extends AppCompatActivity {
 
                         if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
                             thutuchuyen_onre = t;
-                            Log.e("thutu1", String.valueOf(thutuchuyen_onre));
+                            //   Log.e("thutu1", String.valueOf(thutuchuyen_onre));
                         }
 
                         }
@@ -340,7 +346,7 @@ public class ListThuActivity extends AppCompatActivity {
                     Bien.listKH_thu = liskhdao;
                     int thutuchuyen1 = 0;
                     for (int t = 0; t < Bien.listKH_thu.size(); t++) {
-                        Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                        //Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
                         if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
                             thutuchuyen1 = t - 1;
                         }
@@ -369,7 +375,7 @@ public class ListThuActivity extends AppCompatActivity {
 
                     int thutuchuyen2 = 0;
                     for (int t = 0; t < Bien.listKH_thu.size(); t++) {
-                        Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                        //Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
                         if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
                             thutuchuyen2 = t - 1;
                         }
@@ -402,7 +408,7 @@ public class ListThuActivity extends AppCompatActivity {
                     Bien.bien_index_khachhang_thu = Integer.parseInt(khachhangDAO.getSTTChuaThuNhoNhat(Bien.ma_duong_dang_chon_thu));
                     int thutuchuyen3 = 0;
                     for (int t = 0; t < Bien.listKH_thu.size(); t++) {
-                        Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
+                        //Log.e("stt tim + size", Bien.listKH_thu.get(t).getSTT() + " " + Bien.listKH_thu.size());
                         if (Bien.listKH_thu.get(t).getSTT().equals(String.valueOf(Bien.bien_index_khachhang_thu))) {
                             thutuchuyen3 = t - 1;
                         }
@@ -552,9 +558,31 @@ public class ListThuActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onStop() {
+        Log.e("Chay zo day", "ONSTOP");
+//        unregisterReceiver(networkreceiver);
+//        unregisterReceiver(mBTReceiver);
+        super.onStop();
+
+    }
+    @Override
+    public void onPause() {
+        Log.e("Chay zo day", "onPause");
+        if (networkreceiver != null) {
+            unregisterReceiver(networkreceiver);
+        }
+
+        super.onPause();
+
+    }
+
+    @Override
     public void onDestroy() {
-        super.onDestroy();
+
+//        unregisterReceiver(networkreceiver);
         unregisterReceiver(mBTReceiver);
+        super.onDestroy();
+
     }
     public void setview(){
 
@@ -593,7 +621,7 @@ public class ListThuActivity extends AppCompatActivity {
         listviewKH.setSelection( Bien.bien_index_khachhang);
 
 
-        Log.e("select duong---listactivity", String.valueOf(Bien.selected_item_thu));
+        // Log.e("select duong---listactivity", String.valueOf(Bien.selected_item_thu));
     }
 
     private void loadDataDuong(){

@@ -697,7 +697,7 @@ public class LoginActivity extends AppCompatActivity  {
                     ViewDialog alert = new ViewDialog();
                     alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
                 } else {
-                    if (khdao.countKhachHangAll() > 0) {
+                    if (khdao.countKhachHangAll() > 0 || khthudao.countKhachHangAll() > 0) {
 //                    TinhTrangTLKDAO tinhtrangtlkdao = new TinhTrangTLKDAO(con);
 //                    List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
 //                    for(int tt = 0 ; tt<listt.size();tt++){
@@ -925,7 +925,7 @@ public class LoginActivity extends AppCompatActivity  {
                     ViewDialog alert = new ViewDialog();
                     alert.showDialog(LoginActivity.this, "Chọn nguồn để load dữ liệu: ");
                 } else {
-                    if (khdao.countKhachHangAll() > 0) {
+                    if (khdao.countKhachHangAll() > 0 || khthudao.countKhachHangAll() > 0) {
 //                    TinhTrangTLKDAO tinhtrangtlkdao = new TinhTrangTLKDAO(con);
 //                    List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
 //                    for(int tt = 0 ; tt<listt.size();tt++){

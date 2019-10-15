@@ -152,7 +152,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKHTHU_HIEUTLK = "hieutlk";
     public static final String KEY_DANHSACHKHTHU_LOAIKH = "loaikh";
     public static final String KEY_DANHSACHKHTHU_MASOTLK = "masotlk";
-    public static final String KEY_DANHSACHKHTHU_BATTHUONG = "batthuong";
+    public static final String KEY_DANHSACHKHTHU_THUHO = "batthuong";
     public static final String KEY_DANHSACHKHTHU_MADUONG = "maduong";
     public static final String KEY_DANHSACHKHTHU_CAPNHAT = "capnhat";
     public static final String KEY_DANHSACHKHTHU_LOAIKH_MOI = "loaikhmoi";
@@ -327,7 +327,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKHTHU_KINHDO + " TEXT,"           //31
                 + KEY_DANHSACHKHTHU_THOIGIAN + " TEXT,"         //32
                 + KEY_DANHSACHKHTHU_NHANVIEN + " TEXT,"         //33
-                + KEY_DANHSACHKHTHU_BATTHUONG + " TEXT,"        //34
+                + KEY_DANHSACHKHTHU_THUHO + " TEXT,"        //34
                 + KEY_DANHSACHKHTHU_MADUONG + " TEXT,"          //35
                 + KEY_DANHSACHKHTHU_LOAIKH_MOI + " TEXT, "      //36
                 + KEY_DANHSACHKHTHU_CAPNHAT + " TEXT, "         //37
@@ -596,7 +596,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKHTHU_KINHDO + " TEXT,"           //31
                 + KEY_DANHSACHKHTHU_THOIGIAN + " TEXT,"         //32
                 + KEY_DANHSACHKHTHU_NHANVIEN + " TEXT,"         //33
-                + KEY_DANHSACHKHTHU_BATTHUONG + " TEXT,"        //34
+                + KEY_DANHSACHKHTHU_THUHO + " TEXT,"           //34
                 + KEY_DANHSACHKHTHU_MADUONG + " TEXT,"          //35
                 + KEY_DANHSACHKHTHU_LOAIKH_MOI + " TEXT, "      //36
                 + KEY_DANHSACHKHTHU_CAPNHAT + " TEXT, "         //37

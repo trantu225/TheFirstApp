@@ -73,7 +73,7 @@ public class KhachHangThuDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_NHANVIEN, kh.getNhanVien().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG, maduong.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHAT, capnhatghi);
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_BATTHUONG, "");
+        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_THUHO, "");
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_NTSH, kh.getNTSH().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_TIENNUOC, kh.getTienNuoc().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_PHI, kh.getphi().trim());
@@ -143,7 +143,7 @@ public class KhachHangThuDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_NHANVIEN, kh.getNhanVien().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG, kh.getMaduong().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHAT, kh.getCapnhat().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_BATTHUONG, kh.getBatthuong().trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_THUHO, kh.getBatthuong().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_NTSH, kh.getNTSH().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_TIENNUOC, kh.getTiennuoc().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_PHI, kh.getPhi().trim());
@@ -240,7 +240,7 @@ public class KhachHangThuDAO {
                 kh.setHieutlk(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_HIEUTLK)));
                 kh.setLoaikh(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_LOAIKH)));
                 kh.setMasotlk(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_MASOTLK)));
-                kh.setBatthuong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_BATTHUONG)));
+                kh.setBatthuong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_THUHO)));
                 kh.setMaduong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_MADUONG)));
                 kh.setCapnhat(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_CAPNHAT)));
                 kh.setLoaikhmoi(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKHTHU_LOAIKH_MOI)));
@@ -1022,21 +1022,11 @@ public class KhachHangThuDAO {
 
     }
 
-    public boolean updateKhachHang(String maKH, String Chiso, String Chisocon, String Dienthoai, String ghichu, String vido, String kinhdo, String nhanvien, String SL, String SLCon, String thoigian, String trangthaiTLK, String bt) {
+    public boolean updateThuHoKhachHang(String maKH, String bt) { //1: thu ho 0: ko có thu hộ
         db = myda.openDB();
         ContentValues values = new ContentValues();
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISO, Chiso.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_CHISOCON, Chisocon.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_DIENTHOAI, Dienthoai.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_GHICHU, ghichu.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_VIDO, vido.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_KINHDO, kinhdo.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_NHANVIEN, nhanvien.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_SLTIEUTHU, SL.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_SLTIEUTHUCON, SLCon.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_THOIGIAN, thoigian.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_TRANGTHAITLK, trangthaiTLK.trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_BATTHUONG, bt.trim());
+
+        values.put(MyDatabaseHelper.KEY_DANHSACHKHTHU_THUHO, bt.trim());
         // updating row
         boolean kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKHTHU, values, MyDatabaseHelper.KEY_DANHSACHKHTHU_MAKH + " = ?", new String[]{maKH.trim()}) > 0;
         db.close();
@@ -1157,7 +1147,7 @@ public class KhachHangThuDAO {
     public int countKhachHangDaThuTheoNhanVien(String tennv) {
         db = myda.openDB();
         int sokh = 0;
-        String countQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NHANVIENTHU + "= '" + tennv.trim() + "'";
+        String countQuery = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + "<>'' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NHANVIENTHU + " like  '%" + tennv.trim() + "%'";
         Cursor cursor = db.rawQuery(countQuery, null);
         sokh = cursor.getCount();
         cursor.close();
@@ -1200,7 +1190,7 @@ public class KhachHangThuDAO {
     public int countKhachHangDaThuHomNayTheoNV(String thoigian, String tennv) {
         db = myda.openDB();
         int sokh = 0;
-        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " LIKE '%" + thoigian + "%' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " <>'' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NHANVIENTHU + "= '" + tennv + "'    ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )";
+        String selectQuery = "SELECT  * FROM " + MyDatabaseHelper.TABLE_DANHSACHKHTHU + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " LIKE '%" + thoigian + "%' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " <>'' and " + MyDatabaseHelper.KEY_DANHSACHKHTHU_NHANVIENTHU + " like '%" + tennv + "%'    ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKHTHU_STT + " as unsigned )";
         Cursor cursor = db.rawQuery(selectQuery, null);
         sokh = cursor.getCount();
         cursor.close();
@@ -2964,11 +2954,11 @@ public class KhachHangThuDAO {
 
     }
 
-    public String checkTrangThaiBatThuongKH(String makhachhang) {
+    public String checkTrangThaiThuHoKH(String makhachhang) {
         String data = "";
         db = myda.openDB();
         Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKHTHU,
-                new String[]{MyDatabaseHelper.KEY_DANHSACHKHTHU_BATTHUONG},
+                new String[]{MyDatabaseHelper.KEY_DANHSACHKHTHU_THUHO},
                 MyDatabaseHelper.KEY_DANHSACHKHTHU_MAKH + "=? ",
                 new String[]{makhachhang},
                 null, null, null, null);

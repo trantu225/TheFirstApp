@@ -4,12 +4,22 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import tiwaco.thefirstapp.DAO.DuongDAO;
 import tiwaco.thefirstapp.Database.SPData;
@@ -174,11 +184,10 @@ public class ViewDialog_GhiThu {
                 dialog.dismiss();
 
                 if(loai ==1) {
+                    //Kiểm tra phiên bản cập nhật
 
 
                     String maduong = spdata.getDataDuongDangThuTrongSP();
-
-
                     if (maduong.equals("")) {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
                         // khởi tạo dialog
@@ -302,4 +311,5 @@ public class ViewDialog_GhiThu {
         dialog.show();
 
     }
+
 }

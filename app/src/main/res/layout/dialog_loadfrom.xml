@@ -27,14 +27,19 @@
         android:textColor="#ff000000"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_dialog">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/dp10"
-        android:layout_below="@+id/text_dialog"
         android:gravity="center_vertical|center_horizontal"
         android:layout_centerHorizontal="true">
+
 
         <Button
             android:id="@+id/btn_dialog_from_file"
@@ -111,6 +116,7 @@
             android:text="Thoát"
             android:textAllCaps="false"
             android:textColor="#ffffffff" />
-    </LinearLayout>
 
+    </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

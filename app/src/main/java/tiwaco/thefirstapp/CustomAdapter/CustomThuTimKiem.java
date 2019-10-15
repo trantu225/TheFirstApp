@@ -138,6 +138,8 @@ public class CustomThuTimKiem extends BaseExpandableListAdapter {
         holder.DiaChi.setText(cus.getDiaChi());
         holder.DiaChi.setSelected(true);
         holder.DanhBo.setText(cus.getDanhBo());
+        holder.SoTien.setVisibility(View.VISIBLE);
+        holder.SoTien.setText("Số tiền thu: " + thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()));
         if (!cus.getGhiChu().toString().equals("")) {
             strghichu = "Ghi chú: " + cus.getGhiChu();
             holder.GhiChu.setVisibility(View.VISIBLE);
@@ -148,35 +150,24 @@ public class CustomThuTimKiem extends BaseExpandableListAdapter {
             holder.GhiChu.setVisibility(View.GONE);
 
         }
-
-        if (cus.getChiSo().equalsIgnoreCase("")) {
+        Log.e("So tien thu", thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()));
+        holder.SoTien.setSelected(true);
+        if (cus.getNgaythanhtoan().equalsIgnoreCase("") && !thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()).equalsIgnoreCase(" 0 đ")) {
             holder.STT.setBackgroundResource(R.drawable.remove_bg);
 
         } else {
-            if (khachhangdao.checkTrangThaiBatThuongKH(cus.getMaKhachHang()).equals("BT")) {
-                if (!cus.getTrangThaiTLK().toString().trim().equals("Bình Thường") || !cus.getGhiChu().toString().trim().equals("")) {
-
-                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong_tinhtrangtlk);
-                } else {
-                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong);
-                }
-            } else {
-                if (!cus.getGhiChu().toString().trim().equals("")) {
-
-                    holder.STT.setBackgroundResource(R.drawable.remove_bg_batthuong_tinhtrangtlk);
-                } else {
-                    holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
-                }
-            }
+            holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
 
         }
 
 
+        Log.e("Chuc nang ghi thu", spdata.getChucNangGhiThu());
         if (spdata.getChucNangGhiThu().equals("THU")) {
             holder.SoTien.setVisibility(View.VISIBLE);
             holder.SoTien.setText("Số tiền thu: " + thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()));
+            Log.e("So tien thu", thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()));
             holder.SoTien.setSelected(true);
-            if (cus.getNgaythanhtoan().equalsIgnoreCase("")) {
+            if (cus.getNgaythanhtoan().equalsIgnoreCase("") || !thanhtoandao.getSoTienTongCongTheoMAKH(cus.getMaKhachHang().trim()).equalsIgnoreCase(" 0 đ")) {
                 holder.STT.setBackgroundResource(R.drawable.remove_bg);
 
             } else {

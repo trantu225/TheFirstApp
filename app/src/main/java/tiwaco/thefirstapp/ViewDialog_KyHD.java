@@ -34,10 +34,12 @@ public class ViewDialog_KyHD {
         TextView txthoten = (TextView) dialog.findViewById(R.id.hoten);
         TextView txtdiachi = (TextView) dialog.findViewById(R.id.diachi);
         TextView txtdienthoai = (TextView) dialog.findViewById(R.id.dienthoai);
+        TextView txtdienthoai2 = (TextView) dialog.findViewById(R.id.dienthoai2);
         txtmakh.setVisibility(View.GONE);
         txthoten.setVisibility(View.GONE);
         txtdiachi.setVisibility(View.GONE);
         txtdienthoai.setVisibility(View.GONE);
+        txtdienthoai2.setVisibility(View.GONE);
         Button dialogButton_thoat = (Button) dialog.findViewById(R.id.btn_thoat);
         dialogButton_thoat.setOnClickListener(new View.OnClickListener() {
             @Override

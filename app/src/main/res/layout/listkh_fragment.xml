@@ -147,4 +147,60 @@
    >
 
     </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_thuho"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btn_danhsachthuho"
+            android:text="DS thu hộ"
+            android:layout_margin="@dimen/badge_left_margin" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/centre_color"
+                android:text="Tiền thu hộ:"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_tienthuho"
+                android:focusable="true"
+                android:layout_marginTop="@dimen/dp3"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:layout_gravity="center"
+                android:text="0 đ "
+                android:textColor="@color/badge_background_color"
+                android:textStyle="italic|bold"
+                android:textSize="@dimen/sp20" />
+
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

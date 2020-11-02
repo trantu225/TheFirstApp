@@ -27,7 +27,6 @@ import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.MainActivity;
 import tiwaco.thefirstapp.MainThu2Activity;
-import tiwaco.thefirstapp.MainThuActivity;
 import tiwaco.thefirstapp.R;
 
 /**

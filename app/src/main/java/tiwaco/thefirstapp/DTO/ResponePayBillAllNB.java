@@ -12,6 +12,23 @@ public class ResponePayBillAllNB {
     public String ResponseDate;
     public CustBillNB CusBill;
     public List<TienNuocInFo> DataInfo;
+    public String CustNo;
+
+
+    public String ResponseTime;
+
+    public String CustName;
+
+    public String BillAddress;
+
+
+    public String Note;
+
+    public int SumOfTotalMoney;
+
+
+    public List<PeriodNhanVienThu> PeriodNums;
+
 
     public int getResponseCode() {
         return ResponseCode;
@@ -55,6 +72,69 @@ public class ResponePayBillAllNB {
 
     public ResponePayBillAllNB setDataInfo(List<TienNuocInFo> dataInfo) {
         DataInfo = dataInfo;
+        return this;
+    }
+
+    public String getCustNo() {
+        return CustNo;
+    }
+
+    public ResponePayBillAllNB setCustNo(String custNo) {
+        CustNo = custNo;
+        return this;
+    }
+
+    public String getResponseTime() {
+        return ResponseTime;
+    }
+
+    public ResponePayBillAllNB setResponseTime(String responseTime) {
+        ResponseTime = responseTime;
+        return this;
+    }
+
+    public String getCustName() {
+        return CustName;
+    }
+
+    public ResponePayBillAllNB setCustName(String custName) {
+        CustName = custName;
+        return this;
+    }
+
+    public String getBillAddress() {
+        return BillAddress;
+    }
+
+    public ResponePayBillAllNB setBillAddress(String billAddress) {
+        BillAddress = billAddress;
+        return this;
+    }
+
+    public String getNote() {
+        return Note;
+    }
+
+    public ResponePayBillAllNB setNote(String note) {
+        Note = note;
+        return this;
+    }
+
+    public int getSumOfTotalMoney() {
+        return SumOfTotalMoney;
+    }
+
+    public ResponePayBillAllNB setSumOfTotalMoney(int sumOfTotalMoney) {
+        SumOfTotalMoney = sumOfTotalMoney;
+        return this;
+    }
+
+    public List<PeriodNhanVienThu> getPeriodNums() {
+        return PeriodNums;
+    }
+
+    public ResponePayBillAllNB setPeriodNums(List<PeriodNhanVienThu> periodNums) {
+        PeriodNums = periodNums;
         return this;
     }
 }

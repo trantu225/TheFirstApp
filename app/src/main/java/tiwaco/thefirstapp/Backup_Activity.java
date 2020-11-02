@@ -46,6 +46,7 @@ import java.io.BufferedReader;
 import java.io.File;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -578,7 +579,24 @@ public class Backup_Activity extends AppCompatActivity  {
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             //should check null because in airplane mode it will be null
-            return (netInfo != null && netInfo.isConnected());
+            if (netInfo != null && netInfo.isConnected()) {
+                Runtime runtime = Runtime.getRuntime();
+                try {
+                    Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+                    int exitValue = ipProcess.waitFor();
+                    return (exitValue == 0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                return false;
+
+            } else {
+                return false;
+            }
+
         } catch (NullPointerException e) {
             e.printStackTrace();
             return false;

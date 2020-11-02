@@ -16,11 +16,28 @@
     <string name="API_CapNhat">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhat</string>
     <string name="API_CapNhatVaSuDung">http://113.176.94.250:8012/Service1.svc/GetThongTinCapNhatVaChoPhepSuDung</string>
     <string name="API_GetNhanVien">http://113.176.94.250:8012/Service1.svc/GetNhanVien</string>
-    <string name="API_UpdateThuTienNuoc">https://www.thanhtoan.tiwaco.com.vn/PayTamThu</string>
-    <string name="API_PayBillNB">https://www.thanhtoan.tiwaco.com.vn/PayAllThuNoiBo</string>
-    <string name="API_LayHoaDonTheoMaKH">https://www.thanhtoan.tiwaco.com.vn/LayHoaDonTheoDanhSachHD</string>
-    <string name="API_GetBillInfoNB">https://www.thanhtoan.tiwaco.com.vn/GetBill_InfoNB</string>
-    <string name="API_UpDatePhoneAndNote">https://www.thanhtoan.tiwaco.com.vn/UpDatePhoneAndNote</string>
+
+
+    <!--<string name="API_UpdateThuTienNuoc">https://www.thanhtoan.tiwaco.com.vn/PayTamThu</string>-->
+    <!--<string name="API_PayBillNB">https://www.thanhtoan.tiwaco.com.vn/PayAllThuNoiBo</string>-->
+    <!--<string name="API_LayHoaDonTheoMaKH">https://www.thanhtoan.tiwaco.com.vn/LayHoaDonTheoDanhSachHD</string>-->
+    <!--<string name="API_GetBillInfoNB">https://www.thanhtoan.tiwaco.com.vn/GetBill_InfoNB</string>-->
+    <!--<string name="API_UpDatePhoneAndNote">https://www.thanhtoan.tiwaco.com.vn/UpDatePhoneAndNote</string>-->
+
+    <string name="API_UpdateThuTienNuoc">https://thanhtoannb.tiwaco.com.vn:49404/PayTamThu</string>
+    <string name="API_PayBillNB">https://thanhtoannb.tiwaco.com.vn:49404/PayAllThuNoiBo</string>
+    <string name="API_LayHoaDonTheoMaKH">https://thanhtoannb.tiwaco.com.vn:49404/LayHoaDonTheoDanhSachHD</string>
+    <string name="API_GetBillInfoNB">https://thanhtoannb.tiwaco.com.vn:49404/GetBill_InfoNB</string>
+    <string name="API_UpDatePhoneAndNote">https://thanhtoannb.tiwaco.com.vn:49404/UpDatePhoneAndNote</string>
+
+    <string name="BASEURL">https://thanhtoannb.tiwaco.com.vn:49404</string>
+
+    <!--<string name="API_UpdateThuTienNuoc">http://thanhtoannb.tiwaco.com.vn/PayTamThu</string>-->
+    <!--<string name="API_PayBillNB">http://thanhtoannb.tiwaco.com.vn/PayAllThuNoiBo</string>-->
+    <!--<string name="API_LayHoaDonTheoMaKH">http://thanhtoannb.tiwaco.com.vn/LayHoaDonTheoDanhSachHD</string>-->
+    <!--<string name="API_GetBillInfoNB">http://thanhtoannb.tiwaco.com.vn/GetBill_InfoNB</string>-->
+    <!--<string name="API_UpDatePhoneAndNote">http://thanhtoannb.tiwaco.com.vn/UpDatePhoneAndNote</string>-->
+
 
     <string name="link_apk">http://tiwaco.com.vn/uploads/apk/tiwaread.apk</string>
     <!-- Man Hinh -->
@@ -52,7 +69,7 @@
     <string name="error_load">Quá trình load dữ liệu thất bại. Chọn OK để load lại. Chọn Thoát để kết thúc.</string>
     <string name="error_backup">Quá trình backup dữ liệu thất bại.</string>
     <string name="error_load_file">Quá trình load dữ liệu thất bại do không tồn tại file dữ liệu.</string>
-    <string name="error_load_server">Chưa kết nối được đến server.Hãy kiểm tra lại.</string>
+    <string name="error_load_server">Chưa kết nối được đến server.Hãy thử lại.</string>
     <string name="delete_file_load_file">Load dữ liệu có thể làm mất dữ liệu cũ. Bạn có muốn load dữ liệu không?</string>
     <!-- Backup activity -->
     <string name="backup_listrong_daghi">Chưa có khách hàng nào được ghi.Hãy tiến hành ghi nước.</string>
@@ -76,6 +93,8 @@
     <string name="main_chuacothongtinduongdethu"> Chưa chọn đường để thu tiền nước. Bạn có muốn chọn đường để thu tiền nước không? </string>
     <string name="main_capnhatsdt_thanhcong">Cập nhật SĐT thành công</string>
     <string name="main_capnhatsdt_thatbai">Cập nhật SĐT thất bại</string>
+    <string name="main_capnhatcmnd_thanhcong">Cập nhật CMND thành công</string>
+    <string name="main_capnhatcmnd_thatbai">Cập nhật CMND thất bại</string>
     <string name="main_capnhatloaikh_thanhcong">Chuyển loại KH thành công</string>
     <string name="main_capnhatloaikh_thatbai">Chuyển loại KH thất bại</string>
 
@@ -107,6 +126,7 @@
     <string name="KH_hoten">Họ và tên: </string>
     <string name="KH_diachi">Địa chỉ: </string>
     <string name="KH_dienthoai">Điện thoại: </string>
+    <string name="KH_dienthoaiphu">Điện thoại phụ: </string>
     <string name="KH_chisocu">Chỉ số/m3 cũ ĐH chính: </string>
     <string name="KH_chisocucon">Chỉ số/m3 cũ ĐH con: </string>
     <string name="KH_m3cu">m3 cũ: </string>
@@ -165,6 +185,7 @@
     <string name="nhan_vien">Nhân viên: </string>
     <string name="note_phienbanmoinhat_true">Đây là phiên bản mới nhất.</string>
     <string name="thanhtoan_txtthanhtoan">Thanh toán và in biên nhận</string>
+    <string name="thanhtoan_txtthanhtoan_theoky">Thanh toán và in biên nhận theo kỳ</string>
     <string name="ThongTinLuuFie_DaThu">Đã thu</string>
 
 

@@ -2,6 +2,7 @@ package tiwaco.thefirstapp;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,11 +11,15 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,8 +35,12 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -60,6 +69,7 @@ public class StartActivity extends AppCompatActivity  {
     LichSuDAO lichsudao;
     String urlcapnhat = "";
     NetworkChangeReceiver networkreceiver;
+    ProgressDialog mProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,29 +297,30 @@ public class StartActivity extends AppCompatActivity  {
 
     public final boolean isInternetOn() {
 
-        boolean k = false;
-        // get Connectivity Manager object to check connection
-        ConnectivityManager connec =
-                (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            //should check null because in airplane mode it will be null
+            if (netInfo != null && netInfo.isConnected()) {
+//                Runtime runtime = Runtime.getRuntime();
+//                try {
+//                    Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+//                    int     exitValue = ipProcess.waitFor();
+//                    return (exitValue == 0);
+//                }
+//                catch (IOException e)          { e.printStackTrace(); }
+//                catch (InterruptedException e) { e.printStackTrace(); }
+//
+//                return false;
+                return true;
+            } else {
+                return false;
+            }
 
-        // Check for network connections
-        if (connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING) {
-
-            // if connected with internet
-
-            // Toast.makeText(this, connec.getActiveNetworkInfo().getTypeName(), Toast.LENGTH_LONG).show();
-            k = true;
-
-        } else if (
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
-                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED) {
-
-            //Toast.makeText(this, " Chưa có internet hoặc 3G/4G ", Toast.LENGTH_LONG).show();
-            k = false;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        return k;
     }
     public static int getViewHeight(View view) {
         WindowManager wm =
@@ -718,24 +729,45 @@ public class StartActivity extends AppCompatActivity  {
                 alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent updateIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse(getString(R.string.link_apk)));
+//                        Intent updateIntent = new Intent(Intent.ACTION_VIEW,
+//                                Uri.parse(getString(R.string.link_apk)));
+//
+//
+//                        updateIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//                        startActivity(updateIntent);
+//                        if (Build.VERSION.SDK_INT >= 11) {
+//                            recreate();
+//                        } else {
+//                            Intent intent = getIntent();
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                            finish();
+//                            overridePendingTransition(0, 0);
+//
+//                            startActivity(intent);
+//                            overridePendingTransition(0, 0);
+//                        }
 
 
-                        updateIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        mProgressDialog = new ProgressDialog(StartActivity.this);
+                        mProgressDialog.setMessage("Đang tải...");
+                        mProgressDialog.setIndeterminate(true);
+                        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        mProgressDialog.setCancelable(true);
 
-                        startActivity(updateIntent);
-                        if (Build.VERSION.SDK_INT >= 11) {
-                            recreate();
-                        } else {
-                            Intent intent = getIntent();
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            finish();
-                            overridePendingTransition(0, 0);
+                        // execute this when the downloader must be fired
+                        final StartActivity.DownloadTask downloadTask = new StartActivity.DownloadTask(StartActivity.this);
+                        String url2 = "https://cskh.tiwaco.com.vn/tiwaread.apk";
+                        String url = "http://tiwaco.com.vn/uploads/apk/tiwaread.apk";
+                        downloadTask.execute(url);
 
-                            startActivity(intent);
-                            overridePendingTransition(0, 0);
-                        }
+                        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                downloadTask.cancel(true); //cancel the task
+                            }
+                        });
 
                     }
                 });
@@ -800,5 +832,185 @@ public class StartActivity extends AppCompatActivity  {
             }
 
         }
+    }
+
+    private class DownloadTask extends AsyncTask<String, Integer, String> {
+
+        private Context context;
+        private PowerManager.WakeLock mWakeLock;
+        File extStore = Environment.getExternalStorageDirectory();
+        String filename = "tiwaread.apk";
+        String duongdanfile = extStore.getAbsolutePath() + "/" + filename;
+
+        public DownloadTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(String... sUrl) {
+            InputStream input = null;
+            OutputStream output = null;
+            HttpURLConnection connection = null;
+            try {
+                URL url = new URL(sUrl[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+
+                // expect HTTP 200 OK, so we don't mistakenly save error report
+                // instead of the file
+
+                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    return "Server returned HTTP " + connection.getResponseCode()
+                            + " " + connection.getResponseMessage() + ".Try again.";
+                } else {
+
+                    // this will be useful to display download percentage
+                    // might be -1: server did not report the length
+                    int fileLength = connection.getContentLength();
+                    input = new BufferedInputStream(connection.getInputStream());
+                    // download the file
+                    //input = connection.getInputStream();
+
+                    output = new FileOutputStream(duongdanfile);
+
+                    byte data[] = new byte[4096];
+                    long total = 0;
+                    int count;
+                    while ((count = input.read(data)) != -1) {
+                        // allow canceling with back button
+                        if (isCancelled()) {
+                            input.close();
+                            return null;
+                        }
+                        total += count;
+                        // publishing the progress....
+                        if (fileLength > 0) // only if total length is known
+                            publishProgress((int) (total * 100 / fileLength));
+                        output.write(data, 0, count);
+                    }
+                    return null;
+                }
+            } catch (Exception e) {
+                return e.toString();
+            } finally {
+                try {
+                    if (output != null)
+                        output.close();
+                    if (input != null)
+                        input.close();
+                } catch (IOException ignored) {
+                }
+
+                if (connection != null)
+                    connection.disconnect();
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // take CPU lock to prevent CPU from going off if the user
+            // presses the power button during download
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    getClass().getName());
+            mWakeLock.acquire();
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            super.onProgressUpdate(progress);
+            // if we get here, length is known, now set indeterminate to false
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setMax(100);
+            mProgressDialog.setProgress(progress[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            mWakeLock.release();
+            mProgressDialog.dismiss();
+            Log.e("response", String.valueOf(result));
+            if (result != null) {
+                //Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(con);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage(R.string.error_load_server);
+                // thiết lập nội dung cho dialog
+
+                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        final DownloadTask downloadTask = new DownloadTask(StartActivity.this);
+
+                        String url = "http://tiwaco.com.vn/uploads/apk/tiwaread.apk";
+                        downloadTask.execute(url);
+
+                        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                downloadTask.cancel(true); //cancel the task
+                            }
+                        });
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        finish();
+
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+
+
+            } else {
+                //solancapnhatthatbai = 0;
+                Toast.makeText(context, "Download thành công", Toast.LENGTH_SHORT).show();
+
+
+                File file = new File(duongdanfile); // assume refers to "sdcard/myapp_folder/myapp.apk"
+
+
+                Uri fileUri = Uri.fromFile(file); //for Build.VERSION.SDK_INT <= 24
+
+                if (Build.VERSION.SDK_INT >= 24) {
+
+                    //fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
+                    final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
+
+                    fileUri = FileProvider.getUriForFile(StartActivity.this,
+                            AUTHORITY,
+                            new File(duongdanfile));
+                }
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
+                    intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+                    intent.setDataAndType(fileUri, "application/vnd.android.package-archive");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //dont forget add this line
+                    context.startActivity(intent);
+
+
+                } catch (Exception s) {
+                    Toast.makeText(context, s.toString(), Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+
+
+        }
+
+
     }
 }

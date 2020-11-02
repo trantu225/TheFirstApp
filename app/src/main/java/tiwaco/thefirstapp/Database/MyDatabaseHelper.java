@@ -36,6 +36,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_LICHSU = "lichsu";
     public static final String TABLE_TINHTRANGTLK = "tinhtrangtlk";
     public static final String TABLE_THANHTOAN = "thanhtoan";
+    public static final String TABLE_THANHTOANGHI = "thanhtoanghi";
 
 
     // Duong Table Columns names
@@ -106,8 +107,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKH_LANINBN = "m3muc1";
     public static final String KEY_DANHSACHKH_LANINTBTRUOC = "m3muc2";
     public static final String KEY_DANHSACHKH_LANINTBSAU = "m3muc3";
-    public static final String KEY_DANHSACHKH_GHICHUTHU = "m3muc4"; //ko sd
-    public static final String KEY_DANHSACHKH_TIEN1 = "tienmuc1";//ko sd
+    public static final String KEY_DANHSACHKH_DIENTHOAIPHU = "m3muc4"; //dienthoai2
+    public static final String KEY_DANHSACHKH_CMND = "tienmuc1";//cmnd
     public static final String KEY_DANHSACHKH_TIEN2 = "tienmuc2";//ko sd
     public static final String KEY_DANHSACHKH_TIEN3 = "tienmuc3";//ko sd
     public static final String KEY_DANHSACHKH_TIEN4 = "tienmuc4";//ko sd
@@ -165,9 +166,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DANHSACHKHTHU_LANINBN = "m3muc1";
     public static final String KEY_DANHSACHKHTHU_LANINTBTRUOC = "m3muc2";
     public static final String KEY_DANHSACHKHTHU_LANINTBSAU = "m3muc3";
-    public static final String KEY_DANHSACHKHTHU_GHICHUTHU = "m3muc4"; //ko sd
-    public static final String KEY_DANHSACHKHTHU_TIEN1 = "tienmuc1";//ko sd
-    public static final String KEY_DANHSACHKHTHU_TIEN2 = "tienmuc2";//ko sd
+    public static final String KEY_DANHSACHKHTHU_GHICHUTHU = "m3muc4";
+    public static final String KEY_DANHSACHKHTHU_DIENTHOAI2 = "tienmuc1";//dt2
+    public static final String KEY_DANHSACHKHTHU_CMND = "tienmuc2";//cmnd
     public static final String KEY_DANHSACHKHTHU_TIEN3 = "tienmuc3";//ko sd
     public static final String KEY_DANHSACHKHTHU_TIEN4 = "tienmuc4";//ko sd
     public static final String KEY_DANHSACHKHTHU_NGAYTHANHTOAN = "ngaythanhtoan";
@@ -187,7 +188,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_THANHTOAN_CHISOMOI = "ChiSoMoi";
     public static final String KEY_THANHTOAN_GHICHU = "GhiChu";
     public static final String KEY_THANHTOAN_TRANSACTIONID = "TRANSACTIONID";
-    public static final String KEY_THANHTOAN_KINHDO = "Lon";
+    public static final String KEY_THANHTOAN_TUNGAY = "Lon";
     public static final String KEY_THANHTOAN_MAKH = "MaKhachHang";
     public static final String KEY_THANHTOAN_SLTIEUTHU = "SLTieuThu";
     public static final String KEY_THANHTOAN_MADUONG = "maduong";
@@ -205,13 +206,45 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_THANHTOAN_TIEN3 = "tienmuc3";
     public static final String KEY_THANHTOAN_TIEN4 = "tienmuc4";
     public static final String KEY_THANHTOAN_NGAYTHANHTOAN = "ngaythanhtoan";
-    public static final String KEY_THANHTOAN_NGAYTHANHTOANREQUEST = "ngaythanhtoanrequest";
+    public static final String KEY_THANHTOAN_DENNGAY = "ngaythanhtoanrequest";
     public static final String KEY_THANHTOAN_CAPNHATTHU = "capnhatthu";
     public static final String KEY_THANHTOAN_NHANVIENTHU = "nhanvienthu";
     public static final String KEY_THANHTOAN_LANINBIENNHAN = "laninbiennhan";
     public static final String KEY_THANHTOAN_LANINTHONGBAOSAU = "laninthongbaosau";
     public static final String KEY_THANHTOAN_LANINTHONGBAOTRUOC = "laninthongbaotruoc";
     public static final String KEY_THANHTOAN_TAMTHU = "thanhtoantamthu";
+
+
+    public static final String KEY_THANHTOANGHI_BIENLAI = "BIENLAI";
+    public static final String KEY_THANHTOANGHI_CHISOCU = "ChiSoCu";
+    public static final String KEY_THANHTOANGHI_CHISOMOI = "ChiSoMoi";
+    public static final String KEY_THANHTOANGHI_TRANSACTIONID = "TRANSACTIONID";
+    public static final String KEY_THANHTOANGHI_MAKH = "MaKhachHang";
+    public static final String KEY_THANHTOANGHI_SLTIEUTHU = "SLTieuThu";
+    public static final String KEY_THANHTOANGHI_MADUONG = "maduong";
+    public static final String KEY_THANHTOANGHI_TIENNUOC = "tiennuoc";
+    public static final String KEY_THANHTOANGHI_PHI = "phi";
+    public static final String KEY_THANHTOANGHI_TONGCONG = "tongcong";
+    public static final String KEY_THANHTOANGHI_KYHD = "kyhd";
+    public static final String KEY_THANHTOANGHI_THUE = "thue";
+    public static final String KEY_THANHTOANGHI_M31 = "m3muc1";
+    public static final String KEY_THANHTOANGHI_M32 = "m3muc2";
+    public static final String KEY_THANHTOANGHI_M33 = "m3muc3";
+    public static final String KEY_THANHTOANGHI_M34 = "m3muc4";
+    public static final String KEY_THANHTOANGHI_TIEN1 = "tienmuc1";
+    public static final String KEY_THANHTOANGHI_TIEN2 = "tienmuc2";
+    public static final String KEY_THANHTOANGHI_TIEN3 = "tienmuc3";
+    public static final String KEY_THANHTOANGHI_TIEN4 = "tienmuc4";
+    public static final String KEY_THANHTOANGHI_NGAYTHANHTOAN = "ngaythanhtoan";
+    public static final String KEY_THANHTOANGHI_NHANVIENTHU = "nhanvienthu";
+    public static final String KEY_THANHTOANGHI_LANINBIENNHAN = "laninbiennhan";
+    public static final String KEY_THANHTOANGHI_LANINTHONGBAO = "laninthongbao";
+    public static final String KEY_THANHTOANGHI_BS1 = "bs1";
+    public static final String KEY_THANHTOANGHI_BS2 = "bs2";
+    public static final String KEY_THANHTOANGHI_BS3 = "bs3";
+    public static final String KEY_THANHTOANGHI_BS4 = "bs4";
+
+
 
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -282,8 +315,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_LANINBN + " TEXT, "          //44
                 + KEY_DANHSACHKH_LANINTBTRUOC + " TEXT, "          //45
                 + KEY_DANHSACHKH_LANINTBSAU + " TEXT, "          //46
-                + KEY_DANHSACHKH_GHICHUTHU + " TEXT, "          //47
-                + KEY_DANHSACHKH_TIEN1 + " TEXT, "          //48
+                + KEY_DANHSACHKH_DIENTHOAIPHU + " TEXT, "          //47
+                + KEY_DANHSACHKH_CMND + " TEXT, "          //48
                 + KEY_DANHSACHKH_TIEN2 + " TEXT, "          //49
                 + KEY_DANHSACHKH_TIEN3 + " TEXT, "          //50
                 + KEY_DANHSACHKH_TIEN4 + " TEXT, "          //51
@@ -341,8 +374,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKHTHU_LANINTBTRUOC + " TEXT, "          //45
                 + KEY_DANHSACHKHTHU_LANINTBSAU + " TEXT, "          //46
                 + KEY_DANHSACHKHTHU_GHICHUTHU + " TEXT, "          //47
-                + KEY_DANHSACHKHTHU_TIEN1 + " TEXT, "          //48
-                + KEY_DANHSACHKHTHU_TIEN2 + " TEXT, "          //49
+                + KEY_DANHSACHKHTHU_DIENTHOAI2 + " TEXT, "          //48
+                + KEY_DANHSACHKHTHU_CMND + " TEXT, "          //49
                 + KEY_DANHSACHKHTHU_TIEN3 + " TEXT, "          //50
                 + KEY_DANHSACHKHTHU_TIEN4 + " TEXT, "          //51
                 + KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " TEXT, "          //52
@@ -385,14 +418,46 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_THANHTOAN_NGAYTHANHTOAN + " TEXT, "          //19
                 + KEY_THANHTOAN_CAPNHATTHU + " TEXT, "          //20
                 + KEY_THANHTOAN_TRANSACTIONID + " TEXT,"             //21
-                + KEY_THANHTOAN_KINHDO + " TEXT,"           //22
+                + KEY_THANHTOAN_TUNGAY + " TEXT,"           //22
                 + KEY_THANHTOAN_KYHD + " TEXT,"           //23
                 + KEY_THANHTOAN_NHANVIENTHU + " TEXT,"           //24
                 + KEY_THANHTOAN_LANINBIENNHAN + " TEXT,"           //25
                 + KEY_THANHTOAN_LANINTHONGBAOSAU + " TEXT,"           //26
                 + KEY_THANHTOAN_LANINTHONGBAOTRUOC + " TEXT,"           //27
-                + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT,"           //28
+                + KEY_THANHTOAN_DENNGAY + " TEXT,"           //28
                 + KEY_THANHTOAN_TAMTHU + " TEXT " + " )";  //29
+
+
+        String CREATE_THANHTOANGHI_TABLE = "CREATE TABLE  " + TABLE_THANHTOANGHI + "("
+                + KEY_THANHTOANGHI_BIENLAI + " TEXT PRIMARY KEY," //0
+                + KEY_THANHTOANGHI_MAKH + " TEXT ," //1
+                + KEY_THANHTOANGHI_CHISOCU + " TEXT,"        //2
+                + KEY_THANHTOANGHI_CHISOMOI + " TEXT,"        //3
+                + KEY_THANHTOANGHI_SLTIEUTHU + " TEXT,"        //4
+                + KEY_THANHTOANGHI_MADUONG + " TEXT,"          //5
+                + KEY_THANHTOANGHI_TIENNUOC + " TEXT, "        //6
+                + KEY_THANHTOANGHI_PHI + " TEXT, "             //7
+                + KEY_THANHTOANGHI_TONGCONG + " TEXT, "       //8
+                + KEY_THANHTOANGHI_THUE + " TEXT, "          //9
+                + KEY_THANHTOANGHI_M31 + " TEXT, "          //10
+                + KEY_THANHTOANGHI_M32 + " TEXT, "          //11
+                + KEY_THANHTOANGHI_M33 + " TEXT, "          //12
+                + KEY_THANHTOANGHI_M34 + " TEXT, "          //13
+                + KEY_THANHTOANGHI_TIEN1 + " TEXT, "          //14
+                + KEY_THANHTOANGHI_TIEN2 + " TEXT, "          //15
+                + KEY_THANHTOANGHI_TIEN3 + " TEXT, "          //16
+                + KEY_THANHTOANGHI_TIEN4 + " TEXT, "          //17
+                + KEY_THANHTOANGHI_NGAYTHANHTOAN + " TEXT, "          //18
+                + KEY_THANHTOANGHI_TRANSACTIONID + " TEXT,"             //19
+                + KEY_THANHTOANGHI_KYHD + " TEXT,"           //20
+                + KEY_THANHTOANGHI_NHANVIENTHU + " TEXT,"           //21
+                + KEY_THANHTOANGHI_LANINBIENNHAN + " TEXT,"           //22
+                + KEY_THANHTOANGHI_LANINTHONGBAO + " TEXT,"           //23
+                + KEY_THANHTOANGHI_BS1 + " TEXT,"           //24
+                + KEY_THANHTOANGHI_BS2 + " TEXT,"           //25
+                + KEY_THANHTOANGHI_BS3 + " TEXT,"           //26
+                + KEY_THANHTOANGHI_BS4 + " TEXT " + " )";             //27
+
 
 
         db.execSQL(CREATE_DUONG_TABLE);
@@ -402,6 +467,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_LISHSU_TABLE);
         db.execSQL(CREATE_TINHTRANGTLK_TABLE);
         db.execSQL(CREATE_THANHTOAN_TABLE);
+        //db.execSQL(CREATE_THANHTOANGHI_TABLE);
     }
 
     @Override
@@ -431,6 +497,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // db.execSQL("DROP TABLE IF EXISTS " + TABLE_LICHSU);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TINHTRANGTLK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_THANHTOAN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_THANHTOANGHI);
         // Create tables again
         onCreate(db);
     }
@@ -514,8 +581,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKH_LANINBN + " TEXT, "          //44
                 + KEY_DANHSACHKH_LANINTBTRUOC + " TEXT, "          //45
                 + KEY_DANHSACHKH_LANINTBSAU + " TEXT, "          //46
-                + KEY_DANHSACHKH_GHICHUTHU + " TEXT, "          //47
-                + KEY_DANHSACHKH_TIEN1 + " TEXT, "          //48
+                + KEY_DANHSACHKH_DIENTHOAIPHU + " TEXT, "          //47
+                + KEY_DANHSACHKH_CMND + " TEXT, "          //48
                 + KEY_DANHSACHKH_TIEN2 + " TEXT, "          //49
                 + KEY_DANHSACHKH_TIEN3 + " TEXT, "          //50
                 + KEY_DANHSACHKH_TIEN4 + " TEXT, "          //51
@@ -529,9 +596,43 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_LICHSU_MALENH + " TEXT,"
                 + KEY_LICHSU_THOIGIAN + " TEXT" + ")";
 
+        String CREATE_THANHTOANGHI_TABLE = "CREATE TABLE  " + TABLE_THANHTOANGHI + "("
+                + KEY_THANHTOANGHI_BIENLAI + " TEXT PRIMARY KEY," //0
+                + KEY_THANHTOANGHI_MAKH + " TEXT ," //1
+                + KEY_THANHTOANGHI_CHISOCU + " TEXT,"        //2
+                + KEY_THANHTOANGHI_CHISOMOI + " TEXT,"        //3
+                + KEY_THANHTOANGHI_SLTIEUTHU + " TEXT,"        //4
+                + KEY_THANHTOANGHI_MADUONG + " TEXT,"          //5
+                + KEY_THANHTOANGHI_TIENNUOC + " TEXT, "        //6
+                + KEY_THANHTOANGHI_PHI + " TEXT, "             //7
+                + KEY_THANHTOANGHI_TONGCONG + " TEXT, "       //8
+                + KEY_THANHTOANGHI_THUE + " TEXT, "          //9
+                + KEY_THANHTOANGHI_M31 + " TEXT, "          //10
+                + KEY_THANHTOANGHI_M32 + " TEXT, "          //11
+                + KEY_THANHTOANGHI_M33 + " TEXT, "          //12
+                + KEY_THANHTOANGHI_M34 + " TEXT, "          //13
+                + KEY_THANHTOANGHI_TIEN1 + " TEXT, "          //14
+                + KEY_THANHTOANGHI_TIEN2 + " TEXT, "          //15
+                + KEY_THANHTOANGHI_TIEN3 + " TEXT, "          //16
+                + KEY_THANHTOANGHI_TIEN4 + " TEXT, "          //17
+                + KEY_THANHTOANGHI_NGAYTHANHTOAN + " TEXT, "          //18
+                + KEY_THANHTOANGHI_TRANSACTIONID + " TEXT,"             //19
+                + KEY_THANHTOANGHI_KYHD + " TEXT,"           //20
+                + KEY_THANHTOANGHI_NHANVIENTHU + " TEXT,"           //21
+                + KEY_THANHTOANGHI_LANINBIENNHAN + " TEXT,"           //22
+                + KEY_THANHTOANGHI_LANINTHONGBAO + " TEXT,"           //23
+                + KEY_THANHTOANGHI_BS1 + " TEXT,"           //24
+                + KEY_THANHTOANGHI_BS2 + " TEXT,"           //25
+                + KEY_THANHTOANGHI_BS3 + " TEXT,"           //26
+                + KEY_THANHTOANGHI_BS4 + " TEXT " + " )";             //27
+
+
         db.execSQL(CREATE_TINHTRANGTLK_TABLE);
         db.execSQL(CREATE_DUONG_TABLE);
         db.execSQL(CREATE_KHACHHANG_TABLE);
+        //db.execSQL(CREATE_THANHTOANGHI_TABLE);
+
+
         // db.execSQL(CREATE_LISHSU_TABLE);
 
 
@@ -610,8 +711,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DANHSACHKHTHU_LANINTBTRUOC + " TEXT, "          //45
                 + KEY_DANHSACHKHTHU_LANINTBSAU + " TEXT, "          //46
                 + KEY_DANHSACHKHTHU_GHICHUTHU + " TEXT, "          //47
-                + KEY_DANHSACHKHTHU_TIEN1 + " TEXT, "          //48
-                + KEY_DANHSACHKHTHU_TIEN2 + " TEXT, "          //49
+                + KEY_DANHSACHKHTHU_DIENTHOAI2 + " TEXT, "          //48
+                + KEY_DANHSACHKHTHU_CMND + " TEXT, "          //49
                 + KEY_DANHSACHKHTHU_TIEN3 + " TEXT, "          //50
                 + KEY_DANHSACHKHTHU_TIEN4 + " TEXT, "          //51
                 + KEY_DANHSACHKHTHU_NGAYTHANHTOAN + " TEXT, "          //52
@@ -641,13 +742,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_THANHTOAN_NGAYTHANHTOAN + " TEXT, "          //19
                 + KEY_THANHTOAN_CAPNHATTHU + " TEXT, "          //20
                 + KEY_THANHTOAN_TRANSACTIONID + " TEXT,"             //21
-                + KEY_THANHTOAN_KINHDO + " TEXT,"           //22
+                + KEY_THANHTOAN_TUNGAY + " TEXT,"           //22
                 + KEY_THANHTOAN_KYHD + " TEXT,"           //23
                 + KEY_THANHTOAN_NHANVIENTHU + " TEXT,"           //24
                 + KEY_THANHTOAN_LANINBIENNHAN + " TEXT,"           //25
                 + KEY_THANHTOAN_LANINTHONGBAOSAU + " TEXT,"           //26
                 + KEY_THANHTOAN_LANINTHONGBAOTRUOC + " TEXT,"           //26
-                + KEY_THANHTOAN_NGAYTHANHTOANREQUEST + " TEXT,"           //26
+                + KEY_THANHTOAN_DENNGAY + " TEXT,"           //26
                 + KEY_THANHTOAN_TAMTHU + " TEXT " + ")";  //27
         db.execSQL(CREATE_TINHTRANGTLK_TABLE);
         //  db.execSQL(CREATE_LISHSU_TABLE);

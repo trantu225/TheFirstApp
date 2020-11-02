@@ -83,8 +83,8 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINBN, "0");
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC, "0");
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU, "0");
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU, kh.getGhichuthu().trim());
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIEN1 , kh.getTien1().trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU, kh.getDienThoai2().trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_CMND, kh.getCMND().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIEN2 , kh.getTien2().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIEN3 , kh.getTien3().trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TIEN4 , kh.getTien4().trim());
@@ -179,8 +179,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -254,8 +254,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -328,8 +328,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -402,8 +402,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -476,8 +476,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -548,8 +548,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -579,6 +579,8 @@ public class KhachHangDAO {
                 kh.setMaKhachHang(cursor.getString(0).trim());
                 kh.setDanhBo(cursor.getString(2).trim());
                 kh.setDienThoai(cursor.getString(4).trim());
+                kh.setDienThoai2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU)));
+                kh.setCMND(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_CMND)));
                 kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6).trim());
                 kh.setLoaikh(cursor.getString(11).trim());
@@ -673,6 +675,8 @@ public class KhachHangDAO {
                 kh.setMaKhachHang(cursor.getString(0).trim());
                 kh.setDanhBo(cursor.getString(2).trim());
                 kh.setDienThoai(cursor.getString(4).trim());
+                kh.setDienThoai2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU)));
+                kh.setCMND(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_CMND)));
                 kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6).trim());
                 kh.setLoaikh(cursor.getString(11).trim());
@@ -744,6 +748,8 @@ public class KhachHangDAO {
                 kh.setMaKhachHang(cursor.getString(0).trim());
                 kh.setDanhBo(cursor.getString(2).trim());
                 kh.setDienThoai(cursor.getString(4).trim());
+                kh.setDienThoai2(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU)));
+                kh.setCMND(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_DANHSACHKH_CMND)));
                 kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6).trim());
                 kh.setLoaikh(cursor.getString(11).trim());
@@ -819,6 +825,7 @@ public class KhachHangDAO {
                 kh.setDanhBo(cursor.getString(2).trim());
                 kh.setDiaChi(cursor.getString(3).trim());
                 kh.setDienThoai(cursor.getString(4).trim());
+
                 kh.setSTT(String.valueOf(cursor.getInt(5)));
                 kh.setTrangThaiTLK(cursor.getString(6).trim());
                 kh.setChitietloai(cursor.getString(7).trim());
@@ -858,8 +865,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -935,8 +942,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -1019,8 +1026,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -1099,8 +1106,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -1118,10 +1125,11 @@ public class KhachHangDAO {
     }
 
     // Updating SDT
-    public boolean updateDienThoai(String  maKH, String sdt) {
+    public boolean updateDienThoai(String maKH, String sdt, String sdtphu) {
         db = myda.openDB();
         ContentValues values = new ContentValues();
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI, sdt);
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU, sdtphu);
 
         // updating row
         boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
@@ -1130,22 +1138,24 @@ public class KhachHangDAO {
 
     }
 
-    public boolean updateGhiChu(String  maKH, String ghichu) {
+    public boolean updateCMND(String maKH, String cmnd) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_CMND, cmnd);
+
+
+        // updating row
+        boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
+        db.close();
+        return kt ;
+
+    }
+
+
+    public boolean updateGhiChu(String maKH, String ghichu) {
         db = myda.openDB();
         ContentValues values = new ContentValues();
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_GHICHU, ghichu);
-
-        // updating row
-        boolean kt =db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) >0;
-        db.close();
-        return kt ;
-
-    }
-
-    public boolean updateGhiChuThu(String maKH, String ghichu) {
-        db = myda.openDB();
-        ContentValues values = new ContentValues();
-        values.put(MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU, ghichu);
 
         // updating row
         boolean kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[]{maKH}) > 0;
@@ -1213,12 +1223,13 @@ public class KhachHangDAO {
 
     }
 
-    public boolean updateKhachHang(String  maKH,String Chiso, String Chisocon, String Dienthoai, String ghichu,String vido, String kinhdo,String nhanvien, String SL, String SLCon, String thoigian, String trangthaiTLK, String bt ) {
+    public boolean updateKhachHang(String maKH, String Chiso, String Chisocon, String Dienthoai, String DienThoaiPhu, String ghichu, String vido, String kinhdo, String nhanvien, String SL, String SLCon, String thoigian, String trangthaiTLK, String bt, String CMND) {
         db = myda.openDB();
         ContentValues values = new ContentValues();
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISO, Chiso.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_CHISOCON, Chisocon.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI, Dienthoai.trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU, DienThoaiPhu.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_GHICHU, ghichu.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_VIDO, vido.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_KINHDO, kinhdo.trim());
@@ -1228,6 +1239,7 @@ public class KhachHangDAO {
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN, thoigian.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_TRANGTHAITLK, trangthaiTLK.trim());
         values.put(MyDatabaseHelper.KEY_DANHSACHKH_BATTHUONG, bt.trim());
+        values.put(MyDatabaseHelper.KEY_DANHSACHKH_CMND, CMND.trim());
         // updating row
         boolean kt = db.update(MyDatabaseHelper.TABLE_DANHSACHKH, values, MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " = ?", new String[] { maKH }) >0;
         db.close();
@@ -1580,8 +1592,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -1654,8 +1666,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -1728,8 +1740,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -1799,8 +1811,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -1815,78 +1827,6 @@ public class KhachHangDAO {
         return ListKH;
     }
 
-
-    public List<KhachHangDTO> getAllKHGhiChuThu(String maduong) {
-        db = myda.openDB();
-        List<KhachHangDTO> ListKH = new ArrayList<KhachHangDTO>();
-        // Select All Query
-        String selectQuery = "SELECT DISTINCT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH + " WHERE " + MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "='" + maduong + "' and " + MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU + " <> ''  ORDER BY cast( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + " as unsigned )";
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                KhachHangDTO kh = new KhachHangDTO();
-                kh.setMaKhachHang(cursor.getString(0).trim());
-                kh.setTenKhachHang(cursor.getString(1).trim());
-                kh.setDanhBo(cursor.getString(2).trim());
-                kh.setDiaChi(cursor.getString(3).trim());
-                kh.setDienThoai(cursor.getString(4).trim());
-                kh.setSTT(String.valueOf(cursor.getInt(5)));
-                kh.setTrangThaiTLK(cursor.getString(6).trim());
-                kh.setChitietloai(cursor.getString(7).trim());
-                kh.setCotlk(cursor.getString(8).trim());
-                kh.setDinhmuc(cursor.getString(9).trim());
-                kh.setHieutlk(cursor.getString(10).trim());
-                kh.setLoaikh(cursor.getString(11).trim());
-                kh.setMasotlk(cursor.getString(12).trim());
-                kh.setGhiChu(cursor.getString(13).trim());
-                kh.setChiSo(cursor.getString(14).trim());
-                kh.setChiSocon(cursor.getString(15).trim());
-                kh.setChiSo1(cursor.getString(16).trim());
-                kh.setChiSo1con(cursor.getString(17).trim());
-                kh.setChiSo2(cursor.getString(18).trim());
-                kh.setChiSo2con(cursor.getString(19).trim());
-                kh.setChiSo3(cursor.getString(20).trim());
-                kh.setChiSo3con(cursor.getString(21).trim());
-                kh.setSLTieuThu(cursor.getString(22).trim());
-                kh.setSLTieuThu1(cursor.getString(23).trim());
-                kh.setSLTieuThu1con(cursor.getString(24).trim());
-                kh.setSLTieuThu2(cursor.getString(25).trim());
-                kh.setSLTieuThu2con(cursor.getString(26).trim());
-                kh.setSLTieuThu3(cursor.getString(27).trim());
-                kh.setSLTieuThu3con(cursor.getString(28).trim());
-                kh.setSLTieuThucon(cursor.getString(29).trim());
-                kh.setLat(cursor.getString(30).trim());
-                kh.setLon(cursor.getString(31).trim());
-                kh.setThoiGian(cursor.getString(32).trim());
-                kh.setNhanVien(cursor.getString(33).trim());
-                kh.setLoaikhmoi(cursor.getString(36).trim());
-                kh.setNTSH(cursor.getString(38).trim());
-                kh.setTienNuoc(cursor.getString(39).trim());
-                kh.setphi(cursor.getString(40).trim());
-                kh.settongcong(cursor.getString(41).trim());
-                kh.setvat(cursor.getString(42));
-
-                kh.setThue(cursor.getString(43));
-                kh.setM3t1(cursor.getString(44));
-                kh.setM3t2(cursor.getString(45));
-                kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
-                kh.setTien2(cursor.getString(49));
-                kh.setTien3(cursor.getString(50));
-                kh.setTien4(cursor.getString(51));
-                kh.setNgaythanhtoan(cursor.getString(52));
-                kh.setNhanvienthu(cursor.getString(54));
-                // Adding contact to list
-                ListKH.add(kh);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return ListKH;
-    }
 
     public List<KhachHangDTO> getAllKHChuyenLoai(String maduong){
         db = myda.openDB();
@@ -1943,8 +1883,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -2015,8 +1955,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));
@@ -2079,8 +2019,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
@@ -2140,8 +2080,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -2209,8 +2149,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
@@ -2270,8 +2210,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -2338,8 +2278,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
@@ -2399,8 +2339,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -2468,8 +2408,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
@@ -2528,8 +2468,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -2594,8 +2534,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
@@ -2654,8 +2594,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -2721,8 +2661,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
@@ -2781,8 +2721,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -2848,8 +2788,8 @@ public class KhachHangDAO {
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
                         MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
+                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
                         MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
@@ -2908,8 +2848,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -2929,64 +2869,70 @@ public class KhachHangDAO {
 
     public KhachHangDTO getKHTheoDanhBoSTTDuong(String maduong, String tk){
         db = myda.openDB();
-        Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
-                new String[] {
-                        MyDatabaseHelper.KEY_DANHSACHKH_MAKH ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TENKH  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_DANHBO  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_DIACHI  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_STT ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TRANGTHAITLK ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHITIETLOAI ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_COTLK ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_DINHMUC ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_HIEUTLK ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISOCON ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO1  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO1CON  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO2  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO2CON  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO3 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO3CON ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1CON ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU2 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU2CON ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU3 ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU3CON ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHUCON  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_VIDO  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
-                        MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
-                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH,
-                        MyDatabaseHelper.KEY_DANHSACHKH_NOVAT,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIENNUOC,
-                        MyDatabaseHelper.KEY_DANHSACHKH_PHI,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
-                        MyDatabaseHelper.KEY_DANHSACHKH_THUE,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
-                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHUTHU,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN1,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
-                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
-                        MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN,
-                        MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU
-
-                },
-                MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and ( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "='"+tk+"' or " +MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + "='"+tk+"' )",
-                new String[] { maduong },
-                null, null, null, null);
+        String sqlstringselect = "SELECT * FROM " + MyDatabaseHelper.TABLE_DANHSACHKH + "  "
+                + " WHERE (" + MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + " like '" + tk + "' or " +
+                MyDatabaseHelper.KEY_DANHSACHKH_STT + " like '" + tk + "'  or " +
+                MyDatabaseHelper.KEY_DANHSACHKH_MAKH + " like '" + tk + "' ) and " +
+                MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + " = '" + maduong + "' ";
+        Cursor cursor = db.rawQuery(sqlstringselect, null);
+//                Cursor cursor = db.query(MyDatabaseHelper.TABLE_DANHSACHKH,
+//                new String[] {
+//                        MyDatabaseHelper.KEY_DANHSACHKH_MAKH ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_TENKH  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_DANHBO  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_DIACHI  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAI ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_STT ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_TRANGTHAITLK ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHITIETLOAI ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_COTLK ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_DINHMUC ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_HIEUTLK ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_MASOTLK ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_GHICHU,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISOCON ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO1  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO1CON  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO2  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO2CON  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO3 ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CHISO3CON ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU1CON ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU2 ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU2CON ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU3 ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHU3CON ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_SLTIEUTHUCON  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_VIDO  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_KINHDO  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_THOIGIAN  ,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_NHANVIEN,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_LOAIKH_MOI,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_NTSH,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_NOVAT,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_TIENNUOC,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_PHI,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_TONGCONG,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_THUE,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_LANINBN,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBTRUOC,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_LANINTBSAU,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_DIENTHOAIPHU,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_CMND,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN2,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN3,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_TIEN4,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_NGAYTHANHTOAN,
+//                        MyDatabaseHelper.KEY_DANHSACHKH_NHANVIENTHU
+//
+//                },
+//                MyDatabaseHelper.KEY_DANHSACHKH_MADUONG + "=? and ( " + MyDatabaseHelper.KEY_DANHSACHKH_STT + "=? or " +MyDatabaseHelper.KEY_DANHSACHKH_DANHBO + "=? or "+ MyDatabaseHelper.KEY_DANHSACHKH_MAKH +" =? )",
+//                new String[] { maduong,tk,tk,tk },
+//                null, null, null, null);
         KhachHangDTO kh = null;
         if (cursor != null &&  cursor.moveToFirst()) {
             //  cursor.moveToFirst();
@@ -3036,8 +2982,8 @@ public class KhachHangDAO {
             kh.setM3t1(cursor.getString(41).trim());
             kh.setM3t2(cursor.getString(42).trim());
             kh.setM3t3(cursor.getString(43).trim());
-            kh.setGhichuthu(cursor.getString(44).trim());
-            kh.setTien1(cursor.getString(45).trim());
+            kh.setDienThoai2(cursor.getString(44).trim());
+            kh.setCMND(cursor.getString(45).trim());
             kh.setTien2(cursor.getString(46).trim());
             kh.setTien3(cursor.getString(47).trim());
             kh.setTien4(cursor.getString(48).trim());
@@ -3395,8 +3341,8 @@ public class KhachHangDAO {
                 kh.setM3t1(cursor.getString(44));
                 kh.setM3t2(cursor.getString(45));
                 kh.setM3t3(cursor.getString(46));
-                kh.setGhichuthu(cursor.getString(47));
-                kh.setTien1(cursor.getString(48));
+                kh.setDienThoai2(cursor.getString(47));
+                kh.setCMND(cursor.getString(48));
                 kh.setTien2(cursor.getString(49));
                 kh.setTien3(cursor.getString(50));
                 kh.setTien4(cursor.getString(51));

@@ -391,9 +391,16 @@
                         android:textColor="#000000"
                         android:textSize="@dimen/sp14" />
 
-                    <EditText
-                        android:id="@+id/edit_DienThoaiKH"
+                    <LinearLayout
                         android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="vertical">
+
+                        <EditText
+                        android:id="@+id/edit_DienThoaiKH"
+                            android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="9"
                         android:background="@android:drawable/editbox_background_normal"
@@ -401,6 +408,20 @@
                         android:maxLines="1"
                         android:maxLength="12"
                         android:textSize="@dimen/sp14" />
+
+                        <EditText
+                            android:id="@+id/edit_DienThoaiKHPhu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="9"
+                            android:background="@android:drawable/editbox_background_normal"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:maxLength="12"
+                            android:textSize="@dimen/sp14" />
+
+                    </LinearLayout>
+
 
                     <ImageButton
                         android:id="@+id/imgbtn_doi"
@@ -413,6 +434,63 @@
                         android:textColor="#000000"
                         android:textSize="@dimen/sp14" />
                 </LinearLayout>
+
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow155"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp3"
+                            android:gravity="center_vertical"
+                            android:text="CMND: "
+                            android:textColor="#000000"
+                            android:textSize="@dimen/sp14" />
+
+                        <EditText
+                            android:id="@+id/edit_CMND"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="9"
+                            android:background="@android:drawable/editbox_background_normal"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:maxLength="12"
+                            android:textSize="@dimen/sp14" />
+
+                        <ImageButton
+                            android:id="@+id/btn_chuyenCMND"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/selector_button_change"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/dp3" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
 
             </TableRow>
 
@@ -799,7 +877,8 @@
             <TableRow
                 android:id="@+id/tableRow_chisocucon_lb"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -807,13 +886,15 @@
                     android:padding="@dimen/dp3"
                     android:text="@string/KH_chisocucon"
                     android:textColor="#000000"
+
                     android:textSize="@dimen/sp14" />
             </TableRow>
 
             <TableRow
                 android:id="@+id/tableRow_chisocucon"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -1009,7 +1090,8 @@
             <TableRow
                 android:id="@+id/tableRow_chisomoicon_lb"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -1035,7 +1117,8 @@
                 android:id="@+id/tableRow_chisomoicon"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -1156,10 +1239,259 @@
                 </LinearLayout>
             </TableRow>
 
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:visibility="gone">
 
+                <TextView
+                    android:id="@+id/tv_tiennuocghi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#00B9CD"
+                    android:padding="@dimen/dp3"
+                    android:text="Thông tin tiền nước"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp14"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+
+
+                    <ImageButton
+                        android:id="@+id/btn_hienthithongtinhd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp3"
+                        android:layout_marginBottom="@dimen/dp3"
+                        android:background="@drawable/information" />
+
+
+                    <LinearLayout
+
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="Số hóa đơn nợ: "
+                                android:textColor="#111"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp14" />
+
+                            <TextView
+                                android:id="@+id/lb_sohoadonno"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="0 đ"
+                                android:textColor="#F11"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp20" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="Số tiền :"
+                                android:textColor="#111"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp14" />
+
+                            <TextView
+                                android:id="@+id/lb_sumofmoney"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="0 đ"
+                                android:textColor="#F11"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp20" />
+                        </LinearLayout>
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/lbnvthu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="Nhân viên thu: "
+                                android:textColor="#111"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp14"
+
+
+                                />
+
+                            <TextView
+                                android:id="@+id/lb_nvthu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="0 đ"
+                                android:textColor="#F11"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp16"
+                                android:ellipsize="marquee"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:maxLines="1"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true" />
+                        </LinearLayout>
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/lbtgthu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="Thời gian thu: "
+                                android:textColor="#111"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp14" />
+
+
+                            <TextView
+                                android:id="@+id/lb_thoigianthu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/dp3"
+                                android:layout_gravity="center_vertical"
+                                android:text="0 đ"
+                                android:textColor="#F11"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/sp16"
+                                android:ellipsize="marquee"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:maxLines="1"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:id="@+id/btn_inthongbao"
+                        style="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp3"
+                        android:background="@drawable/selector_button_signin"
+                        android:text="In thông báo"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="@dimen/sp12"
+                        android:textStyle="bold" />
+
+
+                    <Button
+                        android:id="@+id/btn_thanhtoantiennuoc"
+                        style="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/dp3"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/selector_button_signin"
+                        android:text="@string/thanhtoan_txtthanhtoan"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="@dimen/sp12"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+            </TableRow>
 
 
         </TableLayout>
+
 
     </ScrollView>
     <!--

@@ -468,8 +468,9 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                             String DanhBo = "";
                                             String DiaChi = "";
                                             String DienThoai = "";
+                                            String DienThoai2 = "";
                                             String GhiChu = "";
-                                            String ghichuthu = "";
+
                                             String Lat = "";
                                             String Lon = "";
                                             String MaKhachHang = "";
@@ -499,7 +500,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                             String m32 = "";
                                             String m33 = "";
                                             String m34 = "";
-                                            String tien1 = "";
+                                            String cmnd = "";
                                             String tien2 = "";
                                             String tien3 = "";
                                             String tien4 = "";
@@ -514,8 +515,8 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                                 ChiSo = objKH.getString("ChiSo").toString().trim();
                                             }
 
-                                            if (objKH.has("ghichuthu")) {
-                                                ghichuthu = objKH.getString("ghichuthu").toString().trim();
+                                            if (objKH.has("DienThoai2")) {
+                                                DienThoai2 = objKH.getString("DienThoai2").toString().trim();
                                             }
 
                                             if (objKH.has("ChiSo1")) {
@@ -672,8 +673,8 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                             if (objKH.has("m3muc4")) {
                                                 m34 = objKH.getString("m3muc4").toString().trim();
                                             }
-                                            if (objKH.has("tienmuc1")) {
-                                                tien1 = objKH.getString("tienmuc1").toString().trim();
+                                            if (objKH.has("CMND")) {
+                                                cmnd = objKH.getString("CMND").toString().trim();
                                             }
                                             if (objKH.has("tienmuc2")) {
                                                 tien2 = objKH.getString("tienmuc2").toString().trim();
@@ -720,7 +721,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                             kh.setChiSo2con(ChiSo2con);
                                             kh.setChiSo3(ChiSo3);
                                             kh.setChiSo3con(ChiSo3con);
-                                            kh.setGhichuthu(ghichuthu);
+                                            kh.setDienThoai2(DienThoai2);
                                             kh.setSLTieuThu(SLTieuThu);
                                             kh.setSLTieuThu1(SLTieuThu1);
                                             kh.setSLTieuThu1con(SLTieuThu1con);
@@ -739,7 +740,7 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
                                             kh.setM3t2(m32);
                                             kh.setM3t3(m33);
                                             kh.setM3t4(m34);
-                                            kh.setTien1(tien1);
+                                            kh.setCMND(cmnd);
                                             kh.setTien2(tien2);
                                             kh.setTien3(tien3);
                                             kh.setTien4(tien4);
@@ -944,29 +945,30 @@ public class LoadFromServerDaGhiActivity extends AppCompatActivity {
 
     public final boolean isInternetOn() {
 
-        boolean k =false;
-        // get Connectivity Manager object to check connection
-        ConnectivityManager connec =
-                (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            //should check null because in airplane mode it will be null
+            if (netInfo != null && netInfo.isConnected()) {
+//                Runtime runtime = Runtime.getRuntime();
+//                try {
+//                    Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+//                    int     exitValue = ipProcess.waitFor();
+//                    return (exitValue == 0);
+//                }
+//                catch (IOException e)          { e.printStackTrace(); }
+//                catch (InterruptedException e) { e.printStackTrace(); }
+//
+//                return false;
+                return true;
+            } else {
+                return false;
+            }
 
-        // Check for network connections
-        if ( connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING ) {
-
-            // if connected with internet
-
-            // Toast.makeText(this, connec.getActiveNetworkInfo().getTypeName(), Toast.LENGTH_LONG).show();
-            k= true;
-
-        } else if (
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
-                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
-
-            //Toast.makeText(this, " Chưa có internet hoặc 3G/4G ", Toast.LENGTH_LONG).show();
-            k = false;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        return k ;
     }
     public boolean kiemtramang(){
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

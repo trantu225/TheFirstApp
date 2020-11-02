@@ -96,11 +96,12 @@ public class RetrofitClient {
                 .build();
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.MINUTES)
-                .writeTimeout(100, TimeUnit.SECONDS)
-                .readTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .writeTimeout(50, TimeUnit.SECONDS)
+                .readTimeout(50, TimeUnit.SECONDS)
                 .connectionSpecs(Collections.singletonList(spec))
                 .addInterceptor(timeoutInterceptor)
+
                 .build();
 
 

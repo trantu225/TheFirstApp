@@ -202,7 +202,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             kq = "Notfound";
         }
         String tinhtrang = "0";
-        if ((kq.equals("4g") || kq.equals("3g") || kq.equals("2g")) && info.getState() == NetworkInfo.State.CONNECTED) {
+        if ((kq.equals("4g") || kq.equals("3g")) && info.getState() == NetworkInfo.State.CONNECTED) {
             tinhtrang = "1";
         }
         return tinhtrang;

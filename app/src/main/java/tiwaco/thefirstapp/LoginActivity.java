@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -533,29 +535,30 @@ public class LoginActivity extends AppCompatActivity  {
 
     public final boolean isInternetOn() {
 
-        boolean k =false;
-        // get Connectivity Manager object to check connection
-        ConnectivityManager connec =
-                (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            //should check null because in airplane mode it will be null
+            if (netInfo != null && netInfo.isConnected()) {
+//                Runtime runtime = Runtime.getRuntime();
+//                try {
+//                    Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+//                    int     exitValue = ipProcess.waitFor();
+//                    return (exitValue == 0);
+//                }
+//                catch (IOException e)          { e.printStackTrace(); }
+//                catch (InterruptedException e) { e.printStackTrace(); }
+//
+//                return false;
+                return true;
+            } else {
+                return false;
+            }
 
-        // Check for network connections
-        if ( connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING ) {
-
-            // if connected with internet
-
-           // Toast.makeText(this, connec.getActiveNetworkInfo().getTypeName(), Toast.LENGTH_LONG).show();
-            k= true;
-
-        } else if (
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
-                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
-
-            //Toast.makeText(this, " Chưa có internet hoặc 3G/4G ", Toast.LENGTH_LONG).show();
-            k = false;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        return k ;
     }
 
     public class CheckUser extends AsyncTask<String, Void, String>

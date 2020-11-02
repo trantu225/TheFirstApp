@@ -1,20 +1,19 @@
 package tiwaco.thefirstapp.DTO;
 
 /**
- * Created by TUTRAN on 30/03/2017.
+ * Created by Admin on 5/6/2020.
  */
 
-public class ThanhToanDTO {
+public class ThanhToanGhiDTO {
 
 
     String BienLai;
     String ChiSoCu;
     String ChiSoMoi;
     String KyHD;
-    String Lat;
-    String TuNgay;
     String MaKhachHang;
     String SLTieuThu;
+    String MaDuong;
     String tiennuoc;
     String phi;
     String tongcong;
@@ -29,11 +28,10 @@ public class ThanhToanDTO {
     String tien4;
     String ngaythanhtoan;
     String NhanVienThu;
-    String CapNhatThu;
-    String DenNgay;
     String LanINBN;
-    String LanINTBTruoc;
-    String LanINTBSau;
+    String LanINTB;
+    String TransactionID;
+
 
     public String getTransactionID() {
         return TransactionID;
@@ -43,23 +41,13 @@ public class ThanhToanDTO {
         TransactionID = transactionID;
     }
 
-    String TransactionID;
 
-    public String getTuNgay() {
-        return TuNgay;
+    public String getMaDuong() {
+        return MaDuong;
     }
 
-    public ThanhToanDTO setTuNgay(String tuNgay) {
-        TuNgay = tuNgay;
-        return this;
-    }
-
-    public String getDenNgay() {
-        return DenNgay;
-    }
-
-    public ThanhToanDTO setDenNgay(String denNgay) {
-        DenNgay = denNgay;
+    public ThanhToanGhiDTO setMaDuong(String maDuong) {
+        MaDuong = maDuong;
         return this;
     }
 
@@ -71,22 +59,13 @@ public class ThanhToanDTO {
         LanINBN = lanINBN;
     }
 
-    public String getLanINTBTruoc() {
-        return LanINTBTruoc;
+    public String getLanINTB() {
+        return LanINTB;
     }
 
-    public void setLanINTBTruoc(String lanINTBTruoc) {
-        LanINTBTruoc = lanINTBTruoc;
+    public void setLanINTB(String lanINTBTruoc) {
+        LanINTB = lanINTBTruoc;
     }
-
-    public String getLanINTBSau() {
-        return LanINTBSau;
-    }
-
-    public void setLanINTBSau(String lanINTBSau) {
-        LanINTBSau = lanINTBSau;
-    }
-
 
 
     public String getBienLai() {
@@ -103,14 +82,6 @@ public class ThanhToanDTO {
 
     public void setKyHD(String kyHD) {
         KyHD = kyHD;
-    }
-
-    public String getCapNhatThu() {
-        return CapNhatThu;
-    }
-
-    public void setCapNhatThu(String capNhatThu) {
-        CapNhatThu = capNhatThu;
     }
 
     public String getNhanvienthu() {
@@ -161,19 +132,6 @@ public class ThanhToanDTO {
     public void settongcong(String tongcong) {
         this.tongcong = tongcong;
     }
-
-
-
-    public String getLat() {
-        return Lat;
-    }
-
-    public void setLat(String lat) {
-        Lat = lat;
-    }
-
-
-
 
     public String getMaKhachHang() {
         return MaKhachHang;

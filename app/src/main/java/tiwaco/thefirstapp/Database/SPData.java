@@ -297,7 +297,7 @@ public class SPData  {
     public int getDataChiSoLuuCapNhat() {
 
 
-        int flagghi = pre.getInt(Bien.SPCHISOLUUTUDONG, 20);
+        int flagghi = pre.getInt(Bien.SPCHISOLUUTUDONG, 1);
         return flagghi;
     }
 
@@ -453,7 +453,7 @@ public class SPData  {
     public String getDataDienThoai() {
 
 
-        String flagghi = pre.getString(Bien.SPDIENTHOAI, "0273 3873425"); //mac dinh la off
+        String flagghi = pre.getString(Bien.SPDIENTHOAI, getDataDienThoaiHuyen()); //mac dinh la off
         return flagghi;
     }
 

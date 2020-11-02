@@ -129,6 +129,20 @@
             android:textColor="#fff"
             android:layout_centerHorizontal="true" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dienthoai2"
+            android:text="cs: 123123"
+            android:layout_below="@+id/a"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:layout_centerHorizontal="true" />
+
 
         <Button
             android:id="@+id/btn_thoat"

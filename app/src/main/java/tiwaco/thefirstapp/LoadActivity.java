@@ -356,6 +356,7 @@ public class LoadActivity extends AppCompatActivity {
                                 String DanhBo = "";
                                 String DiaChi  ="";
                                 String DienThoai = "";
+                                String DienThoaiPhu = "";
                                 String GhiChu  ="";
                                 String Lat = "";
                                 String Lon  ="";
@@ -386,7 +387,7 @@ public class LoadActivity extends AppCompatActivity {
                                 String m32 = "";
                                 String m33 = "";
                                 String m34 = "";
-                                String tien1 = "";
+                                String CMND = "";
                                 String tien2 = "";
                                 String tien3 = "";
                                 String tien4 = "";
@@ -395,7 +396,7 @@ public class LoadActivity extends AppCompatActivity {
                                 String phi ="";
                                 String tongcong  = "";
                                 String ngaythanhtoan = "";
-                                String ghichuthu = "";
+
                                 if (objKH.has("m3muc1")) {
                                     m31 = objKH.getString("m3muc1").toString().trim();
                                 }
@@ -408,8 +409,8 @@ public class LoadActivity extends AppCompatActivity {
                                 if (objKH.has("m3muc4")) {
                                     m34 = objKH.getString("m3muc4").toString().trim();
                                 }
-                                if (objKH.has("tienmuc1")) {
-                                    tien1 = objKH.getString("tienmuc1").toString().trim();
+                                if (objKH.has("CMND")) {
+                                    CMND = objKH.getString("CMND").toString().trim();
                                 }
                                 if (objKH.has("tienmuc2")) {
                                     tien2 = objKH.getString("tienmuc2").toString().trim();
@@ -458,6 +459,10 @@ public class LoadActivity extends AppCompatActivity {
                                 if(objKH.has("DienThoai")){
                                     DienThoai = objKH.getString("DienThoai").toString().trim();
                                 }
+                                if (objKH.has("DienThoai2")) {
+                                    DienThoaiPhu = objKH.getString("DienThoai2").toString().trim();
+                                }
+
 
                                 if(objKH.has("GhiChu")){
                                     GhiChu = objKH.getString("GhiChu").toString().trim();
@@ -552,9 +557,7 @@ public class LoadActivity extends AppCompatActivity {
                                         novat = "0";
                                     }
                                 }
-                                if (objKH.has("ghichuthu")) {
-                                    ghichuthu = objKH.getString("ghichuthu").toString().trim();
-                                }
+
                                 if (objKH.has("tiennuoc")) {
                                     tiennuoc = objKH.getString("tiennuoc").toString().trim();
                                 }
@@ -574,6 +577,7 @@ public class LoadActivity extends AppCompatActivity {
                                 kh.setDanhBo(DanhBo);
                                 kh.setDiaChi(DiaChi);
                                 kh.setDienThoai(DienThoai);
+                                kh.setDienThoai2(DienThoaiPhu);
                                 kh.setSTT(STT);
                                 kh.setTrangThaiTLK(TrangThaiTLK);
                                 kh.setChitietloai(chitietloai);
@@ -606,11 +610,11 @@ public class LoadActivity extends AppCompatActivity {
                                 kh.setNTSH(ntsh);
                                 kh.setvat(novat);
                                 kh.setM3t1(m31);
-                                kh.setGhichuthu(ghichuthu);
+
                                 kh.setM3t2(m32);
                                 kh.setM3t3(m33);
                                 kh.setM3t4(m34);
-                                kh.setTien1(tien1);
+                                kh.setCMND(CMND);
                                 kh.setTien2(tien2);
                                 kh.setTien3(tien3);
                                 kh.setTien4(tien4);

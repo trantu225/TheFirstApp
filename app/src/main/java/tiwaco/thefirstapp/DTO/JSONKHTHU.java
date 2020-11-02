@@ -17,6 +17,7 @@ public class JSONKHTHU {
     String DanhBo;
     String DiaChi;
     String DienThoai;
+    String DienThoai2;
     String GhiChu;
     String Lat;
     String Lon;
@@ -54,7 +55,6 @@ public class JSONKHTHU {
     String m3muc2;
     String m3muc3; //ko sd
     String m3muc4; //ko sd
-    String tienmuc1;//ko sd
     String tienmuc2;//ko sd
     String tienmuc3;//ko sd
     String tienmuc4;//ko sd
@@ -81,6 +81,15 @@ public class JSONKHTHU {
 
     public String getChiSo1() {
         return ChiSo1;
+    }
+
+    public String getDienThoai2() {
+        return DienThoai2;
+    }
+
+    public JSONKHTHU setDienThoai2(String dienThoai2) {
+        DienThoai2 = dienThoai2;
+        return this;
     }
 
     public void setChiSo1(String chiSo1) {
@@ -439,13 +448,6 @@ public class JSONKHTHU {
         this.m3muc4 = m3muc4;
     }
 
-    public String getTienmuc1() {
-        return tienmuc1;
-    }
-
-    public void setTienmuc1(String tienmuc1) {
-        this.tienmuc1 = tienmuc1;
-    }
 
     public String getTienmuc2() {
         return tienmuc2;

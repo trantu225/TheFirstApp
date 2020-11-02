@@ -17,6 +17,7 @@ public class KhachHangThuDTO {
     String DanhBo;
     String DiaChi;
     String DienThoai;
+    String DienThoai2;
     String GhiChu;
     String Lat;
     String Lon;
@@ -51,8 +52,8 @@ public class KhachHangThuDTO {
     String m3t2;
     String m3t3;
     String m3t4;
-    String tien1;
-    String tien2;
+
+    String CMND;
     String tien3;
     String tien4;
     String ngaythanhtoan;
@@ -100,6 +101,15 @@ public class KhachHangThuDTO {
 
     public void setSTT(String STT) {
         this.STT = STT;
+    }
+
+    public String getDienThoai2() {
+        return DienThoai2;
+    }
+
+    public KhachHangThuDTO setDienThoai2(String dienThoai2) {
+        DienThoai2 = dienThoai2;
+        return this;
     }
 
     public String getvat() {
@@ -455,20 +465,14 @@ public class KhachHangThuDTO {
         this.m3t4 = m3t4;
     }
 
-    public String getTien1() {
-        return tien1;
+
+    public String getCMND() {
+        return CMND;
     }
 
-    public void setTien1(String tien1) {
-        this.tien1 = tien1;
-    }
-
-    public String getTien2() {
-        return tien2;
-    }
-
-    public void setTien2(String tien2) {
-        this.tien2 = tien2;
+    public KhachHangThuDTO setCMND(String CMND) {
+        this.CMND = CMND;
+        return this;
     }
 
     public String getTien3() {

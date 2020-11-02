@@ -15,10 +15,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,9 +58,13 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
     int loaighi = 0;
     ProgressDialog p;
     ThanhToanDAO thanhtoandao;
+    LinearLayout layoutthuho;
+    TextView sotienthuho;
+    DecimalFormatSymbols decimalFormatSymbols;
+    DecimalFormat format, format1, format2;
 
 
-    public CustomListDuongThuAdapter(Context context, List<DuongThuDTO> listData, ListView listKH, TextView txtMaDuong, RecyclerView re, TextView titleKH, TextView titleHD) {
+    public CustomListDuongThuAdapter(Context context, List<DuongThuDTO> listData, ListView listKH, TextView txtMaDuong, RecyclerView re, TextView titleKH, TextView titleHD, LinearLayout laythuho, TextView sotien) {
         this.listDuong = listData;
         this.con = context;
         this.listviewKH = listKH;
@@ -65,6 +72,14 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
         this.tvTitleKH = titleKH;
         this.titleHD = titleHD;
         this.reduong = re;
+        this.layoutthuho = laythuho;
+        decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(',');
+        format = new DecimalFormat("#,##0.00", decimalFormatSymbols);
+        format1 = new DecimalFormat("0.#");
+        format2 = new DecimalFormat("#,##0.#", decimalFormatSymbols);
+        sotienthuho = sotien;
         spdata = new SPData(con);
         thanhtoandao = new ThanhToanDAO(con);
         p = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
@@ -90,6 +105,10 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
         */
     }
 
+    public String formatTien(int tien) {
+        String tongcong = " " + format2.format(Double.parseDouble(format1.format(Double.valueOf(tien)))) + " đ";
+        return tongcong;
+    }
     @Override
     public void onBindViewHolder(final CustomListDuongThuAdapter.RecyclerViewHolder holder, final int position) {
         vitri  =position;
@@ -222,13 +241,35 @@ public class CustomListDuongThuAdapter extends  RecyclerView.Adapter<CustomListD
                     titleHD.setText("Số HD: " + sohd4 + " - Số tiền: " + thanhtoandao.formatTien(tongcong4));
                 }
                 Bien.listKH_thu = liskhdao;
-                Bien.adapterKHThu = new CustomListThu2Adapter(con, liskhdao, pos);
+                Bien.adapterKHThu = new CustomListThu2Adapter(con, liskhdao, pos, layoutthuho, sotienthuho);
                 title += String.valueOf(liskhdao.size()) +" KH";
                 Bien.bienSoLuongKHThu = liskhdao.size();
+
                 tvTitleKH.setText(title);
+
 
                 listviewKH.setAdapter(Bien.adapterKHThu);
 
+
+                List<KhachHangThuDTO> listkhthuho = khachhangDAO.getAllKHTrongDanhSachThuHo(listDuong.get(position).getMaDuong());
+                if (listkhthuho.size() > 0) {
+                    int tongtien = 0;
+                    for (KhachHangThuDTO kh : listkhthuho) {
+                        List<ThanhToanDTO> listhoadon = thanhtoandao.GetListThanhToanTheoMaKH(kh.getMaKhachHang());
+
+                        for (ThanhToanDTO hoadonthuho : listhoadon) {
+
+
+                            tongtien += Integer.parseInt(hoadonthuho.gettongcong());
+                        }
+
+
+                    }
+                    sotienthuho.setText(formatTien(tongtien));
+                    layoutthuho.setVisibility(View.VISIBLE);
+                } else {
+                    layoutthuho.setVisibility(View.GONE);
+                }
                 //
 
             }

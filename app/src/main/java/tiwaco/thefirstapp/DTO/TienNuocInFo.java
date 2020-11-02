@@ -72,6 +72,8 @@ public class TienNuocInFo {
 
     private String NhanVienThu;
 
+    private String TuNgay;
+    private String DenNgay;
     public String getMAKH() {
         return MAKH;
     }
@@ -96,6 +98,24 @@ public class TienNuocInFo {
 
     public TienNuocInFo setTIENNUOC1(String TIENNUOC1) {
         this.TIENNUOC1 = TIENNUOC1;
+        return this;
+    }
+
+    public String getTuNgay() {
+        return TuNgay;
+    }
+
+    public TienNuocInFo setTuNgay(String tuNgay) {
+        TuNgay = tuNgay;
+        return this;
+    }
+
+    public String getDenNgay() {
+        return DenNgay;
+    }
+
+    public TienNuocInFo setDenNgay(String denNgay) {
+        DenNgay = denNgay;
         return this;
     }
 

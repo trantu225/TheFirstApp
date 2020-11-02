@@ -25,7 +25,7 @@ import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.MainActivity;
-import tiwaco.thefirstapp.MainThuActivity;
+
 import tiwaco.thefirstapp.R;
 
 /**

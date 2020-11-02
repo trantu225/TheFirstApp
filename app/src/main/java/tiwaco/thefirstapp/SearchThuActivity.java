@@ -274,7 +274,7 @@ public class SearchThuActivity extends AppCompatActivity {
             String sqlstr = sqlstringselect + dieukien;
             listkhachhang = khachhangthudao.TimKiemTheoSQL(sqlstr);
             if (listkhachhang.size() > 0) {
-                adapter = new CustomListThu2Adapter(con, listkhachhang, vitriduong);
+                adapter = new CustomListThu2Adapter(con, listkhachhang, vitriduong, null, null);
                 listview.setAdapter(adapter);
                 listview.setVisibility(View.VISIBLE);
                 epdlistdata.setVisibility(View.GONE);

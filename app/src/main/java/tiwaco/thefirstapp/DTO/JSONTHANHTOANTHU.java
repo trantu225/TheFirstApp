@@ -11,7 +11,7 @@ public class JSONTHANHTOANTHU {
     String ChiSoMoi;
     String GhiChu;
     String TransactionID;
-    String Lon;
+    String TuNgay;
     String MaKhachHang;
     String SLTieuThu;
     String maduong;
@@ -29,7 +29,7 @@ public class JSONTHANHTOANTHU {
     String tienmuc3;
     String tienmuc4;
     String ngaythanhtoan;
-    String ngaythanhtoanrequest;
+    String DenNgay;
     String capnhatthu;
     String nhanvienthu;
     String laninbiennhan;
@@ -77,13 +77,7 @@ public class JSONTHANHTOANTHU {
         this.TransactionID = TRANSACTIONID;
     }
 
-    public String getLon() {
-        return Lon;
-    }
 
-    public void setLon(String lon) {
-        Lon = lon;
-    }
 
     public String getMaKhachHang() {
         return MaKhachHang;
@@ -221,12 +215,22 @@ public class JSONTHANHTOANTHU {
         this.ngaythanhtoan = ngaythanhtoan;
     }
 
-    public String getNgaythanhtoanrequest() {
-        return ngaythanhtoanrequest;
+    public String getTuNgay() {
+        return TuNgay;
     }
 
-    public void setNgaythanhtoanrequest(String ngaythanhtoanrequest) {
-        this.ngaythanhtoanrequest = ngaythanhtoanrequest;
+    public JSONTHANHTOANTHU setTuNgay(String tuNgay) {
+        TuNgay = tuNgay;
+        return this;
+    }
+
+    public String getDenNgay() {
+        return DenNgay;
+    }
+
+    public JSONTHANHTOANTHU setDenNgay(String denNgay) {
+        DenNgay = denNgay;
+        return this;
     }
 
     public String getCapnhatthu() {

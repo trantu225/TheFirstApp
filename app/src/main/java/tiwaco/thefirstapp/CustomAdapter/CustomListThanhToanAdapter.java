@@ -38,7 +38,7 @@ import tiwaco.thefirstapp.DTO.ThanhToanDTO;
 import tiwaco.thefirstapp.Database.SPData;
 import tiwaco.thefirstapp.GPSTracker;
 import tiwaco.thefirstapp.MainActivity;
-import tiwaco.thefirstapp.MainThuActivity;
+
 import tiwaco.thefirstapp.R;
 import tiwaco.thefirstapp.StartActivity;
 import tiwaco.thefirstapp.ViewDialog;

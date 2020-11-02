@@ -61,7 +61,7 @@ public class ThanhToanDAO {
         values.put(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU, kh.getSLTieuThu().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_KYHD, kh.getKyHD().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID, kh.getTransactionID());
-        values.put(MyDatabaseHelper.KEY_THANHTOAN_KINHDO, kh.getLon().trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY, kh.getTuNgay().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_MADUONG, maduong.trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC, kh.getTienNuoc().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_PHI, kh.getphi().trim());
@@ -78,7 +78,7 @@ public class ThanhToanDAO {
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN, kh.getNgaythanhtoan().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU, kh.getCapNhatThu().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU, kh.getNhanvienthu().trim());
-        values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST, "");
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY, kh.getDenNgay().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN, "0");
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU, "0");
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC, "0");
@@ -105,7 +105,7 @@ public class ThanhToanDAO {
         values.put(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU, kh.getSLTieuThu().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_KYHD, kh.getKyhd().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID, kh.getTRANSACTIONID().trim());
-        values.put(MyDatabaseHelper.KEY_THANHTOAN_KINHDO, kh.getLon().trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY, kh.getTuNgay().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_MADUONG, kh.getMaduong().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_TIENNUOC, kh.getTiennuoc().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_PHI, kh.getPhi().trim());
@@ -122,7 +122,7 @@ public class ThanhToanDAO {
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN, kh.getNgaythanhtoan().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU, kh.getCapnhatthu().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU, kh.getNhanvienthu().trim());
-        values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST, kh.getNgaythanhtoanrequest().trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY, kh.getDenNgay().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN, kh.getLaninbiennhan().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU, kh.getLaninthongbaosau().trim());
         values.put(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC, kh.getLaninthongbaotruoc().trim());
@@ -192,7 +192,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -208,7 +208,7 @@ public class ThanhToanDAO {
                 kh.setThue(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_THUE)));
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -265,7 +265,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTRANSACTIONID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyhd(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3muc1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -282,7 +282,7 @@ public class ThanhToanDAO {
                 kh.setTongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapnhatthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgaythanhtoanrequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLaninbiennhan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLaninthongbaotruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLaninthongbaosau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -318,7 +318,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -335,7 +335,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -463,7 +463,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -480,7 +480,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -515,7 +515,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -532,7 +532,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -567,7 +567,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -584,7 +584,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -618,7 +618,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -635,7 +635,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -670,7 +670,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -687,7 +687,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -793,6 +793,23 @@ public class ThanhToanDAO {
 
         // updating row
         boolean kt = db.update(MyDatabaseHelper.TABLE_THANHTOAN, values, MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = ? and " + MyDatabaseHelper.KEY_THANHTOAN_KYHD + " = ? ", new String[]{makh, kyhd}) > 0;
+        db.close();
+        return kt;
+
+    }
+
+    public boolean updateThanhToanTheoMaKh(String makh, String thoigian, String transid, String nhanvienthu) {
+        db = myda.openDB();
+        ContentValues values = new ContentValues();
+
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN, thoigian.trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU, nhanvienthu.trim());
+        values.put(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID, transid.trim());
+        //values.put(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU, "1");
+
+
+        // updating row
+        boolean kt = db.update(MyDatabaseHelper.TABLE_THANHTOAN, values, MyDatabaseHelper.KEY_THANHTOAN_MAKH + " = ? ", new String[]{makh}) > 0;
         db.close();
         return kt;
 
@@ -979,7 +996,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -996,7 +1013,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1045,7 +1062,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1062,7 +1079,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1117,7 +1134,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1134,7 +1151,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1183,7 +1200,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1200,7 +1217,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1250,7 +1267,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1267,7 +1284,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1316,7 +1333,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1333,7 +1350,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1382,7 +1399,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1399,7 +1416,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1448,7 +1465,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1465,7 +1482,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1515,7 +1532,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1532,7 +1549,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1582,7 +1599,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1599,7 +1616,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1636,7 +1653,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1653,7 +1670,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1690,7 +1707,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1707,7 +1724,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1744,7 +1761,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1761,7 +1778,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1799,7 +1816,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1816,7 +1833,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1905,7 +1922,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1922,7 +1939,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));
@@ -1974,7 +1991,7 @@ public class ThanhToanDAO {
                 kh.setChiSoCu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CHISOCU)));
                 kh.setSLTieuThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_SLTIEUTHU)));
                 kh.setTransactionID(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TRANSACTIONID)));
-                kh.setLon(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KINHDO)));
+                kh.setTuNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TUNGAY)));
                 kh.setKyHD(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_KYHD)));
                 kh.setNhanvienthu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NHANVIENTHU)));
                 kh.setM3t1(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_M31)));
@@ -1991,7 +2008,7 @@ public class ThanhToanDAO {
                 kh.settongcong(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_TONGCONG)));
                 kh.setNgaythanhtoan(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOAN)));
                 kh.setCapNhatThu(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_CAPNHATTHU)));
-                kh.setNgayThanhToanRequest(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_NGAYTHANHTOANREQUEST)));
+                kh.setDenNgay(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_DENNGAY)));
                 kh.setLanINBN(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINBIENNHAN)));
                 kh.setLanINTBTruoc(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOTRUOC)));
                 kh.setLanINTBSau(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.KEY_THANHTOAN_LANINTHONGBAOSAU)));

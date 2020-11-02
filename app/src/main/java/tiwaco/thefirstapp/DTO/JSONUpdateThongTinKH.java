@@ -8,10 +8,12 @@ public class JSONUpdateThongTinKH {
 
     String custNo;
     String phoneNumber;
+    String phoneNumber2;
     String paymentNote;
     String userName;
     String passWord;
     String requestTime;
+    String CMND;
 
     public String getRequestTime() {
         return requestTime;
@@ -31,6 +33,15 @@ public class JSONUpdateThongTinKH {
 
     public String getPassWord() {
         return passWord;
+    }
+
+    public String getPhoneNumber2() {
+        return phoneNumber2;
+    }
+
+    public JSONUpdateThongTinKH setPhoneNumber2(String phoneNumber2) {
+        this.phoneNumber2 = phoneNumber2;
+        return this;
     }
 
     public void setPassWord(String passWord) {
@@ -62,5 +73,12 @@ public class JSONUpdateThongTinKH {
         this.paymentNote = paymentNote;
     }
 
+    public String getCMND() {
+        return CMND;
+    }
 
+    public JSONUpdateThongTinKH setCMND(String CMND) {
+        this.CMND = CMND;
+        return this;
+    }
 }

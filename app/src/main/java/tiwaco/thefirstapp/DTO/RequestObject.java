@@ -9,6 +9,7 @@ public class RequestObject {
     String ChiSo;
     String DanhBo;
     String DienThoai;
+    String DienThoai2;
     String GhiChu;
     String Lat;
     String Lon;
@@ -22,6 +23,7 @@ public class RequestObject {
     String loaikhmoi;
     String ChiSo1;
     String SLTieuThu1;
+    String CMND;
 
 //    String MaDuong;
 //
@@ -76,7 +78,14 @@ public class RequestObject {
         GhiChu = ghiChu;
     }
 
+    public String getDienThoai2() {
+        return DienThoai2;
+    }
 
+    public RequestObject setDienThoai2(String dienThoai2) {
+        DienThoai2 = dienThoai2;
+        return this;
+    }
 
     public String getLat() {
         return Lat;
@@ -157,5 +166,14 @@ public class RequestObject {
 
     public void setSLTieuThu1(String SLTieuThu1) {
         this.SLTieuThu1 = SLTieuThu1;
+    }
+
+    public String getCMND() {
+        return CMND;
+    }
+
+    public RequestObject setCMND(String CMND) {
+        this.CMND = CMND;
+        return this;
     }
 }

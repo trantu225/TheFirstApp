@@ -378,6 +378,7 @@ public class LoadThuActivity extends AppCompatActivity {
                         String DanhBo = "";
                         String DiaChi = "";
                         String DienThoai = "";
+                        String DienThoai2 = "";
                         String GhiChu = "";
                         String Lat = "";
                         String Lon = "";
@@ -501,6 +502,9 @@ public class LoadThuActivity extends AppCompatActivity {
                         }
                         if (objKH.has("DienThoai")) {
                             DienThoai = objKH.getString("DienThoai").toString().trim();
+                        }
+                        if (objKH.has("DienThoai2")) {
+                            DienThoai2 = objKH.getString("DienThoai2").toString().trim();
                         }
 
                         if (objKH.has("GhiChu")) {
@@ -667,7 +671,7 @@ public class LoadThuActivity extends AppCompatActivity {
                         kh.setM3muc2(m3muc2);
                         kh.setM3muc3(m3muc3);
                         kh.setM3muc4(m3muc4);
-                        kh.setTienmuc1(tienmuc1);
+                        kh.setDienThoai2(DienThoai2);
                         kh.setTienmuc2(tienmuc2);
                         kh.setTienmuc3(tienmuc3);
                         kh.setTienmuc4(tienmuc4);
@@ -758,12 +762,21 @@ public class LoadThuActivity extends AppCompatActivity {
                         String laninthongbaosau = "";
                         String laninthongbaotruoc = "";
                         String thanhtoantamthu = "";
+                        String TuNgay = "";
+                        String DenNgay = "";
 
                         if (objKH.has("BienLai")) {
                             BienLai = objKH.getString("BienLai").toString().trim();
                         }
                         if (objKH.has("ChiSoCu")) {
                             ChiSoCu = objKH.getString("ChiSoCu").toString().trim();
+                        }
+
+                        if (objKH.has("TuNgay")) {
+                            TuNgay = objKH.getString("TuNgay").toString().trim();
+                        }
+                        if (objKH.has("DenNgay")) {
+                            DenNgay = objKH.getString("DenNgay").toString().trim();
                         }
                         if (objKH.has("ChiSoMoi")) {
                             ChiSoMoi = objKH.getString("ChiSoMoi").toString().trim();
@@ -870,7 +883,7 @@ public class LoadThuActivity extends AppCompatActivity {
                         kh.setChiSoCu(ChiSoCu);
                         kh.setSLTieuThu(SLTieuThu);
                         kh.setTRANSACTIONID(TransactionID);
-                        kh.setLon(Lon);
+                        kh.setTuNgay(TuNgay);
                         kh.setKyhd(kyhd);
                         kh.setNhanvienthu(nhanvienthu);
                         kh.setM3muc1(m3muc1);
@@ -887,7 +900,7 @@ public class LoadThuActivity extends AppCompatActivity {
                         kh.setTongcong(tongcong);
                         kh.setNgaythanhtoan(ngaythanhtoan);
                         kh.setCapnhatthu(capnhatthu);
-                        kh.setNgaythanhtoanrequest(ngaythanhtoanrequest);
+                        kh.setDenNgay(DenNgay);
                         kh.setLaninbiennhan(laninbiennhan);
                         kh.setLaninthongbaotruoc(laninthongbaotruoc);
                         kh.setLaninthongbaosau(laninthongbaosau);

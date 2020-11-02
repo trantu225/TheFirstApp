@@ -8,10 +8,10 @@ import java.util.List;
 
 public class ResponePayTamThu {
 
-    List<LOGNBDTO> ListError;
-    int ResponseCode;
-    String ResponseDesc;
-    String ResponseDate;
+    private List<LOGNBDTO> ListError;
+    private int ResponseCode;
+    private String ResponseDesc;
+    private String ResponseDate;
 
     public List<LOGNBDTO> getListError() {
         return ListError;

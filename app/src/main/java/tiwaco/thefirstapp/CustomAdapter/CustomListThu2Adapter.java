@@ -12,9 +12,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import tiwaco.thefirstapp.Bien;
@@ -40,17 +43,29 @@ public class CustomListThu2Adapter extends BaseAdapter {
     DuongThuDAO duongdao;
     KhachHangThuDAO khachhangdao;
     ThanhToanDAO thanhtoandao;
+    LinearLayout layoutthuho;
+    TextView tongsotienthuho;
     String strghichu = "";
+    DecimalFormatSymbols decimalFormatSymbols;
+    DecimalFormat format, format1, format2;
 
-    public CustomListThu2Adapter(Context con, List<KhachHangThuDTO> listcus, int vitriduong) {
+    public CustomListThu2Adapter(Context con, List<KhachHangThuDTO> listcus, int vitriduong, LinearLayout laythuho, TextView sotien) {
         customerList = listcus;
         context = con;
         layoutInflater = LayoutInflater.from(con);
         index_duong = vitriduong;
+        layoutthuho = laythuho;
+        tongsotienthuho = sotien;
         spdata = new SPData(context);
         duongdao = new DuongThuDAO(context);
         khachhangdao = new KhachHangThuDAO(context);
         thanhtoandao = new ThanhToanDAO(context);
+        decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(',');
+        format = new DecimalFormat("#,##0.00", decimalFormatSymbols);
+        format1 = new DecimalFormat("0.#");
+        format2 = new DecimalFormat("#,##0.#", decimalFormatSymbols);
     }
 
     public void setData(List<KhachHangThuDTO> list) {
@@ -85,6 +100,8 @@ public class CustomListThu2Adapter extends BaseAdapter {
             holder.DanhBo = (TextView) convertView.findViewById(R.id.tv_danhbo);
             holder.GhiChu = (TextView) convertView.findViewById(R.id.tv_ghichu);
             holder.SoTien = (TextView) convertView.findViewById(R.id.tv_sotien);
+            holder.ThuHo = (TextView) convertView.findViewById(R.id.tv_thuho);
+
             //    holder.TrangThai = (ImageView) convertView.findViewById(R.id.img_trangthai);
             convertView.setTag(holder);
         } else {
@@ -132,6 +149,13 @@ public class CustomListThu2Adapter extends BaseAdapter {
             } else {
                 holder.STT.setBackgroundResource(R.drawable.remove_bg_daghi);
             }
+        }
+
+        String trangthaithuho = khachhangdao.checkTrangThaiThuHoKH(customerList.get(position).getMaKhachHang());
+        if (trangthaithuho.equalsIgnoreCase("") || trangthaithuho.equals("0")) {
+            holder.ThuHo.setVisibility(View.GONE);
+        } else {
+            holder.ThuHo.setVisibility(View.VISIBLE);
         }
 
 
@@ -216,43 +240,108 @@ public class CustomListThu2Adapter extends BaseAdapter {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                Log.e("trang thai thu ho", khachhangdao.checkTrangThaiThuHoKH(customerList.get(position).getMaKhachHang()));
+                String sotientongcong = thanhtoandao.getSoTienTongCongTheoMAKH(customerList.get(position).getMaKhachHang());
+                if (customerList.get(position).getNgaythanhtoan().equalsIgnoreCase("") && !sotientongcong.equalsIgnoreCase(" 0 đ")) {
+                    String trangthai = khachhangdao.checkTrangThaiThuHoKH(customerList.get(position).getMaKhachHang());
+                    if (trangthai.equalsIgnoreCase("0") || trangthai.equalsIgnoreCase("")) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                        alertDialogBuilder.setTitle("Thêm thu hộ");
+                        alertDialogBuilder.setMessage("Bạn có muốn thêm khách hàng " + customerList.get(position).getTenKhachHang() + " vào danh sách thu hộ không?");
+                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                khachhangdao.updateThuHoKhachHang(customerList.get(position).getMaKhachHang(), "1");//Thêm vào thu hộ
+                                holder.ThuHo.setVisibility(View.VISIBLE);
+                                layoutthuho.setVisibility(View.VISIBLE);
+                                List<KhachHangThuDTO> listkhthuho = khachhangdao.getAllKHTrongDanhSachThuHo(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                int tongtien = 0;
+                                for (KhachHangThuDTO kh : listkhthuho) {
+                                    List<ThanhToanDTO> listhoadon = thanhtoandao.GetListThanhToanTheoMaKH(kh.getMaKhachHang());
 
-                alertDialogBuilder.setMessage("Bạn có muốn thêm khách hàng " + customerList.get(position).getTenKhachHang() + " vào danh sách thu hộ không?");
-                alertDialogBuilder.setPositiveButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                                    for (ThanhToanDTO hoadonthuho : listhoadon) {
 
 
+                                        tongtien += Integer.parseInt(hoadonthuho.gettongcong());
+                                    }
+
+
+                                }
+                                tongsotienthuho.setText(formatTien(tongtien));
+
+
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.dismiss();
+
+
+                            }
+                        });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                    } else {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                        alertDialogBuilder.setTitle("Xóa thu hộ");
+                        alertDialogBuilder.setMessage("Bạn có muốn xóa khách hàng " + customerList.get(position).getTenKhachHang() + " ra khỏi danh sách thu hộ không?");
+                        alertDialogBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                khachhangdao.updateThuHoKhachHang(customerList.get(position).getMaKhachHang(), "0");//Thêm vào thu hộ
+                                holder.ThuHo.setVisibility(View.GONE);
+
+                                if (khachhangdao.getAllKHTrongDanhSachThuHo(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang())).size() == 0) {
+                                    layoutthuho.setVisibility(View.GONE);
+                                } else {
+
+                                    layoutthuho.setVisibility(View.VISIBLE);
+                                    List<KhachHangThuDTO> listkhthuho = khachhangdao.getAllKHTrongDanhSachThuHo(khachhangdao.getMaDuongTheoMaKhachHang(cus.getMaKhachHang()));
+                                    int tongtien = 0;
+                                    for (KhachHangThuDTO kh : listkhthuho) {
+                                        List<ThanhToanDTO> listhoadon = thanhtoandao.GetListThanhToanTheoMaKH(kh.getMaKhachHang());
+
+                                        for (ThanhToanDTO hoadonthuho : listhoadon) {
+
+
+                                            tongtien += Integer.parseInt(hoadonthuho.gettongcong());
+                                        }
+
+
+                                    }
+                                    tongsotienthuho.setText(formatTien(tongtien));
+                                }
+
+
+                                dialog.dismiss();
+
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.dismiss();
+
+
+                            }
+                        });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        // tạo dialog
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
                     }
-                });
-
-                alertDialogBuilder.setNegativeButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        List<ThanhToanDTO> listhoadon = thanhtoandao.GetListThanhToanTheoMaKH(customerList.get(position).getMaKhachHang());
-                        int tongtien = 0;
-                        for (ThanhToanDTO hoadonthuho : listhoadon) {
-                            Bien.ListThanhToanHo.add(hoadonthuho);
-
-                        }
-
-                        for (ThanhToanDTO hoadondangthuho : Bien.ListThanhToanHo) {
-                            tongtien += Integer.parseInt(hoadondangthuho.gettongcong());
-                        }
-                        Log.e("Tong tien thu ho", "" + tongtien + " đ");
-                        dialog.dismiss();
-
-
-                    }
-                });
-
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                // tạo dialog
-                alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.show();
+                }
                 return false;
             }
         });
@@ -268,6 +357,12 @@ public class CustomListThu2Adapter extends BaseAdapter {
         TextView DanhBo;
         TextView GhiChu;
         TextView SoTien;
+        TextView ThuHo;
+    }
+
+    public String formatTien(int tien) {
+        String tongcong = " " + format2.format(Double.parseDouble(format1.format(Double.valueOf(tien)))) + " đ";
+        return tongcong;
     }
 
 }

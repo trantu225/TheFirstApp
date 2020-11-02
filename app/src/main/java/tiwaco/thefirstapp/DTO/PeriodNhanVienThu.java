@@ -6,6 +6,7 @@ package tiwaco.thefirstapp.DTO;
 
 public class PeriodNhanVienThu {
     private String BillNo;
+    public String custNo;
 
     private String TotalMoney;
 
@@ -32,6 +33,15 @@ public class PeriodNhanVienThu {
 
     public PeriodNhanVienThu setTotalMoney(String totalMoney) {
         TotalMoney = totalMoney;
+        return this;
+    }
+
+    public String getCustNo() {
+        return custNo;
+    }
+
+    public PeriodNhanVienThu setCustNo(String custNo) {
+        this.custNo = custNo;
         return this;
     }
 

@@ -429,180 +429,206 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    if (jsonobj.has("tenDS")) {
-
-
+                    String matrave = "";
+                    if (jsonobj.has("maTraVe")) {
                         try {
-                            String tenDS = jsonobj.getString("tenDS");
-                            // String kyhd = "082017"; //cắt chuỗi từ tên DS
-                            //Luu ky hd vao SP
-                            spdata.luuDataKyHoaDonThuTrongSP(tenDS);
-                            Log.e("kyhddaluu", tenDS);
-
+                            matrave = jsonobj.getString("maTraVe");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
 
+                    if (matrave.equalsIgnoreCase("-1")) {
+                        FlagupdateDB = "CHUAPHANGOI";
+                    } else if (matrave.equalsIgnoreCase("-2")) {
+                        FlagupdateDB = "CHUADOWNLOAD";
+                    } else {
 
-                    if (jsonobj.has("tongSLkh")) {
+
+                        if (jsonobj.has("tenDS")) {
 
 
-                        try {
-                            String tong = jsonobj.getString("tongSLkh");
-                            // String kyhd = "082017"; //cắt chuỗi từ tên DS
-                            //Luu ky hd vao SP
-                            sokhco = Integer.parseInt(tong);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    if (sokhco > 0) {
-                        if (codulieu.equals("1")) {
-                            Log.e("DaCoDuLieu", "yes");
-                            MyDatabaseHelper mydata = new MyDatabaseHelper(con);
-                            SQLiteDatabase db = mydata.openDB();
-                            mydata.resetDatabaseTHU(db);
-                        } else {
-                            Log.e("DaCoDuLieu", "no");
-                        }
-                        //THêm database loại tinh trang tlk
-                        List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
-                        for (int tt = 0; tt < listt.size(); tt++) {
-                            tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
-                        }
-
-                        if (jsonobj.has("ListTiwaread")) {
                             try {
-                                JSONArray listtiwaread = jsonobj.getJSONArray("ListTiwaread");
-                                List<DuongThuDTO> listduong = new ArrayList<>();
-                                for (int i = 0; i < listtiwaread.length(); i++) {
-                                    JSONObject objTiwaread = listtiwaread.getJSONObject(i);
-                                    String maduong = "";
-                                    String tenduong = "";
-                                    if (objTiwaread.has("Maduong")) {
-                                        maduong = objTiwaread.getString("Maduong").trim();
-                                    }
+                                String tenDS = jsonobj.getString("tenDS");
+                                // String kyhd = "082017"; //cắt chuỗi từ tên DS
+                                //Luu ky hd vao SP
+                                spdata.luuDataKyHoaDonThuTrongSP(tenDS);
+                                Log.e("kyhddaluu", tenDS);
 
-                                    if (objTiwaread.has("Tenduong")) {
-                                        tenduong = objTiwaread.getString("Tenduong").trim();
-                                    }
-                                    Log.e("kiem tra da ton tai hay chua", String.valueOf(DuongThuDAO.countDuong()));
-                                    if (DuongThuDAO.countDuong() <= 0) {
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
 
 
-                                        Log.e("Them database_duong: ", "chay zo day rui");
-                                        DuongThuDTO duong = new DuongThuDTO(maduong, tenduong, 0, "0", 0);
-                                        boolean kt = DuongThuDAO.addTABLE_DUONGTHU(duong);
+                        if (jsonobj.has("tongSLkh")) {
 
 
-                                        if (kt) {
-                                            listduong.add(duong);
-                                            Log.e("Them database_duong: " + maduong, "Thanh cong");
-                                        } else {
-                                            Log.e("Them database_duong: " + maduong, "ko Thanh cong");
+                            try {
+                                String tong = jsonobj.getString("tongSLkh");
+                                // String kyhd = "082017"; //cắt chuỗi từ tên DS
+                                //Luu ky hd vao SP
+                                sokhco = Integer.parseInt(tong);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
+                        }
+                        if (sokhco > 0) {
+                            if (codulieu.equals("1")) {
+                                Log.e("DaCoDuLieu", "yes");
+                                MyDatabaseHelper mydata = new MyDatabaseHelper(con);
+                                SQLiteDatabase db = mydata.openDB();
+                                mydata.resetDatabaseTHU(db);
+                            } else {
+                                Log.e("DaCoDuLieu", "no");
+                            }
+                            //THêm database loại tinh trang tlk
+                            List<TinhTrangTLKDTO> listt = tinhtrangtlkdao.TaoDSTinhTrang();
+                            for (int tt = 0; tt < listt.size(); tt++) {
+                                tinhtrangtlkdao.addTable_TinhTrangTLK(listt.get(tt));
+                            }
+
+                            if (jsonobj.has("ListTiwaread")) {
+                                try {
+                                    JSONArray listtiwaread = jsonobj.getJSONArray("ListTiwaread");
+                                    List<DuongThuDTO> listduong = new ArrayList<>();
+                                    for (int i = 0; i < listtiwaread.length(); i++) {
+                                        JSONObject objTiwaread = listtiwaread.getJSONObject(i);
+                                        String maduong = "";
+                                        String tenduong = "";
+                                        if (objTiwaread.has("Maduong")) {
+                                            maduong = objTiwaread.getString("Maduong").trim();
                                         }
-                                        //loadDataDuongfromDB();
-                                    } else {
-                                        if (DuongThuDAO.checkExistDuong(maduong)) {
-                                            //    loadDataDuongfromDB();
-                                            Log.e("Them database_duong: ", " Da ton tai duong nay");
-                                        } else {
+
+                                        if (objTiwaread.has("Tenduong")) {
+                                            tenduong = objTiwaread.getString("Tenduong").trim();
+                                        }
+                                        Log.e("kiem tra da ton tai hay chua", String.valueOf(DuongThuDAO.countDuong()));
+                                        if (DuongThuDAO.countDuong() <= 0) {
+
+
+                                            Log.e("Them database_duong: ", "chay zo day rui");
                                             DuongThuDTO duong = new DuongThuDTO(maduong, tenduong, 0, "0", 0);
                                             boolean kt = DuongThuDAO.addTABLE_DUONGTHU(duong);
+
+
                                             if (kt) {
+                                                listduong.add(duong);
                                                 Log.e("Them database_duong: " + maduong, "Thanh cong");
                                             } else {
                                                 Log.e("Them database_duong: " + maduong, "ko Thanh cong");
 
                                             }
-                                            //     loadDataDuongfromDB();
+                                            //loadDataDuongfromDB();
+                                        } else {
+                                            if (DuongThuDAO.checkExistDuong(maduong)) {
+                                                //    loadDataDuongfromDB();
+                                                Log.e("Them database_duong: ", " Da ton tai duong nay");
+                                            } else {
+                                                DuongThuDTO duong = new DuongThuDTO(maduong, tenduong, 0, "0", 0);
+                                                boolean kt = DuongThuDAO.addTABLE_DUONGTHU(duong);
+                                                if (kt) {
+                                                    Log.e("Them database_duong: " + maduong, "Thanh cong");
+                                                } else {
+                                                    Log.e("Them database_duong: " + maduong, "ko Thanh cong");
+
+                                                }
+                                                //     loadDataDuongfromDB();
+                                            }
                                         }
-                                    }
 
-                                    if (objTiwaread.has("LisKHThu")) {
-                                        Log.e("Them database_KH: ", "Lay JSONARRAY");
-                                        JSONArray listKH = objTiwaread.getJSONArray("LisKHThu");
-                                        Log.e("Them database_KH: ", "JSONARRAY_LENGTH " + listKH.length());
-                                        for (int j = 0; j < listKH.length(); j++) {
-                                            JSONObject objKH = listKH.getJSONObject(j);
-                                            String ChiSo = "";
-                                            String ChiSo1 = "";
-                                            String ChiSo1con = "0";
-                                            String ChiSo2 = "";
-                                            String ChiSo2con = "0";
-                                            String ChiSo3 = "";
-                                            String ChiSo3con = "0";
-                                            String ChiSocon = "";
-                                            String DanhBo = "";
-                                            String DiaChi = "";
-                                            String DienThoai = "";
-                                            String GhiChu = "";
-                                            String Lat = "";
-                                            String Lon = "";
-                                            String MaKhachHang = "";
-                                            String NhanVien = "";
-                                            String SLTieuThu = "";
-                                            String SLTieuThu1 = "";
-                                            String SLTieuThu1con = "0";
-                                            String SLTieuThu2 = "";
-                                            String SLTieuThu2con = "0";
-                                            String SLTieuThu3 = "";
-                                            String SLTieuThu3con = "0";
-                                            String SLTieuThucon = "";
-                                            String STT = "";
-                                            String TenKhachHang = "";
-                                            String ThoiGian = "";
-                                            String TrangThaiTLK = "";
-                                            String chitietloai = "";
-                                            String cotlk = "";
-                                            String dinhmuc = "";
-                                            String hieutlk = "";
-                                            String loaikh = "";
-                                            String masotlk = "";
-                                            String loaikhcu = "";
-                                            String ntsh = "";
-                                            String novat = "";
-                                            String m31 = "";
-                                            String m32 = "";
-                                            String m33 = "";
-                                            String m34 = "";
-                                            String tien1 = "";
-                                            String tien2 = "";
-                                            String tien3 = "";
-                                            String tien4 = "";
-                                            String tiennuoc = "";
-                                            String tienthue = "";
-                                            String phi = "";
-                                            String tongcong = "";
-                                            String ngaythanhtoan = "";
-                                            String capnhatghi = "1";  //Khách hàng tải đã có thanh toán
-                                            String ghichuthu = "";
+                                        if (objTiwaread.has("LisKHThu")) {
+                                            Log.e("Them database_KH: ", "Lay JSONARRAY");
+                                            JSONArray listKH = objTiwaread.getJSONArray("LisKHThu");
+                                            Log.e("Them database_KH: ", "JSONARRAY_LENGTH " + listKH.length());
+                                            for (int j = 0; j < listKH.length(); j++) {
+                                                JSONObject objKH = listKH.getJSONObject(j);
+                                                String ChiSo = "";
+                                                String ChiSo1 = "";
+                                                String ChiSo1con = "0";
+                                                String ChiSo2 = "";
+                                                String ChiSo2con = "0";
+                                                String ChiSo3 = "";
+                                                String ChiSo3con = "0";
+                                                String ChiSocon = "";
+                                                String DanhBo = "";
+                                                String DiaChi = "";
+                                                String DienThoai = "";
+                                                String DienThoai2 = "";
+                                                String GhiChu = "";
+                                                String Lat = "";
+                                                String Lon = "";
+                                                String MaKhachHang = "";
+                                                String NhanVien = "";
+                                                String SLTieuThu = "";
+                                                String SLTieuThu1 = "";
+                                                String SLTieuThu1con = "0";
+                                                String SLTieuThu2 = "";
+                                                String SLTieuThu2con = "0";
+                                                String SLTieuThu3 = "";
+                                                String SLTieuThu3con = "0";
+                                                String SLTieuThucon = "";
+                                                String STT = "";
+                                                String TenKhachHang = "";
+                                                String ThoiGian = "";
+                                                String TrangThaiTLK = "";
+                                                String chitietloai = "";
+                                                String cotlk = "";
+                                                String dinhmuc = "";
+                                                String hieutlk = "";
+                                                String loaikh = "";
+                                                String masotlk = "";
+                                                String loaikhcu = "";
+                                                String ntsh = "";
+                                                String novat = "";
+                                                String m31 = "";
+                                                String m32 = "";
+                                                String m33 = "";
+                                                String m34 = "";
+                                                String tien1 = "";
+                                                String cmnd = "";
+                                                String tien3 = "";
+                                                String tien4 = "";
+                                                String tiennuoc = "";
+                                                String tienthue = "";
+                                                String phi = "";
+                                                String tongcong = "";
+                                                String ngaythanhtoan = "";
+                                                String capnhatghi = "1";  //Khách hàng tải đã có thanh toán
+                                                String ghichuthu = "";
+                                                String tungay = "";
+                                                String denngay = "";
 
-                                            if (objKH.has("ChiSo")) {
-                                                ChiSo = objKH.getString("ChiSo").toString().trim();
-                                            }
+                                                if (objKH.has("TuNgay")) {
+                                                    tungay = objKH.getString("TuNgay").toString().trim();
+                                                }
 
-                                            if (objKH.has("ChiSo1")) {
-                                                ChiSo1 = objKH.getString("ChiSo1").toString().trim();
-                                            }
+                                                if (objKH.has("DenNgay")) {
+                                                    denngay = objKH.getString("DenNgay").toString().trim();
+                                                }
+                                                if (objKH.has("ChiSo")) {
+                                                    ChiSo = objKH.getString("ChiSo").toString().trim();
+                                                }
+
+                                                if (objKH.has("ChiSo1")) {
+                                                    ChiSo1 = objKH.getString("ChiSo1").toString().trim();
+                                                }
 //                                if(objKH.has("ChiSo1con")){
 //                                    ChiSo1con = objKH.getString("ChiSo1con").toString().trim();
 //                                }
 
-                                            if (objKH.has("ChiSo2")) {
-                                                ChiSo2 = objKH.getString("ChiSo2").toString().trim();
-                                            }
+                                                if (objKH.has("ChiSo2")) {
+                                                    ChiSo2 = objKH.getString("ChiSo2").toString().trim();
+                                                }
 //                                if(objKH.has("ChiSo2con")){
 //                                    ChiSo2con = objKH.getString("ChiSo2con").toString().trim();
 //                                }
 
-                                            if (objKH.has("ChiSo3")) {
-                                                ChiSo3 = objKH.getString("ChiSo3").toString().trim();
-                                            }
+                                                if (objKH.has("ChiSo3")) {
+                                                    ChiSo3 = objKH.getString("ChiSo3").toString().trim();
+                                                }
 //                                if(objKH.has("ChiSo3con")){
 //                                    ChiSo3con = objKH.getString("ChiSo3con").toString().trim();
 //                                }
@@ -610,150 +636,153 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 //                                if(objKH.has("ChiSocon")){
 //                                    ChiSocon = objKH.getString("ChiSocon").toString().trim();
 //                                }
-                                            if (objKH.has("DanhBo")) {
-                                                DanhBo = objKH.getString("DanhBo").toString().trim();
-                                            }
+                                                if (objKH.has("DanhBo")) {
+                                                    DanhBo = objKH.getString("DanhBo").toString().trim();
+                                                }
 
-                                            if (objKH.has("DiaChi")) {
-                                                DiaChi = objKH.getString("DiaChi").toString().trim();
-                                            }
-                                            if (objKH.has("DienThoai")) {
-                                                DienThoai = objKH.getString("DienThoai").toString().trim();
-                                            }
+                                                if (objKH.has("DiaChi")) {
+                                                    DiaChi = objKH.getString("DiaChi").toString().trim();
+                                                }
+                                                if (objKH.has("DienThoai")) {
+                                                    DienThoai = objKH.getString("DienThoai").toString().trim();
+                                                }
+                                                if (objKH.has("DienThoai2")) {
+                                                    DienThoai2 = objKH.getString("DienThoai2").toString().trim();
+                                                }
 
-                                            if (objKH.has("GhiChu")) {
-                                                GhiChu = objKH.getString("GhiChu").toString().trim();
-                                            }
-                                            if (objKH.has("Lat")) {
-                                                Lat = objKH.getString("Lat").toString().trim();
-                                            }
+                                                if (objKH.has("GhiChu")) {
+                                                    GhiChu = objKH.getString("GhiChu").toString().trim();
+                                                }
+                                                if (objKH.has("Lat")) {
+                                                    Lat = objKH.getString("Lat").toString().trim();
+                                                }
 
-                                            if (objKH.has("Lon")) {
-                                                Lon = objKH.getString("Lon").toString().trim();
-                                            }
-                                            if (objKH.has("MaKhachHang")) {
-                                                MaKhachHang = objKH.getString("MaKhachHang").toString().trim();
-                                            }
+                                                if (objKH.has("Lon")) {
+                                                    Lon = objKH.getString("Lon").toString().trim();
+                                                }
+                                                if (objKH.has("MaKhachHang")) {
+                                                    MaKhachHang = objKH.getString("MaKhachHang").toString().trim();
+                                                }
 
-                                            if (objKH.has("NhanVien")) {
-                                                NhanVien = objKH.getString("NhanVien").toString().trim();
-                                            }
-                                            if (objKH.has("SLTieuThu")) {
-                                                SLTieuThu = objKH.getString("SLTieuThu").toString().trim();
-                                            }
+                                                if (objKH.has("NhanVien")) {
+                                                    NhanVien = objKH.getString("NhanVien").toString().trim();
+                                                }
+                                                if (objKH.has("SLTieuThu")) {
+                                                    SLTieuThu = objKH.getString("SLTieuThu").toString().trim();
+                                                }
 
-                                            if (objKH.has("SLTieuThu1")) {
-                                                SLTieuThu1 = objKH.getString("SLTieuThu1").toString().trim();
-                                            }
-
-
-                                            if (objKH.has("lat")) {
-                                                Lat = objKH.getString("lat").toString().trim();
-                                            }
-                                            if (objKH.has("lon")) {
-                                                Lon = objKH.getString("lon").toString().trim();
-                                            }
-
-                                            if (objKH.has("thoigian")) {
-                                                ThoiGian = objKH.getString("thoigian").toString().trim();
-                                            }
-
-                                            if (objKH.has("SLTieuThu3")) {
-                                                SLTieuThu3 = objKH.getString("SLTieuThu3").toString().trim();
-                                            }
-                                            if (objKH.has("trangthaitlk")) {
-                                                TrangThaiTLK = objKH.getString("trangthaitlk").toString().trim();
-                                            }
+                                                if (objKH.has("SLTieuThu1")) {
+                                                    SLTieuThu1 = objKH.getString("SLTieuThu1").toString().trim();
+                                                }
 
 
-                                            if (objKH.has("STT")) {
-                                                STT = objKH.getString("STT").toString().trim();
-                                            }
+                                                if (objKH.has("lat")) {
+                                                    Lat = objKH.getString("lat").toString().trim();
+                                                }
+                                                if (objKH.has("lon")) {
+                                                    Lon = objKH.getString("lon").toString().trim();
+                                                }
 
-                                            if (objKH.has("TenKhachHang")) {
-                                                TenKhachHang = objKH.getString("TenKhachHang").toString().trim();
-                                            }
-                                            if (objKH.has("ThoiGian")) {
-                                                ThoiGian = objKH.getString("ThoiGian").toString().trim();
-                                            }
+                                                if (objKH.has("thoigian")) {
+                                                    ThoiGian = objKH.getString("thoigian").toString().trim();
+                                                }
 
-                                            if (objKH.has("TrangThaiTLK")) {
-                                                TrangThaiTLK = objKH.getString("TrangThaiTLK").toString().trim();
-                                            }
-                                            if (objKH.has("chitietloai")) {
-                                                chitietloai = objKH.getString("chitietloai").toString().trim();
-                                            }
-
-                                            if (objKH.has("cotlk")) {
-                                                cotlk = objKH.getString("cotlk").toString().trim();
-                                            }
-                                            if (objKH.has("dinhmuc")) {
-                                                dinhmuc = objKH.getString("dinhmuc").toString().trim();
-                                            }
-
-                                            if (objKH.has("hieutlk")) {
-                                                hieutlk = objKH.getString("hieutlk").toString().trim();
-                                            }
-                                            if (objKH.has("loaikh")) {
-                                                loaikh = objKH.getString("loaikh").toString().trim();
-                                                loaikhcu = loaikh;
-                                            }
-
-                                            if (objKH.has("masotlk")) {
-                                                masotlk = objKH.getString("masotlk").toString().trim();
-                                            }
+                                                if (objKH.has("SLTieuThu3")) {
+                                                    SLTieuThu3 = objKH.getString("SLTieuThu3").toString().trim();
+                                                }
+                                                if (objKH.has("trangthaitlk")) {
+                                                    TrangThaiTLK = objKH.getString("trangthaitlk").toString().trim();
+                                                }
 
 
-                                            if (objKH.has("NTSH")) {
-                                                ntsh = objKH.getString("NTSH").toString().trim();
-                                            }
+                                                if (objKH.has("STT")) {
+                                                    STT = objKH.getString("STT").toString().trim();
+                                                }
 
-                                            if (objKH.has("NOVAT")) {
-                                                novat = objKH.getString("NOVAT").toString().trim();
-                                            }
+                                                if (objKH.has("TenKhachHang")) {
+                                                    TenKhachHang = objKH.getString("TenKhachHang").toString().trim();
+                                                }
+                                                if (objKH.has("ThoiGian")) {
+                                                    ThoiGian = objKH.getString("ThoiGian").toString().trim();
+                                                }
 
-                                            if (objKH.has("tiennuoc")) {
-                                                tiennuoc = objKH.getString("tiennuoc").toString().trim();
-                                            }
-                                            if (objKH.has("phi")) {
-                                                phi = objKH.getString("phi").toString().trim();
-                                            }
-                                            if (objKH.has("thue")) {
-                                                tienthue = objKH.getString("thue").toString().trim();
-                                            }
-                                            if (objKH.has("tongcong")) {
-                                                tongcong = objKH.getString("tongcong").toString().trim();
-                                            }
-                                            if (objKH.has("ghichuthu")) {
-                                                ghichuthu = objKH.getString("ghichuthu").toString().trim();
-                                            }
+                                                if (objKH.has("TrangThaiTLK")) {
+                                                    TrangThaiTLK = objKH.getString("TrangThaiTLK").toString().trim();
+                                                }
+                                                if (objKH.has("chitietloai")) {
+                                                    chitietloai = objKH.getString("chitietloai").toString().trim();
+                                                }
 
-                                            if (objKH.has("m3muc1")) {
-                                                m31 = objKH.getString("m3muc1").toString().trim();
-                                            }
-                                            if (objKH.has("m3muc2")) {
-                                                m32 = objKH.getString("m3muc2").toString().trim();
-                                            }
-                                            if (objKH.has("m3muc3")) {
-                                                m33 = objKH.getString("m3muc3").toString().trim();
-                                            }
-                                            if (objKH.has("m3muc4")) {
-                                                m34 = objKH.getString("m3muc4").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc1")) {
-                                                tien1 = objKH.getString("tienmuc1").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc2")) {
-                                                tien2 = objKH.getString("tienmuc2").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc3")) {
-                                                tien3 = objKH.getString("tienmuc3").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc4")) {
-                                                tien4 = objKH.getString("tienmuc4").toString().trim();
-                                            }
-                                            Log.e("Load datathu", "load data khach hang");
-                                            String thoigian1 = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
+                                                if (objKH.has("cotlk")) {
+                                                    cotlk = objKH.getString("cotlk").toString().trim();
+                                                }
+                                                if (objKH.has("dinhmuc")) {
+                                                    dinhmuc = objKH.getString("dinhmuc").toString().trim();
+                                                }
+
+                                                if (objKH.has("hieutlk")) {
+                                                    hieutlk = objKH.getString("hieutlk").toString().trim();
+                                                }
+                                                if (objKH.has("loaikh")) {
+                                                    loaikh = objKH.getString("loaikh").toString().trim();
+                                                    loaikhcu = loaikh;
+                                                }
+
+                                                if (objKH.has("masotlk")) {
+                                                    masotlk = objKH.getString("masotlk").toString().trim();
+                                                }
+
+
+                                                if (objKH.has("NTSH")) {
+                                                    ntsh = objKH.getString("NTSH").toString().trim();
+                                                }
+
+                                                if (objKH.has("NOVAT")) {
+                                                    novat = objKH.getString("NOVAT").toString().trim();
+                                                }
+
+                                                if (objKH.has("tiennuoc")) {
+                                                    tiennuoc = objKH.getString("tiennuoc").toString().trim();
+                                                }
+                                                if (objKH.has("phi")) {
+                                                    phi = objKH.getString("phi").toString().trim();
+                                                }
+                                                if (objKH.has("thue")) {
+                                                    tienthue = objKH.getString("thue").toString().trim();
+                                                }
+                                                if (objKH.has("tongcong")) {
+                                                    tongcong = objKH.getString("tongcong").toString().trim();
+                                                }
+                                                if (objKH.has("ghichuthu")) {
+                                                    ghichuthu = objKH.getString("ghichuthu").toString().trim();
+                                                }
+
+                                                if (objKH.has("m3muc1")) {
+                                                    m31 = objKH.getString("m3muc1").toString().trim();
+                                                }
+                                                if (objKH.has("m3muc2")) {
+                                                    m32 = objKH.getString("m3muc2").toString().trim();
+                                                }
+                                                if (objKH.has("m3muc3")) {
+                                                    m33 = objKH.getString("m3muc3").toString().trim();
+                                                }
+                                                if (objKH.has("m3muc4")) {
+                                                    m34 = objKH.getString("m3muc4").toString().trim();
+                                                }
+                                                if (objKH.has("tienmuc1")) {
+                                                    tien1 = objKH.getString("tienmuc1").toString().trim();
+                                                }
+                                                if (objKH.has("CMND")) {
+                                                    cmnd = objKH.getString("CMND").toString().trim();
+                                                }
+                                                if (objKH.has("tienmuc3")) {
+                                                    tien3 = objKH.getString("tienmuc3").toString().trim();
+                                                }
+                                                if (objKH.has("tienmuc4")) {
+                                                    tien4 = objKH.getString("tienmuc4").toString().trim();
+                                                }
+                                                Log.e("Load datathu", "load data khach hang");
+                                                String thoigian1 = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
 
 //                                            if (Integer.parseInt(spdata.getDataKyHoaDonThuTrongSP()) >= Integer.parseInt(thoigian1)) {
 //                                                if (NhanVien.equals("")) {
@@ -767,66 +796,67 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 //
 //                                                }
 //                                            }
-                                            KhachHangThuDTO kh = new KhachHangThuDTO();
-                                            kh.setMaKhachHang(MaKhachHang);
-                                            kh.setTenKhachHang(TenKhachHang);
-                                            kh.setDanhBo(DanhBo);
-                                            kh.setDiaChi(DiaChi);
-                                            kh.setDienThoai(DienThoai);
-                                            kh.setSTT(STT);
-                                            kh.setTrangThaiTLK(TrangThaiTLK);
-                                            kh.setChitietloai(chitietloai);
-                                            kh.setCotlk(cotlk);
-                                            kh.setDinhmuc(dinhmuc);
-                                            kh.setHieutlk(hieutlk);
-                                            kh.setLoaikh(loaikh);
-                                            kh.setMasotlk(masotlk);
-                                            kh.setGhiChu(GhiChu);
-                                            kh.setChiSo(ChiSo);
-                                            kh.setChiSocon(ChiSocon);
-                                            kh.setChiSo1(ChiSo1);
-                                            kh.setChiSo1con(ChiSo1con);
-                                            kh.setChiSo2(ChiSo2);
-                                            kh.setChiSo2con(ChiSo2con);
-                                            kh.setChiSo3(ChiSo3);
-                                            kh.setChiSo3con(ChiSo3con);
-                                            kh.setGhichuthu(ghichuthu);
-                                            kh.setSLTieuThu(SLTieuThu);
-                                            kh.setSLTieuThu1(SLTieuThu1);
-                                            kh.setSLTieuThu1con(SLTieuThu1con);
-                                            kh.setSLTieuThu2(SLTieuThu2);
-                                            kh.setSLTieuThu2con(SLTieuThu2con);
-                                            kh.setSLTieuThu3(SLTieuThu3);
-                                            kh.setSLTieuThu3con(SLTieuThu3con);
-                                            kh.setSLTieuThucon(SLTieuThucon);
-                                            kh.setLat(Lat);
-                                            kh.setLon(Lon);
-                                            kh.setThoiGian(ThoiGian);
-                                            kh.setNhanVien(NhanVien);
-                                            kh.setNTSH(ntsh);
-                                            kh.setvat(novat);
-                                            kh.setM3t1(m31);
-                                            kh.setM3t2(m32);
-                                            kh.setM3t3(m33);
-                                            kh.setM3t4(m34);
-                                            kh.setTien1(tien1);
-                                            kh.setTien2(tien2);
-                                            kh.setTien3(tien3);
-                                            kh.setTien4(tien4);
-                                            kh.setTienNuoc(tiennuoc);
-                                            kh.setphi(phi);
-                                            kh.setThue(tienthue);
-                                            kh.settongcong(tongcong);
-                                            kh.setNgaythanhtoan(ngaythanhtoan);
+                                                KhachHangThuDTO kh = new KhachHangThuDTO();
+                                                kh.setMaKhachHang(MaKhachHang);
+                                                kh.setTenKhachHang(TenKhachHang);
+                                                kh.setDanhBo(DanhBo);
+                                                kh.setDiaChi(DiaChi);
+                                                kh.setDienThoai(DienThoai);
+                                                kh.setDienThoai2(DienThoai2);
+                                                kh.setSTT(STT);
+                                                kh.setTrangThaiTLK(TrangThaiTLK);
+                                                kh.setChitietloai(chitietloai);
+                                                kh.setCotlk(cotlk);
+                                                kh.setDinhmuc(dinhmuc);
+                                                kh.setHieutlk(hieutlk);
+                                                kh.setLoaikh(loaikh);
+                                                kh.setMasotlk(masotlk);
+                                                kh.setGhiChu(GhiChu);
+                                                kh.setChiSo(ChiSo);
+                                                kh.setChiSocon(ChiSocon);
+                                                kh.setChiSo1(ChiSo1);
+                                                kh.setChiSo1con(ChiSo1con);
+                                                kh.setChiSo2(ChiSo2);
+                                                kh.setChiSo2con(ChiSo2con);
+                                                kh.setChiSo3(ChiSo3);
+                                                kh.setChiSo3con(ChiSo3con);
+                                                kh.setGhichuthu(ghichuthu);
+                                                kh.setSLTieuThu(SLTieuThu);
+                                                kh.setSLTieuThu1(SLTieuThu1);
+                                                kh.setSLTieuThu1con(SLTieuThu1con);
+                                                kh.setSLTieuThu2(SLTieuThu2);
+                                                kh.setSLTieuThu2con(SLTieuThu2con);
+                                                kh.setSLTieuThu3(SLTieuThu3);
+                                                kh.setSLTieuThu3con(SLTieuThu3con);
+                                                kh.setSLTieuThucon(SLTieuThucon);
+                                                kh.setLat(Lat);
+                                                kh.setLon(Lon);
+                                                kh.setThoiGian(ThoiGian);
+                                                kh.setNhanVien(NhanVien);
+                                                kh.setNTSH(ntsh);
+                                                kh.setvat(novat);
+                                                kh.setM3t1(m31);
+                                                kh.setM3t2(m32);
+                                                kh.setM3t3(m33);
+                                                kh.setM3t4(m34);
+
+                                                kh.setCMND(cmnd);
+                                                kh.setTien3(tien3);
+                                                kh.setTien4(tien4);
+                                                kh.setTienNuoc(tiennuoc);
+                                                kh.setphi(phi);
+                                                kh.setThue(tienthue);
+                                                kh.settongcong(tongcong);
+                                                kh.setNgaythanhtoan(ngaythanhtoan);
 
 
-                                            Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangthudao.checkExistKH(MaKhachHang, maduong));
+                                                Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangthudao.checkExistKH(MaKhachHang, maduong));
 
-                                            boolean kt = khachhangthudao.addTable_KH(kh, maduong, capnhatghi);
-                                            //SUABUG
-                                            //boolean kt = KhachHangThuDAO.updateTable_KH(kh);
-                                            if (kt) {
-                                                sokhdacapnhat++;
+                                                boolean kt = khachhangthudao.addTable_KH(kh, maduong, capnhatghi);
+                                                //SUABUG
+                                                //boolean kt = KhachHangThuDAO.updateTable_KH(kh);
+                                                if (kt) {
+                                                    sokhdacapnhat++;
 //                                                if(kh.getChiSo().equals("") && kh.getSLTieuThu().equals(""))
 //                                                {
 //
@@ -834,30 +864,30 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 //                                                else{
 //                                                    KhachHangThuDAO.tinhTienNuoc(kh.getMaKhachHang().trim());
 //                                                }
-                                                Log.e("Them database_KH: " + MaKhachHang + " " + TenKhachHang, "Thanh cong");
-                                            } else {
-                                                Log.e("Them database_KH: " + MaKhachHang + " " + TenKhachHang, "ko Thanh cong");
+                                                    Log.e("Them database_KH: " + MaKhachHang + " " + TenKhachHang, "Thanh cong");
+                                                } else {
+                                                    Log.e("Them database_KH: " + MaKhachHang + " " + TenKhachHang, "ko Thanh cong");
 
+                                                }
+
+
+                                                // FlagupdateDB = kt;
+
+                                                long status = (j + 1) * 100 / listKH.length();
+                                                //     String.valueOf(status)
+                                                publishProgress(String.valueOf(status));
+                                                // Escape early if cancel() is called
+                                                if (isCancelled()) break;
                                             }
 
-
-                                            // FlagupdateDB = kt;
-
-                                            long status = (j + 1) * 100 / listKH.length();
-                                            //     String.valueOf(status)
-                                            publishProgress(String.valueOf(status));
-                                            // Escape early if cancel() is called
-                                            if (isCancelled()) break;
                                         }
 
-                                    }
+                                        if (objTiwaread.has("TiwareadList")) {
 
-                                    if (objTiwaread.has("TiwareadList")) {
-
-                                        JSONArray listKH = objTiwaread.getJSONArray("TiwareadList");
-                                        Log.e("Them database_KH ThanhToan: ", "JSONARRAY_LENGTH " + listKH.length());
-                                        for (int j = 0; j < listKH.length(); j++) {
-                                            JSONObject objKH = listKH.getJSONObject(j);
+                                            JSONArray listKH = objTiwaread.getJSONArray("TiwareadList");
+                                            Log.e("Them database_KH ThanhToan: ", "JSONARRAY_LENGTH " + listKH.length());
+                                            for (int j = 0; j < listKH.length(); j++) {
+                                                JSONObject objKH = listKH.getJSONObject(j);
                                             /*
                                               "ChiSoCu": "10",
                                               "ChiSoMoi": "14",
@@ -882,292 +912,306 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 
                                              */
 
-                                            int ID = 0;
-                                            String ChiSoCu = "";
-                                            String ChiSoMoi = "";
-                                            String MaKhachHang = "";
-                                            String SLTieuThu = "";
-                                            String KyHD = "";
-                                            String GhiChuThu = "";
-                                            String Lat = "";
-                                            String Lon = "";
-                                            String tiennuoc = "";
-                                            String phi = "";
-                                            String tongcong = "";
-                                            String transid = "";
-                                            String thue = "";
-                                            String m3t1 = "";
-                                            String m3t2 = "";
-                                            String m3t3 = "";
-                                            String m3t4 = "";
-                                            String tien1 = "";
-                                            String tien2 = "";
-                                            String tien3 = "";
-                                            String tien4 = "";
-                                            String ngaythanhtoan = "";
-                                            String NhanVienThu = "";
-                                            String CapNhatThu = "0";
-                                            String BienLai = "";
+                                                int ID = 0;
+                                                String ChiSoCu = "";
+                                                String ChiSoMoi = "";
+                                                String MaKhachHang = "";
+                                                String SLTieuThu = "";
+                                                String KyHD = "";
+                                                String GhiChuThu = "";
+                                                String Lat = "";
+                                                String TuNgay = "";
+                                                String DenNgay = "";
+                                                String tiennuoc = "";
+                                                String phi = "";
+                                                String tongcong = "";
+                                                String transid = "";
+                                                String thue = "";
+                                                String m3t1 = "";
+                                                String m3t2 = "";
+                                                String m3t3 = "";
+                                                String m3t4 = "";
+                                                String tien1 = "";
+                                                String tien2 = "";
+                                                String tien3 = "";
+                                                String tien4 = "";
+                                                String ngaythanhtoan = "";
+                                                String NhanVienThu = "";
+                                                String CapNhatThu = "0";
+                                                String BienLai = "";
 
-                                            if (objKH.has("BienLai")) {
-                                                BienLai = objKH.getString("BienLai").toString().trim();
-                                            }
-                                            if (objKH.has("TransactionID")) {
-                                                if (objKH.getString("TransactionID") != null) {
-                                                    transid = objKH.getString("TransactionID").toString().trim();
+                                                if (objKH.has("BienLai")) {
+                                                    BienLai = objKH.getString("BienLai").toString().trim();
                                                 }
-                                            }
-                                            if (objKH.has("ChiSoCu")) {
-                                                ChiSoCu = objKH.getString("ChiSoCu").toString().trim();
-                                            }
+                                                if (objKH.has("TransactionID")) {
+                                                    if (objKH.getString("TransactionID") != null) {
+                                                        transid = objKH.getString("TransactionID").toString().trim();
+                                                    }
+                                                }
+                                                if (objKH.has("ChiSoCu")) {
+                                                    ChiSoCu = objKH.getString("ChiSoCu").toString().trim();
+                                                }
 
-                                            if (objKH.has("ChiSoMoi")) {
-                                                ChiSoMoi = objKH.getString("ChiSoMoi").toString().trim();
-                                            }
+                                                if (objKH.has("ChiSoMoi")) {
+                                                    ChiSoMoi = objKH.getString("ChiSoMoi").toString().trim();
+                                                }
 
-                                            if (objKH.has("MaKhachHang")) {
-                                                MaKhachHang = objKH.getString("MaKhachHang").toString().trim();
-                                            }
-
-
-                                            if (objKH.has("SLTieuThu")) {
-                                                SLTieuThu = objKH.getString("SLTieuThu").toString().trim();
-                                            }
-
-                                            if (objKH.has("kyhd")) {
-                                                KyHD = objKH.getString("kyhd").toString().trim();
-                                            }
+                                                if (objKH.has("MaKhachHang")) {
+                                                    MaKhachHang = objKH.getString("MaKhachHang").toString().trim();
+                                                }
 
 
-                                            if (objKH.has("GhiChuThu")) {
-                                                GhiChuThu = objKH.getString("GhiChuThu").toString().trim();
-                                            }
+                                                if (objKH.has("SLTieuThu")) {
+                                                    SLTieuThu = objKH.getString("SLTieuThu").toString().trim();
+                                                }
+
+                                                if (objKH.has("kyhd")) {
+                                                    KyHD = objKH.getString("kyhd").toString().trim();
+                                                }
+                                                if (objKH.has("TuNgay")) {
+                                                    TuNgay = objKH.getString("TuNgay").toString().trim();
+                                                }
+
+                                                if (objKH.has("DenNgay")) {
+                                                    DenNgay = objKH.getString("DenNgay").toString().trim();
+                                                }
+
+
+                                                if (objKH.has("GhiChuThu")) {
+                                                    GhiChuThu = objKH.getString("GhiChuThu").toString().trim();
+                                                }
 //                                            if(objKH.has("lon")){
 //                                                Lon = objKH.getString("lon").toString().trim();
 //                                            }
 
 
-                                            if (objKH.has("tiennuoc")) {
-                                                tiennuoc = objKH.getString("tiennuoc").toString().trim();
-                                            }
-                                            if (objKH.has("phi")) {
-                                                phi = objKH.getString("phi").toString().trim();
-                                            }
-                                            if (objKH.has("thue")) {
-                                                thue = objKH.getString("thue").toString().trim();
-                                            }
-                                            if (objKH.has("tongcong")) {
-                                                tongcong = objKH.getString("tongcong").toString().trim();
-                                            }
-
-
-                                            if (objKH.has("m3muc1")) {
-                                                m3t1 = objKH.getString("m3muc1").toString().trim();
-                                            }
-                                            if (objKH.has("m3muc2")) {
-                                                m3t2 = objKH.getString("m3muc2").toString().trim();
-                                            }
-                                            if (objKH.has("m3muc3")) {
-                                                m3t3 = objKH.getString("m3muc3").toString().trim();
-                                            }
-                                            if (objKH.has("m3muc4")) {
-                                                m3t4 = objKH.getString("m3muc4").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc1")) {
-                                                tien1 = objKH.getString("tienmuc1").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc2")) {
-                                                tien2 = objKH.getString("tienmuc2").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc3")) {
-                                                tien3 = objKH.getString("tienmuc3").toString().trim();
-                                            }
-                                            if (objKH.has("tienmuc4")) {
-                                                tien4 = objKH.getString("tienmuc4").toString().trim();
-                                            }
-                                            if (objKH.has("NgayThu")) {
-                                                if (objKH.getString("NgayThu") != null && !objKH.getString("NgayThu").equals("")) {
-                                                    ngaythanhtoan = objKH.getString("NgayThu").toString().trim();
+                                                if (objKH.has("tiennuoc")) {
+                                                    tiennuoc = objKH.getString("tiennuoc").toString().trim();
                                                 }
-                                                Log.e("ngaythu", ngaythanhtoan);
-
-                                            }
-                                            if (objKH.has("NhanVienThu")) {
-                                                if (objKH.getString("NhanVienThu") != null && !objKH.getString("NhanVienThu").equals("")) {
-                                                    NhanVienThu = objKH.getString("NhanVienThu").toString().trim();
+                                                if (objKH.has("phi")) {
+                                                    phi = objKH.getString("phi").toString().trim();
                                                 }
-                                            }
-
-                                            if (!ngaythanhtoan.equals(("")) && !NhanVienThu.equals("")) {
-                                                CapNhatThu = "OLDDATA"; //du lieu cu
-                                            }
-
-
-                                            ThanhToanDTO kh = new ThanhToanDTO();
-                                            kh.setBienLai(BienLai);
-                                            kh.setMaKhachHang(MaKhachHang);
-                                            kh.setChiSoMoi(ChiSoMoi);
-                                            kh.setChiSoCu(ChiSoCu);
-                                            kh.setSLTieuThu(SLTieuThu);
-                                            kh.setTransactionID(transid);
-                                            kh.setLon(Lon);
-                                            kh.setKyHD(KyHD);
-                                            kh.setNhanvienthu(NhanVienThu);
-                                            kh.setM3t1(m3t1);
-                                            kh.setM3t2(m3t2);
-                                            kh.setM3t3(m3t3);
-                                            kh.setM3t4(m3t4);
-                                            kh.setTien1(tien1);
-                                            kh.setTien2(tien2);
-                                            kh.setTien3(tien3);
-                                            kh.setTien4(tien4);
-                                            kh.setTienNuoc(tiennuoc);
-                                            kh.setphi(phi);
-                                            kh.setThue(thue);
-                                            kh.settongcong(tongcong);
-                                            kh.setNgaythanhtoan(ngaythanhtoan);
-                                            kh.setCapNhatThu(CapNhatThu);
+                                                if (objKH.has("thue")) {
+                                                    thue = objKH.getString("thue").toString().trim();
+                                                }
+                                                if (objKH.has("tongcong")) {
+                                                    tongcong = objKH.getString("tongcong").toString().trim();
+                                                }
 
 
-                                            Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangthudao.checkExistKH(MaKhachHang, maduong));
-                                            boolean kt = thanhtoanDAO.addTable_ThanhToan(kh, maduong);
-                                            //SUABUG
-                                            //boolean kt = KhachHangThuDAO.updateTable_KH(kh);
-                                            if (kt) {
-                                                ID++;
-                                                List<ThanhToanDTO> listdathanhtoantruoc = thanhtoanDAO.GetListThanhToanTheoMaKHDaThanhToan(kh.getMaKhachHang());
+                                                if (objKH.has("m3muc1")) {
+                                                    m3t1 = objKH.getString("m3muc1").toString().trim();
+                                                }
+                                                if (objKH.has("m3muc2")) {
+                                                    m3t2 = objKH.getString("m3muc2").toString().trim();
+                                                }
+                                                if (objKH.has("m3muc3")) {
+                                                    m3t3 = objKH.getString("m3muc3").toString().trim();
+                                                }
+                                                if (objKH.has("m3muc4")) {
+                                                    m3t4 = objKH.getString("m3muc4").toString().trim();
+                                                }
+                                                if (objKH.has("tienmuc1")) {
+                                                    tien1 = objKH.getString("tienmuc1").toString().trim();
+                                                }
+                                                if (objKH.has("tienmuc2")) {
+                                                    tien2 = objKH.getString("tienmuc2").toString().trim();
+                                                }
+                                                if (objKH.has("tienmuc3")) {
+                                                    tien3 = objKH.getString("tienmuc3").toString().trim();
+                                                }
+                                                if (objKH.has("tienmuc4")) {
+                                                    tien4 = objKH.getString("tienmuc4").toString().trim();
+                                                }
+                                                if (objKH.has("NgayThu")) {
+                                                    if (objKH.getString("NgayThu") != null && !objKH.getString("NgayThu").equals("")) {
+                                                        ngaythanhtoan = objKH.getString("NgayThu").toString().trim();
+                                                    }
+                                                    Log.e("ngaythu", ngaythanhtoan);
+
+                                                }
+                                                if (objKH.has("NhanVienThu")) {
+                                                    if (objKH.getString("NhanVienThu") != null && !objKH.getString("NhanVienThu").equals("")) {
+                                                        NhanVienThu = objKH.getString("NhanVienThu").toString().trim();
+                                                    }
+                                                }
+
+                                                if (!ngaythanhtoan.equals(("")) && !NhanVienThu.equals("")) {
+                                                    CapNhatThu = "OLDDATA"; //du lieu cu
+                                                }
 
 
-                                                if (listdathanhtoantruoc.size() == 0) {
-                                                    Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "Thanh cong");
-                                                    if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
-                                                        //check xem da ton tai hoa don truoc do da cham no chua
+                                                ThanhToanDTO kh = new ThanhToanDTO();
+                                                kh.setBienLai(BienLai);
+                                                kh.setMaKhachHang(MaKhachHang);
+                                                kh.setChiSoMoi(ChiSoMoi);
+                                                kh.setChiSoCu(ChiSoCu);
+                                                kh.setSLTieuThu(SLTieuThu);
+                                                kh.setTransactionID(transid);
+                                                kh.setTuNgay(TuNgay);
+                                                kh.setDenNgay(DenNgay);
+                                                kh.setKyHD(KyHD);
+                                                kh.setNhanvienthu(NhanVienThu);
+                                                kh.setM3t1(m3t1);
+                                                kh.setM3t2(m3t2);
+                                                kh.setM3t3(m3t3);
+                                                kh.setM3t4(m3t4);
+                                                kh.setTien1(tien1);
+                                                kh.setTien2(tien2);
+                                                kh.setTien3(tien3);
+                                                kh.setTien4(tien4);
+                                                kh.setTienNuoc(tiennuoc);
+                                                kh.setphi(phi);
+                                                kh.setThue(thue);
+                                                kh.settongcong(tongcong);
+                                                kh.setNgaythanhtoan(ngaythanhtoan);
+                                                kh.setCapNhatThu(CapNhatThu);
 
-                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), kh.getNhanvienthu())) {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
-                                                            if (khachhangthudao.updateDaChamNo(kh.getMaKhachHang())) {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+
+                                                Log.e("Them database_KH: ", "Da ton tai " + j + ":" + MaKhachHang + ":" + khachhangthudao.checkExistKH(MaKhachHang, maduong));
+                                                boolean kt = thanhtoanDAO.addTable_ThanhToan(kh, maduong);
+                                                //SUABUG
+                                                //boolean kt = KhachHangThuDAO.updateTable_KH(kh);
+                                                if (kt) {
+                                                    ID++;
+                                                    List<ThanhToanDTO> listdathanhtoantruoc = thanhtoanDAO.GetListThanhToanTheoMaKHDaThanhToan(kh.getMaKhachHang());
+
+
+                                                    if (listdathanhtoantruoc.size() == 0) {
+                                                        Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "Thanh cong");
+                                                        if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
+                                                            //check xem da ton tai hoa don truoc do da cham no chua
+
+                                                            if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), kh.getNhanvienthu())) {
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                                if (khachhangthudao.updateDaChamNo(kh.getMaKhachHang())) {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                                } else {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                                }
+
                                                             } else {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
                                                             }
 
-                                                        } else {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                        } else if (kh.getNgaythanhtoan().equals("") && kh.getNhanvienthu().equals("")) {
+                                                            if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), "", "")) {
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                                if (khachhangthudao.updateTrangThaiThuCapNhat(kh.getMaKhachHang(), "0")) {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                                } else {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                                }
+
+                                                            } else {
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                            }
                                                         }
+                                                    } else {
+                                                        String nguoithuvakyhd = "";
+                                                        for (ThanhToanDTO thanhtoan : listdathanhtoantruoc) {
+                                                            String tenNV = thanhtoan.getNhanvienthu();
+                                                            String kyhd = thanhtoan.getKyHD();
+                                                            nguoithuvakyhd += tenNV + "-" + kyhd + " ";
+                                                        }
+                                                        if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
+                                                            //check xem da ton tai hoa don truoc do da cham no chua
 
-                                                    } else if (kh.getNgaythanhtoan().equals("") && kh.getNhanvienthu().equals("")) {
-                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), "", "")) {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
-                                                            if (khachhangthudao.updateTrangThaiThuCapNhat(kh.getMaKhachHang(), "0")) {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                            if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), nguoithuvakyhd)) {
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                                if (khachhangthudao.updateDaChamNo(kh.getMaKhachHang())) {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                                } else {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                                }
+
                                                             } else {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
                                                             }
 
-                                                        } else {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                        } else if (kh.getNgaythanhtoan().equals("") && kh.getNhanvienthu().equals("")) {
+
+                                                            if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), "", "")) {
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
+                                                                if (khachhangthudao.updateTrangThaiThuCapNhat(kh.getMaKhachHang(), "0")) {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
+                                                                } else {
+                                                                    Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
+                                                                }
+
+                                                            } else {
+                                                                Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
+                                                            }
+
                                                         }
                                                     }
                                                 } else {
-                                                    String nguoithuvakyhd = "";
-                                                    for (ThanhToanDTO thanhtoan : listdathanhtoantruoc) {
-                                                        String tenNV = thanhtoan.getNhanvienthu();
-                                                        String kyhd = thanhtoan.getKyHD();
-                                                        nguoithuvakyhd += tenNV + "-" + kyhd + " ";
-                                                    }
-                                                    if (!kh.getNgaythanhtoan().equals("") && !kh.getNhanvienthu().equals("")) {
-                                                        //check xem da ton tai hoa don truoc do da cham no chua
+                                                    Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "ko Thanh cong");
 
-                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), kh.getNgaythanhtoan(), nguoithuvakyhd)) {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
-                                                            if (khachhangthudao.updateDaChamNo(kh.getMaKhachHang())) {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
-                                                            } else {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
-                                                            }
-
-                                                        } else {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
-                                                        }
-
-                                                    } else if (kh.getNgaythanhtoan().equals("") && kh.getNhanvienthu().equals("")) {
-
-                                                        if (khachhangthudao.updateKhachHangThanhToan(kh.getMaKhachHang(), "", "")) {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "Thanh cong");
-                                                            if (khachhangthudao.updateTrangThaiThuCapNhat(kh.getMaKhachHang(), "0")) {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Thanh cong");
-                                                            } else {
-                                                                Log.e("Update cham no " + MaKhachHang + " ", "Ko Thanh cong");
-                                                            }
-
-                                                        } else {
-                                                            Log.e("Update ngay thanh toan, ten nhan vien thu: " + MaKhachHang + " ", "KO Thanh cong");
-                                                        }
-
-                                                    }
                                                 }
-                                            } else {
-                                                Log.e("Them database_THANHTOAN: " + MaKhachHang + " ", "ko Thanh cong");
 
+
+                                                // FlagupdateDB = kt;
+
+                                                long status = (j + 1) * 100 / listKH.length();
+                                                //     String.valueOf(status)
+                                                publishProgress(String.valueOf(status));
+                                                // Escape early if cancel() is called
+                                                if (isCancelled()) break;
                                             }
 
-
-                                            // FlagupdateDB = kt;
-
-                                            long status = (j + 1) * 100 / listKH.length();
-                                            //     String.valueOf(status)
-                                            publishProgress(String.valueOf(status));
-                                            // Escape early if cancel() is called
-                                            if (isCancelled()) break;
                                         }
 
+
+                                    }
+                                    List<DuongThuDTO> listduongcapnhat = DuongThuDAO.getAllDuong();
+                                    for (int i = 0; i < listduongcapnhat.size(); i++) {
+                                        Log.e("listduongcapnhat" + i, listduongcapnhat.get(i).getMaDuong());
+                                        Log.e("so khchuaghi", String.valueOf(khachhangthudao.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong())));
+                                        if (khachhangthudao.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong()) == 0) {
+                                            DuongThuDAO.updateDuongDaGhi(listduongcapnhat.get(i).getMaDuong());
+                                        }
+                                    }
+                                    Log.e("sokhco", String.valueOf(sokhco));
+                                    Log.e("sokhdacapnhat", String.valueOf(sokhdacapnhat));
+
+
+                                    if (sokhco == sokhdacapnhat) {
+                                        FlagupdateDB = "TC";
+                                    } else {
+                                        FlagupdateDB = "TB";
+                                    }
+                                    List<KhachHangThuDTO> listthanhtoan = khachhangthudao.getAllKH();
+                                    for (KhachHangThuDTO t : listthanhtoan) {
+                                        if (thanhtoanDAO.countHDChuaThuTheoMaKH(t.getMaKhachHang().trim()) == 0) {
+                                            String thoigian1 = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
+                                            khachhangthudao.updateTrangThaiThuCapNhat(t.getMaKhachHang(), "KODONG");
+                                        }
                                     }
 
 
-                                }
-                                List<DuongThuDTO> listduongcapnhat = DuongThuDAO.getAllDuong();
-                                for (int i = 0; i < listduongcapnhat.size(); i++) {
-                                    Log.e("listduongcapnhat" + i, listduongcapnhat.get(i).getMaDuong());
-                                    Log.e("so khchuaghi", String.valueOf(khachhangthudao.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong())));
-                                    if (khachhangthudao.countKhachHangChuaGhiTheoDuong(listduongcapnhat.get(i).getMaDuong()) == 0) {
-                                        DuongThuDAO.updateDuongDaGhi(listduongcapnhat.get(i).getMaDuong());
-                                    }
-                                }
-                                Log.e("sokhco", String.valueOf(sokhco));
-                                Log.e("sokhdacapnhat", String.valueOf(sokhdacapnhat));
-
-
-                                if (sokhco == sokhdacapnhat) {
-                                    FlagupdateDB = "TC";
-                                } else {
+                                    //     loadDataDuongfromDB();
+                                } catch (JSONException e) {
+                                    Log.e("Loi khi cap nhat", e.toString());
                                     FlagupdateDB = "TB";
-                                }
-                                List<KhachHangThuDTO> listthanhtoan = khachhangthudao.getAllKH();
-                                for (KhachHangThuDTO t : listthanhtoan) {
-                                    if (thanhtoanDAO.countHDChuaThuTheoMaKH(t.getMaKhachHang().trim()) == 0) {
-                                        String thoigian1 = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                                        khachhangthudao.updateTrangThaiThuCapNhat(t.getMaKhachHang(), "KODONG");
-                                    }
+                                    e.printStackTrace();
                                 }
 
-
-                                //     loadDataDuongfromDB();
-                            } catch (JSONException e) {
-                                Log.e("Loi khi cap nhat", e.toString());
-                                FlagupdateDB = "TB";
-                                e.printStackTrace();
                             }
+
+
+                        } else {
+                            FlagupdateDB = "EMPTY";
+                            publishProgress("Empty");
                         }
-                    } else {
-                        FlagupdateDB = "EMPTY";
-                        publishProgress("Empty");
                     }
                 } catch (Exception x) {
                     Log.e("show loi", x.toString());
                     FlagupdateDB = "TB";
-                }
-            }
+                    }
 
+
+            }
             return FlagupdateDB;
 
         }
@@ -1189,7 +1233,53 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             super.onPostExecute(result);
-            if (result.equals("TC")) {
+
+
+            if (result.equals("CHUAPHANGOI")) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage("Nhân viên chưa được phân gói thu. Liên hệ với người quản lý gói thu");
+                // thiết lập nội dung cho dialog
+
+
+                alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent myIntent = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
+                        startActivity(myIntent);
+                        LoadFromServerThu2Activity.this.finish();
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            } else if (result.equals("CHUADOWNLOAD")) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
+                // khởi tạo dialog
+                alertDialogBuilder.setMessage("Hiện tại chưa được phép tải gói thu. Liên hệ IT");
+                // thiết lập nội dung cho dialog
+
+
+                alertDialogBuilder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent myIntent = new Intent(LoadFromServerThu2Activity.this, StartActivity.class);
+                        startActivity(myIntent);
+                        LoadFromServerThu2Activity.this.finish();
+                        // button "no" ẩn dialog đi
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // tạo dialog
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+                // hiển thị dialog
+            } else if (result.equals("TC")) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoadFromServerThu2Activity.this);
                 // khởi tạo dialog
                 alertDialogBuilder.setMessage("Load dữ liệu thành công  " + sokhdacapnhat + " khách hàng");
@@ -1284,29 +1374,30 @@ public class LoadFromServerThu2Activity extends AppCompatActivity {
 
     public final boolean isInternetOn() {
 
-        boolean k = false;
-        // get Connectivity Manager object to check connection
-        ConnectivityManager connec =
-                (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            //should check null because in airplane mode it will be null
+            if (netInfo != null && netInfo.isConnected()) {
+//                Runtime runtime = Runtime.getRuntime();
+//                try {
+//                    Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+//                    int     exitValue = ipProcess.waitFor();
+//                    return (exitValue == 0);
+//                }
+//                catch (IOException e)          { e.printStackTrace(); }
+//                catch (InterruptedException e) { e.printStackTrace(); }
+//
+//                return false;
+                return true;
+            } else {
+                return false;
+            }
 
-        // Check for network connections
-        if (connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING) {
-
-            // if connected with internet
-
-            // Toast.makeText(this, connec.getActiveNetworkInfo().getTypeName(), Toast.LENGTH_LONG).show();
-            k = true;
-
-        } else if (
-                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
-                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED) {
-
-            //Toast.makeText(this, " Chưa có internet hoặc 3G/4G ", Toast.LENGTH_LONG).show();
-            k = false;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        return k;
     }
 
     public boolean kiemtramang() {

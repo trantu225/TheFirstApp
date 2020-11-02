@@ -12,7 +12,7 @@ import android.widget.TextView;
  */
 
 public class ViewDialog_ThongTinKH {
-    public void showDialog(final Activity activity, String stt, String danhbo, String makh, String hoten, String diachi, String dienthoai) {
+    public void showDialog(final Activity activity, String stt, String danhbo, String makh, String hoten, String diachi, String dienthoai, String dienthoai2) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         // dialog.setCancelable(false);
@@ -46,6 +46,10 @@ public class ViewDialog_ThongTinKH {
         TextView textm7 = (TextView) dialog.findViewById(R.id.dienthoai);
         String strdienthoai = "Điện thoại: " + dienthoai;
         textm7.setText(strdienthoai);
+
+        TextView textm8 = (TextView) dialog.findViewById(R.id.dienthoai2);
+        String strdienthoai2 = "Điện thoại phụ: " + dienthoai2;
+        textm8.setText(strdienthoai2);
 
 
         Button dialogButton_thoat = (Button) dialog.findViewById(R.id.btn_thoat);

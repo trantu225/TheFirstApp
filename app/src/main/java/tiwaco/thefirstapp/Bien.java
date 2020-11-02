@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import tiwaco.thefirstapp.CustomAdapter.CustomListAdapter;
 import tiwaco.thefirstapp.CustomAdapter.CustomListThu2Adapter;
-import tiwaco.thefirstapp.CustomAdapter.CustomListThuAdapter;
 import tiwaco.thefirstapp.DTO.DuongDTO;
 import tiwaco.thefirstapp.DTO.KhachHangDTO;
 import tiwaco.thefirstapp.DTO.KhachHangThuDTO;
